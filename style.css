@@ -342,7 +342,7 @@ h1, h2 {
 }
 
 .fa {
-  font-size: 12pt;
+  font-size: 1.5vw;
   color: white;
 }
 
@@ -361,7 +361,7 @@ background-position: center;
 }
 
 h2 {
-  font-size: 24pt;
+  font-size: 2vw;
   margin: 0 0 16px;
 }
 
