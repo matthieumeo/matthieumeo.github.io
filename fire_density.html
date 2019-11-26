@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<title>Fire Density</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' rel='stylesheet' />
+<style>
+body { margin:0; padding:0; }
+#map { position:absolute; top:0; bottom:0; width:100%; }
+</style>
+</head>
+<body>
+ 
+<style>
+#menuleft {
+position: absolute;
+padding: 10px;
+top:5%; left:5%; width:15%;
+background: rgba(0, 0, 0, .7);
+font-family: 'Helvetica', sans-serif;
+color:#DFE0E0;
+border-radius: 5px;
+-webkit-backdrop-filter: blur(2px);
+            backdrop-filter: blur(2px);
+}
+#menuright {
+position: absolute;
+background: #fff;
+padding: 10px;
+top:5%; right:5%; width:15%;
+background: rgba(0, 0, 0, .7);
+font-family: 'Helvetica', sans-serif;
+color:#DFE0E0;
+border-radius: 5px;
+-webkit-backdrop-filter: blur(2px);
+            backdrop-filter: blur(2px);
+}
+
+h1 {
+  color:#FFFFFF;
+  padding: 0px;
+  margin: 0px;
+  line-height: 150%;
+  text-align: center;
+  font-size:24px
+}
+
+body {
+overflow: hidden;
+}
+ 
+body * {
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+ 
+.map {
+position: absolute;
+top: 0;
+bottom: 0;
+width: 100%;
+}
+
+#sidebar {
+position: fixed;
+bottom: 5%;
+left: 5%;
+width: 20%;
+overflow: auto;
+background: rgba(0, 0, 0, .7);
+font-family: "Helvetica";
+padding-left: 10px;
+padding-right: 10px;
+padding-bottom: 10px;
+-webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+color:#DFE0E0;
+border-radius: 5px
+}
+
+#sidebar2 {
+position: fixed;
+bottom: 5%;
+right: 5%;
+width: 15%;
+overflow: auto;
+background: rgba(0, 0, 0, .7);
+font-family: "Helvetica";
+padding-left: 10px;
+padding-right: 10px;
+padding-bottom: 10px;
+-webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+color:#DFE0E0;
+border-radius: 5px
+}
+
+p {
+font-family: "Helvetica";
+color:#7E7D7E;
+font-size:12px
+}
+.legend label,
+.legend span {
+position: relative;
+display:block;
+float:left;
+text-align:center;
+font-family: "Helvetica";
+width: 16.0%;
+height:12px;
+font-size:12px;
+color:#DFE0E0;
+padding-bottom: 1px;
+}
+
+.menu {
+position: fixed;
+left:45%;
+top:5%;
+width: 10%;
+overflow: auto;
+background: rgba(0, 0, 0, .7);
+font-family: "Helvetica";
+-webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+color:#DFE0E0;
+border-radius: 5px
+}
+</style>
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.css' type='text/css' />
+<div id='map_left' class='map'></div>
+<div id='map_right' class='map'></div>
+<div id='menuleft'>
+<h1>Left Panel</h1>	
+<label for='data' style='display: block;'>
+<input id='ck2ujv3h33c1f1cpfariy7mri' type='radio'  value='data' checked='checked' name='menuleft'>Data</label>
+<label for='kl' style='display: block;'>
+<input id='ck2ujyian4vls1clmvs84o89v' type='radio'  value='kl'  name='menuleft'>KL Cost</label>
+<label for='l2' style='display: block;'>
+<input id='ck2uk0k2o0chq1crresplpvp0' type='radio'  value='l2' name='menuleft'>L2 Cost</label>
+</div>
+<div id='menuright'>
+<h1>Right Panel</h1>	
+<label for='data' style='display: block;'>
+<input id='ck2ujv3h33c1f1cpfariy7mri' type='radio'  value='data'  name='menuright'>Data</label>
+<label for='kl' style='display: block;'>
+<input id='ck2ujyian4vls1clmvs84o89v' type='radio'  value='kl' checked='checked' name='menuright'>KL Cost</label>
+<label for='l2' style='display: block;'>
+<input id='ck2uk0k2o0chq1crresplpvp0' type='radio'  value='l2' name='menuright'>L2 Cost</label>
+</div>
+<div id='sidebar'>
+<h1>Fire Density</h1>
+<div id='legend'>
+<nav class='legend clearfix'>
+
+<span style='background:rgba(72.99885,72.99885,72.99885,0.9);'></span>
+
+<span style='background:rgba(196.47954,28.47942,62.07975,0.9);'></span>
+
+<span style='background:rgba(242.31273, 112.43664,21.749919, 0.9);'></span>
+
+<span style='background:rgba(255, 186.24945 ,0,0.9);'></span>
+
+<span style='background:rgba(255,223.49985,54.1875, 0.9);'></span>
+
+<span style='background:rgba(255,255,255, 0.9);'></span>
+
+<label>0 %</label>
+
+<label>15 %</label>
+
+<label>30 %</label>
+
+<label>45 %</label>
+
+<label>61 %</label>
+
+<label>76 %</label>
+
+</div>
+<p><br />
+Density maps of wildfires across the globe for the year 2016. Wildfire maps allow scientists to better understand atmospheric chemistry and its impact on climate.
+The data consists of tree counts recorded by NASA’s Aqua and Terra satellites. The resolution of the raw data is approximately 1.5° × 1.5°.
+</p>
+</div>
+<div id="sidebar2">
+	<h1>Map Controls</h1>
+	<p>Zoom in the map by scrolling or pinching. Navigate in the map by clicking and dragging. Compare the features of the maps in the right and left panels by moving the vertical delimiter horizontally. 
+	</p>
+</div>
+<a href="./index.html"><div class="menu"><h1>Back to Menu</h1></div></a>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dGhpZXVtZW8iLCJhIjoiY2sybHE0emJwMDh2cDNtb2ZsNTdtZW5laSJ9.VXQYES3RlejhgrttnkPXdw';
+var map_left = new mapboxgl.Map({
+container: 'map_left',
+style: 'mapbox://styles/matthieumeo/ck2ujv3h33c1f1cpfariy7mri',
+zoom: 1.5,
+minZoom: 1,
+maxZoom: 6,
+center: [0,20]
+});
+var map_right = new mapboxgl.Map({
+container: 'map_right',
+style: 'mapbox://styles/matthieumeo/ck2ujyian4vls1clmvs84o89v',
+zoom: 1.5,
+minZoom: 1,
+maxZoom: 6,
+center: [0,20]
+});
+//map_left.setRenderWorldCopies(status === 'false')
+//map_right.setRenderWorldCopies(status === 'false')
+var map = new mapboxgl.Compare(map_left, map_right, {
+// Set this to enable comparing two maps by mouse movement:
+ //mousemove: true
+});
+
+
+
+var layerList_left = document.getElementById('menuleft');
+var layerList_right = document.getElementById('menuright');
+var inputs_left = layerList_left.getElementsByTagName('input');
+var inputs_right = layerList_right.getElementsByTagName('input');
+
+function switchLayer_left(layer) {
+var layerId = layer.target.id;
+map_left.setStyle('mapbox://styles/matthieumeo/' + layerId); 
+}
+function switchLayer_right(layer) {
+var layerId = layer.target.id;
+map_right.setStyle('mapbox://styles/matthieumeo/' + layerId); 
+}
+
+for (var i = 0; i < inputs_left.length; i++) {
+inputs_left[i].onclick = switchLayer_left;}
+
+for (var i = 0; i < inputs_right.length; i++) {
+inputs_right[i].onclick = switchLayer_right;}
+
+</script>
+ 
+</body>
+</html>
