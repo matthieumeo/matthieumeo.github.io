@@ -33,7 +33,7 @@
   left: 80vw;
 }
 .strips__strip:nth-child(1) .strip__content {
-  background: url('./temperatures_blurred2.png');
+  background: url('./temperatures_blurred2.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: left;
@@ -45,7 +45,7 @@
           animation-delay: 0.1s;
 }
 .strips__strip:nth-child(2) .strip__content {
-  background: url('./trees_blurred.png');
+  background: url('./trees_blurred.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -57,7 +57,7 @@
           animation-delay: 0.2s;
 }
 .strips__strip:nth-child(3) .strip__content {
-  background: url('./fires_blurred.png');
+  background: url('./fires_blurred.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: right;
@@ -69,7 +69,7 @@
           animation-delay: 0.3s;
 }
 .strips__strip:nth-child(4) .strip__content {
-  background: url('./dirty_blurred.png');
+  background: url('./dirty_blurred.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -81,7 +81,7 @@
           animation-delay: 0.4s;
 }
 .strips__strip:nth-child(5) .strip__content {
-  background: url('./moon_blurred.png');
+  background: url('./moon_blurred.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
