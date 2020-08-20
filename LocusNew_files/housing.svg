@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   height="59.999977"
+   width="59.994049"
+   inkscape:version="1.0 (4035a4f, 2020-05-01)"
+   sodipodi:docname="noun_Housing_1660566.svg"
+   id="svg867"
+   y="0px"
+   x="0px"
+   version="1.1"
+   viewBox="0 0 59.994049 59.999977">
+  <metadata
+     id="metadata873">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>050 - Housing </dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs871" />
+  <sodipodi:namedview
+     fit-margin-bottom="0"
+     fit-margin-right="0"
+     fit-margin-left="0"
+     fit-margin-top="0"
+     inkscape:current-layer="svg867"
+     inkscape:window-maximized="1"
+     inkscape:window-y="23"
+     inkscape:window-x="0"
+     inkscape:cy="37.499978"
+     inkscape:cx="29.997025"
+     inkscape:zoom="9.04"
+     showgrid="false"
+     id="namedview869"
+     inkscape:window-height="1155"
+     inkscape:window-width="1920"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10"
+     borderopacity="1"
+     bordercolor="#666666"
+     pagecolor="#ffffff" />
+  <title
+     id="title833">050 - Housing </title>
+  <desc
+     id="desc835">Created with Sketch.</desc>
+  <g
+     transform="translate(-0.00297539,-2.206804e-5)"
+     style="stroke:#057afd;stroke-opacity:1"
+     id="g861"
+     stroke-linejoin="round"
+     stroke-linecap="round"
+     fill-rule="evenodd"
+     fill="none"
+     stroke-width="1"
+     stroke="none">
+    <g
+       style="stroke:#057afd;stroke-opacity:1"
+       id="g859"
+       stroke-width="2"
+       stroke="#000000"
+       transform="translate(1,1)">
+      <path
+         style="stroke:#057afd;stroke-opacity:1"
+         id="path837"
+         d="M 13.31694,40.73771 8.74846,36.16923 C 7.7685094,35.189281 6.984547,34.031344 6.43863,32.75754 L 4.20231,27.53945 C 3.8574701,26.734826 3.0662948,26.21313 2.19089,26.21313 1.4468616,26.213136 0.75380791,26.591175 0.35099782,27.216732 -0.05181226,27.84229 -0.1091876,28.629655 0.19868,29.307 l 3.919,8.62181 c 0.4804707,1.05704 1.1471399,2.019047 1.96817,2.84008 L 13.31694,48 H 23 v -2.86111 c 0.03234,-2.14148 -0.663072,-4.230537 -1.97247,-5.92537 -0.732039,-0.965443 -1.728778,-1.697437 -2.86905,-2.107 -2.219777,-0.936712 -4.265904,-2.240659 -6.0525,-3.85711 -1.426761,-1.191331 -3.5274892,-1.094327 -4.83839,0.22342 l -0.00255,0.0025" />
+      <rect
+         style="stroke:#057afd;stroke-opacity:1"
+         id="rect839"
+         rx="1"
+         height="10"
+         width="13"
+         y="48"
+         x="12" />
+      <path
+         style="stroke:#057afd;stroke-opacity:1"
+         id="path841"
+         d="M 22,53 H 21" />
+      <path
+         style="stroke:#057afd;stroke-opacity:1"
+         id="path843"
+         d="m 44.68306,40.73771 4.56848,-4.56848 c 0.979951,-0.979949 1.763913,-2.137886 2.30983,-3.41169 l 2.23633,-5.21809 c 0.34484,-0.804624 1.136015,-1.32632 2.01142,-1.32632 0.744027,9e-6 1.437077,0.378049 1.839885,1.003606 0.402808,0.625557 0.460182,1.412921 0.152315,2.090264 l -3.919,8.62181 c -0.480471,1.05704 -1.14714,2.019047 -1.96817,2.84008 L 44.68306,48 H 35 v -2.86111 c -0.03234,-2.14148 0.663072,-4.230537 1.97247,-5.92537 0.732039,-0.965443 1.728778,-1.697437 2.86905,-2.107 2.219777,-0.936712 4.265904,-2.240659 6.0525,-3.85711 1.426761,-1.191331 3.527489,-1.094327 4.83839,0.22342 l 0.0025,0.0025" />
+      <rect
+         style="stroke:#057afd;stroke-opacity:1"
+         id="rect845"
+         rx="1"
+         height="10"
+         width="13"
+         y="48"
+         x="33"
+         transform="rotate(180,39.5,53)" />
+      <path
+         style="stroke:#057afd;stroke-opacity:1"
+         id="path847"
+         d="m 36,53 h 1" />
+      <polyline
+         style="stroke:#057afd;stroke-opacity:1"
+         id="polyline849"
+         points="46 33.16 46 25 46 14 49 14 46 11.9 44.71 11 29 0 12 11.9 9 14 12 14 12 25 12 33.16" />
+      <polyline
+         style="stroke:#057afd;stroke-opacity:1"
+         id="polyline851"
+         points="22.12 41 34 41 35.88 41" />
+      <rect
+         style="stroke:#057afd;stroke-opacity:1"
+         id="rect853"
+         rx="1"
+         height="7"
+         width="14"
+         y="19"
+         x="16" />
+      <rect
+         style="stroke:#057afd;stroke-opacity:1"
+         id="rect855"
+         rx="1"
+         height="7"
+         width="8"
+         y="19"
+         x="34" />
+      <path
+         style="stroke:#057afd;stroke-opacity:1"
+         id="path857"
+         d="M 35.88,41 H 34 v -9 c 0.0016,-0.551615 0.448385,-0.998385 1,-1 h 4 c 0.551615,0.0016 0.998385,0.448385 1,1 v 5.05" />
+    </g>
+  </g>
+</svg>
