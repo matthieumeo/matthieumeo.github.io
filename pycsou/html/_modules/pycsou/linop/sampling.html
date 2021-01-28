@@ -1,0 +1,1261 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pycsou.linop.sampling &mdash; pycsou 1.0.1.dev11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pycsou
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1.dev11
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/theory.html">Background Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">Pycsou API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/other.html">Pycsou Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pycsou</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pycsou.linop.sampling</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pycsou.linop.sampling</h1><div class="highlight"><pre>
+<span></span><span class="c1"># #############################################################################</span>
+<span class="c1"># sampling.py</span>
+<span class="c1"># ===========</span>
+<span class="c1"># Author : Matthieu Simeoni [matthieu.simeoni@gmail.com]</span>
+<span class="c1"># #############################################################################</span>
+
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Sampling operators.</span>
+
+<span class="sd">This module provides sampling operators for discrete or continuous signals.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">dask.array</span> <span class="k">as</span> <span class="nn">da</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sparse</span>
+<span class="kn">import</span> <span class="nn">pylops</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">pycsou.core.linop</span> <span class="kn">import</span> <span class="n">LinearOperator</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">PyLopLinearOperator</span><span class="p">,</span> <span class="n">ExplicitLinearOperator</span><span class="p">,</span> <span class="n">DenseLinearOperator</span>
+<span class="kn">from</span> <span class="nn">skimage.measure</span> <span class="kn">import</span> <span class="n">block_reduce</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">cKDTree</span>
+<span class="kn">import</span> <span class="nn">joblib</span> <span class="k">as</span> <span class="nn">job</span>
+
+
+<div class="viewcode-block" id="SubSampling"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.SubSampling">[docs]</a><span class="k">def</span> <span class="nf">SubSampling</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sampling_indices</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">],</span> <span class="n">shape</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;float64&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Subsampling operator.</span>
+
+<span class="sd">    Extract subset of values from input array at locations ``sampling_indices``</span>
+<span class="sd">    in forward mode and place those values at locations ``sampling_indices``</span>
+<span class="sd">    in an otherwise zero array in adjoint mode.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    size : int</span>
+<span class="sd">        Size of input array.</span>
+<span class="sd">    sampling_indices : :obj:`list` or :obj:`numpy.ndarray`</span>
+<span class="sd">        Integer indices of samples for data selection.</span>
+<span class="sd">    shape : tuple</span>
+<span class="sd">        Shape of input array</span>
+<span class="sd">        (``None`` if only one dimension is available).</span>
+<span class="sd">    axis : int</span>
+<span class="sd">        When ``shape`` is not ``None``, axis along which subsampling is applied.</span>
+<span class="sd">    dtype : str</span>
+<span class="sd">        Type of elements in input array.</span>
+<span class="sd">    inplace : bool</span>
+<span class="sd">        Work inplace (``True``) or make a new copy (``False``). By default,</span>
+<span class="sd">        data is a reference to the model (in forward) and model is a reference</span>
+<span class="sd">        to the data (in adjoint).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`~pycsou.linop.base.PyLopLinearOperator`</span>
+<span class="sd">        The subsampling operator.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If shape and size do not match.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.linop.sampling import SubSampling</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.arange(9).reshape(3,3)</span>
+<span class="sd">       &gt;&gt;&gt; sampling_indices = [0,2]</span>
+<span class="sd">       &gt;&gt;&gt; SamplingOp=SubSampling(size=x.size, sampling_indices=sampling_indices)</span>
+<span class="sd">       &gt;&gt;&gt; SamplingOp * x.reshape(-1)</span>
+<span class="sd">       array([0, 2])</span>
+<span class="sd">       &gt;&gt;&gt; SamplingOp.adjoint(SamplingOp* x.reshape(-1)).reshape(x.shape)</span>
+<span class="sd">       array([[0., 0., 2.],</span>
+<span class="sd">              [0., 0., 0.],</span>
+<span class="sd">              [0., 0., 0.]])</span>
+<span class="sd">       &gt;&gt;&gt; SamplingOp=SubSampling(size=x.size, sampling_indices=sampling_indices, shape=x.shape, axis=1)</span>
+<span class="sd">       &gt;&gt;&gt; (SamplingOp * x.reshape(-1)).reshape(x.shape[1], len(sampling_indices))</span>
+<span class="sd">       array([[0, 2],</span>
+<span class="sd">              [3, 5],</span>
+<span class="sd">              [6, 8]])</span>
+<span class="sd">       &gt;&gt;&gt; SamplingOp.adjoint(SamplingOp* x.reshape(-1)).reshape(x.shape)</span>
+<span class="sd">       array([[0., 0., 2.],</span>
+<span class="sd">              [3., 0., 5.],</span>
+<span class="sd">              [6., 0., 8.]])</span>
+
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Subsampling of a subset of :math:`L` values at locations</span>
+<span class="sd">    ``sampling_indices`` from an input vector :math:`\mathbf{x}` of size</span>
+<span class="sd">    :math:`N` can be expressed as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        y_i = x_{n_i}  \quad \forall i=1,2,...,L,</span>
+
+<span class="sd">    where :math:`\mathbf{n}=[n_1, n_2,..., n_L]` is a vector containing the indeces</span>
+<span class="sd">    of the original array at which samples are taken.</span>
+
+<span class="sd">    Conversely, in adjoint mode the available values in the data vector</span>
+<span class="sd">    :math:`\mathbf{y}` are placed at locations</span>
+<span class="sd">    :math:`\mathbf{n}=[n_1, n_2,..., n_L]` in the model vector:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        x_{n_i} = y_i  \quad \forall i=1,2,...,L</span>
+
+<span class="sd">    and :math:`x_{j}=0 \,\forall j \neq n_i` (i.e., at all other locations in input</span>
+<span class="sd">    vector).</span>
+
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.linop.sampling.Masking`, :py:class:`~pycsou.linop.sampling.Downsampling`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PyLop</span> <span class="o">=</span> <span class="n">pylops</span><span class="o">.</span><span class="n">Restriction</span><span class="p">(</span><span class="n">M</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">iava</span><span class="o">=</span><span class="n">sampling_indices</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">PyLopLinearOperator</span><span class="p">(</span><span class="n">PyLop</span><span class="o">=</span><span class="n">PyLop</span><span class="p">,</span> <span class="n">is_symmetric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_dense</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Masking"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.Masking">[docs]</a><span class="k">class</span> <span class="nc">Masking</span><span class="p">(</span><span class="n">LinearOperator</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Masking operator.</span>
+
+<span class="sd">    Extract subset of values from input array at locations marked as ``True`` in ``sampling_bool``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.linop.sampling import Masking, SubSampling</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.arange(9).reshape(3,3)</span>
+<span class="sd">       &gt;&gt;&gt; sampling_bool = np.zeros((3,3)).astype(bool)</span>
+<span class="sd">       &gt;&gt;&gt; sampling_bool[[1,2],[0,2]] = True</span>
+<span class="sd">       &gt;&gt;&gt; SamplingOp = Masking(size=x.size, sampling_bool=sampling_bool)</span>
+<span class="sd">       &gt;&gt;&gt; SamplingOp * x.reshape(-1)</span>
+<span class="sd">       array([3, 8])</span>
+<span class="sd">       &gt;&gt;&gt; SamplingOp.adjoint(SamplingOp* x.reshape(-1)).reshape(x.shape)</span>
+<span class="sd">       array([[0., 0., 0.],</span>
+<span class="sd">              [3., 0., 0.],</span>
+<span class="sd">              [0., 0., 8.]])</span>
+<span class="sd">       &gt;&gt;&gt; sampling_indices = np.nonzero(sampling_bool.reshape(-1))[0].astype(int)</span>
+<span class="sd">       &gt;&gt;&gt; SubSamplingOp=SubSampling(size=x.size, sampling_indices=sampling_indices)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(SamplingOp * x.reshape(-1), SubSamplingOp * x.reshape(-1))</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    For flattened arrays, the ``Masking`` operator is equivalent to the :py:func:`~pycsou.linop.sampling.SubSampling` operator,</span>
+<span class="sd">    with the only difference that the sampling locations are specified in the form of a boolean array instead of indices.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.linop.sampling.SubSampling`, :py:class:`~pycsou.linop.sampling.Downsampling`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Masking.__init__"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.Masking.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sampling_bool</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">],</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        size : int</span>
+<span class="sd">            Size of input array.</span>
+<span class="sd">        sampling_bool : :obj:`list` or :obj:`numpy.ndarray`</span>
+<span class="sd">            Boolean array for data selection. ``True`` values mark the positions of the samples.</span>
+<span class="sd">        dtype : str</span>
+<span class="sd">        Type of elements in input array.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If the size of ``sampling_bool`` differs from ``size``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sampling_bool</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">sampling_bool</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_size</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb_of_samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampling_bool</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sampling_bool</span> <span class="o">==</span> <span class="kc">True</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampling_bool</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="n">size</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid size of boolean sampling array.&#39;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Masking</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_of_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sampling_bool</span><span class="p">]</span>
+
+<div class="viewcode-block" id="Masking.adjoint"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.Masking.adjoint">[docs]</a>    <span class="k">def</span> <span class="nf">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">input_size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sampling_bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="k">return</span> <span class="n">x</span></div></div>
+
+
+<div class="viewcode-block" id="DownSampling"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.DownSampling">[docs]</a><span class="k">class</span> <span class="nc">DownSampling</span><span class="p">(</span><span class="n">Masking</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Downsampling operator.</span>
+
+<span class="sd">    Downsample an array in one of the three ways:</span>
+
+<span class="sd">    - If ``shape`` is ``None``: The input array is flat and the downsampling selects one element every</span>
+<span class="sd">      ``downsampling_factor`` elements.</span>
+<span class="sd">    - If ``shape`` is not ``None`` and ``axis`` is ``None``: The input array is multidimensional, and each dimension is</span>
+<span class="sd">      downsampled by a certain factor. Downsampling factors for each dimension are specified in the tuple</span>
+<span class="sd">      ``downsampling_factor`` (if ``downsampling_factor`` is an integer, then the same factor is assumed for every dimension).</span>
+<span class="sd">    - If ``shape`` is not ``None`` and ``axis`` is not ``None``: The input array is multidimensional, but only the dimension is</span>
+<span class="sd">      specified by ``axis`` is downsampled by a ``downsampling_factor``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.linop.sampling import DownSampling</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; DownSamplingOp = DownSampling(size=x.size, downsampling_factor=3)</span>
+<span class="sd">       &gt;&gt;&gt; DownSamplingOp * x</span>
+<span class="sd">       array([0, 3, 6, 9])</span>
+<span class="sd">       &gt;&gt;&gt; DownSamplingOp.adjoint(DownSamplingOp * x)</span>
+<span class="sd">       array([0., 0., 0., 3., 0., 0., 6., 0., 0., 9.])</span>
+<span class="sd">       &gt;&gt;&gt; x = np.arange(20).reshape(4,5)</span>
+<span class="sd">       &gt;&gt;&gt; DownSamplingOp = DownSampling(size=x.size, shape=x.shape, downsampling_factor=3)</span>
+<span class="sd">       &gt;&gt;&gt; (DownSamplingOp * x.flatten()).reshape(DownSamplingOp.output_shape)</span>
+<span class="sd">       array([[ 0,  3],</span>
+<span class="sd">              [15, 18]])</span>
+<span class="sd">       &gt;&gt;&gt; DownSamplingOp = DownSampling(size=x.size, shape=x.shape, downsampling_factor=(2,4))</span>
+<span class="sd">       &gt;&gt;&gt; (DownSamplingOp * x.flatten()).reshape(DownSamplingOp.output_shape)</span>
+<span class="sd">       array([[ 0,  4],</span>
+<span class="sd">              [10, 14]])</span>
+<span class="sd">       &gt;&gt;&gt; DownSamplingOp.adjoint(DownSamplingOp * x.flatten()).reshape(x.shape)</span>
+<span class="sd">       array([[ 0.,  0.,  0.,  0.,  4.],</span>
+<span class="sd">              [ 0.,  0.,  0.,  0.,  0.],</span>
+<span class="sd">              [10.,  0.,  0.,  0., 14.],</span>
+<span class="sd">              [ 0.,  0.,  0.,  0.,  0.]])</span>
+<span class="sd">       &gt;&gt;&gt; DownSamplingOp = DownSampling(size=x.size, shape=x.shape, downsampling_factor=2, axis=-1)</span>
+<span class="sd">       &gt;&gt;&gt; (DownSamplingOp * x.flatten()).reshape(DownSamplingOp.output_shape)</span>
+<span class="sd">       array([[ 0,  2,  4],</span>
+<span class="sd">              [ 5,  7,  9],</span>
+<span class="sd">              [10, 12, 14],</span>
+<span class="sd">              [15, 17, 19]])</span>
+<span class="sd">       &gt;&gt;&gt; DownSamplingOp.adjoint(DownSamplingOp * x.flatten()).reshape(x.shape)</span>
+<span class="sd">       array([[ 0.,  0.,  2.,  0.,  4.],</span>
+<span class="sd">              [ 5.,  0.,  7.,  0.,  9.],</span>
+<span class="sd">              [10.,  0., 12.,  0., 14.],</span>
+<span class="sd">              [15.,  0., 17.,  0., 19.]])</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.linop.sampling import DownSampling</span>
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       import scipy.misc</span>
+<span class="sd">       img = scipy.misc.face(gray=True).astype(float)</span>
+<span class="sd">       DownSampOp = DownSampling(size=img.size, shape=img.shape, downsampling_factor=(3,6))</span>
+<span class="sd">       down_sampled_img = (DownSampOp * img.flatten()).reshape(DownSampOp.output_shape)</span>
+<span class="sd">       up_sampled_img = DownSampOp.adjoint(down_sampled_img.flatten()).reshape(img.shape)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       plt.imshow(img)</span>
+<span class="sd">       plt.colorbar()</span>
+<span class="sd">       plt.title(&#39;Original&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       plt.imshow(down_sampled_img)</span>
+<span class="sd">       plt.colorbar()</span>
+<span class="sd">       plt.title(&#39;Downsampling&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       plt.imshow(up_sampled_img)</span>
+<span class="sd">       plt.colorbar()</span>
+<span class="sd">       plt.title(&#39;Downsampling followed by Upsampling&#39;)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Downsampling by :math:`M` an input vector :math:`\mathbf{x}` of size</span>
+<span class="sd">    :math:`N` can be performed as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        y_i = x_{iM}  \quad  i=1,\ldots, \lfloor N/M \rfloor.</span>
+
+<span class="sd">    Conversely, in adjoint mode the available values in the data vector</span>
+<span class="sd">    :math:`\mathbf{y}` are placed at locations</span>
+<span class="sd">    :math:`n=iM` in the model vector:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        x_{iM} = y_i,\;\;x_{iM+1}=x_{iM+2}=\cdots=x_{(i+1)M-1}=0, \qquad i=1,\ldots, \lfloor N/M \rfloor.</span>
+
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.linop.sampling.SubSampling`, :py:class:`~pycsou.linop.sampling.Masking`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DownSampling.__init__"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.DownSampling.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">downsampling_factor</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">],</span> <span class="n">shape</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        size : int</span>
+<span class="sd">            Size of input array.</span>
+<span class="sd">        downsampling_factor : Union[int, tuple, list]</span>
+<span class="sd">            Downsampling factor (possibly different for each dimension).</span>
+<span class="sd">        shape: Optional[tuple]</span>
+<span class="sd">            Shape of input array (default ``None``: the input array is 1D).</span>
+<span class="sd">        axis: Optional[int]</span>
+<span class="sd">            Axis along which to downsample for ND input arrays (default ``None``: downsampling is performed along each axis).</span>
+<span class="sd">        dtype: type</span>
+<span class="sd">            Type of input array.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If the set of parameters {``shape``, ``size``, ``sampling_factor``, ``axis``} is invalid.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">downsampling_factor</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">shape</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">downsampling_factor</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">downsampling_factor</span><span class="p">,)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">downsampling_factor</span> <span class="o">=</span> <span class="p">(</span><span class="n">downsampling_factor</span><span class="p">,)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">downsampling_factor</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">downsampling_factor</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">shape</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">size</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">shape</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Array size </span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s1"> is incompatible with array shape </span><span class="si">{</span><span class="n">shape</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">axis</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Array size </span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s1"> is incompatible with array shape </span><span class="si">{</span><span class="n">shape</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">downsampling_factor</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Please specify an array shape for multidimensional downsampling.&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">shape</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">downsampling_factor</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Inconsistent downsampling factors </span><span class="si">{</span><span class="n">downsampling_factor</span><span class="si">}</span><span class="s1"> for array of shape </span><span class="si">{</span><span class="n">shape</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_size</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span> <span class="o">=</span> <span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="n">axis</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">downsampling_mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_downsampling_mask</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_shape</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">downsampling_factor</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">output_shape</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">)):</span>
+                    <span class="n">axis_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">[</span><span class="n">ax</span><span class="p">])</span>
+                    <span class="n">downsampled_axis_indices</span> <span class="o">=</span> <span class="n">axis_indices</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsampling_factor</span><span class="p">[</span><span class="n">ax</span><span class="p">]</span>
+                    <span class="n">output_shape</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">downsampled_axis_indices</span><span class="p">[</span><span class="n">downsampled_axis_indices</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">output_shape</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">output_shape</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">output_shape</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">)</span>
+                <span class="n">downsampled_axis_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">])</span>
+                <span class="n">downsampled_axis_indices</span> <span class="o">=</span> <span class="n">downsampled_axis_indices</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsampling_factor</span>
+                <span class="n">output_shape</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">downsampled_axis_indices</span><span class="p">[</span><span class="n">downsampled_axis_indices</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">output_shape</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">output_shape</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">DownSampling</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">input_size</span><span class="p">,</span> <span class="n">sampling_bool</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">downsampling_mask</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DownSampling.compute_downsampling_mask"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.DownSampling.compute_downsampling_mask">[docs]</a>    <span class="k">def</span> <span class="nf">compute_downsampling_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the downsampling mask.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :py:class:`np.ndarray`</span>
+<span class="sd">            The mask to apply to get the downsampled values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_size</span><span class="p">)</span>
+            <span class="n">downsampled_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">indices</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsampling_factor</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">downsampling_factor</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">downsampled_mask</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">)):</span>
+                    <span class="n">axis_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">[</span><span class="n">ax</span><span class="p">])</span>
+                    <span class="n">downsampled_axis_indices</span> <span class="o">=</span> <span class="n">axis_indices</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsampling_factor</span><span class="p">[</span><span class="n">ax</span><span class="p">]</span>
+                    <span class="n">downsampled_axis_indices</span> <span class="o">=</span> <span class="n">downsampled_axis_indices</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+                        <span class="n">downsampled_axis_indices</span><span class="o">.</span><span class="n">shape</span> <span class="o">+</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+                    <span class="n">downsampled_axis_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">downsampled_axis_indices</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+                    <span class="n">downsampled_mask</span> <span class="o">=</span> <span class="n">downsampled_mask</span> <span class="o">*</span> <span class="p">(</span><span class="n">downsampled_axis_indices</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">downsampled_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+                <span class="n">downsampled_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">downsampled_mask</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">)</span>
+                <span class="n">downsampled_axis_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">])</span>
+                <span class="n">downsampled_axis_indices</span> <span class="o">=</span> <span class="n">downsampled_axis_indices</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsampling_factor</span>
+                <span class="n">downsampled_mask</span><span class="p">[</span><span class="n">downsampled_axis_indices</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">downsampled_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">downsampled_mask</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">downsampled_mask</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Pooling"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.Pooling">[docs]</a><span class="k">class</span> <span class="nc">Pooling</span><span class="p">(</span><span class="n">LinearOperator</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pooling operator.</span>
+
+<span class="sd">    Pool an array by summing/averaging across constant size blocks tiling the array.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.linop.sampling import Pooling</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.arange(24).reshape(4,6)</span>
+<span class="sd">       &gt;&gt;&gt; PoolingOp = Pooling(shape=x.shape, block_size=(2,3), pooling_func=&#39;mean&#39;)</span>
+<span class="sd">       &gt;&gt;&gt; (PoolingOp * x.flatten()).reshape(PoolingOp.output_shape)</span>
+<span class="sd">       array([[ 4.,  7.],</span>
+<span class="sd">              [16., 19.]])</span>
+<span class="sd">       &gt;&gt;&gt; PoolingOp.adjoint(PoolingOp * x.flatten()).reshape(x.shape)</span>
+<span class="sd">       array([[ 4.,  4.,  4.,  7.,  7.,  7.],</span>
+<span class="sd">              [ 4.,  4.,  4.,  7.,  7.,  7.],</span>
+<span class="sd">              [16., 16., 16., 19., 19., 19.],</span>
+<span class="sd">              [16., 16., 16., 19., 19., 19.]])</span>
+<span class="sd">       &gt;&gt;&gt; PoolingOp = Pooling(shape=x.shape, block_size=(2,3), pooling_func=&#39;sum&#39;)</span>
+<span class="sd">       &gt;&gt;&gt; (PoolingOp * x.flatten()).reshape(PoolingOp.output_shape)</span>
+<span class="sd">       array([[ 24,  42],</span>
+<span class="sd">              [ 96, 114]])</span>
+<span class="sd">       &gt;&gt;&gt; PoolingOp.adjoint(PoolingOp * x.flatten()).reshape(x.shape)</span>
+<span class="sd">       array([[ 24,  24,  24,  42,  42,  42],</span>
+<span class="sd">              [ 24,  24,  24,  42,  42,  42],</span>
+<span class="sd">              [ 96,  96,  96, 114, 114, 114],</span>
+<span class="sd">              [ 96,  96,  96, 114, 114, 114]])</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.linop.sampling import Pooling</span>
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       import scipy.misc</span>
+<span class="sd">       img = scipy.misc.face(gray=True).astype(float)</span>
+<span class="sd">       PoolingOp = Pooling(shape=img.shape, block_size=(10,20))</span>
+<span class="sd">       pooled_img = (PoolingOp * img.flatten()).reshape(PoolingOp.output_shape)</span>
+<span class="sd">       adjoint_img = PoolingOp.adjoint(pooled_img.flatten()).reshape(img.shape)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       plt.imshow(img)</span>
+<span class="sd">       plt.colorbar()</span>
+<span class="sd">       plt.title(&#39;Original&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       plt.imshow(pooled_img)</span>
+<span class="sd">       plt.colorbar()</span>
+<span class="sd">       plt.title(&#39;Mean Pooling&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       plt.imshow(adjoint_img)</span>
+<span class="sd">       plt.colorbar()</span>
+<span class="sd">       plt.title(&#39;Mean Pooling followed by Unpooling&#39;)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Pooling is performed via the function `skimage.measure.block_reduce &lt;https://scikit-image.org/docs/dev/api/skimage.measure.html#skimage.measure.block_reduce&gt;`_</span>
+<span class="sd">    from ``scikit-image``. If one dimension of the image is not perfectly divisible by the block size then it is zero padded.</span>
+
+<span class="sd">    The adjoint (*unpooling*) is performed by assigning the value of the blocks through the pooling function (e.g. mean, sum) to each element</span>
+<span class="sd">    of the blocks.</span>
+
+<span class="sd">    Warnings</span>
+<span class="sd">    --------</span>
+<span class="sd">    Max, median or min pooling are not supported since the resulting `PoolingOperator` would then be non linear!</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.linop.sampling.SubSampling`, :py:class:`~pycsou.linop.sampling.Downsampling`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Pooling.__init__"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.Pooling.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">block_size</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">],</span> <span class="n">pooling_func</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span><span class="p">,</span>
+                 <span class="n">dtype</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        shape : tuple</span>
+<span class="sd">            Shape of the input array.</span>
+<span class="sd">        block_size : Union[tuple, list]</span>
+<span class="sd">            Shape of the sub-blocks on which pooling is performed.</span>
+<span class="sd">        pooling_func : str</span>
+<span class="sd">            Specifies if the local blocks should be summed (`pooling_func=&#39;sum&#39;`) or averaged (`pooling_func=&#39;mean&#39;`).</span>
+<span class="sd">        dtype :</span>
+<span class="sd">            Type of input array.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If the block size is inconsistent with the input array shape or if the pooling function is not supported.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">block_size</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Inconsistent block size </span><span class="si">{</span><span class="n">block_size</span><span class="si">}</span><span class="s1"> for array of shape </span><span class="si">{</span><span class="n">shape</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pooling_func</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;sum&#39;</span><span class="p">,</span> <span class="s1">&#39;average&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;pooling_func must be one of: &quot;mean&quot; or &quot;sum&quot;.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span> <span class="o">=</span> <span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block_size</span> <span class="o">=</span> <span class="n">block_size</span>
+        <span class="k">if</span> <span class="n">pooling_func</span> <span class="o">==</span> <span class="s1">&#39;mean&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pooling_func</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pooling_func_kwargs</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="n">pooling_func</span> <span class="o">==</span> <span class="s1">&#39;sum&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pooling_func</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pooling_func_kwargs</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pooling_func</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pooling_func_kwargs</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_output_shape</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_shape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Pooling</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Pooling.get_output_shape"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.Pooling.get_output_shape">[docs]</a>    <span class="k">def</span> <span class="nf">get_output_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get shape of the pooled array.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            Output array shape.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">block_reduce</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">block_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">block_size</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pooling_func</span><span class="p">,</span> <span class="n">cval</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                         <span class="n">func_kwargs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pooling_func_kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">block_reduce</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">),</span> <span class="n">block_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">block_size</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pooling_func</span><span class="p">,</span>
+                            <span class="n">func_kwargs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pooling_func_kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Pooling.adjoint"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.Pooling.adjoint">[docs]</a>    <span class="k">def</span> <span class="nf">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_shape</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">)):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_size</span><span class="p">[</span><span class="n">ax</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">[</span><span class="n">ax</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="NNSampling"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.NNSampling">[docs]</a><span class="k">class</span> <span class="nc">NNSampling</span><span class="p">(</span><span class="n">LinearOperator</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Nearest neighbours sampling operator.</span>
+
+<span class="sd">    Sample a gridded ND signal at on-grid nearest neighbours of off-grid sampling locations. This can be useful when piecewise</span>
+<span class="sd">    constant priors are used to recover continuously-defined signals sampled non-uniformly (see [FuncSphere]_ Remark 6.9).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.linop.sampling import NNSampling</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; rng = np.random.default_rng(seed=0)</span>
+<span class="sd">       &gt;&gt;&gt; x = np.arange(24).reshape(4,6)</span>
+<span class="sd">       &gt;&gt;&gt; grid = np.stack(np.meshgrid(np.arange(6),np.arange(4)), axis=-1)</span>
+<span class="sd">       &gt;&gt;&gt; samples = np.stack((5 * rng.random(size=6),3 * rng.random(size=6)), axis=-1)</span>
+<span class="sd">       &gt;&gt;&gt; print(samples)</span>
+<span class="sd">       [[3.18480844 1.81990733]</span>
+<span class="sd">        [1.34893357 2.18848968]</span>
+<span class="sd">        [0.20486762 1.63087497]</span>
+<span class="sd">        [0.08263818 2.80521727]</span>
+<span class="sd">        [4.0663512  2.44756066]</span>
+<span class="sd">        [4.56377789 0.0082155 ]]</span>
+<span class="sd">       &gt;&gt;&gt; NNSamplingOp = NNSampling(samples=samples, grid=grid)</span>
+<span class="sd">       &gt;&gt;&gt; (NNSamplingOp * x.flatten())</span>
+<span class="sd">       array([15, 13, 12, 18, 16,  5])</span>
+<span class="sd">       &gt;&gt;&gt; NNSamplingOp.adjoint(NNSamplingOp * x.flatten()).reshape(x.shape)</span>
+<span class="sd">       array([[ 0.,  0.,  0.,  0.,  0.,  5.],</span>
+<span class="sd">              [ 0.,  0.,  0.,  0.,  0.,  0.],</span>
+<span class="sd">              [12., 13.,  0., 15., 16.,  0.],</span>
+<span class="sd">              [18.,  0.,  0.,  0.,  0.,  0.]])</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.linop.sampling import NNSampling</span>
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       rng = np.random.default_rng(seed=0)</span>
+
+<span class="sd">       rng = np.random.default_rng(seed=0)</span>
+<span class="sd">       x = np.arange(24).reshape(4, 6)</span>
+<span class="sd">       grid = np.stack(np.meshgrid(np.arange(6), np.arange(4)), axis=-1)</span>
+<span class="sd">       samples = np.stack((5 * rng.random(size=12), 3 * rng.random(size=12)), axis=-1)</span>
+<span class="sd">       NNSamplingOp = NNSampling(samples=samples, grid=grid)</span>
+<span class="sd">       grid = grid.reshape(-1, 2)</span>
+<span class="sd">       x = x.reshape(-1)</span>
+<span class="sd">       y = (NNSamplingOp * x.flatten())</span>
+<span class="sd">       x_samp = NNSamplingOp.adjoint(y).reshape(x.shape)</span>
+<span class="sd">       plt.scatter(grid[..., 0].reshape(-1), grid[..., 1].reshape(-1), s=64, c=x.reshape(-1), marker=&#39;s&#39;, vmin=np.min(x),</span>
+<span class="sd">            vmax=np.max(x))</span>
+<span class="sd">       plt.scatter(samples[:, 0], samples[:, 1], c=&#39;r&#39;, s=64)</span>
+<span class="sd">       plt.plot(np.stack((grid[NNSamplingOp.nn_indices, 0], samples[:, 0]), axis=0),</span>
+<span class="sd">         np.stack((grid[NNSamplingOp.nn_indices, 1], samples[:, 1]), axis=0), &#39;--r&#39;)</span>
+<span class="sd">       plt.colorbar()</span>
+<span class="sd">       plt.title(&#39;Nearest-neighbours Sampling&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       plt.scatter(grid[..., 0].reshape(-1), grid[..., 1].reshape(-1), s=64, c=x_samp.reshape(-1), marker=&#39;s&#39;,</span>
+<span class="sd">            vmin=np.min(x),</span>
+<span class="sd">            vmax=np.max(x))</span>
+<span class="sd">       plt.scatter(samples[:, 0], samples[:, 1], c=&#39;r&#39;, s=64)</span>
+<span class="sd">       plt.plot(np.stack((grid[NNSamplingOp.nn_indices, 0], samples[:, 0]), axis=0),</span>
+<span class="sd">         np.stack((grid[NNSamplingOp.nn_indices, 1], samples[:, 1]), axis=0), &#39;--r&#39;)</span>
+<span class="sd">       plt.colorbar()</span>
+<span class="sd">       plt.title(&#39;Sampling followed by adjoint&#39;)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Consider a signal defined over a mesh :math:`f:\{\mathbf{n}_1,\ldots, \mathbf{n}_M\}\to \mathbb{C}`, with</span>
+<span class="sd">    :math:`\{\mathbf{n}_1,\ldots, \mathbf{n}_M\}\subset \mathbb{R}^N`. Consider moreover sampling locations</span>
+<span class="sd">    :math:`\{\mathbf{z}_1,\ldots, \mathbf{z}_L\}\subset \mathbb{R}^N` which do not necessarily lie on the mesh.</span>
+<span class="sd">    Then, nearest-neighbours sampling is defined as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       y_i=f\left[\arg\min_{k=1,\ldots, M}\|\mathbf{z}_i-\mathbf{n}_k\|_2\right], \qquad i=1,\ldots, L.</span>
+
+<span class="sd">    Note that in practice every sample locations has exactly *one* nearest neighbour (ties have probability zero) and hence</span>
+<span class="sd">    this equation is well-defined.</span>
+
+<span class="sd">    Given a vector :math:`\mathbf{y}=[y_1,\ldots, y_L]\in\mathbb{C}^N`, the adjoint of the ``NNSampling`` operator is defined as</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       f[\mathbf{n}_k]=\mbox{mean}\left\{y_i :\; \mathbf{n}_k=\arg\min_{j=1,\ldots,M}\|\mathbf{z}_i-\mathbf{n}_j\|_2,\, i=1,\ldots, L\right\},\quad k=1,\ldots, M,</span>
+
+<span class="sd">    where :math:`\mbox{mean}\{B\}=|B|^{-1}\sum_{z\in B} z,\; \forall B\subset\mathbb{C}` and with the convention that :math:`\mbox{mean}\{\emptyset\}=0.`</span>
+<span class="sd">    The mean is used to handle cases where many sampling locations are mapped to a common nearest neighbour on the mesh.</span>
+
+<span class="sd">    Warnings</span>
+<span class="sd">    --------</span>
+<span class="sd">    The grid needs not be uniform! Think of it as a mesh. It can happen that more than one sampling location is mapped to</span>
+<span class="sd">    the same nearest neighbour.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.linop.sampling.GeneralisedVandermonde`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="NNSampling.__init__"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.NNSampling.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">grid</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        samples : np.ndarray</span>
+<span class="sd">            Off-grid sampling locations with shape (M,N).</span>
+<span class="sd">        grid :</span>
+<span class="sd">            Grid points with shape (L,N).</span>
+<span class="sd">        dtype : type</span>
+<span class="sd">            Type of the input array.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If the dimension of the sample locations and the grid points do not match.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;The samples have dimension </span><span class="si">{</span><span class="n">samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1"> but the grid has dimension </span><span class="si">{</span><span class="n">grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="n">samples</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_nn</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NNSampling</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NNSampling.compute_nn"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.NNSampling.compute_nn">[docs]</a>    <span class="k">def</span> <span class="nf">compute_nn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the on-grid nearest neighbours to the sampling locations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid_tree</span> <span class="o">=</span> <span class="n">cKDTree</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="n">compact_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">balanced_tree</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nn_distances</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nn_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_tree</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nn_indices</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">y</span>
+
+<div class="viewcode-block" id="NNSampling.adjoint"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.NNSampling.adjoint">[docs]</a>    <span class="k">def</span> <span class="nf">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">y_series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nn_indices</span><span class="p">)</span>
+        <span class="n">y_series</span> <span class="o">=</span> <span class="n">y_series</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span>
+            <span class="n">by</span><span class="o">=</span><span class="n">y_series</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>  <span class="c1"># Average the samples associated to a common nearest neighbour.</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y_series</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nn_indices</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">input_size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nn_indices</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="k">return</span> <span class="n">x</span></div></div>
+
+
+<div class="viewcode-block" id="GeneralisedVandermonde"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.GeneralisedVandermonde">[docs]</a><span class="k">class</span> <span class="nc">GeneralisedVandermonde</span><span class="p">(</span><span class="n">DenseLinearOperator</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generalised Vandermonde matrix.</span>
+
+<span class="sd">    Given sampling locations :math:`\{\mathbf{z}_1,\ldots,\mathbf{z}_L\}\subset\mathbb{R}^N`, and a family of `continuous` functions :math:`\{\varphi_1, \ldots, \varphi_K\}\subset \mathcal{C}(\mathbb{R}^N, \mathbb{C})`,</span>
+<span class="sd">    this function forms the generalised Vandermonde matrix:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \left[\begin{array}{ccc} \varphi_1(\mathbf{z}_1) &amp; \cdots &amp; \varphi_K(\mathbf{z}_1)\\\vdots &amp; \ddots &amp; \vdots\\\varphi_1(\mathbf{z}_L) &amp; \cdots &amp; \varphi_K(\mathbf{z}_L)\end{array}\right]\in\mathbb{C}^{L\times K}.</span>
+
+<span class="sd">    This matrix is useful for sampling functions in the span of :math:`\{\varphi_1, \ldots, \varphi_K\}`. Indeed, if :math:`f=\sum_{k=1}^K\alpha_k\varphi_k`, then we have</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \left[\begin{array}{c}f(\mathbf{z}_1)\\\vdots\\ f(\mathbf{z}_L) \end{array}\right]=\left[\begin{array}{ccc} \varphi_1(\mathbf{z}_1) &amp; \cdots &amp; \varphi_K(\mathbf{z}_1)\\\vdots &amp; \ddots &amp; \vdots\\\varphi_1(\mathbf{z}_L) &amp; \cdots &amp; \varphi_K(\mathbf{z}_L)\end{array}\right]\left[\begin{array}{c}\alpha_1\\\vdots\\ \alpha_K \end{array}\right].</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.linop.sampling import GeneralisedVandermonde</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; samples = np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; func1 = lambda t: t**2;  func2 = lambda t: t**3; funcs = [func1, func2]</span>
+<span class="sd">       &gt;&gt;&gt; VOp = GeneralisedVandermonde(funcs=funcs, samples=samples)</span>
+<span class="sd">       &gt;&gt;&gt; alpha=np.ones((2,))</span>
+<span class="sd">       &gt;&gt;&gt; VOp.mat</span>
+<span class="sd">       array([[  0.,   0.],</span>
+<span class="sd">              [  1.,   1.],</span>
+<span class="sd">              [  4.,   8.],</span>
+<span class="sd">              [  9.,  27.],</span>
+<span class="sd">              [ 16.,  64.],</span>
+<span class="sd">              [ 25., 125.],</span>
+<span class="sd">              [ 36., 216.],</span>
+<span class="sd">              [ 49., 343.],</span>
+<span class="sd">              [ 64., 512.],</span>
+<span class="sd">              [ 81., 729.]])</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(VOp * alpha, samples ** 2 + samples ** 3)</span>
+<span class="sd">       True</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.linop.sampling.MappedDistanceMatrix`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GeneralisedVandermonde.__init__"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.GeneralisedVandermonde.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">funcs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Callable</span><span class="p">],</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        samples : np.ndarray</span>
+<span class="sd">            Sampling locations with shape (L,N).</span>
+<span class="sd">        funcs : list</span>
+<span class="sd">            List of functions.</span>
+<span class="sd">        dtype : type</span>
+<span class="sd">            Type of input array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="n">samples</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">funcs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">funcs</span><span class="p">)</span>
+        <span class="n">gen_vandermonde_mat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_generalised_vandermonde_matrix</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GeneralisedVandermonde</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">ndarray</span><span class="o">=</span><span class="n">gen_vandermonde_mat</span><span class="p">,</span> <span class="n">is_symmetric</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_map_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GeneralisedVandermonde.get_generalised_vandermonde_matrix"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.GeneralisedVandermonde.get_generalised_vandermonde_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">get_generalised_vandermonde_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct the generalised Vandermonde matrix.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            The generalised Vandermonde matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_map_func</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">funcs</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="MappedDistanceMatrix"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.MappedDistanceMatrix">[docs]</a><span class="k">class</span> <span class="nc">MappedDistanceMatrix</span><span class="p">(</span><span class="n">ExplicitLinearOperator</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transformed Distance Matrix.</span>
+
+<span class="sd">    Given two point sets :math:`\{\mathbf{z}_1,\ldots,\mathbf{z}_L\}\subset\mathbb{R}^N`, :math:`\{\mathbf{x}_1,\ldots,\mathbf{x}_K\}\subset\mathbb{R}^N`</span>
+<span class="sd">    and a `continuous` function :math:`\varphi:\mathbb{R}_+\to\mathbb{C}`, this function forms the following matrix:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \left[\begin{array}{ccc} \varphi(d(\mathbf{z}_1,\mathbf{x}_1)) &amp; \cdots &amp; \varphi(d(\mathbf{z}_1,\mathbf{x}_K))\\\vdots &amp; \ddots &amp; \vdots\\\varphi(d(\mathbf{z}_L,\mathbf{x}_1)) &amp; \cdots &amp; \varphi(d(\mathbf{z}_1,\mathbf{x}_K))\end{array}\right]\in\mathbb{C}^{L\times K},</span>
+
+<span class="sd">    where :math:`d:\mathbb{R}^N\times \mathbb{R}^N\to \mathbb{R}_+` is a distance defined in one of the following two ways:</span>
+
+<span class="sd">    * `Radial:` :math:`d(\mathbf{z},\mathbf{x}))=\|\mathbf{z}-\mathbf{x}\|_2, \; \forall \mathbf{z},\mathbf{x}\in\mathbb{R}^N,`</span>
+<span class="sd">    * `Zonal:` :math:`d(\mathbf{z},\mathbf{x}))=\sqrt{2-2\langle\mathbf{z},\mathbf{x}\rangle}, \; \forall \mathbf{z},\mathbf{x}\in\mathbb{S}^{N-1}.`</span>
+<span class="sd">      Note that in this case the two point sets must be on the hypersphere :math:`\mathbb{S}^{N-1}.`</span>
+
+<span class="sd">    This matrix is useful for sampling sums of radial/zonal functions. Indeed, if :math:`f(\mathbf{z})=\sum_{k=1}^K\alpha_k\varphi(d(\mathbf{z},\mathbf{x}_k))`, then we have</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \left[\begin{array}{c}f(\mathbf{z}_1)\\\vdots\\ f(\mathbf{z}_L) \end{array}\right]=\left[\begin{array}{ccc} \varphi(d(\mathbf{z}_1,\mathbf{x}_1)) &amp; \cdots &amp; \varphi(d(\mathbf{z}_1,\mathbf{x}_K))\\\vdots &amp; \ddots &amp; \vdots\\\varphi(d(\mathbf{z}_L,\mathbf{x}_1)) &amp; \cdots &amp; \varphi(d(\mathbf{z}_1,\mathbf{x}_K))\end{array}\right]\left[\begin{array}{c}\alpha_1\\\vdots\\ \alpha_K \end{array}\right].</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.linop.sampling import MappedDistanceMatrix</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; rng = np.random.default_rng(seed=1)</span>
+<span class="sd">       &gt;&gt;&gt; sigma = 1 / 12</span>
+<span class="sd">       &gt;&gt;&gt; func = lambda x: np.exp(-x ** 2 / (2 * sigma ** 2))</span>
+<span class="sd">       &gt;&gt;&gt; max_distance = 3 * sigma</span>
+<span class="sd">       &gt;&gt;&gt; samples1 = np.linspace(0, 2, 10); samples2 = rng.random(size=3)</span>
+<span class="sd">       &gt;&gt;&gt; MDMOp1 = MappedDistanceMatrix(samples1=samples1, samples2=samples2, function=func,max_distance=max_distance, operator_type=&#39;sparse&#39;, n_jobs=-1)</span>
+<span class="sd">       &gt;&gt;&gt; MDMOp2 = MappedDistanceMatrix(samples1=samples1, samples2=None, function=func,max_distance=max_distance, operator_type=&#39;sparse&#39;, n_jobs=-1)</span>
+<span class="sd">       &gt;&gt;&gt; MDMOp3 = MappedDistanceMatrix(samples1=samples1, samples2=samples2, function=func, operator_type=&#39;dense&#39;)</span>
+<span class="sd">       &gt;&gt;&gt; MDMOp4 = MappedDistanceMatrix(samples1=samples1, samples2=samples2, function=func, operator_type=&#39;dask&#39;)</span>
+<span class="sd">       &gt;&gt;&gt; type(MDMOp1.mat), type(MDMOp3.mat), type(MDMOp4.mat)</span>
+<span class="sd">       (&lt;class &#39;scipy.sparse.csr.csr_matrix&#39;&gt;, &lt;class &#39;numpy.ndarray&#39;&gt;, &lt;class &#39;dask.array.core.Array&#39;&gt;)</span>
+<span class="sd">       &gt;&gt;&gt; MDMOp1.mat.shape, MDMOp2.mat.shape</span>
+<span class="sd">       ((10, 3), (10, 10))</span>
+<span class="sd">       &gt;&gt;&gt; MDMOp3.mat</span>
+<span class="sd">       array([[6.43689834e-009, 5.64922608e-029, 2.23956473e-001],</span>
+<span class="sd">              [2.38517543e-003, 2.61112241e-017, 6.44840995e-001],</span>
+<span class="sd">              [7.21186665e-001, 9.84802612e-009, 1.51504434e-003],</span>
+<span class="sd">              [1.77933914e-001, 3.03078296e-003, 2.90456923e-009],</span>
+<span class="sd">              [3.58222996e-005, 7.61104282e-001, 4.54382719e-018],</span>
+<span class="sd">              [5.88480228e-012, 1.55961419e-001, 5.80023464e-030],</span>
+<span class="sd">              [7.88849171e-022, 2.60779757e-005, 6.04161441e-045],</span>
+<span class="sd">              [8.62858845e-035, 3.55806811e-012, 5.13504354e-063],</span>
+<span class="sd">              [7.70139186e-051, 3.96130538e-022, 3.56138512e-084],</span>
+<span class="sd">              [5.60896038e-070, 3.59870356e-035, 2.01547509e-108]])</span>
+<span class="sd">       &gt;&gt;&gt; alpha = rng.lognormal(size=samples2.size, sigma=0.5)</span>
+<span class="sd">       &gt;&gt;&gt; beta = rng.lognormal(size=samples1.size, sigma=0.5)</span>
+<span class="sd">       &gt;&gt;&gt; MDMOp1 * alpha</span>
+<span class="sd">       array([0.27995783, 0.8060865 , 0.37589858, 0.09274313, 1.19684992,</span>
+<span class="sd">              0.24525208, 0.        , 0.        , 0.        , 0.        ])</span>
+<span class="sd">       &gt;&gt;&gt; MDMOp2 * beta</span>
+<span class="sd">       array([0.80274037, 1.39329178, 1.27124579, 1.22168244, 1.08494933,</span>
+<span class="sd">              1.36310926, 0.7558366 , 0.96398702, 0.85066284, 1.37152693])</span>
+<span class="sd">       &gt;&gt;&gt; MDMOp3 * alpha</span>
+<span class="sd">       array([2.79957838e-01, 8.07329704e-01, 3.77792488e-01, 9.75090904e-02,</span>
+<span class="sd">              1.19686859e+00, 2.45252084e-01, 4.10080770e-05, 5.59512490e-12,</span>
+<span class="sd">              6.22922262e-22, 5.65902486e-35])</span>
+<span class="sd">       &gt;&gt;&gt; MDMOp4 * alpha</span>
+<span class="sd">       array([2.79957838e-01, 8.07329704e-01, 3.77792488e-01, 9.75090904e-02,</span>
+<span class="sd">              1.19686859e+00, 2.45252084e-01, 4.10080770e-05, 5.59512490e-12,</span>
+<span class="sd">              6.22922262e-22, 5.65902486e-35])</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(MDMOp3 * alpha, MDMOp4 * alpha)</span>
+<span class="sd">       True</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       from pycsou.linop.sampling import MappedDistanceMatrix</span>
+
+<span class="sd">       t = np.linspace(0, 2, 256)</span>
+<span class="sd">       rng = np.random.default_rng(seed=2)</span>
+<span class="sd">       x,y = np.meshgrid(t,t)</span>
+<span class="sd">       samples1 = np.stack((x.flatten(), y.flatten()), axis=-1)</span>
+<span class="sd">       samples2 = np.stack((2 * rng.random(size=4), 2 * rng.random(size=4)), axis=-1)</span>
+<span class="sd">       alpha = np.ones(samples2.shape[0])</span>
+<span class="sd">       sigma = 1 / 12</span>
+<span class="sd">       func = lambda x: np.exp(-x ** 2 / (2 * sigma ** 2))</span>
+<span class="sd">       MDMOp = MappedDistanceMatrix(samples1=samples1, samples2=samples2, function=func, operator_type=&#39;dask&#39;)</span>
+<span class="sd">       plt.contourf(x,y,(MDMOp * alpha).reshape(t.size, t.size), 50)</span>
+<span class="sd">       plt.title(&#39;Sum of 4 (radial) Gaussians&#39;)</span>
+<span class="sd">       plt.colorbar()</span>
+<span class="sd">       plt.xlabel(&#39;$x$&#39;)</span>
+<span class="sd">       plt.ylabel(&#39;$y$&#39;)</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       from pycsou.linop.sampling import MappedDistanceMatrix</span>
+
+<span class="sd">       rng = np.random.default_rng(seed=2)</span>
+<span class="sd">       phi = np.linspace(0,2*np.pi, 256)</span>
+<span class="sd">       theta = np.linspace(-np.pi/2,np.pi/2, 256)</span>
+<span class="sd">       phi, theta = np.meshgrid(phi, theta)</span>
+<span class="sd">       x,y,z = np.cos(phi)*np.cos(theta), np.sin(phi)*np.cos(theta), np.sin(theta)</span>
+<span class="sd">       samples1 = np.stack((x.flatten(), y.flatten(), z.flatten()), axis=-1)</span>
+<span class="sd">       phi2 = 2 * np.pi * rng.random(size=4)</span>
+<span class="sd">       theta2 = np.pi * rng.random(size=4) - np.pi/2</span>
+<span class="sd">       x2,y2,z2 = np.cos(phi2)*np.cos(theta2), np.sin(phi2)*np.cos(theta2), np.sin(theta2)</span>
+<span class="sd">       samples2 = np.stack((x2,y2,z2), axis=-1)</span>
+<span class="sd">       alpha = np.ones(samples2.shape[0])</span>
+<span class="sd">       sigma = 1 / 9</span>
+<span class="sd">       func = lambda x: np.exp(-np.abs(1-x) / (sigma ** 2))</span>
+<span class="sd">       MDMOp = MappedDistanceMatrix(samples1=samples1, samples2=samples2, function=func,mode=&#39;zonal&#39;, operator_type=&#39;sparse&#39;, max_distance=3*sigma)</span>
+<span class="sd">       plt.contourf(phi, theta, (MDMOp * alpha).reshape(phi.shape), 50)</span>
+<span class="sd">       plt.title(&#39;Sum of 4 (zonal) wrapped Gaussians&#39;)</span>
+<span class="sd">       plt.colorbar()</span>
+<span class="sd">       plt.xlabel(&#39;$\\phi$ (radians)&#39;)</span>
+<span class="sd">       plt.ylabel(&#39;$\\theta$ (radians)&#39;)</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.linop.sampling.GeneralisedVandermonde`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="MappedDistanceMatrix.__init__"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.MappedDistanceMatrix.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">samples2</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;radial&#39;</span><span class="p">,</span> <span class="n">max_distance</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span>
+                 <span class="n">chunks</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">operator_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;dask&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                 <span class="n">n_jobs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">joblib_backend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;loky&#39;</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        samples1 : np.ndarray</span>
+<span class="sd">            First point set with shape (L,N).</span>
+<span class="sd">        function : Callable</span>
+<span class="sd">            Function :math:`\varphi: \mathbb{R}_+\to \mathbb{C}` to apply to each entry of the distance matrix.</span>
+<span class="sd">        samples2 : Optional[np.ndarray]</span>
+<span class="sd">            Optional second point set with shape (K,N). If ``None``, ``samples2`` is equal to ``samples1`` and the operator symmetric.</span>
+<span class="sd">        mode : str</span>
+<span class="sd">            How to compute the distances. If ``&#39;radial&#39;``, the Euclidean distance is used. If ``&#39;zonal&#39;`` the spherical geodesic distance is used.</span>
+<span class="sd">        max_distance : Optional[np.float]</span>
+<span class="sd">            Support of the function :math:`\varphi`. Must be specified for sparse representation.</span>
+<span class="sd">        dtype : type</span>
+<span class="sd">            Type of input array.</span>
+<span class="sd">        chunks : Union[str, int, tuple, None]</span>
+<span class="sd">            Chunk sizes for Dask representation.</span>
+<span class="sd">        operator_type : str</span>
+<span class="sd">            Internal representation of the operator: ``&#39;dense&#39;`` represents the operator as a Numpy array, ``&#39;dask&#39;`` as a `Dask array &lt;https://docs.dask.org/en/latest/array.html&gt;`_,</span>
+<span class="sd">            ``&#39;sparse&#39;`` as a `sparse matrix &lt;https://docs.scipy.org/doc/scipy/reference/sparse.html&gt;`_. Dask arrays or sparse matrices can be more memory efficient for very large point sets.</span>
+<span class="sd">        verbose : bool</span>
+<span class="sd">            Verbosity for parallel computations (only for sparse representations).</span>
+<span class="sd">        n_jobs : int</span>
+<span class="sd">            Number of cores for parallel computations (only for sparse representations). ``n_jobs=-1`` uses all available cores.</span>
+<span class="sd">        joblib_backend : str</span>
+<span class="sd">            Joblib backend (`more details here &lt;https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html&gt;`_).</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If ``mode`` is invalid or if ``operator_type`` is ``&#39;sparse&#39;`` but ``max_distance=None``.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;radial&#39;</span><span class="p">,</span> <span class="s1">&#39;zonal&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Supported modes are &quot;radial&quot; or &quot;zonal&quot;.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">operator_type</span> <span class="ow">is</span> <span class="s1">&#39;sparse&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">max_distance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Specify a maximal distance for sparse format.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_distance</span> <span class="o">=</span> <span class="n">max_distance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples1</span> <span class="o">=</span> <span class="n">samples1</span> <span class="k">if</span> <span class="n">samples1</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">samples1</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">samples2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">is_symmetric</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">samples2</span> <span class="o">=</span> <span class="n">samples1</span> <span class="k">if</span> <span class="n">samples1</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">samples1</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">is_symmetric</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">samples2</span> <span class="o">=</span> <span class="n">samples2</span> <span class="k">if</span> <span class="n">samples2</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">samples2</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chunks</span> <span class="o">=</span> <span class="n">chunks</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operator_type</span> <span class="o">=</span> <span class="n">operator_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="o">=</span> <span class="n">n_jobs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">joblib_backend</span> <span class="o">=</span> <span class="n">joblib_backend</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator_type</span> <span class="ow">is</span> <span class="s1">&#39;sparse&#39;</span><span class="p">:</span>
+            <span class="n">mapped_distance_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sparse_mdm</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator_type</span> <span class="ow">is</span> <span class="s1">&#39;dask&#39;</span><span class="p">:</span>
+            <span class="n">mapped_distance_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_dask_mdm</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator_type</span> <span class="ow">is</span> <span class="s1">&#39;dense&#39;</span><span class="p">:</span>
+            <span class="n">mapped_distance_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_dense_mdm</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsupported operator type </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">operator_type</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MappedDistanceMatrix</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">array</span><span class="o">=</span><span class="n">mapped_distance_matrix</span><span class="p">,</span> <span class="n">is_symmetric</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_symmetric</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MappedDistanceMatrix.get_sparse_mdm"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.MappedDistanceMatrix.get_sparse_mdm">[docs]</a>    <span class="k">def</span> <span class="nf">get_sparse_mdm</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Form the Mapped Distance Matrix as a sparse matrix.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        sparse.csr_matrix</span>
+<span class="sd">            Sparse Mapped Distance Matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">samples_tree1</span> <span class="o">=</span> <span class="n">cKDTree</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">samples1</span><span class="p">,</span> <span class="n">compact_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">balanced_tree</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_symmetric</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">samples_tree2</span> <span class="o">=</span> <span class="n">cKDTree</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">samples2</span><span class="p">,</span> <span class="n">compact_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">balanced_tree</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">samples_tree2</span> <span class="o">=</span> <span class="n">samples_tree1</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">mapped_distance_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sparse_mdm</span><span class="p">(</span><span class="n">big_tree</span><span class="o">=</span><span class="n">samples_tree1</span><span class="p">,</span> <span class="n">small_tree</span><span class="o">=</span><span class="n">samples_tree2</span><span class="p">,</span> <span class="n">iter_over</span><span class="o">=</span><span class="s1">&#39;col&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mapped_distance_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sparse_mdm</span><span class="p">(</span><span class="n">big_tree</span><span class="o">=</span><span class="n">samples_tree2</span><span class="p">,</span> <span class="n">small_tree</span><span class="o">=</span><span class="n">samples_tree1</span><span class="p">,</span> <span class="n">iter_over</span><span class="o">=</span><span class="s1">&#39;row&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mapped_distance_matrix</span></div>
+
+    <span class="k">def</span> <span class="nf">_sparse_mdm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">big_tree</span><span class="p">:</span> <span class="n">cKDTree</span><span class="p">,</span> <span class="n">small_tree</span><span class="p">:</span> <span class="n">cKDTree</span><span class="p">,</span> <span class="n">iter_over</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">:</span>
+        <span class="n">neighbours</span> <span class="o">=</span> <span class="n">small_tree</span><span class="o">.</span><span class="n">query_ball_tree</span><span class="p">(</span><span class="n">big_tree</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_distance</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">job</span><span class="o">.</span><span class="n">Parallel</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">joblib_backend</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">)</span> <span class="k">as</span> <span class="n">parallel</span><span class="p">:</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">parallel</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">delayed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_apply_function</span><span class="p">)</span>
+                               <span class="p">(</span><span class="n">small_tree</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">big_tree</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">neighbours</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="n">i</span><span class="p">,</span> <span class="n">neighbours</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">iter_over</span><span class="p">)</span>
+                               <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">small_tree</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">coo_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">))])</span>
+        <span class="n">coo_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">))])</span>
+        <span class="n">coo_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">))])</span>
+        <span class="n">sparse_mdm</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">coo_matrix</span><span class="p">((</span><span class="n">coo_data</span><span class="p">,</span> <span class="p">(</span><span class="n">coo_i</span><span class="p">,</span> <span class="n">coo_j</span><span class="p">)),</span>
+                                       <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                                       <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">sparse_mdm</span>
+
+    <span class="k">def</span> <span class="nf">_apply_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coord_center</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">coord_neighbours</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">index_center</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                        <span class="n">index_neighbours</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">iter_over</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;radial&#39;</span><span class="p">:</span>
+            <span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">coord_center</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">coord_neighbours</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">coord_center</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">coord_neighbours</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">a_min</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">a_max</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">iter_over</span> <span class="o">==</span> <span class="s1">&#39;row&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">values</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">index_center</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">index_neighbours</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">index_neighbours</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">iter_over</span> <span class="o">==</span> <span class="s1">&#39;col&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">values</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">index_neighbours</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">index_center</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">index_neighbours</span><span class="p">))</span>
+
+<div class="viewcode-block" id="MappedDistanceMatrix.get_dask_mdm"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.MappedDistanceMatrix.get_dask_mdm">[docs]</a>    <span class="k">def</span> <span class="nf">get_dask_mdm</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">da</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Form the Mapped Distance Matrix as a dask array.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        da.core.Array</span>
+<span class="sd">            Mapped Distance Matrix as a Dask array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">samples_da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples1</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:],</span> <span class="n">chunks</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chunks</span><span class="p">)</span>
+        <span class="n">knots_da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples2</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">chunks</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chunks</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;radial&#39;</span><span class="p">:</span>
+            <span class="n">distances_da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">samples_da</span> <span class="o">-</span> <span class="n">knots_da</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;zonal&#39;</span><span class="p">:</span>
+            <span class="n">distances_da</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">samples_da</span> <span class="o">*</span> <span class="n">knots_da</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">a_min</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">a_max</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsupported mode </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">mapped_distance_matrix</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">map_blocks</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="n">distances_da</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mapped_distance_matrix</span></div>
+
+<div class="viewcode-block" id="MappedDistanceMatrix.get_dense_mdm"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.MappedDistanceMatrix.get_dense_mdm">[docs]</a>    <span class="k">def</span> <span class="nf">get_dense_mdm</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Form the Mapped Distance Matrix as a dense Numpy array.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Mapped Distance Matrix as a Numpy array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;radial&#39;</span><span class="p">:</span>
+            <span class="n">distances</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples1</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples2</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;zonal&#39;</span><span class="p">:</span>
+            <span class="n">distances</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples1</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples2</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">a_min</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+                                <span class="n">a_max</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsupported mode </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">mapped_distance_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mapped_distance_matrix</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

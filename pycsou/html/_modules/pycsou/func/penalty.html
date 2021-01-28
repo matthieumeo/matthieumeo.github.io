@@ -1,0 +1,1048 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pycsou.func.penalty &mdash; pycsou 1.0.1.dev11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pycsou
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1.dev11
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/theory.html">Background Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">Pycsou API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/other.html">Pycsou Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pycsou</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pycsou.func.penalty</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pycsou.func.penalty</h1><div class="highlight"><pre>
+<span></span><span class="c1"># #############################################################################</span>
+<span class="c1"># penalty.py</span>
+<span class="c1"># ==========</span>
+<span class="c1"># Author : Matthieu Simeoni [matthieu.simeoni@gmail.com]</span>
+<span class="c1"># #############################################################################</span>
+
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Repository of common penalty functionals.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">pycsou.core.functional</span> <span class="kn">import</span> <span class="n">DifferentiableFunctional</span><span class="p">,</span> <span class="n">ProximableFunctional</span>
+<span class="kn">from</span> <span class="nn">pycsou.func.base</span> <span class="kn">import</span> <span class="n">IndicatorFunctional</span><span class="p">,</span> <span class="n">LpNorm</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">DenseLinearOperator</span>
+<span class="kn">from</span> <span class="nn">pycsou.math.prox</span> <span class="kn">import</span> <span class="n">soft</span><span class="p">,</span> <span class="n">proj_l1_ball</span><span class="p">,</span> <span class="n">proj_l2_ball</span><span class="p">,</span> <span class="n">proj_linfty_ball</span><span class="p">,</span> <span class="n">proj_nonnegative_orthant</span><span class="p">,</span> <span class="n">proj_segment</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.optimize</span> <span class="k">as</span> <span class="nn">sciop</span>
+
+
+<div class="viewcode-block" id="L2Norm"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.L2Norm">[docs]</a><span class="k">class</span> <span class="nc">L2Norm</span><span class="p">(</span><span class="n">LpNorm</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :math:`\ell_2`-norm, :math:`\Vert\mathbf{x}\Vert_2:=\sqrt{\sum_{i=1}^N |x_i|^2}`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">  </span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.penalty import L2Norm</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; norm = L2Norm(dim=x.size)</span>
+<span class="sd">       &gt;&gt;&gt; norm(x)</span>
+<span class="sd">       16.881943016134134</span>
+<span class="sd">       &gt;&gt;&gt; tau = 1.2; np.allclose(norm.prox(x, tau=tau),np.clip(1 - tau / norm(x), a_min=0, a_max=None) * x)</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; lambda_ = 3; scaled_norm = lambda_ * norm; scaled_norm(x)</span>
+<span class="sd">       50.645829048402405</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(scaled_norm.prox(x, tau=tau),np.clip(1 - tau * lambda_ / norm(x), a_min=0, a_max=None) * x)</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The :math:`\ell_2`-norm is a strictly-convex but non differentiable penalty functional.</span>
+<span class="sd">    Solutions to :math:`\ell_2`-penalised convex optimisation problems are usually non unique and very smooth.</span>
+<span class="sd">    The proximal operator of the :math:`\ell_2`-norm can be found in [ProxAlg]_ section 6.5.1.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.loss.L2Loss`, :py:class:`~pycsou.func.penalty.SquaredL2Norm`, :py:func:`~pycsou.func.penalty.L2Ball`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="L2Norm.__init__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.L2Norm.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dim : int</span>
+<span class="sd">            Dimension of the domain.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">L2Norm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">proj_lq_ball</span><span class="o">=</span><span class="n">proj_l2_ball</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="L2Norm.__call__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.L2Norm.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Number</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="SquaredL2Norm"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.SquaredL2Norm">[docs]</a><span class="k">class</span> <span class="nc">SquaredL2Norm</span><span class="p">(</span><span class="n">DifferentiableFunctional</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :math:`\ell^2_2`-norm, :math:`\Vert\mathbf{x}\Vert^2_2:=\sum_{i=1}^N |x_i|^2`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">  </span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.penalty import SquaredL2Norm</span>
+<span class="sd">       from pycsou.linop.base import DenseLinearOperator</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; norm = SquaredL2Norm(dim=x.size)</span>
+<span class="sd">       &gt;&gt;&gt; norm(x)</span>
+<span class="sd">       285.00000000000006</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(norm.gradient(x), 2 * x)</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; lambda_=3; scaled_norm = lambda_ * norm</span>
+<span class="sd">       &gt;&gt;&gt; scaled_norm(x)</span>
+<span class="sd">       855.0000000000002</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(scaled_norm.gradient(x), 2 * lambda_ *  x)</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; Gmat = np.arange(100).reshape(10, 10)</span>
+<span class="sd">       &gt;&gt;&gt; G = DenseLinearOperator(Gmat, is_symmetric=False)</span>
+<span class="sd">       &gt;&gt;&gt; weighted_norm = norm * G</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(weighted_norm.gradient(x), 2 * Gmat.transpose() @ (Gmat @ x))</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The :math:`\ell^2_2` penalty or *Tikhonov* penalty is strictly-convex and differentiable. It is used in ridge regression.</span>
+<span class="sd">    Solutions to :math:`\ell^2_2`-penalised convex optimisation problems are unique and usually very smooth.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.loss.SquaredL2Loss`, :py:class:`~pycsou.func.penalty.L2Norm`, :py:func:`~pycsou.func.penalty.L2Ball`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SquaredL2Norm.__init__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.SquaredL2Norm.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dim : int</span>
+<span class="sd">            Dimension of the domain.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SquaredL2Norm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_linear</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lipschitz_cst</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">infty</span><span class="p">,</span>
+                                            <span class="n">diff_lipschitz_cst</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SquaredL2Norm.__call__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.SquaredL2Norm.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Number</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span></div>
+
+<div class="viewcode-block" id="SquaredL2Norm.jacobianT"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.SquaredL2Norm.jacobianT">[docs]</a>    <span class="k">def</span> <span class="nf">jacobianT</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Gradient of the squared L2 norm at x.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span></div></div>
+
+
+<div class="viewcode-block" id="L2Ball"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.L2Ball">[docs]</a><span class="k">def</span> <span class="nf">L2Ball</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="n">Number</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IndicatorFunctional</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Indicator function of the :math:`\ell_2`-ball :math:`\{\mathbf{x}\in\mathbb{R}^N: \|\mathbf{x}\|_2\leq \text{radius}\}`</span>
+
+<span class="sd">    It is defined as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \iota(\mathbf{x}):=\begin{cases}</span>
+<span class="sd">        0 \,\text{if} \,\|\mathbf{x}\|_2\leq \text{radius},\\</span>
+<span class="sd">         \, +\infty\,\text{ortherwise}.</span>
+<span class="sd">         \end{cases}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim : int</span>
+<span class="sd">        Dimension of the domain.</span>
+<span class="sd">    radius: Number</span>
+<span class="sd">        Radius of the :math:`\ell_2`-ball.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    py:class:`pycsou.core.functional.IndicatorFunctional`</span>
+<span class="sd">        Indicator function of the :math:`\ell_2`-ball.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">  </span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.penalty import L2Ball</span>
+<span class="sd">       from pycsou.math.prox import proj_l2_ball</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x1 = np.arange(10); x2 = x1 / np.linalg.norm(x1)</span>
+<span class="sd">       &gt;&gt;&gt; radius=10; ball = L2Ball(dim=x1.size, radius=radius)</span>
+<span class="sd">       &gt;&gt;&gt; ball(x1), ball(x2)</span>
+<span class="sd">       (inf, 0)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(ball.prox(x1,tau=1), proj_l2_ball(x1, radius=radius)), np.linalg.norm(ball.prox(x1,tau=1))</span>
+<span class="sd">       (True, 10.0)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(ball.prox(x2,tau=1), x2)</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The :math:`\ell_2`-ball penalty is convex and proximable. It is a constrained variant of the :math:`\ell_2`-norm penalty.</span>
+<span class="sd">    The proximal operator of the :math:`\ell_2`-ball indicator is the projection onto the :math:`\ell_2`-ball</span>
+<span class="sd">    (see [ProxAlg]_ Section 1.2).</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.loss.L2BallLoss`, :py:class:`~pycsou.func.penalty.L2Norm`, py:class:`pycsou.class.penalty.SquaredL2Norm`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">condition_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">radius</span>
+    <span class="n">projection_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">proj_l2_ball</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">IndicatorFunctional</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">condition_func</span><span class="o">=</span><span class="n">condition_func</span><span class="p">,</span> <span class="n">projection_func</span><span class="o">=</span><span class="n">projection_func</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="L1Norm"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.L1Norm">[docs]</a><span class="k">class</span> <span class="nc">L1Norm</span><span class="p">(</span><span class="n">LpNorm</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :math:`\ell_1`-norm, :math:`\Vert\mathbf{x}\Vert_1:=\sum_{i=1}^N |x_i|`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">  </span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.penalty import L1Norm</span>
+<span class="sd">       from pycsou.math.prox import soft</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; norm = L1Norm(dim=x.size)</span>
+<span class="sd">       &gt;&gt;&gt; norm(x)</span>
+<span class="sd">       45</span>
+<span class="sd">       &gt;&gt;&gt; tau=1.2; np.allclose(norm.prox(x, tau=tau),soft(x,tau=tau))</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; lambda_=3; scaled_norm = lambda_ * norm; scaled_norm(x)</span>
+<span class="sd">       135</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(scaled_norm.prox(x, tau=tau),soft(x,tau=tau * lambda_))</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The :math:`\ell_1`-norm penalty is convex and proximable. This penalty tends to produce non unique and sparse solutions.</span>
+<span class="sd">    The proximal operator of the :math:`\ell_1`-norm is provided in [ProxAlg]_ Section 6.5.2.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.L1Ball`, :py:func:`~pycsou.func.loss.L1Loss`, :py:class:`~pycsou.func.penalty.SquaredL1Norm`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="L1Norm.__init__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.L1Norm.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dim : int</span>
+<span class="sd">            Dimension of the domain.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">L1Norm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">proj_lq_ball</span><span class="o">=</span><span class="n">proj_linfty_ball</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="L1Norm.__call__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.L1Norm.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Number</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="L1Norm.soft"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.L1Norm.soft">[docs]</a>    <span class="k">def</span> <span class="nf">soft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">tau</span><span class="p">:</span> <span class="n">Number</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Soft thresholding operator (see :py:func:`~pycsou.math.prox.soft` for a definition).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">soft</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="SquaredL1Norm"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.SquaredL1Norm">[docs]</a><span class="k">class</span> <span class="nc">SquaredL1Norm</span><span class="p">(</span><span class="n">ProximableFunctional</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :math:`\ell^2_1`-norm, :math:`\Vert\mathbf{x}\Vert^2_1:=\left(\sum_{i=1}^N |x_i|\right)^2`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">  </span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.penalty import SquaredL1Norm</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; norm = SquaredL1Norm(dim=x.size, prox_computation=&#39;sort&#39;)</span>
+<span class="sd">       &gt;&gt;&gt; norm(x)</span>
+<span class="sd">       2025</span>
+<span class="sd">       &gt;&gt;&gt; norm2 = SquaredL1Norm(dim=x.size, prox_computation=&#39;root&#39;)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(norm.prox(x, tau=1),norm2.prox(x, tau=1))</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The :math:`\ell^2_1`-norm penalty is strictly-convex and proximable. This penalty tends to produce a unique and sparse solution.</span>
+<span class="sd">    Two alternative ways of computing the proximal operator of the :math:`\ell^2_1`-norm are provided in [FirstOrd]_ Lemma 6.70</span>
+<span class="sd">    and [OnKerLearn]_ Algorithm 2 respectively.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.L1Ball`, :py:class:`~pycsou.func.penalty.L1Norm`, :py:func:`~pycsou.func.penalty.SquaredL1Loss`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SquaredL1Norm.__init__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.SquaredL1Norm.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">prox_computation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;sort&#39;</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dim : int</span>
+<span class="sd">            Dimension of the domain.</span>
+<span class="sd">        prox_computation: str, optional</span>
+<span class="sd">            Algorithm for computing the proximal operator: &#39;root&#39; uses [FirstOrd]_ Lemma 6.70, while &#39;sort&#39; uses [OnKerLearn]_ Algorithm 2 (faster).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prox_computation</span> <span class="o">=</span> <span class="n">prox_computation</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SquaredL1Norm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_differentiable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_linear</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SquaredL1Norm.__call__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.SquaredL1Norm.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Number</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span></div>
+
+<div class="viewcode-block" id="SquaredL1Norm.prox"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.SquaredL1Norm.prox">[docs]</a>    <span class="k">def</span> <span class="nf">prox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">tau</span><span class="p">:</span> <span class="n">Number</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Proximal operator, see :py:class:`pycsou.core.functional.ProximableFunctional` for a detailed description.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prox_computation</span> <span class="o">==</span> <span class="s1">&#39;root&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">mu_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">tau</span><span class="p">)</span>
+                <span class="n">mu_min</span> <span class="o">=</span> <span class="mf">1e-12</span>
+                <span class="n">func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">mu</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tau</span> <span class="o">/</span> <span class="n">mu</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">tau</span><span class="p">,</span> <span class="n">a_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">a_max</span><span class="o">=</span><span class="kc">None</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="n">mu_star</span> <span class="o">=</span> <span class="n">sciop</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">mu_min</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">mu_max</span><span class="p">)</span>
+                <span class="n">lambda_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tau</span> <span class="o">/</span> <span class="n">mu_star</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">tau</span><span class="p">,</span> <span class="n">a_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">a_max</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">lambda_</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span> <span class="p">(</span><span class="n">lambda_</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">tau</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">x</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">prox_computation</span> <span class="o">==</span> <span class="s1">&#39;sort&#39;</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">cumsum_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+            <span class="n">test_array</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">tau</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">tau</span><span class="p">))</span> <span class="o">*</span> <span class="n">cumsum_y</span>
+            <span class="n">max_nzi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">test_array</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="n">threshold</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">tau</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">max_nzi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">tau</span><span class="p">))</span> <span class="o">*</span> <span class="n">cumsum_y</span><span class="p">[</span><span class="n">max_nzi</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">soft</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="L1Ball"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.L1Ball">[docs]</a><span class="k">def</span> <span class="nf">L1Ball</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="n">Number</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IndicatorFunctional</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Indicator function of the :math:`\ell_1`-ball :math:`\{\mathbf{x}\in\mathbb{R}^N: \|\mathbf{x}\|_1\leq \text{radius}\}`</span>
+
+<span class="sd">    It is defined as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \iota(\mathbf{x}):=\begin{cases}</span>
+<span class="sd">        0 \,\text{if} \,\|\mathbf{x}\|_1\leq \text{radius},\\</span>
+<span class="sd">         \, +\infty\,\text{ortherwise}.</span>
+<span class="sd">         \end{cases}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim : int</span>
+<span class="sd">        Dimension of the domain.</span>
+<span class="sd">    radius: Number</span>
+<span class="sd">        Radius of the :math:`\ell_1`-ball.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    py:class:`pycsou.core.functional.IndicatorFunctional`</span>
+<span class="sd">        Indicator function of the :math:`\ell_1`-ball.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">  </span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.penalty import L1Ball</span>
+<span class="sd">       from pycsou.math.prox import proj_l1_ball</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x1 = np.arange(10); x2 = x1 / np.linalg.norm(x1, ord=1)</span>
+<span class="sd">       &gt;&gt;&gt; radius=10; ball = L1Ball(dim=x1.size, radius=radius)</span>
+<span class="sd">       &gt;&gt;&gt; ball(x1), ball(x2)</span>
+<span class="sd">       (inf, 0)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(ball.prox(x1,tau=1), proj_l1_ball(x1, radius=radius)), np.linalg.norm(ball.prox(x1,tau=1), ord=1)</span>
+<span class="sd">       (True, 10.0)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(ball.prox(x2,tau=1), x2)</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The :math:`\ell_1`-ball penalty is convex and proximable. It is a constrained variant of the :math:`\ell_1`-norm penalty.</span>
+<span class="sd">    The proximal operator of the :math:`\ell_1`-ball indicator is the projection onto the :math:`\ell_1`-ball</span>
+<span class="sd">    (see [ProxAlg]_ Section 6.5.2).</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.loss.L1BallLoss`, :py:class:`~pycsou.func.penalty.L1Norm`, py:class:`pycsou.func.penalty.SquaredL1Norm`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">condition_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">radius</span>
+    <span class="n">projection_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">proj_l1_ball</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">IndicatorFunctional</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">condition_func</span><span class="o">=</span><span class="n">condition_func</span><span class="p">,</span> <span class="n">projection_func</span><span class="o">=</span><span class="n">projection_func</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LInftyNorm"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.LInftyNorm">[docs]</a><span class="k">class</span> <span class="nc">LInftyNorm</span><span class="p">(</span><span class="n">LpNorm</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :math:`\ell_\infty`-norm, :math:`\Vert\mathbf{x}\Vert_\infty:=\max_{i=1,\ldots,N} |x_i|`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">  </span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.penalty import LInftyNorm</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; norm = LInftyNorm(dim=x.size)</span>
+<span class="sd">       &gt;&gt;&gt; norm(x)</span>
+<span class="sd">       9</span>
+<span class="sd">       &gt;&gt;&gt; lambda_ = 3; scaled_norm = lambda_ * norm; scaled_norm(x)</span>
+<span class="sd">       27</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The :math:`\ell_\infty`-norm is a convex but non differentiable penalty functional.</span>
+<span class="sd">    Solutions to :math:`\ell_\infty`-penalised convex optimisation problems are non unique and binary (i.e. :math:`x_i\in\{1,-1\}`).</span>
+<span class="sd">    The proximal operator of the :math:`\ell_\infty`-norm does not admit a closed-form but can be computed effficiently</span>
+<span class="sd">    as discussed in [ProxAlg]_ section 6.5.2.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.loss.LInftyLoss`, :py:func:`~pycsou.func.penalty.LInftyBall`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LInftyNorm.__init__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.LInftyNorm.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LInftyNorm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">proj_lq_ball</span><span class="o">=</span><span class="n">proj_l1_ball</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LInftyNorm.__call__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.LInftyNorm.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Number</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="LInftyBall"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.LInftyBall">[docs]</a><span class="k">def</span> <span class="nf">LInftyBall</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="n">Number</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IndicatorFunctional</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Indicator function of the :math:`\ell_\infty`-ball :math:`\{\mathbf{x}\in\mathbb{R}^N: \|\mathbf{x}\|_\infty\leq \text{radius}\}`</span>
+
+<span class="sd">    It is defined as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \iota(\mathbf{x}):=\begin{cases}</span>
+<span class="sd">        0 \,\text{if} \,\|\mathbf{x}\|_\infty\leq \text{radius},\\</span>
+<span class="sd">         \, +\infty\,\text{ortherwise}.</span>
+<span class="sd">         \end{cases}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim : int</span>
+<span class="sd">        Dimension of the domain.</span>
+<span class="sd">    radius: Number</span>
+<span class="sd">        Radius of the :math:`\ell_\infty`-ball.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    py:class:`pycsou.core.functional.IndicatorFunctional`</span>
+<span class="sd">        Indicator function of the :math:`\ell_\infty`-ball.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">  </span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.penalty import LInftyBall</span>
+<span class="sd">       from pycsou.math.prox import proj_linfty_ball</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x1 = np.arange(10); x2 = x1 / np.linalg.norm(x1, ord=np.inf)</span>
+<span class="sd">       &gt;&gt;&gt; radius=8; ball = LInftyBall(dim=x1.size, radius=radius)</span>
+<span class="sd">       &gt;&gt;&gt; ball(x1), ball(x2)</span>
+<span class="sd">       (inf, 0)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(ball.prox(x1,tau=1), proj_linfty_ball(x1, radius=radius)), np.linalg.norm(ball.prox(x1,tau=1), ord=np.inf)</span>
+<span class="sd">       (True, 8.0)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(ball.prox(x2,tau=1), x2)</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The :math:`\ell_\infty`-ball penalty is convex and proximable. It is a constrained variant of the :math:`\ell_\infty`-norm penalty.</span>
+<span class="sd">    The proximal operator of the :math:`\ell_\infty`-ball indicator is the projection onto the :math:`\ell_\infty`-ball</span>
+<span class="sd">    (see [ProxAlg]_ Section 6.5.2).</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.loss.LInftyBallLoss`, :py:class:`~pycsou.func.penalty.LInftyNorm`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">condition_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">radius</span>
+    <span class="n">projection_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">proj_linfty_ball</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">IndicatorFunctional</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">condition_func</span><span class="o">=</span><span class="n">condition_func</span><span class="p">,</span> <span class="n">projection_func</span><span class="o">=</span><span class="n">projection_func</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NonNegativeOrthant"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.NonNegativeOrthant">[docs]</a><span class="k">def</span> <span class="nf">NonNegativeOrthant</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IndicatorFunctional</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Indicator function of the non negative orthant (positivity constraint).</span>
+
+<span class="sd">    It is used to enforce positive real solutions. It is defined as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \iota(\mathbf{x}):=\begin{cases}</span>
+<span class="sd">        0 \,\text{if} \,\mathbf{x}\in \mathbb{R}^N_+,\\</span>
+<span class="sd">         \, +\infty\,\text{ortherwise}.</span>
+<span class="sd">         \end{cases}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim: int</span>
+<span class="sd">        Dimension of the domain.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    py:class:`pycsou.core.functional.IndicatorFunctional`</span>
+<span class="sd">        Indicator function of the non negative orthant.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">  </span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.penalty import NonNegativeOrthant</span>
+<span class="sd">       from pycsou.math.prox import proj_nonnegative_orthant</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x1 = np.arange(10) - 5</span>
+<span class="sd">       &gt;&gt;&gt; func = NonNegativeOrthant(dim=x1.size)</span>
+<span class="sd">       &gt;&gt;&gt; func(x1), func(np.abs(x1))</span>
+<span class="sd">       (inf, 0)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(func.prox(x1,tau=1), proj_nonnegative_orthant(x1))</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; np.alltrue(func.prox(x1,tau=1) &gt;= 0)</span>
+<span class="sd">       True</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.LogBarrier`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">condition_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">alltrue</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">projection_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">proj_nonnegative_orthant</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">IndicatorFunctional</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">condition_func</span><span class="o">=</span><span class="n">condition_func</span><span class="p">,</span> <span class="n">projection_func</span><span class="o">=</span><span class="n">projection_func</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Segment"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.Segment">[docs]</a><span class="k">def</span> <span class="nf">Segment</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">Number</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Number</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Indicator function of the segment :math:`[a,b]\subset\mathbb{R}`.</span>
+
+<span class="sd">    It is defined as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \iota(\mathbf{x}):=\begin{cases}</span>
+<span class="sd">        0 \,\text{if} \,\mathbf{x}\in [a,b]^N,\\</span>
+<span class="sd">         \, +\infty\,\text{ortherwise}.</span>
+<span class="sd">         \end{cases}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim: int</span>
+<span class="sd">        Dimension of the domain.</span>
+<span class="sd">    a: Number</span>
+<span class="sd">        Left endpoint of the segement.</span>
+<span class="sd">    b: Number</span>
+<span class="sd">        Right endpoint of the segment.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    py:class:`pycsou.core.functional.IndicatorFunctional`</span>
+<span class="sd">        Indicator function of the segment :math:`[a,b]\subset\mathbb{R}`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">  </span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.penalty import Segment</span>
+<span class="sd">       from pycsou.math.prox import proj_segment</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x1 = np.arange(10) - 3</span>
+<span class="sd">       &gt;&gt;&gt; func = Segment(dim=x1.size, a=1, b=4)</span>
+<span class="sd">       &gt;&gt;&gt; func(x1), func(np.clip(x1, a_min=1, a_max=4))</span>
+<span class="sd">       (inf, 0)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(func.prox(x1,tau=1), proj_segment(x1, a=1, b=4))</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; func.prox(x1,tau=1)</span>
+<span class="sd">       array([1, 1, 1, 1, 1, 2, 3, 4, 4, 4])</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.RealLine`, :py:func:`~pycsou.func.penalty.ImagLine`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">condition_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">alltrue</span><span class="p">((</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="n">a</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">b</span><span class="p">))</span>
+    <span class="n">projection_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">proj_segment</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">IndicatorFunctional</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">condition_func</span><span class="o">=</span><span class="n">condition_func</span><span class="p">,</span> <span class="n">projection_func</span><span class="o">=</span><span class="n">projection_func</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RealLine"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.RealLine">[docs]</a><span class="k">def</span> <span class="nf">RealLine</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Indicator function of the real line :math:`\mathbb{R}`.</span>
+
+<span class="sd">    It is defined as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \iota(\mathbf{x}):=\begin{cases}</span>
+<span class="sd">        0 \,\text{if} \,\mathbf{x}\in \mathbb{R}^N,\\</span>
+<span class="sd">         \, +\infty\,\text{ortherwise}.</span>
+<span class="sd">         \end{cases}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim: int</span>
+<span class="sd">        Dimension of the domain.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    py:class:`pycsou.core.functional.IndicatorFunctional`</span>
+<span class="sd">        Indicator function of the real line :math:`\mathbb{R}`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">  </span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.penalty import RealLine</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x1 = np.arange(10) + 1j</span>
+<span class="sd">       &gt;&gt;&gt; func = RealLine(dim=x1.size)</span>
+<span class="sd">       &gt;&gt;&gt; func(x1), func(np.real(x1))</span>
+<span class="sd">       (inf, 0)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(func.prox(x1,tau=1), np.real(x1))</span>
+<span class="sd">       True</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.NonNegativeOrthant`, :py:func:`~pycsou.func.penalty.ImagLine`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">condition_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">alltrue</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isreal</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">projection_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">IndicatorFunctional</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">condition_func</span><span class="o">=</span><span class="n">condition_func</span><span class="p">,</span> <span class="n">projection_func</span><span class="o">=</span><span class="n">projection_func</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ImagLine"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.ImagLine">[docs]</a><span class="k">def</span> <span class="nf">ImagLine</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Indicator function of the imaginary line :math:`j\mathbb{R}`.</span>
+
+<span class="sd">    It is defined as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \iota(\mathbf{x}):=\begin{cases}</span>
+<span class="sd">        0 \,\text{if} \,\mathbf{x}\in (j\mathbb{R})^N,\\</span>
+<span class="sd">         \, +\infty\,\text{ortherwise}.</span>
+<span class="sd">         \end{cases}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim: int</span>
+<span class="sd">        Dimension of the domain.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    py:class:`pycsou.core.functional.IndicatorFunctional`</span>
+<span class="sd">        Indicator function of the imaginary line :math:`j\mathbb{R}`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">  </span>
+<span class="sd">    </span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.penalty import ImagLine</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x1 = np.arange(10) + 1j * np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; func = ImagLine(dim=x1.size)</span>
+<span class="sd">       &gt;&gt;&gt; func(x1), func(1j * np.imag(x1))</span>
+<span class="sd">       (inf, 0)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(func.prox(x1,tau=1), np.imag(x1))</span>
+<span class="sd">       True</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.NonNegativeOrthant`, :py:func:`~pycsou.func.penalty.RealLine`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">condition_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">alltrue</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">projection_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">IndicatorFunctional</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">condition_func</span><span class="o">=</span><span class="n">condition_func</span><span class="p">,</span> <span class="n">projection_func</span><span class="o">=</span><span class="n">projection_func</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LogBarrier"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.LogBarrier">[docs]</a><span class="k">class</span> <span class="nc">LogBarrier</span><span class="p">(</span><span class="n">ProximableFunctional</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Log barrier, :math:`f(\mathbf{x}):= -\sum_{i=1}^N \log(x_i).`</span>
+
+<span class="sd">    The log barrier is defined as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       f(x):=\begin{cases}</span>
+<span class="sd">       -\log(x) &amp; \text{if} \, x&gt;0,\\</span>
+<span class="sd">       +\infty &amp; \text{otherwise.}</span>
+<span class="sd">       \end{cases}</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">  </span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.penalty import LogBarrier</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x1 = np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; func = LogBarrier(dim=x1.size)</span>
+<span class="sd">       &gt;&gt;&gt; func(x1), func(x1+2)</span>
+<span class="sd">       (inf, -17.502307845873887)</span>
+<span class="sd">       &gt;&gt;&gt; np.round(func.prox(x1,tau=1))</span>
+<span class="sd">       array([1., 2., 2., 3., 4., 5., 6., 7., 8., 9.])</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The log barrier can be used to enforce positivity in the solution.</span>
+<span class="sd">    Its proximal operator is given in [ProxAlg]_ Section 6.7.5.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.NonNegativeOrthant`, :py:func:`~pycsou.func.penalty.ShannonEntropy`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LogBarrier.__init__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.LogBarrier.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dim: int</span>
+<span class="sd">            Dimension of the domain.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LogBarrier</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_differentiable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_linear</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LogBarrier.__call__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.LogBarrier.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Number</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">infty</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LogBarrier.prox"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.LogBarrier.prox">[docs]</a>    <span class="k">def</span> <span class="nf">prox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">tau</span><span class="p">:</span> <span class="n">Number</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Proximal operator of the log barrier.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x: Union[Number, np.ndarray]</span>
+<span class="sd">            Input.</span>
+<span class="sd">        tau: Number</span>
+<span class="sd">            Scaling constant.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Union[Number, np.ndarray]</span>
+<span class="sd">            Proximal point of x.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">tau</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span></div></div>
+
+
+<div class="viewcode-block" id="ShannonEntropy"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.ShannonEntropy">[docs]</a><span class="k">class</span> <span class="nc">ShannonEntropy</span><span class="p">(</span><span class="n">ProximableFunctional</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Negative Shannon entropy, :math:`f(\mathbf{x}):= \sum_{i=1}^N x_i\log(x_i).`</span>
+
+<span class="sd">    The (negative) Shannon entropy is defined as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       f(x):=\begin{cases}</span>
+<span class="sd">       x\log(x) &amp; \text{if} \, x&gt;0,\\</span>
+<span class="sd">       0&amp; \text{if} \, x=0,\\</span>
+<span class="sd">       +\infty &amp; \text{otherwise.}</span>
+<span class="sd">       \end{cases}</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">  </span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.penalty import ShannonEntropy</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x1 = np.arange(10); x2=np.zeros(10); x2[0]=10</span>
+<span class="sd">       &gt;&gt;&gt; func = ShannonEntropy(dim=x1.size)</span>
+<span class="sd">       &gt;&gt;&gt; func(x1), func(x2)</span>
+<span class="sd">       (79.05697962199447, 23.02585092994046)</span>
+<span class="sd">       &gt;&gt;&gt; np.round(func.prox(x1,tau=2))</span>
+<span class="sd">       array([0., 0., 1., 1., 1., 2., 2., 3., 3., 4.])</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This regularization functional is based the information-theoretic notion of entropy, a mathematical generalisation of</span>
+<span class="sd">    entropy as introduced by Boltzmann in thermodynamics. It favours solutions with maximal entropy. The latter are typically</span>
+<span class="sd">    positive and featureless: smooth functions indeed carry much less spatial information than functions with sharp, localised features,</span>
+<span class="sd">    and hence have higher entropy. This penalty is restricted to positive solutions and often results in overly-smooth estimates.</span>
+<span class="sd">    Its proximal operator is given in [ProxSplit]_ Table 2 or [ProxEnt]_ Section 3.1.</span>
+
+<span class="sd">    .. [ProxEnt] Afef, Cherni, Chouzenoux Émilie, and Delsuc Marc-André. &quot;Proximity operators for a class of hybrid sparsity+ entropy priors application to dosy NMR signal reconstruction.&quot; 2016 International Symposium on Signal, Image, Video and Communications (ISIVC). IEEE, 2016.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.LogBarrier`, :py:class:`~pycsou.func.loss.KLDivergence`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ShannonEntropy.__init__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.ShannonEntropy.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dim: int</span>
+<span class="sd">            Dimension of the domain.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ShannonEntropy</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_differentiable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_linear</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ShannonEntropy.__call__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.ShannonEntropy.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Number</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">infty</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">y</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ShannonEntropy.prox"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.ShannonEntropy.prox">[docs]</a>    <span class="k">def</span> <span class="nf">prox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">tau</span><span class="p">:</span> <span class="n">Number</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Proximal operator of the Shannon entropy functional.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x: Union[Number, np.ndarray]</span>
+<span class="sd">            Input.</span>
+<span class="sd">        tau: Number</span>
+<span class="sd">            Scaling constant.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Union[Number, np.ndarray]</span>
+<span class="sd">            Proximal point of x.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">lambertw</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">tau</span> <span class="o">*</span> <span class="n">lambertw</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">tau</span><span class="p">))</span> <span class="o">/</span> <span class="n">tau</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">doctest</span>
+
+    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

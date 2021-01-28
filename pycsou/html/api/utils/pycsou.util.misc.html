@@ -1,0 +1,337 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Miscellaneous &mdash; pycsou 1.0.1.dev11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Notes" href="../../notes/index.html" />
+    <link rel="prev" title="Pycsou Utilities" href="../other.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pycsou
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1.dev11
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../general/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../general/theory.html">Background Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../general/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../general/examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Pycsou API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../other.html">Pycsou Utilities</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Miscellaneous</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pycsou</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../other.html">Pycsou Utilities</a> &raquo;</li>
+        
+      <li>Miscellaneous</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api/utils/pycsou.util.misc.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="miscellaneous">
+<h1>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h1>
+<p>Miscellaneous functions.</p>
+<span class="target" id="module-pycsou.util.misc"></span><p>Miscellaneous functions.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.util.misc.is_range_broadcastable" title="pycsou.util.misc.is_range_broadcastable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_range_broadcastable</span></code></a>(shape1, shape2)</p></td>
+<td><p>Check if two shapes satisfy Numpy’s broadcasting rules.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.util.misc.range_broadcast_shape" title="pycsou.util.misc.range_broadcast_shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range_broadcast_shape</span></code></a>(shape1, shape2)</p></td>
+<td><p>Given two shapes, determine broadcasting shape.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.util.misc.peaks" title="pycsou.util.misc.peaks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">peaks</span></code></a>(x, y)</p></td>
+<td><p>Matlab 2D peaks function.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="function">
+<dt id="pycsou.util.misc.is_range_broadcastable">
+<code class="sig-name descname">is_range_broadcastable</code><span class="sig-paren">(</span><em class="sig-param">shape1: Tuple[int, int], shape2: Tuple[int, int]</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/pycsou/util/misc.html#is_range_broadcastable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.util.misc.is_range_broadcastable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if two shapes satisfy Numpy’s broadcasting rules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape1</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – </p></li>
+<li><p><strong>shape2</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if broadcastable, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">is_range_broadcastable</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_range_broadcastable</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pycsou.util.misc.range_broadcast_shape">
+<code class="sig-name descname">range_broadcast_shape</code><span class="sig-paren">(</span><em class="sig-param">shape1: Tuple[int, int], shape2: Tuple[int, int]</em><span class="sig-paren">)</span> &#x2192; Tuple[int, int]<a class="reference internal" href="../../_modules/pycsou/util/misc.html#range_broadcast_shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.util.misc.range_broadcast_shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given two shapes, determine broadcasting shape.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape1</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – </p></li>
+<li><p><strong>shape2</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Broadcasting shape.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a>]</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If the two shapes cannot be broadcasted.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">range_broadcast_shape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">(3, 2)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pycsou.util.misc.peaks">
+<code class="sig-name descname">peaks</code><span class="sig-paren">(</span><em class="sig-param">x: numpy.ndarray</em>, <em class="sig-param">y: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../../_modules/pycsou/util/misc.html#peaks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.util.misc.peaks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matlab 2D peaks function.</p>
+<p>Peaks is a function of two variables, obtained by translating and scaling Gaussian distributions (see <cite>Matlab’s peaks function &lt;https://www.mathworks.com/help/matlab/ref/peaks.html&gt;</cite>).
+This function is useful for testing purposes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>np.ndarray</em>) – X coordinates.</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – Y coordinates.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Values of the 2D function <code class="docutils literal notranslate"><span class="pre">peaks</span></code> at the points specified by the entries of <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pycsou.util.misc</span> <span class="kn">import</span> <span class="n">peaks</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span><span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">peaks</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="../../api/utils/pycsou-util-misc-1.py">Source code</a>, <a class="reference external" href="../../api/utils/pycsou-util-misc-1.png">png</a>, <a class="reference external" href="../../api/utils/pycsou-util-misc-1.hires.png">hires.png</a>, <a class="reference external" href="../../api/utils/pycsou-util-misc-1.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="../../_images/pycsou-util-misc-1.png" src="../../_images/pycsou-util-misc-1.png" />
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../notes/index.html" class="btn btn-neutral float-right" title="Notes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../other.html" class="btn btn-neutral float-left" title="Pycsou Utilities" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

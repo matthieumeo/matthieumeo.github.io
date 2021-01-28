@@ -1,0 +1,515 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Proximal Operators &mdash; pycsou 1.0.1.dev11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Pycsou Utilities" href="../other.html" />
+    <link rel="prev" title="Mathematical Functions" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pycsou
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1.dev11
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../general/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../general/theory.html">Background Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../general/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../general/examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Pycsou API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../classes/index.html">Abstract Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../operators/index.html">Linear Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functionals/index.html">Cost Functionals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../algorithms/pycsou.opt.proxalgs.html">Proximal Algorithms</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Mathematical Functions</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Proximal Operators</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../other.html">Pycsou Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pycsou</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Pycsou API</a> &raquo;</li>
+        
+          <li><a href="index.html">Mathematical Functions</a> &raquo;</li>
+        
+      <li>Proximal Operators</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api/math/pycsou.math.prox.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pycsou.math.prox">
+<span id="proximal-operators"></span><h1>Proximal Operators<a class="headerlink" href="#module-pycsou.math.prox" title="Permalink to this headline">¶</a></h1>
+<p>Common proximal/projection operators.</p>
+<p class="rubric">Functions</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.math.prox.sign" title="pycsou.math.prox.sign"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sign</span></code></a>(x)</p></td>
+<td><p>Sign function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.math.prox.soft" title="pycsou.math.prox.soft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft</span></code></a>(x, tau)</p></td>
+<td><p>Soft thresholding operator.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Projections</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.math.prox.proj_l1_ball" title="pycsou.math.prox.proj_l1_ball"><code class="xref py py-obj docutils literal notranslate"><span class="pre">proj_l1_ball</span></code></a>(x, radius)</p></td>
+<td><p>Orthogonal projection onto the <span class="math notranslate nohighlight">\(\ell_1\)</span>-ball <span class="math notranslate nohighlight">\(\{\mathbf{x}\in\mathbb{R}^N: \|\mathbf{x}\|_1\leq \text{radius}\}\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.math.prox.proj_l2_ball" title="pycsou.math.prox.proj_l2_ball"><code class="xref py py-obj docutils literal notranslate"><span class="pre">proj_l2_ball</span></code></a>(x, radius)</p></td>
+<td><p>Orthogonal projection onto the <span class="math notranslate nohighlight">\(\ell_2\)</span>-ball <span class="math notranslate nohighlight">\(\{\mathbf{x}\in\mathbb{R}^N: \|\mathbf{x}\|_2\leq \text{radius}\}\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.math.prox.proj_linfty_ball" title="pycsou.math.prox.proj_linfty_ball"><code class="xref py py-obj docutils literal notranslate"><span class="pre">proj_linfty_ball</span></code></a>(x, radius)</p></td>
+<td><p>Orthogonal projection onto the <span class="math notranslate nohighlight">\(\ell_\infty\)</span>-ball <span class="math notranslate nohighlight">\(\{\mathbf{x}\in\mathbb{R}^N: \|\mathbf{x}\|_\infty\leq \text{radius}\}\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.math.prox.proj_nonnegative_orthant" title="pycsou.math.prox.proj_nonnegative_orthant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">proj_nonnegative_orthant</span></code></a>(x)</p></td>
+<td><p>Orthogonal projection on the non negative orthant.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.math.prox.proj_segment" title="pycsou.math.prox.proj_segment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">proj_segment</span></code></a>(x[, a, b])</p></td>
+<td><p>Orthogonal projection into a real segment.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="function">
+<dt id="pycsou.math.prox.sign">
+<code class="sig-name descname">sign</code><span class="sig-paren">(</span><em class="sig-param">x: Union[numpy.ndarray, numbers.Number]</em><span class="sig-paren">)</span> &#x2192; Union[numpy.ndarray, numbers.Number]<a class="reference internal" href="../../_modules/pycsou/math/prox.html#sign"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.math.prox.sign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sign function.</p>
+<p>The sign function is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}sign(x)=\begin{cases}
+\frac{\bar{x}}{|x|} &amp; x\in\mathbb{C}\backslash\{0\},\\
+0 &amp; \text{if} \,x=0.
+\end{cases}\end{split}\]</div>
+<p>We have in particular: <span class="math notranslate nohighlight">\(sign(x)x=|x|.\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>Number</em><em>]</em>) – Input array.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An array whose entries are given by the signs of the entries of <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[np.ndarray, Number]</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sign</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">array([-1., -1.,  0.,  1.,  1.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">sign</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">sign</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pycsou.math.prox.soft">
+<code class="sig-name descname">soft</code><span class="sig-paren">(</span><em class="sig-param">x: Union[numpy.ndarray, numbers.Number], tau: numbers.Number</em><span class="sig-paren">)</span> &#x2192; Union[numpy.ndarray, numbers.Number]<a class="reference internal" href="../../_modules/pycsou/math/prox.html#soft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.math.prox.soft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Soft thresholding operator.</p>
+<p>The soft thresholding operator is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\text{soft}_\tau(x)(x)=\max\{|x|-\tau, 0\} \text{sign}(x), \quad x\in\mathbb{C},\]</div>
+<p>where <span class="math notranslate nohighlight">\(\tau\geq 0\)</span> and <span class="math notranslate nohighlight">\(sign:\mathbb{C}\rightarrow \{-1,1,0\}\)</span> is the <em>sign</em> function (see
+<a class="reference internal" href="#pycsou.math.prox.sign" title="pycsou.math.prox.sign"><code class="xref py py-func docutils literal notranslate"><span class="pre">sign()</span></code></a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>Number</em><em>]</em>) – Input array.</p></li>
+<li><p><strong>tau</strong> (<em>Number</em>) – Threshold value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Array <code class="docutils literal notranslate"><span class="pre">x</span></code> with element-wise soft thresholded entries.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[np.ndarray, Number]</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">soft</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="go">array([-0.5, -0. ,  0. ,  0. ,  0.5])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">soft</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="go">(2.905131670194949-0.9683772233983162j)</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>The soft thresholding operator is the proximal operator of the <span class="math notranslate nohighlight">\(\ell_1\)</span> norm.
+See <a class="reference internal" href="../functionals/pycsou.func.penalty.html#pycsou.func.penalty.L1Norm" title="pycsou.func.penalty.L1Norm"><code class="xref py py-class docutils literal notranslate"><span class="pre">L1Norm</span></code></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pycsou.math.prox.proj_l1_ball">
+<code class="sig-name descname">proj_l1_ball</code><span class="sig-paren">(</span><em class="sig-param">x: numpy.ndarray</em>, <em class="sig-param">radius: numbers.Number</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../../_modules/pycsou/math/prox.html#proj_l1_ball"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.math.prox.proj_l1_ball" title="Permalink to this definition">¶</a></dt>
+<dd><p>Orthogonal projection onto the <span class="math notranslate nohighlight">\(\ell_1\)</span>-ball <span class="math notranslate nohighlight">\(\{\mathbf{x}\in\mathbb{R}^N: \|\mathbf{x}\|_1\leq \text{radius}\}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>np.ndarray</em>) – Vector to be projected.</p></li>
+<li><p><strong>radius</strong> (<em>Number</em>) – Radius of the <span class="math notranslate nohighlight">\(\ell_1\)</span>-ball.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Projection of <code class="docutils literal notranslate"><span class="pre">x</span></code> onto the <span class="math notranslate nohighlight">\(\ell_1\)</span>-ball.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">proj_l1_ball</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">array([-0.75, -0.25,  0.  ,  0.25,  0.75])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">proj_l1_ball</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="nb">ord</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">2.0</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>The projection onto the <span class="math notranslate nohighlight">\(\ell_1\)</span>-ball is described in <a class="reference internal" href="../../notes/references.html#proxalg" id="id1"><span>[ProxAlg]</span></a> Section 6.5.2.
+Note that this is also the proximal operator of the <span class="math notranslate nohighlight">\(\ell_1\)</span>-ball functional <a class="reference internal" href="../functionals/pycsou.func.penalty.html#pycsou.func.penalty.L1Ball" title="pycsou.func.penalty.L1Ball"><code class="xref py py-func docutils literal notranslate"><span class="pre">L1Ball()</span></code></a>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../functionals/pycsou.func.penalty.html#pycsou.func.penalty.L1Ball" title="pycsou.func.penalty.L1Ball"><code class="xref py py-func docutils literal notranslate"><span class="pre">L1Ball()</span></code></a>, <a class="reference internal" href="#pycsou.math.prox.proj_l2_ball" title="pycsou.math.prox.proj_l2_ball"><code class="xref py py-func docutils literal notranslate"><span class="pre">proj_l2_ball()</span></code></a>, <a class="reference internal" href="#pycsou.math.prox.proj_linfty_ball" title="pycsou.math.prox.proj_linfty_ball"><code class="xref py py-func docutils literal notranslate"><span class="pre">proj_linfty_ball()</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pycsou.math.prox.proj_l2_ball">
+<code class="sig-name descname">proj_l2_ball</code><span class="sig-paren">(</span><em class="sig-param">x: numpy.ndarray</em>, <em class="sig-param">radius: numbers.Number</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../../_modules/pycsou/math/prox.html#proj_l2_ball"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.math.prox.proj_l2_ball" title="Permalink to this definition">¶</a></dt>
+<dd><p>Orthogonal projection onto the <span class="math notranslate nohighlight">\(\ell_2\)</span>-ball <span class="math notranslate nohighlight">\(\{\mathbf{x}\in\mathbb{R}^N: \|\mathbf{x}\|_2\leq \text{radius}\}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>np.ndarray</em>) – Vector to be projected.</p></li>
+<li><p><strong>radius</strong> (<em>Number</em>) – Radius of the <span class="math notranslate nohighlight">\(\ell_2\)</span>-ball.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Projection of <code class="docutils literal notranslate"><span class="pre">x</span></code> onto the <span class="math notranslate nohighlight">\(\ell_2\)</span>-ball.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">proj_l2_ball</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">x</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">proj_l2_ball</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="nb">ord</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">1.0</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>Note that this is also the proximal operator of the <span class="math notranslate nohighlight">\(\ell_2\)</span>-ball functional <a class="reference internal" href="../functionals/pycsou.func.penalty.html#pycsou.func.penalty.L2Ball" title="pycsou.func.penalty.L2Ball"><code class="xref py py-func docutils literal notranslate"><span class="pre">L2Ball()</span></code></a>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../functionals/pycsou.func.penalty.html#pycsou.func.penalty.L2Ball" title="pycsou.func.penalty.L2Ball"><code class="xref py py-func docutils literal notranslate"><span class="pre">L2Ball()</span></code></a>, <a class="reference internal" href="#pycsou.math.prox.proj_l1_ball" title="pycsou.math.prox.proj_l1_ball"><code class="xref py py-func docutils literal notranslate"><span class="pre">proj_l1_ball()</span></code></a>, <a class="reference internal" href="#pycsou.math.prox.proj_linfty_ball" title="pycsou.math.prox.proj_linfty_ball"><code class="xref py py-func docutils literal notranslate"><span class="pre">proj_linfty_ball()</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pycsou.math.prox.proj_linfty_ball">
+<code class="sig-name descname">proj_linfty_ball</code><span class="sig-paren">(</span><em class="sig-param">x: numpy.ndarray</em>, <em class="sig-param">radius: numbers.Number</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../../_modules/pycsou/math/prox.html#proj_linfty_ball"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.math.prox.proj_linfty_ball" title="Permalink to this definition">¶</a></dt>
+<dd><p>Orthogonal projection onto the <span class="math notranslate nohighlight">\(\ell_\infty\)</span>-ball <span class="math notranslate nohighlight">\(\{\mathbf{x}\in\mathbb{R}^N: \|\mathbf{x}\|_\infty\leq \text{radius}\}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>np.ndarray</em>) – Vector to be projected.</p></li>
+<li><p><strong>radius</strong> (<em>Number</em>) – Radius of the <span class="math notranslate nohighlight">\(\ell_\infty\)</span>-ball.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Projection of <code class="docutils literal notranslate"><span class="pre">x</span></code> onto the <span class="math notranslate nohighlight">\(\ell_\infty\)</span>-ball.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">proj_linfty_ball</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">array([-2., -1.,  0.,  1.,  2.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">proj_linfty_ball</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="nb">ord</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+<span class="go">2.0</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>Note that this is also the proximal operator of the <span class="math notranslate nohighlight">\(\ell_\infty\)</span>-ball functional <a class="reference internal" href="../functionals/pycsou.func.penalty.html#pycsou.func.penalty.LInftyBall" title="pycsou.func.penalty.LInftyBall"><code class="xref py py-func docutils literal notranslate"><span class="pre">LInftyBall()</span></code></a>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../functionals/pycsou.func.penalty.html#pycsou.func.penalty.LInftyBall" title="pycsou.func.penalty.LInftyBall"><code class="xref py py-func docutils literal notranslate"><span class="pre">LInftyBall()</span></code></a>, <a class="reference internal" href="#pycsou.math.prox.proj_l1_ball" title="pycsou.math.prox.proj_l1_ball"><code class="xref py py-func docutils literal notranslate"><span class="pre">proj_l1_ball()</span></code></a>, <a class="reference internal" href="#pycsou.math.prox.proj_l2_ball" title="pycsou.math.prox.proj_l2_ball"><code class="xref py py-func docutils literal notranslate"><span class="pre">proj_l2_ball()</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pycsou.math.prox.proj_nonnegative_orthant">
+<code class="sig-name descname">proj_nonnegative_orthant</code><span class="sig-paren">(</span><em class="sig-param">x: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../../_modules/pycsou/math/prox.html#proj_nonnegative_orthant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.math.prox.proj_nonnegative_orthant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Orthogonal projection on the non negative orthant.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>np.ndarray</em>) – Vector to be projected.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">proj_nonnegative_orthant</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">array([0., 1.])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Projection onto non negative orthant: negative entries of <code class="docutils literal notranslate"><span class="pre">x</span></code> are set to zero.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This is also the proximal operator of the indicator functional <a class="reference internal" href="../functionals/pycsou.func.penalty.html#pycsou.func.penalty.NonNegativeOrthant" title="pycsou.func.penalty.NonNegativeOrthant"><code class="xref py py-func docutils literal notranslate"><span class="pre">NonNegativeOrthant()</span></code></a>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../functionals/pycsou.func.penalty.html#pycsou.func.penalty.NonNegativeOrthant" title="pycsou.func.penalty.NonNegativeOrthant"><code class="xref py py-func docutils literal notranslate"><span class="pre">NonNegativeOrthant()</span></code></a>, <a class="reference internal" href="#pycsou.math.prox.proj_segment" title="pycsou.math.prox.proj_segment"><code class="xref py py-func docutils literal notranslate"><span class="pre">proj_segment()</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pycsou.math.prox.proj_segment">
+<code class="sig-name descname">proj_segment</code><span class="sig-paren">(</span><em class="sig-param">x: numpy.ndarray</em>, <em class="sig-param">a: numbers.Number = 0</em>, <em class="sig-param">b: numbers.Number = 1</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../../_modules/pycsou/math/prox.html#proj_segment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.math.prox.proj_segment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Orthogonal projection into a real segment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>np.ndarray</em>) – Vector to be projected.</p></li>
+<li><p><strong>a</strong> (<em>Number</em>) – Left endpoint of the segement.</p></li>
+<li><p><strong>b</strong> (<em>Number</em>) – Right endpoint of the segment.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">proj_segment</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">array([-2. , -1.5,  0. ,  1. ,  1. ])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Projection onto non negative orthant: negative entries of <code class="docutils literal notranslate"><span class="pre">x</span></code> are set to zero.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This is also the proximal operator of the indicator functional <a class="reference internal" href="../functionals/pycsou.func.penalty.html#pycsou.func.penalty.Segment" title="pycsou.func.penalty.Segment"><code class="xref py py-func docutils literal notranslate"><span class="pre">Segment()</span></code></a>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../functionals/pycsou.func.penalty.html#pycsou.func.penalty.Segment" title="pycsou.func.penalty.Segment"><code class="xref py py-func docutils literal notranslate"><span class="pre">Segment()</span></code></a>, <a class="reference internal" href="#pycsou.math.prox.proj_nonnegative_orthant" title="pycsou.math.prox.proj_nonnegative_orthant"><code class="xref py py-func docutils literal notranslate"><span class="pre">proj_nonnegative_orthant()</span></code></a>.</p>
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../other.html" class="btn btn-neutral float-right" title="Pycsou Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Mathematical Functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

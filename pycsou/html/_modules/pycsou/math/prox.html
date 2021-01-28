@@ -1,0 +1,554 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pycsou.math.prox &mdash; pycsou 1.0.1.dev11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pycsou
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1.dev11
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/theory.html">Background Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">Pycsou API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/other.html">Pycsou Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pycsou</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pycsou.math.prox</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pycsou.math.prox</h1><div class="highlight"><pre>
+<span></span><span class="c1"># #############################################################################</span>
+<span class="c1"># prox.py</span>
+<span class="c1"># =======</span>
+<span class="c1"># Author : Matthieu Simeoni [matthieu.simeoni@gmail.com]</span>
+<span class="c1"># #############################################################################</span>
+
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Common proximal/projection operators.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
+<span class="kn">import</span> <span class="nn">scipy.optimize</span> <span class="k">as</span> <span class="nn">sciop</span>
+
+
+<div class="viewcode-block" id="sign"><a class="viewcode-back" href="../../../api/math/pycsou.math.prox.html#pycsou.math.prox.sign">[docs]</a><span class="k">def</span> <span class="nf">sign</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Number</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Number</span><span class="p">]:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sign function.</span>
+
+<span class="sd">    The sign function is defined as:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">       sign(x)=\begin{cases}</span>
+<span class="sd">       \frac{\bar{x}}{|x|} &amp; x\in\mathbb{C}\backslash\{0\},\\</span>
+<span class="sd">       0 &amp; \text{if} \,x=0.</span>
+<span class="sd">       \end{cases}</span>
+
+<span class="sd">    We have in particular: :math:`sign(x)x=|x|.`</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x: Union[np.ndarray, Number]</span>
+<span class="sd">        Input array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Union[np.ndarray, Number]</span>
+<span class="sd">        An array whose entries are given by the signs of the entries of ``x``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.math.prox import sign</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.linspace(-1, 1, 5)</span>
+<span class="sd">       &gt;&gt;&gt; sign(x)</span>
+<span class="sd">       array([-1., -1.,  0.,  1.,  1.])</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(sign(x) * x, np.abs(x))</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; x = x + 1j</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(sign(x) * x, np.abs(x))</span>
+<span class="sd">       True</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">y</span></div>
+
+
+<div class="viewcode-block" id="soft"><a class="viewcode-back" href="../../../api/math/pycsou.math.prox.html#pycsou.math.prox.soft">[docs]</a><span class="k">def</span> <span class="nf">soft</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Number</span><span class="p">],</span> <span class="n">tau</span><span class="p">:</span> <span class="n">Number</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Number</span><span class="p">]:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Soft thresholding operator.</span>
+
+<span class="sd">    The soft thresholding operator is defined as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \text{soft}_\tau(x)(x)=\max\{|x|-\tau, 0\} \text{sign}(x), \quad x\in\mathbb{C},</span>
+
+<span class="sd">    where :math:`\tau\geq 0` and :math:`sign:\mathbb{C}\rightarrow \{-1,1,0\}` is the *sign* function (see</span>
+<span class="sd">    :py:func:`~pycsou.math.prox.sign`).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x: Union[np.ndarray, Number]</span>
+<span class="sd">        Input array.</span>
+<span class="sd">    tau: Number</span>
+<span class="sd">        Threshold value.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Union[np.ndarray, Number]</span>
+<span class="sd">        Array ``x`` with element-wise soft thresholded entries.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.math.prox import soft</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.linspace(-1, 1, 5)</span>
+<span class="sd">       &gt;&gt;&gt; soft(x, tau=0.5)</span>
+<span class="sd">       array([-0.5, -0. ,  0. ,  0. ,  0.5])</span>
+<span class="sd">       &gt;&gt;&gt; x = 3 + 1j</span>
+<span class="sd">       &gt;&gt;&gt; soft(x, tau=0.1)</span>
+<span class="sd">       (2.905131670194949-0.9683772233983162j)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The soft thresholding operator is the proximal operator of the :math:`\ell_1` norm.</span>
+<span class="sd">    See :py:class:`~pycsou.func.penalty.L1Norm`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">tau</span><span class="p">,</span> <span class="n">a_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">a_max</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">*</span> <span class="n">sign</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="proj_l1_ball"><a class="viewcode-back" href="../../../api/math/pycsou.math.prox.html#pycsou.math.prox.proj_l1_ball">[docs]</a><span class="k">def</span> <span class="nf">proj_l1_ball</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="n">Number</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Orthogonal projection onto the :math:`\ell_1`-ball :math:`\{\mathbf{x}\in\mathbb{R}^N: \|\mathbf{x}\|_1\leq \text{radius}\}`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x: np.ndarray</span>
+<span class="sd">        Vector to be projected.</span>
+<span class="sd">    radius: Number</span>
+<span class="sd">        Radius of the :math:`\ell_1`-ball.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    np.ndarray</span>
+<span class="sd">        Projection of ``x`` onto the :math:`\ell_1`-ball.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.math.prox import proj_l1_ball</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.linspace(-1, 1, 5)</span>
+<span class="sd">       &gt;&gt;&gt; proj_l1_ball(x, radius=2)</span>
+<span class="sd">       array([-0.75, -0.25,  0.  ,  0.25,  0.75])</span>
+<span class="sd">       &gt;&gt;&gt; np.linalg.norm(proj_l1_ball(x, radius=2), ord=1)</span>
+<span class="sd">       2.0</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The projection onto the :math:`\ell_1`-ball is described in [ProxAlg]_ Section 6.5.2.</span>
+<span class="sd">    Note that this is also the proximal operator of the :math:`\ell_1`-ball functional :py:func:`~pycsou.func.penalty.L1Ball`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.L1Ball`, :py:func:`~pycsou.math.prox.proj_l2_ball`, :py:func:`~pycsou.math.prox.proj_linfty_ball`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">radius</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mu_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">mu</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">mu</span><span class="p">,</span> <span class="n">a_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">a_max</span><span class="o">=</span><span class="kc">None</span><span class="p">))</span> <span class="o">-</span> <span class="n">radius</span>
+        <span class="n">mu_star</span> <span class="o">=</span> <span class="n">sciop</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">mu_max</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">soft</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu_star</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="proj_l2_ball"><a class="viewcode-back" href="../../../api/math/pycsou.math.prox.html#pycsou.math.prox.proj_l2_ball">[docs]</a><span class="k">def</span> <span class="nf">proj_l2_ball</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="n">Number</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Orthogonal projection onto the :math:`\ell_2`-ball :math:`\{\mathbf{x}\in\mathbb{R}^N: \|\mathbf{x}\|_2\leq \text{radius}\}`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x: np.ndarray</span>
+<span class="sd">        Vector to be projected.</span>
+<span class="sd">    radius: Number</span>
+<span class="sd">        Radius of the :math:`\ell_2`-ball.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    np.ndarray</span>
+<span class="sd">        Projection of ``x`` onto the :math:`\ell_2`-ball.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.math.prox import proj_l2_ball</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.linspace(-2, 2, 5)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(proj_l2_ball(x, radius=1), x/np.linalg.norm(x))</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; np.linalg.norm(proj_l2_ball(x, radius=1), ord=2)</span>
+<span class="sd">       1.0</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Note that this is also the proximal operator of the :math:`\ell_2`-ball functional :py:func:`~pycsou.func.penalty.L2Ball`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.L2Ball`, :py:func:`~pycsou.math.prox.proj_l1_ball`, :py:func:`~pycsou.math.prox.proj_linfty_ball`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">radius</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="proj_linfty_ball"><a class="viewcode-back" href="../../../api/math/pycsou.math.prox.html#pycsou.math.prox.proj_linfty_ball">[docs]</a><span class="k">def</span> <span class="nf">proj_linfty_ball</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="n">Number</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Orthogonal projection onto the :math:`\ell_\infty`-ball :math:`\{\mathbf{x}\in\mathbb{R}^N: \|\mathbf{x}\|_\infty\leq \text{radius}\}`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x: np.ndarray</span>
+<span class="sd">        Vector to be projected.</span>
+<span class="sd">    radius: Number</span>
+<span class="sd">        Radius of the :math:`\ell_\infty`-ball.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    np.ndarray</span>
+<span class="sd">        Projection of ``x`` onto the :math:`\ell_\infty`-ball.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.math.prox import proj_linfty_ball</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.linspace(-2, 2, 5)</span>
+<span class="sd">       &gt;&gt;&gt; proj_linfty_ball(x, radius=2)</span>
+<span class="sd">       array([-2., -1.,  0.,  1.,  2.])</span>
+<span class="sd">       &gt;&gt;&gt; np.linalg.norm(proj_linfty_ball(x, radius=2), ord=np.inf)</span>
+<span class="sd">       2.0</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Note that this is also the proximal operator of the :math:`\ell_\infty`-ball functional :py:func:`~pycsou.func.penalty.LInftyBall`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.LInftyBall`, :py:func:`~pycsou.math.prox.proj_l1_ball`, :py:func:`~pycsou.math.prox.proj_l2_ball`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">radius</span><span class="p">]</span> <span class="o">=</span> <span class="n">radius</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">y</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">radius</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">radius</span>
+    <span class="k">return</span> <span class="n">y</span></div>
+
+
+<div class="viewcode-block" id="proj_nonnegative_orthant"><a class="viewcode-back" href="../../../api/math/pycsou.math.prox.html#pycsou.math.prox.proj_nonnegative_orthant">[docs]</a><span class="k">def</span> <span class="nf">proj_nonnegative_orthant</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Orthogonal projection on the non negative orthant.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x: np.ndarray</span>
+<span class="sd">        Vector to be projected.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.math.prox import proj_nonnegative_orthant</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.linspace(-1, 1, 2)</span>
+<span class="sd">       &gt;&gt;&gt; proj_nonnegative_orthant(x)</span>
+<span class="sd">       array([0., 1.])</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    np.ndarray</span>
+<span class="sd">        Projection onto non negative orthant: negative entries of ``x`` are set to zero.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This is also the proximal operator of the indicator functional :py:func:`~pycsou.func.penalty.NonNegativeOrthant`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.NonNegativeOrthant`, :py:func:`~pycsou.math.prox.proj_segment`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">y</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">y</span></div>
+
+
+<div class="viewcode-block" id="proj_segment"><a class="viewcode-back" href="../../../api/math/pycsou.math.prox.html#pycsou.math.prox.proj_segment">[docs]</a><span class="k">def</span> <span class="nf">proj_segment</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">Number</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Number</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Orthogonal projection into a real segment.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x: np.ndarray</span>
+<span class="sd">        Vector to be projected.</span>
+<span class="sd">    a: Number</span>
+<span class="sd">        Left endpoint of the segement.</span>
+<span class="sd">    b: Number</span>
+<span class="sd">        Right endpoint of the segment.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.math.prox import proj_segment</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.linspace(-3, 3, 5)</span>
+<span class="sd">       &gt;&gt;&gt; proj_segment(x, a=-2,b=1)</span>
+<span class="sd">       array([-2. , -1.5,  0. ,  1. ,  1. ])</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    np.ndarray</span>
+<span class="sd">        Projection onto non negative orthant: negative entries of ``x`` are set to zero.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This is also the proximal operator of the indicator functional :py:func:`~pycsou.func.penalty.Segment`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.Segment`, :py:func:`~pycsou.math.prox.proj_nonnegative_orthant`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span>
+    <span class="k">return</span> <span class="n">y</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">doctest</span>
+
+    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,362 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Background Concepts &mdash; pycsou 1.0.1.dev11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Features" href="features.html" />
+    <link rel="prev" title="Installation" href="install.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> pycsou
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1.dev11
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Background Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#data-model">Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#discretisation">Discretisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#inverse-problems-are-ill-posed">Inverse Problems are Ill-Posed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#regularising-inverse-problems">Regularising Inverse Problems</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#choosing-the-loss-functional">Choosing the Loss Functional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#choosing-the-penalty">Choosing the Penalty</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">Pycsou API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/other.html">Pycsou Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pycsou</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Background Concepts</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/general/theory.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="background-concepts">
+<span id="theory"></span><h1>Background Concepts<a class="headerlink" href="#background-concepts" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="data-model">
+<h2>Data Model<a class="headerlink" href="#data-model" title="Permalink to this headline">¶</a></h2>
+<p>Most real-life approximation problems can be formulated as inverse problems.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Consider an unknown <em>signal</em> <span class="math notranslate nohighlight">\(f\in \mathcal{L}^2\left(\mathbb{R}^d\right)\)</span> and assume that the latter is <em>probed</em> by some sensing device, resulting in a data vector <span class="math notranslate nohighlight">\(\mathbf{y}=[y_1,\ldots,y_L]\in\mathbb{R}^L\)</span>  of <span class="math notranslate nohighlight">\(L\)</span> measurements. Recovering <span class="math notranslate nohighlight">\(f\)</span> from the data vector <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> is called an inverse problem.</p>
+</div>
+<p>The following assumptions are standard:</p>
+<ul class="simple">
+<li><p>To account for sensing <em>inaccuracies</em>, the data vector  <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> is assumed to be the outcome of  a random vector <span class="math notranslate nohighlight">\(\mathbf{Y}=[Y_1,\ldots,Y_L]:\Omega\rightarrow \mathbb{R}^L\)</span>, fluctuating according to some noise distribution. The entries of <span class="math notranslate nohighlight">\(\mathbb{E}[\mathbf{Y}]=\tilde{\mathbf{y}}\)</span> are called the ideal measurements –these are the measurements that would be obtained in the absence of noise.</p></li>
+<li><p>The measurements are assumed unbiased and linear, i.e. <span class="math notranslate nohighlight">\(\mathbb{E}[\mathbf{Y}]=\Phi^\ast f=\left[\langle f, \varphi_1\rangle, \ldots, \langle f,\varphi_L\rangle\right],\)</span> for some sampling functionals <span class="math notranslate nohighlight">\(\{\varphi_1,\ldots,\varphi_L\}\subset \mathcal{L}^2\left(\mathbb{R}^d\right)\)</span>, modelling the acquisition system.</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>See <a class="reference internal" href="../api/operators/index.html#operators"><span class="std std-ref">Linear Operators</span></a> for common sampling functionals provided by Pycsou (spatial sampling, subsampling, Fourier/Radon sampling, filtering, mean-pooling, etc…)</p>
+</div>
+<div class="figure align-center" id="id3">
+<a class="reference internal image-reference" href="../_images/deblurring.jpg"><img alt="../_images/deblurring.jpg" src="../_images/deblurring.jpg" style="width: 90%;" /></a>
+<p class="caption"><span class="caption-text">Image deblurring is a common example of inverse problem.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="discretisation">
+<h2>Discretisation<a class="headerlink" href="#discretisation" title="Permalink to this headline">¶</a></h2>
+<p>Since the number of measurements is <em>finite</em>, it is reasonable to constrain the signal <span class="math notranslate nohighlight">\(f\)</span> to be finite-dimensional:<a class="footnote-reference brackets" href="#f1" id="id1">1</a></p>
+<div class="math notranslate nohighlight">
+\[f=\sum_{n=1}^N\alpha_n \psi_n=\Psi \mathbf{\alpha}, \qquad \mathbf{\alpha}=[\alpha_1,\ldots,\alpha_N]\in\mathbb{R}^N\]</div>
+<p>for some suitable basis functions <span class="math notranslate nohighlight">\(\{\psi_n, \,n=1,\ldots,N\}\subset\mathcal{L}^2(\mathbb{R}^d)\)</span>. Typically, the basis functions are chosen as indicator functions of regular rectangular tiles of <span class="math notranslate nohighlight">\(\mathbb{R}^d\)</span> called pixels. For example:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\psi_n(\mathbf{x})=\begin{cases}1 &amp; \text{if} \,\mathbf{x}\in\left[c_1+(n-1)h_1, c_1+nh_1\right]\times\cdots\times\left[c_d+(n-1)h_d, c_d+ nh_d\right],\\
+0&amp;\text{otherwise,}\end{cases}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{c}=[c_1,\ldots,c_d]\)</span> are the coordinates of the lower-left corner of the first pixel, and <span class="math notranslate nohighlight">\(\{h_1,\ldots,h_d\}\)</span> are the sizes of the pixels across each dimension. The parametric signal <span class="math notranslate nohighlight">\(f\)</span> is then a piecewise constant signal than can be <strong>stored/manipulated/displayed</strong> <em>efficiently</em> via multi-dimensional array (hence the popularity of pixel-based discretisation schemes).</p>
+<div class="figure align-center" id="id4">
+<a class="reference internal image-reference" href="../_images/pixelisation.jpg"><img alt="../_images/pixelisation.jpg" src="../_images/pixelisation.jpg" style="width: 90%;" /></a>
+<p class="caption"><span class="caption-text">Example of a pixelated signal.</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Other popular choices of basis functions include: sines/cosines, radial basis functions, splines,       polynomials…</p>
+</div>
+<p>Pixelisation induces a <em>discrete inverse problem</em>:</p>
+<p>Find <span class="math notranslate nohighlight">\(\mathbf{\alpha}\in\mathbb{R}^N\)</span> from the noisy measurements <span class="math notranslate nohighlight">\(\mathbf{y}\sim \mathbf{Y}\)</span> where <span class="math notranslate nohighlight">\(\mathbb{E}[\mathbf{Y}]=\mathbf{G}\mathbf{\alpha}\)</span>.</p>
+<p>The operator <span class="math notranslate nohighlight">\(\mathbf{G}:\mathbb{R}^N\to \mathbb{R}^L\)</span> is a rectangular matrix given by:<a class="footnote-reference brackets" href="#f2" id="id2">2</a></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathbb{R}^{L\times N} \ni\mathbf{G}
+&amp;=
+\left[ \begin{array}{ccc}
+ \int_{\Omega_1} \varphi_1(\mathbf{x})d\mathbf{x} &amp; \cdots&amp; \int_{\Omega_N} \varphi_1(\mathbf{x})d\mathbf{x}\\
+ \vdots &amp; \ddots &amp; \vdots \\
+ \int_{\Omega_1} \varphi_L(\mathbf{x})d\mathbf{x} &amp; \cdots&amp; \int_{\Omega_N} \varphi_L(\mathbf{x})d\mathbf{x}
+ \end{array}\right]\\
+ &amp;\simeq \eta
+ \left[ \begin{array}{ccc}
+\varphi_1(\mathbf{\xi}_1) &amp; \cdots&amp;\varphi_1(\mathbf{\xi}_N)\\
+ \vdots &amp; \ddots &amp; \vdots \\
+\varphi_L(\mathbf{\xi}_1) &amp; \cdots&amp;\varphi_L(\mathbf{\xi}_N)
+ \end{array}\right],\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\eta=\Pi_{k=1}^d h_k\)</span>, and <span class="math notranslate nohighlight">\(\{\Omega_n\}_{n} \subset\mathcal{P}(\mathbb{R}^d)\)</span> and <span class="math notranslate nohighlight">\(\{\mathbf{\xi}_n\}_n\subset\mathbb{R}^d\)</span> are the <em>supports</em> and <em>centroids</em> of each pixel, respectively.</p>
+</div>
+<div class="section" id="inverse-problems-are-ill-posed">
+<h2>Inverse Problems are Ill-Posed<a class="headerlink" href="#inverse-problems-are-ill-posed" title="Permalink to this headline">¶</a></h2>
+<p>To solve the inverse problem one can approximate the mean <span class="math notranslate nohighlight">\(\mathbb{E}[Y]\)</span> by its <em>one-sample empirical estimate</em> <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> and solve the linear problem:</p>
+<div class="math notranslate nohighlight" id="equation-discrete-pb">
+<span class="eqno">(1)<a class="headerlink" href="#equation-discrete-pb" title="Permalink to this equation">¶</a></span>\[     \mathbf{y}=\mathbf{G}\mathbf{\alpha}.\]</div>
+<p>Unfortunately, such problems are in general ill-posed:</p>
+<ul class="simple">
+<li><p><strong>There may exist no solutions.</strong> If <span class="math notranslate nohighlight">\(L&gt;N\)</span> indeed (or more generally if <span class="math notranslate nohighlight">\(\mathbf{G}\)</span> is not surjective), <span class="math notranslate nohighlight">\(\mathcal{R}(\mathbf{G})\subsetneq \mathbb{R}^N\)</span>. Therefore the noisy data vector <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> is not guaranteed to belong to <span class="math notranslate nohighlight">\(\mathcal{R}(\mathbf{G})\)</span>.</p></li>
+<li><p><strong>There may exist more than one solution.</strong> If <span class="math notranslate nohighlight">\(L&lt;N\)</span> indeed (or more generally if <span class="math notranslate nohighlight">\(\mathbf{G}\)</span> is not injective), <span class="math notranslate nohighlight">\(\mathcal{N}(\mathbf{G})\neq \{\mathbf{0}\}\)</span>. Therefore, if <span class="math notranslate nohighlight">\(\mathbf{\alpha}^\star\)</span> is a solution to eqref{inverse_pb_linear_system}, then <span class="math notranslate nohighlight">\(\mathbf{\alpha}^\star + \mathbf{\beta}\)</span> is also a solution <span class="math notranslate nohighlight">\(\forall\mathbf{\beta}\in \mathcal{N}(\mathbf{G})\)</span>:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\mathbf{G}(\mathbf{\alpha}^\star + \mathbf{\beta})=\mathbf{G}\mathbf{\alpha}^\star + {\mathbf{G}\mathbf{\beta}}=\mathbf{G}\mathbf{\alpha}^\star=\mathbf{y}.\]</div>
+<ul class="simple">
+<li><p><strong>Solutions may be numerically unstable.</strong> If <span class="math notranslate nohighlight">\(\mathbf{G}\)</span> is surjective for example, then <span class="math notranslate nohighlight">\(\mathbf{G}^\dagger=\mathbf{G}^T(\mathbf{G}\mathbf{G}^T)^{-1}\)</span> is a right-inverse of <span class="math notranslate nohighlight">\(\mathbf{G}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{\alpha}^\star(\mathbf{y})=\mathbf{G}^T(\mathbf{G}\mathbf{G}^T)^{-1} \mathbf{y}\)</span> is a solution to eqref{inverse_pb_linear_system}. We have then</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\|\mathbf{\alpha}^\star(\mathbf{y})\|_2\leq \|\mathbf{G}\|_2\|(\mathbf{G}^T\mathbf{G})^{-1}\|_2\|\mathbf{y}\|_2=\underbrace{\frac{\sqrt{\lambda_{max}(\mathbf{G}^T\mathbf{G})}}{\lambda_{min}(\mathbf{G}^T\mathbf{G})}}_{\text{Can be very large!}}\|\mathbf{y}\|_2, \qquad \forall \mathbf{y}\in \mathbb{R}^L.\]</div>
+<p>The reconstruction linear map <span class="math notranslate nohighlight">\(\mathbf{y}\mapsto \mathbf{\alpha}^\star(\mathbf{y})\)</span> can hence be virtually unbounded making it <em>unstable</em>.</p>
+<div class="figure align-center" id="id5">
+<a class="reference internal image-reference" href="../_images/inverse_problem.png"><img alt="../_images/inverse_problem.png" src="../_images/inverse_problem.png" style="width: 80%;" /></a>
+<p class="caption"><span class="caption-text">Inverse problems are unstable.</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="regularising-inverse-problems">
+<h2>Regularising Inverse Problems<a class="headerlink" href="#regularising-inverse-problems" title="Permalink to this headline">¶</a></h2>
+<p>The linear system <a class="reference internal" href="#equation-discrete-pb">(1)</a> is not only ill-posed but also non sensible: matching exactly the measurements is not desirable since the latter are in practice corrupted by instrumental noise.</p>
+<p>A more sensible approach consists instead in solving the inverse problem by means of a penalised optimisation problem, confronting the physical evidence to the analyst’s a priori beliefs about the solution (e.g. smoothness, sparsity) via a data-fidelity and regularisation term, respectively:</p>
+<div class="math notranslate nohighlight">
+\[\min_{\mathbf{\alpha}\in\mathbb{R}^N} \,F(\mathbf{y}, \mathbf{G} \mathbf{\alpha})\quad+\quad \lambda\mathcal{R}(\mathbf{\alpha}).\]</div>
+<p>The various quantities involved in the above equation can be interpreted as follows:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(F:\mathbb{R}^L\times \mathbb{R}^L\rightarrow \mathbb{R}_+\cup\{+\infty\}\)</span> is a cost/data-fidelity/loss functional, measuring the discrepancy between the observed and predicted measurements <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{G}\mathbf{\alpha}\)</span> respectively.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathcal{R}:\mathbb{R}^N\to \mathbb{R}_+\cup\{+\infty\}\)</span> is a regularisation/penalty functional favouring simple and well-behaved solutions (typically with a finite number of degrees of freedom).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\lambda&gt;0\)</span> is a regularisation/penalty parameter which controls the amount of regularisation by putting the regularisation functional and the cost functional on a similar scale.</p></li>
+</ul>
+<div class="section" id="choosing-the-loss-functional">
+<h3>Choosing the Loss Functional<a class="headerlink" href="#choosing-the-loss-functional" title="Permalink to this headline">¶</a></h3>
+<p>The loss functional can be chosen as the negative log-likelihood of the data <span class="math notranslate nohighlight">\(\mathbf{y}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[F(\mathbf{y},\mathbf{G} \mathbf{\alpha})=-\ell(\mathbf{\alpha}\vert\mathbf{y})=-\log p_{Y_1,\ldots,Y_L}\left(y_1,\ldots,y_L | \mathbf{\alpha}\right).\]</div>
+<p>When the noise distribution is not fully known or the likelihood too complex, one can also use general <span class="math notranslate nohighlight">\(\ell_p\)</span> cost functionals</p>
+<div class="math notranslate nohighlight">
+\[F(\mathbf{y},\mathbf{G}\mathbf{\alpha})=\Vert\mathbf{y}-\mathbf{G}\mathbf{\alpha}\Vert_p^p=\sum_{i=1}^L\left\vert y_i-\sum_{n=1}^NG_{in} \alpha_n\right\vert^p,\]</div>
+<p>where <span class="math notranslate nohighlight">\(p\in [1,+\infty]\)</span> is typically chosen according to the tail behaviour of the noise distribution.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../_images/lp_cost.png"><img alt="../_images/lp_cost.png" src="../_images/lp_cost.png" style="width: 90%;" /></a>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>See <a class="reference internal" href="../api/functionals/pycsou.func.loss.html#losses"><span class="std std-ref">Loss Functionals</span></a> for a rich collection of commonly used loss functionals provided by Pycsou.</p>
+</div>
+</div>
+<div class="section" id="choosing-the-penalty">
+<h3>Choosing the Penalty<a class="headerlink" href="#choosing-the-penalty" title="Permalink to this headline">¶</a></h3>
+<p>The penalty/regularisation functional is used to favour physically-admissible solutions with simple behaviours. It can be interpreted as implementing Occam’s razor principle:</p>
+<p>Occam’s razor principle is a philosophical principle also known as the <em>law of briefness</em> or in Latin <em>lex parsimoniae</em>. It was supposedly formulated by William of Ockham in the 14th century, who wrote in Latin <em>Entia non sunt multiplicanda praeter necessitatem</em>. In English, this translates to <em>More things should not be used than are necessary</em>.</p>
+<p>In essence, this principle states that when two equally good explanations for a given phenomenon are available, one should always favour the simplest, i.e. the one that introduces the least explanatory variables.
+What exactly is meant by “simple” solutions will depend on the specific application at hand.</p>
+<p>Common choices of regularisation strategies include: Tikhonov regularisation, TV regularisation, maximum entropy regularisation, etc…</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>See <a class="reference internal" href="../api/functionals/pycsou.func.penalty.html#penalties"><span class="std std-ref">Penalty Functionals</span></a> for a rich collection of commonly used penalty functionals provided by Pycsou.</p>
+</div>
+<p class="rubric">Footnotes</p>
+<dl class="footnote brackets">
+<dt class="label" id="f1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Infinite-dimensional signals may indeed have an infinite number of degrees of freedom, which cannot hope to estimate from a finite number of measurements only.</p>
+</dd>
+<dt class="label" id="f2"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>The last approximate equality results from the midpoint rule.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="features.html" class="btn btn-neutral float-right" title="Features" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="install.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,380 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Pycsou Documentation &mdash; pycsou 1.0.1.dev11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="general/install.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> pycsou
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1.dev11
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="general/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="general/theory.html">Background Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="general/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="general/examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">Pycsou API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/other.html">Pycsou Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">pycsou</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Pycsou Documentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pycsou-documentation">
+<h1>Pycsou Documentation<a class="headerlink" href="#pycsou-documentation" title="Permalink to this headline">¶</a></h1>
+<p><em>Pycsou</em> is a Python 3 package for solving linear inverse problems with state-of-the-art proximal algorithms. The software implements in a highly modular way the main building blocks -cost functionals, penalty terms and linear operators- of generic penalised convex optimisation problems.</p>
+<p>This Python library is inspired by the MATLAB <a class="reference external" href="https://github.com/Biomedical-Imaging-Group/GlobalBioIm">GlobalBioIm</a> project. The <code class="docutils literal notranslate"><span class="pre">LinearOperator</span></code> interface is based on <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/sparse.html">scipy.sparse</a>  and <a class="reference external" href="https://pylops.readthedocs.io/en/latest/index.html">Pylops</a>.</p>
+<div class="section" id="inverse-problems-in-a-nutshell">
+<h2>Inverse Problems in a Nutshell<a class="headerlink" href="#inverse-problems-in-a-nutshell" title="Permalink to this headline">¶</a></h2>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>See <a class="reference internal" href="general/theory.html#theory"><span class="std std-ref">Background Concepts</span></a> for a more in-depth discussion on the topic.</p>
+</div>
+<p>Most real-life approximation problems can be formulated as <em>linear inverse problems</em>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\text{Find  }\mathbf{\alpha}\in\mathbb{R}^N &amp;\text{ from noisy measurements } \mathbf{y}\sim \mathbf{Y}\\
+&amp;\text{ where } \mathbb{E}[\mathbf{Y}]=\mathbf{G}\mathbf{\alpha}\\
+&amp;\text{ and } \mathbf{G}:\mathbb{R}^N\to \mathbb{R}^L \text{ is a linear operator.}\end{split}\]</div>
+<p>Such problems are in general <strong>ill-posed</strong>, i.e. attempting to directly solve the linear system <span class="math notranslate nohighlight">\(\mathbf{y}=\mathbf{G}\alpha\)</span> may yield no solution, infinitely many solutions, or numerically unstable solutions. Therefore, linear inverse problems are commonly solved by means of a penalised optimisation problem, confronting the physical evidence to the analyst’s a priori beliefs about the solution (e.g. smoothness, sparsity) via a data-fidelity and regularisation term, respectively:</p>
+<div class="math notranslate nohighlight" id="equation-penalised-opt">
+<span class="eqno">(1)<a class="headerlink" href="#equation-penalised-opt" title="Permalink to this equation">¶</a></span>\[\min_{\mathbf{\alpha}\in\mathbb{R}^N} \,F(\mathbf{y}, \mathbf{G} \mathbf{\alpha})\quad+\quad \lambda\mathcal{R}(\mathbf{\alpha}).\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(F:\mathbb{R}^L\times \mathbb{R}^L\rightarrow \mathbb{R}_+\cup\{+\infty\}\)</span> is called a <strong>loss functional</strong>, measuring the discrepancy between the observed and predicted measurements <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{G}\mathbf{\alpha}\)</span> respectively.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathcal{R}:\mathbb{R}^N\to \mathbb{R}_+\cup\{+\infty\}\)</span> is a <strong>penalty functional</strong> favouring simple and well-behaved solutions (typically with a finite number of degrees of freedom).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\lambda&gt;0\)</span> is a <strong>penalty parameter</strong> which controls the amount of regularisation by putting the regularisation functional and the cost functional on a similar scale.</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In this package, we assume the loss and penalty functionals to be proper, convex and  lower semi-continuous.</p>
+</div>
+</div>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<p>Pycsou makes it very easy to construct and solve penalised optimisation problems à la <a class="reference internal" href="#equation-penalised-opt">(1)</a>:</p>
+<ol class="arabic simple">
+<li><p>It offers a rich collection of linear operators, loss functionals and penalty functionals commonly used in practice. <a class="footnote-reference brackets" href="#f1" id="id1">1</a></p></li>
+<li><p>It implements <em>arithmetic operations</em> <a class="footnote-reference brackets" href="#f2" id="id2">2</a> for linear operators, loss functionals and penalty functionals, hence allowing to <em>add</em>, <em>substract</em>, <em>scale</em>, <em>compose</em>, <em>exponentiate</em> or <em>stack</em> <a class="footnote-reference brackets" href="#f3" id="id3">3</a> those various objects with one another and hence quickly design <em>custom complex optimisation problems</em>.</p></li>
+<li><p>It implements a rich collection of <strong>state-of-the-art iterative proximal algorithms</strong>, <a class="footnote-reference brackets" href="#f4" id="id4">4</a>  including <strong>efficient primal-dual splitting methods</strong> which involve only gradient steps, proximal steps and simple linear evaluations.</p></li>
+<li><p>It supports <em>matrix-free linear operators</em>, <a class="footnote-reference brackets" href="#f5" id="id5">5</a> making it easy to work with large scale linear operators that <em>may not necessarily fit in memory</em>. Matrix-free linear operators can be implemented from scratch by subclassing the asbtract class <a class="reference internal" href="api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinearOperator</span></code></a>, or built <a class="footnote-reference brackets" href="#f6" id="id6">6</a> from <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/sparse.html#sparse-matrix-classes">Scipy sparse matrices</a>, <a class="reference external" href="https://docs.dask.org/en/latest/array.html">distributed Dask arrays</a> or <a class="reference external" href="https://pylops.readthedocs.io/en/latest/api/index.html#linear-operators">Pylops matrix-free operators</a> (which now support GPU computations).</p></li>
+<li><p>It implements <em>automatic differentiation/proximation rules</em> <a class="footnote-reference brackets" href="#f7" id="id7">7</a>, allowing to automatically compute the derivative/proximal operators of functionals constructed from arithmetic operations on common functionals shipped with Pycsou.</p></li>
+<li><p>It leverages powerful rule-of-thumbs for <strong>setting automatically</strong> the hyper-parameters of the provided proximal algorithms.</p></li>
+<li><p>Pycsou is designed to easily interface with the packages <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/sparse.html">scipy.sparse</a>  and <a class="reference external" href="https://pylops.readthedocs.io/en/latest/index.html">Pylops</a>. This allows to use the sparse linear algebra routines from <code class="docutils literal notranslate"><span class="pre">scipy.sparse</span></code> on Pycsou <a class="reference internal" href="api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinearOperator</span></code></a>, and  benefit from the <a class="reference external" href="https://pylops.readthedocs.io/en/latest/api/index.html">large catalogue</a> of linear operators and solvers from <code class="docutils literal notranslate"><span class="pre">Pylops</span></code>.</p></li>
+</ol>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="example-1">
+<h3>Example 1<a class="headerlink" href="#example-1" title="Permalink to this headline">¶</a></h3>
+<p>Consider the following optimisation problem:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\min_{\mathbf{x}\in\mathbb{R}_+^N}\frac{1}{2}\left\|\mathbf{y}-\mathbf{G}\mathbf{x}\right\|_2^2\quad+\quad\lambda_1 \|\mathbf{D}\mathbf{x}\|_1\quad+\quad\lambda_2 \|\mathbf{x}\|_1,\]</div>
+</div></blockquote>
+<p>with <span class="math notranslate nohighlight">\(\mathbf{D}\in\mathbb{R}^{N\times N}\)</span> the discrete derivative operator and <span class="math notranslate nohighlight">\(\mathbf{G}\in\mathbb{R}^{L\times N}, \, \mathbf{y}\in\mathbb{R}^L, \lambda_1,\lambda_2&gt;0.\)</span>
+This problem can be solved via the <a class="reference internal" href="api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.PrimalDualSplitting" title="pycsou.opt.proxalgs.PrimalDualSplitting"><code class="xref py py-class docutils literal notranslate"><span class="pre">PrimalDualSplitting</span></code></a> algorithm  with <span class="math notranslate nohighlight">\(\mathcal{F}(\mathbf{x})= \frac{1}{2}\left\|\mathbf{y}-\mathbf{G}\mathbf{x}\right\|_2^2\)</span>, <span class="math notranslate nohighlight">\(\mathcal{G}(\mathbf{x})=\lambda_2\|\mathbf{x}\|_1,\)</span>
+<span class="math notranslate nohighlight">\(\mathcal{H}(\mathbf{x})=\lambda \|\mathbf{x}\|_1\)</span> and <span class="math notranslate nohighlight">\(\mathbf{K}=\mathbf{D}\)</span>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.diff</span> <span class="kn">import</span> <span class="n">FirstDerivative</span>
+<span class="kn">from</span> <span class="nn">pycsou.func.loss</span> <span class="kn">import</span> <span class="n">SquaredL2Loss</span>
+<span class="kn">from</span> <span class="nn">pycsou.func.penalty</span> <span class="kn">import</span> <span class="n">L1Norm</span><span class="p">,</span> <span class="n">NonNegativeOrthant</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.sampling</span> <span class="kn">import</span> <span class="n">DownSampling</span>
+<span class="kn">from</span> <span class="nn">pycsou.opt.proxalgs</span> <span class="kn">import</span> <span class="n">PrimalDualSplitting</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">FirstDerivative</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;forward&#39;</span><span class="p">)</span>
+<span class="n">D</span><span class="o">.</span><span class="n">compute_lipschitz_cst</span><span class="p">(</span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">DownSampling</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">downsampling_factor</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">G</span><span class="o">.</span><span class="n">compute_lipschitz_cst</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">l22_loss</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">SquaredL2Loss</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">l22_loss</span> <span class="o">*</span> <span class="n">G</span>
+<span class="n">lambda_</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">lambda_</span> <span class="o">*</span> <span class="n">L1Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">D</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">G</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">L1Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">pds</span> <span class="o">=</span> <span class="n">PrimalDualSplitting</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">F</span><span class="o">=</span><span class="n">F</span><span class="p">,</span> <span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span> <span class="n">H</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="n">D</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">estimate</span><span class="p">,</span> <span class="n">converged</span><span class="p">,</span> <span class="n">diagnostics</span> <span class="o">=</span> <span class="n">pds</span><span class="o">.</span><span class="n">iterate</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">linefmt</span><span class="o">=</span><span class="s1">&#39;C0-&#39;</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="s1">&#39;C0o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">estimate</span><span class="p">[</span><span class="s1">&#39;primal_variable&#39;</span><span class="p">],</span> <span class="n">linefmt</span><span class="o">=</span><span class="s1">&#39;C1--&#39;</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="s1">&#39;C1s&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Ground truth&#39;</span><span class="p">,</span> <span class="s1">&#39;PDS Estimate&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href=".//index-1.py">Source code</a>, <a class="reference external" href=".//index-1.png">png</a>, <a class="reference external" href=".//index-1.hires.png">hires.png</a>, <a class="reference external" href=".//index-1.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="_images/index-1.png" src="_images/index-1.png" />
+</div>
+</div>
+<div class="section" id="example-2">
+<h3>Example 2<a class="headerlink" href="#example-2" title="Permalink to this headline">¶</a></h3>
+<p>Consider the <em>LASSO problem</em>:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\min_{\mathbf{x}\in\mathbb{R}^N}\frac{1}{2}\left\|\mathbf{y}-\mathbf{G}\mathbf{x}\right\|_2^2\quad+\quad\lambda \|\mathbf{x}\|_1,\]</div>
+</div></blockquote>
+<p>with <span class="math notranslate nohighlight">\(\mathbf{G}\in\mathbb{R}^{L\times N}, \, \mathbf{y}\in\mathbb{R}^L, \lambda&gt;0.\)</span> This problem can be solved via <a class="reference internal" href="api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.APGD" title="pycsou.opt.proxalgs.APGD"><code class="xref py py-class docutils literal notranslate"><span class="pre">APGD</span></code></a> with <span class="math notranslate nohighlight">\(\mathcal{F}(\mathbf{x})= \frac{1}{2}\left\|\mathbf{y}-\mathbf{G}\mathbf{x}\right\|_2^2\)</span> and <span class="math notranslate nohighlight">\(\mathcal{G}(\mathbf{x})=\lambda \|\mathbf{x}\|_1\)</span>. We have:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\mathbf{\nabla}\mathcal{F}(\mathbf{x})=\mathbf{G}^T(\mathbf{G}\mathbf{x}-\mathbf{y}), \qquad  \text{prox}_{\lambda\|\cdot\|_1}(\mathbf{x})=\text{soft}_\lambda(\mathbf{x}).\]</div>
+</div></blockquote>
+<p>This yields the so-called <em>Fast Iterative Soft Thresholding Algorithm (FISTA)</em>, whose convergence is guaranteed for <span class="math notranslate nohighlight">\(d&gt;2\)</span> and <span class="math notranslate nohighlight">\(0&lt;\tau\leq \beta^{-1}=\|\mathbf{G}\|_2^{-2}\)</span>.</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pycsou.func.loss</span> <span class="kn">import</span> <span class="n">SquaredL2Loss</span>
+<span class="kn">from</span> <span class="nn">pycsou.func.penalty</span> <span class="kn">import</span> <span class="n">L1Norm</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">DenseLinearOperator</span>
+<span class="kn">from</span> <span class="nn">pycsou.opt.proxalgs</span> <span class="kn">import</span> <span class="n">APGD</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">DenseLinearOperator</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">G</span><span class="o">.</span><span class="n">compute_lipschitz_cst</span><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">l22_loss</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">SquaredL2Loss</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">l22_loss</span> <span class="o">*</span> <span class="n">G</span>
+<span class="n">lambda_</span> <span class="o">=</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="n">x</span><span class="p">)))</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">lambda_</span> <span class="o">*</span> <span class="n">L1Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">apgd</span> <span class="o">=</span> <span class="n">APGD</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">F</span><span class="o">=</span><span class="n">F</span><span class="p">,</span> <span class="n">G</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">acceleration</span><span class="o">=</span><span class="s1">&#39;CD&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">estimate</span><span class="p">,</span> <span class="n">converged</span><span class="p">,</span> <span class="n">diagnostics</span> <span class="o">=</span> <span class="n">apgd</span><span class="o">.</span><span class="n">iterate</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">linefmt</span><span class="o">=</span><span class="s1">&#39;C0-&#39;</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="s1">&#39;C0o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">estimate</span><span class="p">[</span><span class="s1">&#39;iterand&#39;</span><span class="p">],</span> <span class="n">linefmt</span><span class="o">=</span><span class="s1">&#39;C1--&#39;</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="s1">&#39;C1s&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Ground truth&#39;</span><span class="p">,</span> <span class="s1">&#39;LASSO Estimate&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href=".//index-2.py">Source code</a>, <a class="reference external" href=".//index-2.png">png</a>, <a class="reference external" href=".//index-2.hires.png">hires.png</a>, <a class="reference external" href=".//index-2.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="_images/index-2.png" src="_images/index-2.png" />
+</div>
+</div></blockquote>
+<p class="rubric">Footnotes</p>
+<dl class="footnote brackets">
+<dt class="label" id="f1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>See <a class="reference internal" href="api/operators/index.html#operators"><span class="std std-ref">Linear Operators</span></a>, <a class="reference internal" href="api/functionals/pycsou.func.loss.html#losses"><span class="std std-ref">Loss Functionals</span></a> and <a class="reference internal" href="api/functionals/pycsou.func.penalty.html#penalties"><span class="std std-ref">Penalty Functionals</span></a> respectively.</p>
+</dd>
+<dt class="label" id="f2"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>See for example the arithmetic methods from the abstract classes <a class="reference internal" href="api/classes/pycsou.core.map.html#pycsou.core.map.Map" title="pycsou.core.map.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">Map</span></code></a>, <a class="reference internal" href="api/classes/pycsou.core.map.html#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">DifferentiableMap</span></code></a>, <a class="reference internal" href="api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinearOperator</span></code></a>, <a class="reference internal" href="api/classes/pycsou.core.functional.html#pycsou.core.functional.Functional" title="pycsou.core.functional.Functional"><code class="xref py py-class docutils literal notranslate"><span class="pre">Functional</span></code></a>, <a class="reference internal" href="api/classes/pycsou.core.functional.html#pycsou.core.functional.DifferentiableFunctional" title="pycsou.core.functional.DifferentiableFunctional"><code class="xref py py-class docutils literal notranslate"><span class="pre">DifferentiableFunctional</span></code></a> and <a class="reference internal" href="api/classes/pycsou.core.functional.html#pycsou.core.functional.ProximableFunctional" title="pycsou.core.functional.ProximableFunctional"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProximableFunctional</span></code></a>.</p>
+</dd>
+<dt class="label" id="f3"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p>See <a class="reference internal" href="api/classes/pycsou.core.map.html#pycsou.core.map.MapStack" title="pycsou.core.map.MapStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">MapStack</span></code></a>, <a class="reference internal" href="api/classes/pycsou.core.map.html#pycsou.core.map.DiffMapStack" title="pycsou.core.map.DiffMapStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffMapStack</span></code></a>, <a class="reference internal" href="api/operators/pycsou.linop.base.html#pycsou.linop.base.LinOpStack" title="pycsou.linop.base.LinOpStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinOpStack</span></code></a>,  or <a class="reference internal" href="api/functionals/pycsou.func.base.html#pycsou.func.base.ProxFuncHStack" title="pycsou.func.base.ProxFuncHStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProxFuncHStack</span></code></a>.</p>
+</dd>
+<dt class="label" id="f4"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
+<dd><p>See  <a class="reference internal" href="api/algorithms/pycsou.opt.proxalgs.html#proxalgs"><span class="std std-ref">Proximal Algorithms</span></a>.</p>
+</dd>
+<dt class="label" id="f5"><span class="brackets"><a class="fn-backref" href="#id5">5</a></span></dt>
+<dd><p>See  <code class="xref py py-class docutils literal notranslate"><span class="pre">LinearOperator</span></code>.</p>
+</dd>
+<dt class="label" id="f6"><span class="brackets"><a class="fn-backref" href="#id6">6</a></span></dt>
+<dd><p>See  <code class="xref py py-class docutils literal notranslate"><span class="pre">SparseLinearOperator</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DaskLinearOperator</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">PyLopLinearOperator</span></code>.</p>
+</dd>
+<dt class="label" id="f7"><span class="brackets"><a class="fn-backref" href="#id7">7</a></span></dt>
+<dd><p>See <a class="reference internal" href="api/classes/pycsou.core.map.html#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">DifferentiableMap</span></code></a> and <a class="reference internal" href="api/classes/pycsou.core.functional.html#pycsou.core.functional.ProximableFunctional" title="pycsou.core.functional.ProximableFunctional"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProximableFunctional</span></code></a> for more on the topic.</p>
+</dd>
+</dl>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="general/install.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

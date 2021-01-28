@@ -1,0 +1,741 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Multidimensional Maps &mdash; pycsou 0.0.1.dev38 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Linear Operators" href="pycsou.core.linop.html" />
+    <link rel="prev" title="Abstract Classes" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> pycsou
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1.dev38
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../general/index.html">General</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Abstract Classes</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Multidimensional Maps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycsou.core.linop.html">Linear Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycsou.core.functional.html">Functionals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycsou.core.solver.html">Algorithms</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../operators/index.html">Linear Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../functionals/index.html">Cost Functionals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/index.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../math/index.html">Mathematical Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pycsou</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Abstract Classes</a> &raquo;</li>
+        
+      <li>Multidimensional Maps</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/classes/pycsou.core.map.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="multidimensional-maps">
+<h1>Multidimensional Maps<a class="headerlink" href="#multidimensional-maps" title="Permalink to this headline">¶</a></h1>
+<p>Abstract classes for multidimensional (potentially nonlinear) maps.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.core.map.Map" title="pycsou.core.map.Map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Map</span></code></a>(shape[, is_linear, is_differentiable])</p></td>
+<td><p>Base class for multidimensional maps.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DifferentiableMap</span></code></a>(shape[, is_linear, …])</p></td>
+<td><p>Base class for multidimensional differentiable maps.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.core.map.MapStack" title="pycsou.core.map.MapStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MapStack</span></code></a>(*maps, axis)</p></td>
+<td><p>Stack maps together.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.core.map.DiffMapStack" title="pycsou.core.map.DiffMapStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DiffMapStack</span></code></a>(*diffmaps, axis)</p></td>
+<td><p>Stack differentiable maps together.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="pycsou.core.map.Map">
+<em class="property">class </em><code class="sig-name descname">Map</code><span class="sig-paren">(</span><em class="sig-param">shape: Tuple[int, int], is_linear: bool = False, is_differentiable: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/core/map.html#Map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.Map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></a></p>
+<p>Base class for multidimensional maps.</p>
+<p>Any instance/subclass of this class must at least implement the abstract method <code class="docutils literal notranslate"><span class="pre">__call__</span></code>.
+This class supports the following arithmetic operators <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">&#64;</span></code>, <code class="docutils literal notranslate"><span class="pre">**</span></code> and <code class="docutils literal notranslate"><span class="pre">/</span></code>, implemented with the
+class methods <code class="docutils literal notranslate"><span class="pre">__add__</span></code>/<code class="docutils literal notranslate"><span class="pre">__radd__</span></code>, <code class="docutils literal notranslate"><span class="pre">__sub__</span></code>/<code class="docutils literal notranslate"><span class="pre">__neg__</span></code>, <code class="docutils literal notranslate"><span class="pre">__mul__</span></code>/<code class="docutils literal notranslate"><span class="pre">__rmul__</span></code>, <code class="docutils literal notranslate"><span class="pre">__matmul__</span></code>, <code class="docutils literal notranslate"><span class="pre">__pow__</span></code>, <code class="docutils literal notranslate"><span class="pre">__truediv__</span></code>.
+Such arithmetic operators can be used to <em>add</em>, <em>substract</em>, <em>scale</em>, <em>compose</em>, <em>exponentiate</em> or <em>evaluate</em> <code class="docutils literal notranslate"><span class="pre">Map</span></code> instances.</p>
+<p class="rubric">Examples</p>
+<p>Consider four maps: two nonlinear functionals <span class="math notranslate nohighlight">\(f_1:\mathbb{R}^{10}\to \mathbb{R}\)</span>, <span class="math notranslate nohighlight">\(f_2:\mathbb{R}^{10}\to \mathbb{R}\)</span>
+and two linear operators <span class="math notranslate nohighlight">\(L_1:\mathbb{R}^{10}\to \mathbb{R}^{10}\)</span>, <span class="math notranslate nohighlight">\(L_2:\mathbb{R}^{10}\to \mathbb{R}^{10}\)</span>.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">f2</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">L1</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">L2</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="go">(1, 10) (1, 10) (10, 10) (10, 10)</span>
+</pre></div>
+</div>
+<p>We can combine linearly/compose the maps with consistent domains/ranges:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f3</span> <span class="o">=</span> <span class="n">f1</span> <span class="o">/</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">f3</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">f1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">L3</span> <span class="o">=</span> <span class="n">L1</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">-</span> <span class="p">(</span><span class="n">L2</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">L3</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">L1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">-</span> <span class="p">(</span><span class="n">L2</span><span class="p">(</span><span class="n">L2</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f4</span> <span class="o">=</span> <span class="n">f3</span> <span class="o">*</span> <span class="n">L3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">f4</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">f3</span><span class="p">(</span><span class="n">L3</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Note that multiplying a map with an array is the same as evaluating the map at the array.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">f3</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">f3</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>The multiplication operator <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> can also be used in place of <code class="docutils literal notranslate"><span class="pre">*</span></code>, in compliance with Numpy’s interface:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">f3</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">f3</span> <span class="o">@</span> <span class="n">x</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">((</span><span class="n">f1</span> <span class="o">*</span> <span class="n">L1</span><span class="p">)(</span><span class="n">x</span><span class="p">),</span> <span class="p">(</span><span class="n">f1</span> <span class="o">@</span> <span class="n">L1</span><span class="p">)(</span><span class="n">x</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Finally, maps can be shifted via the method <code class="docutils literal notranslate"><span class="pre">shifter</span></code>:</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f5</span><span class="o">=</span><span class="n">f4</span><span class="o">.</span><span class="n">shifter</span><span class="p">(</span><span class="n">shift</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">f5</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">f4</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="pycsou.core.map.Map.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">shape: Tuple[int, int], is_linear: bool = False, is_differentiable: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/core/map.html#Map.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.Map.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Shape of the map.</p></li>
+<li><p><strong>is_linear</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the map is linear or not.</p></li>
+<li><p><strong>is_differentiable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the map is differentiable or not.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.map.Map.__call__">
+<em class="property">abstract </em><code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param">arg: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; Union[numbers.Number, numpy.ndarray]<a class="reference internal" href="../_modules/pycsou/core/map.html#Map.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.Map.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call self as a function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>arg</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Argument of the map.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Value of <code class="docutils literal notranslate"><span class="pre">arg</span></code> through the map.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[Number, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.map.Map.shifter">
+<code class="sig-name descname">shifter</code><span class="sig-paren">(</span><em class="sig-param">shift: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; pycsou.core.map.MapShifted<a class="reference internal" href="../_modules/pycsou/core/map.html#Map.shifter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.Map.shifter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a shifted version of the map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>shift</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Shift vector.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Shifted map.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">MapShifted</span></code></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Let <code class="docutils literal notranslate"><span class="pre">A</span></code> be a <code class="docutils literal notranslate"><span class="pre">Map</span></code> instance  and <code class="docutils literal notranslate"><span class="pre">B=A.shifter(y)</span></code> with <code class="docutils literal notranslate"><span class="pre">y</span></code> some vector in the domain of <code class="docutils literal notranslate"><span class="pre">A</span></code>. Then we have:
+<code class="docutils literal notranslate"><span class="pre">B(x)=A(x+y)</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.map.Map.__add__">
+<code class="sig-name descname">__add__</code><span class="sig-paren">(</span><em class="sig-param">other: pycsou.core.map.Map</em><span class="sig-paren">)</span> &#x2192; pycsou.core.map.MapSum<a class="reference internal" href="../_modules/pycsou/core/map.html#Map.__add__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.Map.__add__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a map with another map instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>Union</em><em>[</em><em>'Map'</em><em>, </em><em>np.ndarray</em><em>]</em>) – The other map or array to be added.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Sum of the map with another map.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">MapSum</span></code></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.9)"><strong>NotImplementedError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">other</span></code> is not a map.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.map.Map.__mul__">
+<code class="sig-name descname">__mul__</code><span class="sig-paren">(</span><em class="sig-param">other: Union[numbers.Number, Map, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; Union[pycsou.core.map.MapComp, numpy.ndarray]<a class="reference internal" href="../_modules/pycsou/core/map.html#Map.__mul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.Map.__mul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiply a map with another map, a scalar, or an array.</p>
+<p>The behaviour of this method depends on the type of <code class="docutils literal notranslate"><span class="pre">other</span></code>:</p>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">other</span></code> is another map, then it returns the composition of the map with <code class="docutils literal notranslate"><span class="pre">other</span></code>.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">other</span></code> is an array with compatible shape, then it calls the map on <code class="docutils literal notranslate"><span class="pre">other</span></code>.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">other</span></code> is a scalar, then it multiplies the map with this scalar.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>'Map'</em><em>, </em><em>np.ndarray</em><em>]</em>) – Scalar, map or array with which to multiply.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Composition of the map with another map, or product with a scalar or array.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">MapComp</span></code>, np.ndarray</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.9)"><strong>NotImplementedError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">other</span></code> is not a scalar, a map or an array.</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#pycsou.core.map.Map.__matmul__" title="pycsou.core.map.Map.__matmul__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__matmul__()</span></code></a>, <code class="xref py py-func docutils literal notranslate"><span class="pre">__rmul__()</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.map.Map.__matmul__">
+<code class="sig-name descname">__matmul__</code><span class="sig-paren">(</span><em class="sig-param">other: pycsou.core.map.Map</em><span class="sig-paren">)</span> &#x2192; pycsou.core.map.MapComp<a class="reference internal" href="../_modules/pycsou/core/map.html#Map.__matmul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.Map.__matmul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for <a class="reference internal" href="#pycsou.core.map.Map.__mul__" title="pycsou.core.map.Map.__mul__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__mul__()</span></code></a> offered to comply with Numpy’s interface.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.map.Map.__neg__">
+<code class="sig-name descname">__neg__</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pycsou.core.map.MapComp<a class="reference internal" href="../_modules/pycsou/core/map.html#Map.__neg__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.Map.__neg__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Negates a map. Alias for <code class="docutils literal notranslate"><span class="pre">self.__mul__(-1)</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.map.Map.__sub__">
+<code class="sig-name descname">__sub__</code><span class="sig-paren">(</span><em class="sig-param">other: Union[Map, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; Union[MapSum, MapBias]<a class="reference internal" href="../_modules/pycsou/core/map.html#Map.__sub__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.Map.__sub__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Substracts a map, scalar, or array to another map. Alias for <code class="docutils literal notranslate"><span class="pre">self.__add__(other.__neg__())</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.map.Map.__pow__">
+<code class="sig-name descname">__pow__</code><span class="sig-paren">(</span><em class="sig-param">power: int</em><span class="sig-paren">)</span> &#x2192; pycsou.core.map.MapComp<a class="reference internal" href="../_modules/pycsou/core/map.html#Map.__pow__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.Map.__pow__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raise a map to a certain <code class="docutils literal notranslate"><span class="pre">power</span></code>. Alias for <code class="docutils literal notranslate"><span class="pre">A*A*...*A</span></code> with <code class="docutils literal notranslate"><span class="pre">power</span></code> multiplications.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.map.Map.__truediv__">
+<code class="sig-name descname">__truediv__</code><span class="sig-paren">(</span><em class="sig-param">scalar: numbers.Number</em><span class="sig-paren">)</span> &#x2192; pycsou.core.map.MapComp<a class="reference internal" href="../_modules/pycsou/core/map.html#Map.__truediv__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.Map.__truediv__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Divides a map by a <code class="docutils literal notranslate"><span class="pre">scalar</span></code>. Alias for <code class="docutils literal notranslate"><span class="pre">self.__mul__(1</span> <span class="pre">/</span> <span class="pre">scalar)</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.map.DifferentiableMap">
+<em class="property">class </em><code class="sig-name descname">DifferentiableMap</code><span class="sig-paren">(</span><em class="sig-param">shape: Tuple[int, int], is_linear: bool = False, lipschitz_cst: float = inf, diff_lipschitz_cst: float = inf</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/core/map.html#DifferentiableMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DifferentiableMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.map.Map" title="pycsou.core.map.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.map.Map</span></code></a></p>
+<p>Base class for multidimensional differentiable maps.</p>
+<p>Any instance/subclass of this class must at least implement the abstract methods <code class="docutils literal notranslate"><span class="pre">__call__</span></code> and <code class="docutils literal notranslate"><span class="pre">jacobianT</span></code>.
+The attributes <code class="docutils literal notranslate"><span class="pre">lipschitz_cst</span></code>, <code class="docutils literal notranslate"><span class="pre">diff_lipschitz_cst</span></code> and the method <code class="docutils literal notranslate"><span class="pre">jacobianT</span></code> are automatically updated
+using standard differentiation rules when scaling, composing , summing or shifting differentiable maps.</p>
+<p class="rubric">Examples</p>
+<p>Consider three differentiable maps: a nonlinear differentiable functional <span class="math notranslate nohighlight">\(f:\mathbb{R}^{10}\to \mathbb{R}\)</span>,
+and two linear operators <span class="math notranslate nohighlight">\(L_1:\mathbb{R}^{10}\to \mathbb{R}^{10}\)</span>, <span class="math notranslate nohighlight">\(L_2:\mathbb{R}^{10}\to \mathbb{R}^{10}\)</span>.</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">lipschitz_cst</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span><span class="p">)</span>
+<span class="go">inf 2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">L1</span><span class="o">.</span><span class="n">lipschitz_cst</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">L1</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">1.0 1.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">L2</span><span class="o">.</span><span class="n">lipschitz_cst</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">L2</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">0.9 0.9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">L3</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">L1</span> <span class="o">+</span> <span class="p">(</span><span class="n">L2</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">L3</span><span class="o">.</span><span class="n">lipschitz_cst</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">L1</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">+</span> <span class="p">(</span><span class="n">L2</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">map_</span> <span class="o">=</span> <span class="n">f</span> <span class="o">*</span> <span class="n">L1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">map_</span><span class="o">.</span><span class="n">lipschitz_cst</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">*</span> <span class="n">L1</span><span class="o">.</span><span class="n">lipschitz_cst</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">map_</span><span class="o">.</span><span class="n">jacobianT</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">L1</span><span class="o">.</span><span class="n">jacobianT</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">f</span><span class="o">.</span><span class="n">jacobianT</span><span class="p">(</span><span class="n">L1</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>This class supports the following arithmetic operators <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">&#64;</span></code>, <code class="docutils literal notranslate"><span class="pre">**</span></code> and <code class="docutils literal notranslate"><span class="pre">/</span></code>, implemented with the
+class methods <code class="docutils literal notranslate"><span class="pre">__add__</span></code>/<code class="docutils literal notranslate"><span class="pre">__radd__</span></code>, <code class="docutils literal notranslate"><span class="pre">__sub__</span></code>/<code class="docutils literal notranslate"><span class="pre">__neg__</span></code>, <code class="docutils literal notranslate"><span class="pre">__mul__</span></code>/<code class="docutils literal notranslate"><span class="pre">__rmul__</span></code>, <code class="docutils literal notranslate"><span class="pre">__matmul__</span></code>, <code class="docutils literal notranslate"><span class="pre">__pow__</span></code>, <code class="docutils literal notranslate"><span class="pre">__truediv__</span></code>.
+Such arithmetic operators can be used to <em>add</em>, <em>substract</em>, <em>scale</em>, <em>compose</em>, <em>exponentiate</em> or <em>evaluate</em> <code class="docutils literal notranslate"><span class="pre">DifferentiableMap</span></code> instances.</p>
+<dl class="method">
+<dt id="pycsou.core.map.DifferentiableMap.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">shape: Tuple[int, int], is_linear: bool = False, lipschitz_cst: float = inf, diff_lipschitz_cst: float = inf</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/core/map.html#DifferentiableMap.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DifferentiableMap.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Shape of the differentiable map.</p></li>
+<li><p><strong>is_linear</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the differentiable map is linear or not.</p></li>
+<li><p><strong>lipschitz_cst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Lispchitz constant of the differentiable map if it exists/is known. Default to <span class="math notranslate nohighlight">\(+\infty\)</span>.</p></li>
+<li><p><strong>diff_lipschitz_cst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Lispchitz constant of the derivative of the differentiable map if it exists/is known. Default to <span class="math notranslate nohighlight">\(+\infty\)</span>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.map.DifferentiableMap.jacobianT">
+<em class="property">abstract </em><code class="sig-name descname">jacobianT</code><span class="sig-paren">(</span><em class="sig-param">arg: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; LinearOperator<a class="reference internal" href="../_modules/pycsou/core/map.html#DifferentiableMap.jacobianT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DifferentiableMap.jacobianT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transpose of the Jacobian matrix of the differentiable map evaluated at <code class="docutils literal notranslate"><span class="pre">arg</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>arg</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Point at which the transposed Jacobian matrix is evaluated.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Linear operator associated to the transposed Jacobian matrix.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinearOperator</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.map.DifferentiableMap.gradient">
+<code class="sig-name descname">gradient</code><span class="sig-paren">(</span><em class="sig-param">arg: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; LinearOperator<a class="reference internal" href="../_modules/pycsou/core/map.html#DifferentiableMap.gradient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DifferentiableMap.gradient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for <code class="docutils literal notranslate"><span class="pre">self.jacobianT</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.map.DifferentiableMap.compute_lipschitz_cst">
+<code class="sig-name descname">compute_lipschitz_cst</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/core/map.html#DifferentiableMap.compute_lipschitz_cst"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DifferentiableMap.compute_lipschitz_cst" title="Permalink to this definition">¶</a></dt>
+<dd><p>User-implemented method to compute the Lipschitz constant of the map.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.map.DifferentiableMap.compute_diff_lipschitz_cst">
+<code class="sig-name descname">compute_diff_lipschitz_cst</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/core/map.html#DifferentiableMap.compute_diff_lipschitz_cst"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DifferentiableMap.compute_diff_lipschitz_cst" title="Permalink to this definition">¶</a></dt>
+<dd><p>User-implemented method to compute the Lipschitz constant of the derivative of the map.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.map.DifferentiableMap.shifter">
+<code class="sig-name descname">shifter</code><span class="sig-paren">(</span><em class="sig-param">shift: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; pycsou.core.map.DiffMapShifted<a class="reference internal" href="../_modules/pycsou/core/map.html#DifferentiableMap.shifter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DifferentiableMap.shifter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a shifted version of the map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>shift</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Shift vector.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Shifted map.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffMapShifted</span></code></p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#pycsou.core.map.Map.shifter" title="pycsou.core.map.Map.shifter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">shifter()</span></code></a></p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.map.MapStack">
+<em class="property">class </em><code class="sig-name descname">MapStack</code><span class="sig-paren">(</span><em class="sig-param">*maps</em>, <em class="sig-param">axis: int</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/core/map.html#MapStack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.MapStack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.map.Map" title="pycsou.core.map.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.map.Map</span></code></a></p>
+<p>Stack maps together.</p>
+<p>This class constructs a map by stacking multiple maps together, either <strong>vertically</strong> (<code class="docutils literal notranslate"><span class="pre">axis=0</span></code>) or <strong>horizontally</strong> (<code class="docutils literal notranslate"><span class="pre">axis=1</span></code>):</p>
+<ul>
+<li><p><strong>Vertical stacking</strong>: Consider a collection <span class="math notranslate nohighlight">\(\{L_i:\mathbb{R}^{N}\to \mathbb{R}^{M_i}, i=1,\ldots, k\}\)</span>
+of maps. Their vertical stacking is defined as the operator</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}V:\begin{cases}\mathbb{R}^{N}\to \mathbb{R}^{M_1}\times \cdots \times\mathbb{R}^{M_k}\\
+\mathbf{x}\mapsto (L_1\mathbf{x},\ldots, L_k\mathbf{x}).
+\end{cases}\end{split}\]</div>
+</li>
+<li><p><strong>Horizontal stacking</strong>: Consider a collection <span class="math notranslate nohighlight">\(\{L_i:\mathbb{R}^{N_i}\to \mathbb{R}^{M}, i=1,\ldots, k\}\)</span>
+of maps. Their horizontal stacking is defined as the operator</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}H:\begin{cases}\mathbb{R}^{N_1}\times \cdots \times\mathbb{R}^{N_k}\to \mathbb{R}^{M}\\
+(\mathbf{x}_1,\ldots, \mathbf{x}_k)\mapsto \sum_{i=1}^k L_i \mathbf{x}_i.
+\end{cases}\end{split}\]</div>
+</li>
+</ul>
+<p class="rubric">Examples</p>
+<p>Consider three maps <span class="math notranslate nohighlight">\(K_1:\mathbb{R}^{10}\to \mathbb{R}\)</span>, <span class="math notranslate nohighlight">\(K_2:\mathbb{R}^{20}\to \mathbb{R}\)</span> and
+<span class="math notranslate nohighlight">\(K_3:\mathbb{R}^{10}\to \mathbb{R}^{10}\)</span></p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">V</span> <span class="o">=</span> <span class="n">MapStack</span><span class="p">(</span><span class="n">K1</span><span class="p">,</span> <span class="n">K3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">V</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(11, 10)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">K1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">K3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">())))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">H</span> <span class="o">=</span> <span class="n">MapStack</span><span class="p">(</span><span class="n">K1</span><span class="p">,</span><span class="n">K2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">H</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(1, 30)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">H</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">))),</span> <span class="n">K1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">K2</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#pycsou.core.map.MapVStack" title="pycsou.core.map.MapVStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">MapVStack</span></code></a>, <a class="reference internal" href="#pycsou.core.map.MapHStack" title="pycsou.core.map.MapHStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">MapHStack</span></code></a>, <a class="reference internal" href="#pycsou.core.map.DiffMapStack" title="pycsou.core.map.DiffMapStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffMapStack</span></code></a></p>
+</div>
+<dl class="method">
+<dt id="pycsou.core.map.MapStack.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*maps</em>, <em class="sig-param">axis: int</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/core/map.html#MapStack.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.MapStack.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>maps</strong> (<a class="reference internal" href="#pycsou.core.map.Map" title="pycsou.core.map.Map"><em>Map</em></a>) – List of maps to stack.</p></li>
+<li><p><strong>axis</strong> – Stacking direction: 0 for vertical and 1 for horizontal stacking.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.map.MapVStack">
+<em class="property">class </em><code class="sig-name descname">MapVStack</code><span class="sig-paren">(</span><em class="sig-param">*maps</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/core/map.html#MapVStack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.MapVStack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.map.MapStack" title="pycsou.core.map.MapStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.map.MapStack</span></code></a></p>
+<p>Alias for vertical stacking, equivalent to <code class="docutils literal notranslate"><span class="pre">MapStack(*maps,</span> <span class="pre">axis=0)</span></code>.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">V1</span> <span class="o">=</span> <span class="n">MapStack</span><span class="p">(</span><span class="n">K1</span><span class="p">,</span> <span class="n">K3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">V2</span> <span class="o">=</span> <span class="n">MapVStack</span><span class="p">(</span><span class="n">K1</span><span class="p">,</span> <span class="n">K3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">V1</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">V2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="pycsou.core.map.MapVStack.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*maps</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/core/map.html#MapVStack.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.MapVStack.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>maps</strong> (<a class="reference internal" href="#pycsou.core.map.Map" title="pycsou.core.map.Map"><em>Map</em></a>) – List of maps to stack.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.map.MapHStack">
+<em class="property">class </em><code class="sig-name descname">MapHStack</code><span class="sig-paren">(</span><em class="sig-param">*maps</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/core/map.html#MapHStack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.MapHStack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.map.MapStack" title="pycsou.core.map.MapStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.map.MapStack</span></code></a></p>
+<p>Alias for horizontal stacking, equivalent to <code class="docutils literal notranslate"><span class="pre">MapStack(*maps,</span> <span class="pre">axis=1)</span></code>.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">V1</span> <span class="o">=</span> <span class="n">MapStack</span><span class="p">(</span><span class="n">K1</span><span class="p">,</span> <span class="n">K2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">V2</span> <span class="o">=</span> <span class="n">MapHStack</span><span class="p">(</span><span class="n">K1</span><span class="p">,</span> <span class="n">K2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">V1</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">V1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span> <span class="n">V2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">V1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="pycsou.core.map.MapHStack.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*maps</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/core/map.html#MapHStack.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.MapHStack.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>maps</strong> (<a class="reference internal" href="#pycsou.core.map.Map" title="pycsou.core.map.Map"><em>Map</em></a>) – List of maps to stack.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.map.DiffMapStack">
+<em class="property">class </em><code class="sig-name descname">DiffMapStack</code><span class="sig-paren">(</span><em class="sig-param">*diffmaps</em>, <em class="sig-param">axis: int</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/core/map.html#DiffMapStack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DiffMapStack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.map.MapStack" title="pycsou.core.map.MapStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.map.MapStack</span></code></a>, <a class="reference internal" href="#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.map.DifferentiableMap</span></code></a></p>
+<p>Stack differentiable maps together.</p>
+<p>This class constructs a differentiable map by stacking multiple maps together, either <strong>vertically</strong> (<code class="docutils literal notranslate"><span class="pre">axis=0</span></code>) or <strong>horizontally</strong> (<code class="docutils literal notranslate"><span class="pre">axis=1</span></code>).
+The attributes <code class="docutils literal notranslate"><span class="pre">lipschitz_cst</span></code>, <code class="docutils literal notranslate"><span class="pre">diff_lipschitz_cst</span></code> and the method <code class="docutils literal notranslate"><span class="pre">jacobianT</span></code> are inferred from those of
+the stacked maps.</p>
+<ul>
+<li><p><strong>Vertical stacking</strong>: Consider a collection <span class="math notranslate nohighlight">\(\{L_i:\mathbb{R}^{N}\to \mathbb{R}^{M_i}, i=1,\ldots, k\}\)</span>
+of maps, with Lipschitz constants <span class="math notranslate nohighlight">\(\{\beta_i\in\mathbb{R}_+\cup\{+\infty\}, i=1,\ldots, k\}\)</span>, Jacobian matrices
+<span class="math notranslate nohighlight">\(\{\mathbf{J}_i(\mathbf{x})\in\mathbb{R}^{M_i\times N},  i=1,\ldots, k\}\)</span> for some <span class="math notranslate nohighlight">\(\mathbf{x}\in\mathbb{R}^N\)</span>.
+Then the vertically stacked operator</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}V:\begin{cases}\mathbb{R}^{N}\to \mathbb{R}^{M_1}\times \cdots \times\mathbb{R}^{M_k}\\
+\mathbf{x}\mapsto (L_1\mathbf{x},\ldots, L_k\mathbf{x}).
+\end{cases}\end{split}\]</div>
+<p>has a Lipschitz constant bounded by <span class="math notranslate nohighlight">\(\sqrt{\sum_{i=1}^k \beta_i^2}\)</span>. Moreover the Jacobian matrix of <span class="math notranslate nohighlight">\(V\)</span> is obtained by stacking the individual Jacobian matrices vertically:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathbf{J}(\mathbf{x})=\left[\begin{array}{c}\mathbf{J}_1(\mathbf{x})\\\vdots\\ \mathbf{J}_k(\mathbf{x}) \end{array}\right]\in\mathbb{R}^{(\sum_{i=1}^k M_i)\times N}.\end{split}\]</div>
+</li>
+<li><p><strong>Horizontal stacking</strong>: Consider a collection <span class="math notranslate nohighlight">\(\{L_i:\mathbb{R}^{N_i}\to \mathbb{R}^{M}, i=1,\ldots, k\}\)</span>
+of maps, with Lipschitz constants <span class="math notranslate nohighlight">\(\{\beta_i\in\mathbb{R}_+\cup\{+\infty\}, i=1,\ldots, k\}\)</span>, Jacobian matrices
+<span class="math notranslate nohighlight">\(\{\mathbf{J}_i(\mathbf{x}_i)\in\mathbb{R}^{M\times N_i},  i=1,\ldots, k\}\)</span> for some <span class="math notranslate nohighlight">\(\mathbf{x}_i\in\mathbb{R}^{N_i}\)</span>.
+Then the horizontally stacked operator</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}H:\begin{cases}\mathbb{R}^{N_1}\times \cdots \times\mathbb{R}^{N_k}\to \mathbb{R}^{M}\\
+(\mathbf{x}_1,\ldots, \mathbf{x}_k)\mapsto \sum_{i=1}^k L_i \mathbf{x}_i.
+\end{cases}\end{split}\]</div>
+<p>has a Lipschitz constant bounded by <span class="math notranslate nohighlight">\(\sqrt{\sum_{i=1}^k \beta_i^2}\)</span>. Moreover the Jacobian matrix of <span class="math notranslate nohighlight">\(H\)</span> is obtained by stacking the individual Jacobian matrices horizontally:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{J}(\mathbf{x}_1,\ldots,\mathbf{x}_k)=\left[\begin{array}{c}\mathbf{J}_1(\mathbf{x}_1)&amp;\cdots&amp; \mathbf{J}_k(\mathbf{x}_k) \end{array}\right]\in\mathbb{R}^{M\times (\sum_{i=1}^k N_i)}.\]</div>
+</li>
+</ul>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">V</span> <span class="o">=</span> <span class="n">DiffMapStack</span><span class="p">(</span><span class="n">K1</span><span class="p">,</span> <span class="n">K3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">lipschitz_cst</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">K1</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">K3</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#pycsou.core.map.DiffMapVStack" title="pycsou.core.map.DiffMapVStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffMapVStack</span></code></a>, <a class="reference internal" href="#pycsou.core.map.DiffMapHStack" title="pycsou.core.map.DiffMapHStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiffMapHStack</span></code></a>, <a class="reference internal" href="#pycsou.core.map.MapStack" title="pycsou.core.map.MapStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">MapStack</span></code></a></p>
+</div>
+<dl class="method">
+<dt id="pycsou.core.map.DiffMapStack.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*diffmaps</em>, <em class="sig-param">axis: int</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/core/map.html#DiffMapStack.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DiffMapStack.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>diffmaps</strong> (<a class="reference internal" href="#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><em>DifferentiableMap</em></a>) – List of differentiable maps to be stacked</p></li>
+<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Stacking direction: 0 for vertical and 1 for horizontal stacking.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.map.DiffMapStack.jacobianT">
+<code class="sig-name descname">jacobianT</code><span class="sig-paren">(</span><em class="sig-param">arg: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; Union[LinOpHStack, LinOpVStack]<a class="reference internal" href="../_modules/pycsou/core/map.html#DiffMapStack.jacobianT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DiffMapStack.jacobianT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transpose of the Jacobian matrix of the differentiable map evaluated at <code class="docutils literal notranslate"><span class="pre">arg</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>arg</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Point at which the transposed Jacobian matrix is evaluated.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Linear operator associated to the transposed Jacobian matrix.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinearOperator</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.map.DiffMapVStack">
+<em class="property">class </em><code class="sig-name descname">DiffMapVStack</code><span class="sig-paren">(</span><em class="sig-param">*diffmaps</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/core/map.html#DiffMapVStack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DiffMapVStack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.map.DiffMapStack" title="pycsou.core.map.DiffMapStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.map.DiffMapStack</span></code></a></p>
+<p>Alias for vertical stacking of differentiable maps, equivalent to <code class="docutils literal notranslate"><span class="pre">DiffMapStack(*maps,</span> <span class="pre">axis=0)</span></code>.</p>
+<dl class="method">
+<dt id="pycsou.core.map.DiffMapVStack.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*diffmaps</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/core/map.html#DiffMapVStack.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DiffMapVStack.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>diffmaps</strong> (<a class="reference internal" href="#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><em>DifferentiableMap</em></a>) – List of differentiable maps to be stacked</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.map.DiffMapHStack">
+<em class="property">class </em><code class="sig-name descname">DiffMapHStack</code><span class="sig-paren">(</span><em class="sig-param">*diffmaps</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/core/map.html#DiffMapHStack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DiffMapHStack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.map.DiffMapStack" title="pycsou.core.map.DiffMapStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.map.DiffMapStack</span></code></a></p>
+<p>Alias for horizontal stacking of differentiable maps, equivalent to <code class="docutils literal notranslate"><span class="pre">DiffMapStack(*maps,</span> <span class="pre">axis=1)</span></code>.</p>
+<dl class="method">
+<dt id="pycsou.core.map.DiffMapHStack.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*diffmaps</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/core/map.html#DiffMapHStack.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DiffMapHStack.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>diffmaps</strong> (<a class="reference internal" href="#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><em>DifferentiableMap</em></a>) – List of differentiable maps to be stacked.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="pycsou.core.linop.html" class="btn btn-neutral float-right" title="Linear Operators" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Abstract Classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

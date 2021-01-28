@@ -1,0 +1,1084 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pycsou.opt.proxalgs &mdash; pycsou 1.0.1.dev11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pycsou
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1.dev11
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/theory.html">Background Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">Pycsou API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/other.html">Pycsou Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pycsou</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pycsou.opt.proxalgs</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pycsou.opt.proxalgs</h1><div class="highlight"><pre>
+<span></span><span class="c1"># #############################################################################</span>
+<span class="c1"># solver.py</span>
+<span class="c1"># =========</span>
+<span class="c1"># Author : Matthieu Simeoni [matthieu.simeoni@gmail.com]</span>
+<span class="c1"># #############################################################################</span>
+
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Proximal algorithms.</span>
+
+<span class="sd">This module provides various proximal algorithms for convex optimisation.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Any</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+
+<span class="kn">from</span> <span class="nn">pycsou.core.functional</span> <span class="kn">import</span> <span class="n">ProximableFunctional</span><span class="p">,</span> <span class="n">DifferentiableFunctional</span>
+<span class="kn">from</span> <span class="nn">pycsou.core.linop</span> <span class="kn">import</span> <span class="n">LinearOperator</span>
+<span class="kn">from</span> <span class="nn">pycsou.core.map</span> <span class="kn">import</span> <span class="n">DifferentiableMap</span>
+<span class="kn">from</span> <span class="nn">pycsou.core.solver</span> <span class="kn">import</span> <span class="n">GenericIterativeAlgorithm</span>
+<span class="kn">from</span> <span class="nn">pycsou.func.base</span> <span class="kn">import</span> <span class="n">NullDifferentiableFunctional</span><span class="p">,</span> <span class="n">NullProximableFunctional</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">IdentityOperator</span><span class="p">,</span> <span class="n">NullOperator</span>
+
+
+<div class="viewcode-block" id="PrimalDualSplitting"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.PrimalDualSplitting">[docs]</a><span class="k">class</span> <span class="nc">PrimalDualSplitting</span><span class="p">(</span><span class="n">GenericIterativeAlgorithm</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Primal dual splitting algorithm.</span>
+
+<span class="sd">    This class is also accessible via the alias ``PDS()``.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The *Primal Dual Splitting (PDS)* method is described in [PDS]_ (this particular implementation is based on the pseudo-code Algorithm 7.1 provided in [FuncSphere]_ Chapter 7, Section1).</span>
+<span class="sd">    It can be used to solve problems of the form:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">       {\min_{\mathbf{x}\in\mathbb{R}^N} \;\mathcal{F}(\mathbf{x})\;\;+\;\;\mathcal{G}(\mathbf{x})\;\;+\;\;\mathcal{H}(\mathbf{K} \mathbf{x}).}</span>
+
+<span class="sd">    where:</span>
+
+<span class="sd">    * :math:`\mathcal{F}:\mathbb{R}^N\rightarrow \mathbb{R}` is *convex* and *differentiable*, with :math:`\beta`-*Lipschitz continuous* gradient,</span>
+<span class="sd">      for some :math:`\beta\in[0,+\infty[`.</span>
+<span class="sd">    * :math:`\mathcal{G}:\mathbb{R}^N\rightarrow \mathbb{R}\cup\{+\infty\}` and :math:`\mathcal{H}:\mathbb{R}^M\rightarrow \mathbb{R}\cup\{+\infty\}` are two *proper*, *lower semicontinuous* and *convex functions* with *simple proximal operators*.</span>
+<span class="sd">    * :math:`\mathbf{K}:\mathbb{R}^N\rightarrow \mathbb{R}^M``` is a *linear operator*, with **operator norm**:</span>
+
+<span class="sd">      .. math::</span>
+<span class="sd">         \Vert{\mathbf{K}}\Vert_2=\sup_{\mathbf{x}\in\mathbb{R}^N,\Vert\mathbf{x}\Vert_2=1} \Vert\mathbf{K}\mathbf{x}\Vert_2.</span>
+
+<span class="sd">    * The problem is *feasible* --i.e. there exists at least one solution.</span>
+
+<span class="sd">    **Remark 1:**</span>
+
+<span class="sd">    The algorithm is still valid if one or more of the terms :math:`\mathcal{F}`, :math:`\mathcal{G}` or :math:`\mathcal{H}` is zero.</span>
+
+<span class="sd">    **Remark 2:**</span>
+
+<span class="sd">    Assume that the following holds:</span>
+
+<span class="sd">    * :math:`\beta&gt;0` and:</span>
+
+<span class="sd">      - :math:`\frac{1}{\tau}-\sigma\Vert\mathbf{K}\Vert_{2}^2\geq \frac{\beta}{2}`,</span>
+<span class="sd">      - :math:`\rho \in ]0,\delta[`, where :math:`\delta:=2-\frac{\beta}{2}\left(\frac{1}{\tau}-\sigma\Vert\mathbf{K}\Vert_{2}^2\right)^{-1}\in[1,2[.`</span>
+
+<span class="sd">    * or :math:`\beta=0` and:</span>
+
+<span class="sd">      - :math:`\tau\sigma\Vert\mathbf{K}\Vert_{2}^2\leq 1`</span>
+<span class="sd">      - :math:`\rho \in [\epsilon,2-\epsilon]`, for some  :math:`\epsilon&gt;0.`</span>
+
+<span class="sd">    Then, there exists a pair :math:`(\mathbf{x}^\star,\mathbf{z}^\star)\in\mathbb{R}^N\times \mathbb{R}^M`} solution s.t. the primal and dual sequences of  estimates :math:`(\mathbf{x}_n)_{n\in\mathbb{N}}` and :math:`(\mathbf{z}_n)_{n\in\mathbb{N}}` *converge* towards :math:`\mathbf{x}^\star` and :math:`\mathbf{z}^\star` respectively, i.e.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \lim_{n\rightarrow +\infty}\Vert\mathbf{x}^\star-\mathbf{x}_n\Vert_2=0, \quad \text{and} \quad  \lim_{n\rightarrow +\infty}\Vert\mathbf{z}^\star-\mathbf{z}_n\Vert_2=0.</span>
+
+<span class="sd">    **Default values of the hyperparameters provided here always ensure convergence of the algorithm.**</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Consider the following optimisation problem:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \min_{\mathbf{x}\in\mathbb{R}_+^N}\frac{1}{2}\left\|\mathbf{y}-\mathbf{G}\mathbf{x}\right\|_2^2\quad+\quad\lambda_1 \|\mathbf{D}\mathbf{x}\|_1\quad+\quad\lambda_2 \|\mathbf{x}\|_1,</span>
+
+<span class="sd">    with :math:`\mathbf{D}\in\mathbb{R}^{N\times N}` the discrete derivative operator and :math:`\mathbf{G}\in\mathbb{R}^{L\times N}, \, \mathbf{y}\in\mathbb{R}^L, \lambda_1,\lambda_2&gt;0.`</span>
+<span class="sd">    This problem can be solved via PDS with :math:`\mathcal{F}(\mathbf{x})= \frac{1}{2}\left\|\mathbf{y}-\mathbf{G}\mathbf{x}\right\|_2^2`, :math:`\mathcal{G}(\mathbf{x})=\lambda_2\|\mathbf{x}\|_1,`</span>
+<span class="sd">    :math:`\mathcal{H}(\mathbf{x})=\lambda \|\mathbf{x}\|_1` and :math:`\mathbf{K}=\mathbf{D}`.</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        import numpy as np</span>
+<span class="sd">        import matplotlib.pyplot as plt</span>
+<span class="sd">        from pycsou.linop.diff import FirstDerivative</span>
+<span class="sd">        from pycsou.func.loss import SquaredL2Loss</span>
+<span class="sd">        from pycsou.func.penalty import L1Norm, NonNegativeOrthant</span>
+<span class="sd">        from pycsou.linop.sampling import DownSampling</span>
+<span class="sd">        from pycsou.opt.proxalgs import PrimalDualSplitting</span>
+
+<span class="sd">        x = np.repeat([0, 2, 1, 3, 0, 2, 0], 10)</span>
+<span class="sd">        D = FirstDerivative(size=x.size, kind=&#39;forward&#39;)</span>
+<span class="sd">        D.compute_lipschitz_cst(tol=1e-3)</span>
+<span class="sd">        rng = np.random.default_rng(0)</span>
+<span class="sd">        G = DownSampling(size=x.size, downsampling_factor=3)</span>
+<span class="sd">        G.compute_lipschitz_cst()</span>
+<span class="sd">        y = G(x)</span>
+<span class="sd">        l22_loss = (1 / 2) * SquaredL2Loss(dim=G.shape[0], data=y)</span>
+<span class="sd">        F = l22_loss * G</span>
+<span class="sd">        lambda_ = 0.1</span>
+<span class="sd">        H = lambda_ * L1Norm(dim=D.shape[0])</span>
+<span class="sd">        G = 0.01 * L1Norm(dim=G.shape[1])</span>
+<span class="sd">        pds = PrimalDualSplitting(dim=G.shape[1], F=F, G=G, H=H, K=D, verbose=None)</span>
+<span class="sd">        estimate, converged, diagnostics = pds.iterate()</span>
+<span class="sd">        plt.figure()</span>
+<span class="sd">        plt.stem(x, linefmt=&#39;C0-&#39;, markerfmt=&#39;C0o&#39;)</span>
+<span class="sd">        plt.stem(estimate[&#39;primal_variable&#39;], linefmt=&#39;C1--&#39;, markerfmt=&#39;C1s&#39;)</span>
+<span class="sd">        plt.legend([&#39;Ground truth&#39;, &#39;PDS Estimate&#39;])</span>
+<span class="sd">        plt.show()</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.opt.proxalgs.PDS`, :py:class:`~pycsou.opt.proxalgs.ChambollePockSplitting`, :py:class:`~pycsou.opt.proxalgs.DouglasRachford`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PrimalDualSplitting.__init__"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.PrimalDualSplitting.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">F</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DifferentiableMap</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">G</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ProximableFunctional</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">H</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ProximableFunctional</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">K</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LinearOperator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">tau</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">beta</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">x0</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">z0</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">max_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">min_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">accuracy_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dim: int</span>
+<span class="sd">            Dimension of the objective functional&#39;s domain.</span>
+<span class="sd">        F: Optional[DifferentiableMap]</span>
+<span class="sd">            Differentiable map :math:`\mathcal{F}`.</span>
+<span class="sd">        G: Optional[ProximableFunctional]</span>
+<span class="sd">            Proximable functional :math:`\mathcal{G}`.</span>
+<span class="sd">        H: Optional[ProximableFunctional]</span>
+<span class="sd">            Proximable functional :math:`\mathcal{H}`.</span>
+<span class="sd">        K: Optional[LinearOperator]</span>
+<span class="sd">            Linear operator :math:`\mathbf{K}`.</span>
+<span class="sd">        tau: Optional[float]</span>
+<span class="sd">            Primal step size.</span>
+<span class="sd">        sigma: Optional[float]</span>
+<span class="sd">            Dual step size.</span>
+<span class="sd">        rho: Optional[float]</span>
+<span class="sd">            Momentum parameter.</span>
+<span class="sd">        beta: Optional[float]</span>
+<span class="sd">            Lipschitz constant :math:`\beta` of the derivative of :math:`\mathcal{F}`.</span>
+<span class="sd">        x0: Optional[np.ndarray]</span>
+<span class="sd">            Initial guess for the primal variable.</span>
+<span class="sd">        z0: Optional[np.ndarray]</span>
+<span class="sd">            Initial guess for the dual variable.</span>
+<span class="sd">        max_iter: int</span>
+<span class="sd">            Maximal number of iterations.</span>
+<span class="sd">        min_iter: int</span>
+<span class="sd">            Minimal number of iterations.</span>
+<span class="sd">        accuracy_threshold: float</span>
+<span class="sd">            Accuracy threshold for stopping criterion.</span>
+<span class="sd">        verbose: int</span>
+<span class="sd">            Print diagnostics every ``verbose`` iterations. If ``None`` does not print anything.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_H</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">DifferentiableMap</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">F</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">dim</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;F does not have the proper dimension: </span><span class="si">{</span><span class="n">F</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">!=</span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">F</span> <span class="o">=</span> <span class="n">F</span>
+            <span class="k">if</span> <span class="n">F</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">infty</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span> <span class="k">if</span> <span class="n">beta</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">beta</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">beta</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;F must be a differentiable functional with Lipschitz-continuous gradient.&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">F</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">F</span> <span class="o">=</span> <span class="n">NullDifferentiableFunctional</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;F must be of type </span><span class="si">{</span><span class="n">DifferentiableMap</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">ProximableFunctional</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">G</span><span class="o">.</span><span class="n">dim</span> <span class="o">!=</span> <span class="n">dim</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;G does not have the proper dimension: </span><span class="si">{</span><span class="n">G</span><span class="o">.</span><span class="n">dim</span><span class="si">}</span><span class="s1">!=</span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">G</span> <span class="o">=</span> <span class="n">G</span>
+        <span class="k">elif</span> <span class="n">G</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">G</span> <span class="o">=</span> <span class="n">NullProximableFunctional</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;G must be of type </span><span class="si">{</span><span class="n">ProximableFunctional</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">LinearOperator</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">ProximableFunctional</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">dim</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">H</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s1">&#39;Operator K with shape </span><span class="si">{</span><span class="n">K</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1"> is inconsistent with functional H with dimension </span><span class="si">{</span><span class="n">H</span><span class="o">.</span><span class="n">dim</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">ProximableFunctional</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">H</span> <span class="o">=</span> <span class="n">H</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">LinearOperator</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">K</span> <span class="o">=</span> <span class="n">K</span>
+            <span class="k">elif</span> <span class="n">K</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">K</span> <span class="o">=</span> <span class="n">IdentityOperator</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">H</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">K</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">K</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;K must be of type </span><span class="si">{</span><span class="n">LinearOperator</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">H</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">H</span> <span class="o">=</span> <span class="n">NullProximableFunctional</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_H</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">K</span> <span class="o">=</span> <span class="n">NullOperator</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">K</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">K</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;H must be of type </span><span class="si">{</span><span class="n">ProximableFunctional</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">tau</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">sigma</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">tau</span><span class="p">,</span> <span class="n">sigma</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">tau</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">sigma</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tau</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">tau</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">tau</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">sigma</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tau</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_step_sizes</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">rho</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="n">rho</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_momentum_term</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">x0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialize_primal_variable</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">z0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">z0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">z0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">z0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialize_dual_variable</span><span class="p">()</span>
+
+        <span class="n">objective_functional</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">F</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">G</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">H</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">K</span><span class="p">)</span>
+        <span class="n">init_iterand</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;primal_variable&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">x0</span><span class="p">,</span> <span class="s1">&#39;dual_variable&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">z0</span><span class="p">}</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PrimalDualSplitting</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">objective_functional</span><span class="o">=</span><span class="n">objective_functional</span><span class="p">,</span> <span class="n">init_iterand</span><span class="o">=</span><span class="n">init_iterand</span><span class="p">,</span>
+                                                  <span class="n">max_iter</span><span class="o">=</span><span class="n">max_iter</span><span class="p">,</span> <span class="n">min_iter</span><span class="o">=</span><span class="n">min_iter</span><span class="p">,</span>
+                                                  <span class="n">accuracy_threshold</span><span class="o">=</span><span class="n">accuracy_threshold</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PrimalDualSplitting.set_step_sizes"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.PrimalDualSplitting.set_step_sizes">[docs]</a>    <span class="k">def</span> <span class="nf">set_step_sizes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the primal/dual step sizes.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Tuple[float, float]</span>
+<span class="sd">            Sensible primal/dual step sizes.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        In practice, the convergence speed  of the algorithm is improved by choosing :math:`\sigma` and :math:`\tau` as large as possible and relatively well-balanced --so that both the primal and dual variables converge at the same pace. In practice, it is hence recommended to choose perfectly balanced parameters :math:`\sigma=\tau` saturating the convergence inequalities.</span>
+
+<span class="sd">        For :math:`\beta&gt;0` this yields:</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">           \frac{1}{\tau}-\tau\Vert\mathbf{K}\Vert_{2}^2= \frac{\beta}{2} \quad\Longleftrightarrow\quad -2\tau^2\Vert\mathbf{K}\Vert_{2}^2-\beta\tau+2=0,</span>
+
+
+<span class="sd">        which admits one positive root</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">           \tau=\sigma=\frac{1}{\Vert\mathbf{K}\Vert_{2}^2}\left(-\frac{\beta}{4}+\sqrt{\frac{\beta^2}{16}+\Vert\mathbf{K}\Vert_{2}^2}\right).</span>
+
+
+<span class="sd">        For :math:`\beta=0`, this yields</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">           \tau=\sigma=\Vert\mathbf{K\Vert_{2}^{-1}.}</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_H</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="n">tau</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span>
+                <span class="n">sigma</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">K</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">infty</span><span class="p">:</span>
+                    <span class="n">tau</span> <span class="o">=</span> <span class="n">sigma</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">K</span><span class="o">.</span><span class="n">lipschitz_cst</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
+                            <span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">16</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">K</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s1">&#39;Please compute the Lipschitz constant of the linear operator K by calling its method &quot;compute_lipschitz_cst()&quot;.&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_H</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="n">tau</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">sigma</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">K</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">infty</span><span class="p">:</span>
+                    <span class="n">tau</span> <span class="o">=</span> <span class="n">sigma</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">K</span><span class="o">.</span><span class="n">lipschitz_cst</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s1">&#39;Please compute the Lipschitz constant of the linear operator K by calling its method &quot;compute_lipschitz_cst()&quot;.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tau</span><span class="p">,</span> <span class="n">sigma</span></div>
+
+<div class="viewcode-block" id="PrimalDualSplitting.set_momentum_term"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.PrimalDualSplitting.set_momentum_term">[docs]</a>    <span class="k">def</span> <span class="nf">set_momentum_term</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the momentum term.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            Momentum term.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">rho</span> <span class="o">=</span> <span class="mf">0.9</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">rho</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">rho</span></div>
+
+<div class="viewcode-block" id="PrimalDualSplitting.initialize_primal_variable"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.PrimalDualSplitting.initialize_primal_variable">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_primal_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the primal variable to zero.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Zero-initialized primal variable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PrimalDualSplitting.initialize_dual_variable"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.PrimalDualSplitting.initialize_dual_variable">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_dual_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the dual variable to zero.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Zero-initialized dual variable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_H</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">H</span><span class="o">.</span><span class="n">dim</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PrimalDualSplitting.update_iterand"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.PrimalDualSplitting.update_iterand">[docs]</a>    <span class="k">def</span> <span class="nf">update_iterand</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_iterand</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterand</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+        <span class="n">x_temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">G</span><span class="o">.</span><span class="n">prox</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">K</span><span class="o">.</span><span class="n">adjoint</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="n">tau</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_H</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x_temp</span> <span class="o">-</span> <span class="n">x</span>
+            <span class="n">z_temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">H</span><span class="o">.</span><span class="n">fenchel_prox</span><span class="p">(</span><span class="n">z</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">K</span><span class="p">(</span><span class="n">u</span><span class="p">),</span> <span class="n">sigma</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">)</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">*</span> <span class="n">z_temp</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="p">)</span> <span class="o">*</span> <span class="n">z</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">*</span> <span class="n">x_temp</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span>
+        <span class="n">iterand</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;primal_variable&#39;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s1">&#39;dual_variable&#39;</span><span class="p">:</span> <span class="n">z</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">iterand</span></div>
+
+<div class="viewcode-block" id="PrimalDualSplitting.print_diagnostics"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.PrimalDualSplitting.print_diagnostics">[docs]</a>    <span class="k">def</span> <span class="nf">print_diagnostics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">iter</span><span class="p">]))</span></div>
+
+<div class="viewcode-block" id="PrimalDualSplitting.stopping_metric"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.PrimalDualSplitting.stopping_metric">[docs]</a>    <span class="k">def</span> <span class="nf">stopping_metric</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">infty</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">iter</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Relative Improvement (primal variable)&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="PrimalDualSplitting.update_diagnostics"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.PrimalDualSplitting.update_diagnostics">[docs]</a>    <span class="k">def</span> <span class="nf">update_diagnostics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_H</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">diagnostics</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span>
+                    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Iter&#39;</span><span class="p">,</span> <span class="s1">&#39;Relative Improvement (primal variable)&#39;</span><span class="p">,</span> <span class="s1">&#39;Relative Improvement (dual variable)&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">iter</span><span class="p">,</span> <span class="s1">&#39;Iter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">iter</span><span class="p">,</span> <span class="s1">&#39;Relative Improvement (primal variable)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">old_iterand</span><span class="p">[</span><span class="s1">&#39;primal_variable&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterand</span><span class="p">[</span><span class="s1">&#39;primal_variable&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">old_iterand</span><span class="p">[</span><span class="s1">&#39;primal_variable&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">iter</span><span class="p">,</span> <span class="s1">&#39;Relative Improvement (dual variable)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">old_iterand</span><span class="p">[</span><span class="s1">&#39;dual_variable&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterand</span><span class="p">[</span><span class="s1">&#39;dual_variable&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">old_iterand</span><span class="p">[</span><span class="s1">&#39;dual_variable&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">diagnostics</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span>
+                    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Iter&#39;</span><span class="p">,</span> <span class="s1">&#39;Relative Improvement (primal variable)&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">iter</span><span class="p">,</span> <span class="s1">&#39;Iter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">iter</span><span class="p">,</span> <span class="s1">&#39;Relative Improvement (primal variable)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">old_iterand</span><span class="p">[</span><span class="s1">&#39;primal_variable&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterand</span><span class="p">[</span><span class="s1">&#39;primal_variable&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">old_iterand</span><span class="p">[</span><span class="s1">&#39;primal_variable&#39;</span><span class="p">])</span></div></div>
+
+
+<span class="n">PDS</span> <span class="o">=</span> <span class="n">PrimalDualSplitting</span>
+
+
+<div class="viewcode-block" id="AcceleratedProximalGradientDescent"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent">[docs]</a><span class="k">class</span> <span class="nc">AcceleratedProximalGradientDescent</span><span class="p">(</span><span class="n">GenericIterativeAlgorithm</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Accelerated proximal gradient descent.</span>
+
+<span class="sd">    This class is also accessible via the alias ``APGD()``.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The *Accelerated Proximal Gradient Descent (APGD)* method can be used to solve problems of the form:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">       {\min_{\mathbf{x}\in\mathbb{R}^N} \;\mathcal{F}(\mathbf{x})\;\;+\;\;\mathcal{G}(\mathbf{x}).}</span>
+
+<span class="sd">    where:</span>
+
+<span class="sd">    * :math:`\mathcal{F}:\mathbb{R}^N\rightarrow \mathbb{R}` is *convex* and *differentiable*, with :math:`\beta`-*Lipschitz continuous* gradient,</span>
+<span class="sd">      for some :math:`\beta\in[0,+\infty[`.</span>
+<span class="sd">    * :math:`\mathcal{G}:\mathbb{R}^N\rightarrow \mathbb{R}\cup\{+\infty\}` is a *proper*, *lower semicontinuous* and *convex function* with a *simple proximal operator*.</span>
+<span class="sd">    * The problem is *feasible* --i.e. there exists at least one solution.</span>
+
+<span class="sd">    **Remark 1:** the algorithm is still valid if one or more of the terms :math:`\mathcal{F}` or :math:`\mathcal{G}` is zero.</span>
+
+<span class="sd">    **Remark 2:**  The convergence is guaranteed for step sizes :math:`\tau\leq 1/\beta`. Without acceleration, APGD can be seen</span>
+<span class="sd">    as a PDS method with :math:`\rho=1`. The various acceleration schemes are described in [APGD]_.</span>
+<span class="sd">    For :math:`0&lt;\tau\leq 1/\beta` and Chambolle and Dossal&#39;s acceleration scheme (``acceleration=&#39;CD&#39;``), APGD achieves the following (optimal) *convergence rates*:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \lim\limits_{n\rightarrow \infty} n^2\left\vert \mathcal{J}(\mathbf{x}^\star)- \mathcal{J}(\mathbf{x}_n)\right\vert=0\qquad \&amp;\qquad \lim\limits_{n\rightarrow \infty} n^2\Vert \mathbf{x}_n-\mathbf{x}_{n-1}\Vert^2_\mathcal{X}=0,</span>
+
+
+<span class="sd">    for *some minimiser* :math:`{\mathbf{x}^\star}\in\arg\min_{\mathbf{x}\in\mathbb{R}^N} \;\left\{\mathcal{J}(\mathbf{x}):=\mathcal{F}(\mathbf{x})+\mathcal{G}(\mathbf{x})\right\}`.</span>
+<span class="sd">    In other words, both the objective functional and the APGD iterates :math:`\{\mathbf{x}_n\}_{n\in\mathbb{N}}` converge at a rate :math:`o(1/n^2)`. In comparison</span>
+<span class="sd">    Beck and Teboule&#39;s acceleration scheme (``acceleration=&#39;BT&#39;``) only achieves a convergence rate of :math:`O(1/n^2)`.</span>
+<span class="sd">    Significant practical *speedup* can moreover be achieved for values of :math:`d` in the range  :math:`[50,100]`  [APGD]_.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Consider the *LASSO problem*:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \min_{\mathbf{x}\in\mathbb{R}^N}\frac{1}{2}\left\|\mathbf{y}-\mathbf{G}\mathbf{x}\right\|_2^2\quad+\quad\lambda \|\mathbf{x}\|_1,</span>
+
+<span class="sd">    with :math:`\mathbf{G}\in\mathbb{R}^{L\times N}, \, \mathbf{y}\in\mathbb{R}^L, \lambda&gt;0.` This problem can be solved via APGD with :math:`\mathcal{F}(\mathbf{x})= \frac{1}{2}\left\|\mathbf{y}-\mathbf{G}\mathbf{x}\right\|_2^2` and :math:`\mathcal{G}(\mathbf{x})=\lambda \|\mathbf{x}\|_1`. We have:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \mathbf{\nabla}\mathcal{F}(\mathbf{x})=\mathbf{G}^T(\mathbf{G}\mathbf{x}-\mathbf{y}), \qquad  \text{prox}_{\lambda\|\cdot\|_1}(\mathbf{x})=\text{soft}_\lambda(\mathbf{x}).</span>
+
+<span class="sd">    This yields the so-called *Fast Iterative Soft Thresholding Algorithm (FISTA)*, whose convergence is guaranteed for :math:`d&gt;2` and :math:`0&lt;\tau\leq \beta^{-1}=\|\mathbf{G}\|_2^{-2}`.</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       from pycsou.func.loss import SquaredL2Loss</span>
+<span class="sd">       from pycsou.func.penalty import L1Norm</span>
+<span class="sd">       from pycsou.linop.base import DenseLinearOperator</span>
+<span class="sd">       from pycsou.opt.proxalgs import APGD</span>
+
+<span class="sd">       rng = np.random.default_rng(0)</span>
+<span class="sd">       G = DenseLinearOperator(rng.standard_normal(15).reshape(3,5))</span>
+<span class="sd">       G.compute_lipschitz_cst()</span>
+<span class="sd">       x = np.zeros(G.shape[1])</span>
+<span class="sd">       x[1] = 1</span>
+<span class="sd">       x[-2] = -1</span>
+<span class="sd">       y = G(x)</span>
+<span class="sd">       l22_loss = (1/2) * SquaredL2Loss(dim=G.shape[0], data=y)</span>
+<span class="sd">       F = l22_loss * G</span>
+<span class="sd">       lambda_ = 0.9 * np.max(np.abs(F.gradient(0 * x)))</span>
+<span class="sd">       G = lambda_ * L1Norm(dim=G.shape[1])</span>
+<span class="sd">       apgd = APGD(dim=G.shape[1], F=F, G=None, acceleration=&#39;CD&#39;, verbose=None)</span>
+<span class="sd">       estimate, converged, diagnostics = apgd.iterate()</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       plt.stem(x, linefmt=&#39;C0-&#39;, markerfmt=&#39;C0o&#39;)</span>
+<span class="sd">       plt.stem(estimate[&#39;iterand&#39;], linefmt=&#39;C1--&#39;, markerfmt=&#39;C1s&#39;)</span>
+<span class="sd">       plt.legend([&#39;Ground truth&#39;, &#39;LASSO Estimate&#39;])</span>
+<span class="sd">       plt.show()</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.opt.proxalgs.APGD`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AcceleratedProximalGradientDescent.__init__"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">F</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DifferentiableMap</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">G</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ProximableFunctional</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">tau</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">acceleration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;CD&#39;</span><span class="p">,</span> <span class="n">beta</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">x0</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">max_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">min_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+                 <span class="n">accuracy_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">75.</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dim: int</span>
+<span class="sd">            Dimension of the objective functional&#39;s domain.</span>
+<span class="sd">        F: Optional[DifferentiableMap]</span>
+<span class="sd">            Differentiable map :math:`\mathcal{F}`.</span>
+<span class="sd">        G: Optional[ProximableFunctional]</span>
+<span class="sd">            Proximable functional :math:`\mathcal{G}`.</span>
+<span class="sd">        tau: Optional[float]</span>
+<span class="sd">            Primal step size.</span>
+<span class="sd">        acceleration: Optional[str] [None, &#39;BT&#39;, &#39;CD&#39;]</span>
+<span class="sd">            Which acceleration scheme should be used (`None` for no acceleration).</span>
+<span class="sd">        beta: Optional[float]</span>
+<span class="sd">            Lipschitz constant :math:`\beta` of the derivative of :math:`\mathcal{F}`.</span>
+<span class="sd">        x0: Optional[np.ndarray]</span>
+<span class="sd">            Initial guess for the primal variable.</span>
+<span class="sd">        max_iter: int</span>
+<span class="sd">            Maximal number of iterations.</span>
+<span class="sd">        min_iter: int</span>
+<span class="sd">            Minimal number of iterations.</span>
+<span class="sd">        accuracy_threshold: float</span>
+<span class="sd">            Accuracy threshold for stopping criterion.</span>
+<span class="sd">        verbose: int</span>
+<span class="sd">            Print diagnostics every ``verbose`` iterations. If ``None`` does not print anything.</span>
+<span class="sd">        d: float</span>
+<span class="sd">            Parameter :math:`d` for Chambolle and Dossal&#39;s acceleration scheme (``acceleration=&#39;CD&#39;``).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">acceleration</span> <span class="o">=</span> <span class="n">acceleration</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">d</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">DifferentiableMap</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">F</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">dim</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;F does not have the proper dimension: </span><span class="si">{</span><span class="n">F</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">!=</span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">F</span> <span class="o">=</span> <span class="n">F</span>
+            <span class="k">if</span> <span class="n">F</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">infty</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span> <span class="k">if</span> <span class="n">beta</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">beta</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">beta</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;F must be a differentiable functional with Lipschitz-continuous gradient.&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">F</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">F</span> <span class="o">=</span> <span class="n">NullDifferentiableFunctional</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;F must be of type </span><span class="si">{</span><span class="n">DifferentiableMap</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">ProximableFunctional</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">G</span><span class="o">.</span><span class="n">dim</span> <span class="o">!=</span> <span class="n">dim</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;G does not have the proper dimension: </span><span class="si">{</span><span class="n">G</span><span class="o">.</span><span class="n">dim</span><span class="si">}</span><span class="s1">!=</span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">G</span> <span class="o">=</span> <span class="n">G</span>
+        <span class="k">elif</span> <span class="n">G</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">G</span> <span class="o">=</span> <span class="n">NullProximableFunctional</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;G must be of type </span><span class="si">{</span><span class="n">ProximableFunctional</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">tau</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tau</span> <span class="o">=</span> <span class="n">tau</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tau</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_step_size</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">x0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialize_iterate</span><span class="p">()</span>
+        <span class="n">objective_functional</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">F</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">G</span>
+        <span class="n">init_iterand</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;iterand&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">x0</span><span class="p">,</span> <span class="s1">&#39;past_aux&#39;</span><span class="p">:</span> <span class="mi">0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">x0</span><span class="p">,</span> <span class="s1">&#39;past_t&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AcceleratedProximalGradientDescent</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">objective_functional</span><span class="o">=</span><span class="n">objective_functional</span><span class="p">,</span>
+                                                                 <span class="n">init_iterand</span><span class="o">=</span><span class="n">init_iterand</span><span class="p">,</span>
+                                                                 <span class="n">max_iter</span><span class="o">=</span><span class="n">max_iter</span><span class="p">,</span> <span class="n">min_iter</span><span class="o">=</span><span class="n">min_iter</span><span class="p">,</span>
+                                                                 <span class="n">accuracy_threshold</span><span class="o">=</span><span class="n">accuracy_threshold</span><span class="p">,</span>
+                                                                 <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AcceleratedProximalGradientDescent.set_step_size"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.set_step_size">[docs]</a>    <span class="k">def</span> <span class="nf">set_step_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the step size to its largest admissible value :math:`1/\beta`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Tuple[float, float]</span>
+<span class="sd">            Largest admissible step size.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span></div>
+
+<div class="viewcode-block" id="AcceleratedProximalGradientDescent.initialize_iterate"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.initialize_iterate">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_iterate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the iterand to zero.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Zero-initialized iterand.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AcceleratedProximalGradientDescent.update_iterand"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.update_iterand">[docs]</a>    <span class="k">def</span> <span class="nf">update_iterand</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">x_old</span><span class="p">,</span> <span class="n">t_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_iterand</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">x_old</span><span class="p">,</span> <span class="n">t_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterand</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+        <span class="n">x_temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">G</span><span class="o">.</span><span class="n">prox</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">tau</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">acceleration</span> <span class="o">==</span> <span class="s1">&#39;BT&#39;</span><span class="p">:</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">t_old</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">acceleration</span> <span class="o">==</span> <span class="s1">&#39;CD&#39;</span><span class="p">:</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iter</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">t_old</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">t_old</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">t</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x_temp</span> <span class="o">+</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="n">x_temp</span> <span class="o">-</span> <span class="n">x_old</span><span class="p">)</span>
+        <span class="n">iterand</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;iterand&#39;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s1">&#39;past_aux&#39;</span><span class="p">:</span> <span class="n">x_temp</span><span class="p">,</span> <span class="s1">&#39;past_t&#39;</span><span class="p">:</span> <span class="n">t</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">iterand</span></div>
+
+<div class="viewcode-block" id="AcceleratedProximalGradientDescent.print_diagnostics"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.print_diagnostics">[docs]</a>    <span class="k">def</span> <span class="nf">print_diagnostics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">iter</span><span class="p">]))</span></div>
+
+<div class="viewcode-block" id="AcceleratedProximalGradientDescent.stopping_metric"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.stopping_metric">[docs]</a>    <span class="k">def</span> <span class="nf">stopping_metric</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">infty</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">iter</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Relative Improvement&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="AcceleratedProximalGradientDescent.update_diagnostics"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.update_diagnostics">[docs]</a>    <span class="k">def</span> <span class="nf">update_diagnostics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">diagnostics</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span>
+                <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Iter&#39;</span><span class="p">,</span> <span class="s1">&#39;Relative Improvement&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">iter</span><span class="p">,</span> <span class="s1">&#39;Iter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diagnostics</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">iter</span><span class="p">,</span> <span class="s1">&#39;Relative Improvement&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">old_iterand</span><span class="p">[</span><span class="s1">&#39;iterand&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterand</span><span class="p">[</span><span class="s1">&#39;iterand&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">old_iterand</span><span class="p">[</span><span class="s1">&#39;iterand&#39;</span><span class="p">])</span></div></div>
+
+
+<span class="n">APGD</span> <span class="o">=</span> <span class="n">AcceleratedProximalGradientDescent</span>
+
+
+<div class="viewcode-block" id="ChambollePockSplitting"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.ChambollePockSplitting">[docs]</a><span class="k">class</span> <span class="nc">ChambollePockSplitting</span><span class="p">(</span><span class="n">PrimalDualSplitting</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Chambolle and Pock primal-dual splitting method.</span>
+
+<span class="sd">    This class is also accessible via the alias ``CPS()``.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The *Chambolle and Pock primal-dual splitting (CPS)* method can be used to solve problems of the form:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">       {\min_{\mathbf{x}\in\mathbb{R}^N} \mathcal{G}(\mathbf{x})\;\;+\;\;\mathcal{H}(\mathbf{K} \mathbf{x}).}</span>
+
+<span class="sd">    where:</span>
+
+<span class="sd">    * :math:`\mathcal{G}:\mathbb{R}^N\rightarrow \mathbb{R}\cup\{+\infty\}` and :math:`\mathcal{H}:\mathbb{R}^M\rightarrow \mathbb{R}\cup\{+\infty\}` are two *proper*, *lower semicontinuous* and *convex functions* with *simple proximal operators*.</span>
+<span class="sd">    * :math:`\mathbf{K}:\mathbb{R}^N\rightarrow \mathbb{R}^M``` is a *linear operator*, with **operator norm**:</span>
+
+<span class="sd">      .. math::</span>
+<span class="sd">         \Vert{\mathbf{K}}\Vert_2=\sup_{\mathbf{x}\in\mathbb{R}^N,\Vert\mathbf{x}\Vert_2=1} \Vert\mathbf{K}\mathbf{x}\Vert_2.</span>
+
+<span class="sd">    * The problem is *feasible* --i.e. there exists at least one solution.</span>
+
+<span class="sd">    **Remark 1:**</span>
+
+<span class="sd">    The algorithm is still valid if one of the terms :math:`\mathcal{G}` or :math:`\mathcal{H}` is zero.</span>
+
+<span class="sd">    **Remark 2:**</span>
+
+<span class="sd">    Assume that the following holds:</span>
+
+<span class="sd">    - :math:`\tau\sigma\Vert\mathbf{K}\Vert_{2}^2\leq 1`</span>
+<span class="sd">    - :math:`\rho \in [\epsilon,2-\epsilon]`, for some  :math:`\epsilon&gt;0.`</span>
+
+<span class="sd">    Then, there exists a pair :math:`(\mathbf{x}^\star,\mathbf{z}^\star)\in\mathbb{R}^N\times \mathbb{R}^M`} solution s.t. the primal and dual sequences of  estimates :math:`(\mathbf{x}_n)_{n\in\mathbb{N}}` and :math:`(\mathbf{z}_n)_{n\in\mathbb{N}}` *converge* towards :math:`\mathbf{x}^\star` and :math:`\mathbf{z}^\star` respectively, i.e.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \lim_{n\rightarrow +\infty}\Vert\mathbf{x}^\star-\mathbf{x}_n\Vert_2=0, \quad \text{and} \quad  \lim_{n\rightarrow +\infty}\Vert\mathbf{z}^\star-\mathbf{z}_n\Vert_2=0.</span>
+
+<span class="sd">    **Default values of the hyperparameters provided here always ensure convergence of the algorithm.**</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.opt.proxalgs.CPS`, :py:class:`~pycsou.opt.proxalgs.PrimalDualSplitting`, :py:class:`~pycsou.opt.proxalgs.DouglasRachfordSplitting`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ChambollePockSplitting.__init__"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.ChambollePockSplitting.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">G</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ProximableFunctional</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">H</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ProximableFunctional</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">K</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LinearOperator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">tau</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                 <span class="n">x0</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">z0</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">max_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">min_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">accuracy_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dim: int</span>
+<span class="sd">            Dimension of the objective functional&#39;s domain.</span>
+<span class="sd">        G: Optional[ProximableFunctional]</span>
+<span class="sd">            Proximable functional :math:`\mathcal{G}`.</span>
+<span class="sd">        H: Optional[ProximableFunctional]</span>
+<span class="sd">            Proximable functional :math:`\mathcal{H}`.</span>
+<span class="sd">        K: Optional[LinearOperator]</span>
+<span class="sd">            Linear operator :math:`\mathbf{K}`.</span>
+<span class="sd">        tau: Optional[float]</span>
+<span class="sd">            Primal step size.</span>
+<span class="sd">        sigma: Optional[float]</span>
+<span class="sd">            Dual step size.</span>
+<span class="sd">        rho: Optional[float]</span>
+<span class="sd">            Momentum parameter.</span>
+<span class="sd">        x0: Optional[np.ndarray]</span>
+<span class="sd">            Initial guess for the primal variable.</span>
+<span class="sd">        z0: Optional[np.ndarray]</span>
+<span class="sd">            Initial guess for the dual variable.</span>
+<span class="sd">        max_iter: int</span>
+<span class="sd">            Maximal number of iterations.</span>
+<span class="sd">        min_iter: int</span>
+<span class="sd">            Minimal number of iterations.</span>
+<span class="sd">        accuracy_threshold: float</span>
+<span class="sd">            Accuracy threshold for stopping criterion.</span>
+<span class="sd">        verbose: int</span>
+<span class="sd">            Print diagnostics every ``verbose`` iterations. If ``None`` does not print anything.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ChambollePockSplitting</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">F</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span> <span class="n">H</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="n">rho</span><span class="p">,</span>
+                                                     <span class="n">x0</span><span class="o">=</span><span class="n">x0</span><span class="p">,</span>
+                                                     <span class="n">z0</span><span class="o">=</span><span class="n">z0</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="n">max_iter</span><span class="p">,</span> <span class="n">min_iter</span><span class="o">=</span><span class="n">min_iter</span><span class="p">,</span>
+                                                     <span class="n">accuracy_threshold</span><span class="o">=</span><span class="n">accuracy_threshold</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span></div></div>
+
+
+<span class="n">CPS</span> <span class="o">=</span> <span class="n">ChambollePockSplitting</span>
+
+
+<div class="viewcode-block" id="DouglasRachfordSplitting"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.DouglasRachfordSplitting">[docs]</a><span class="k">class</span> <span class="nc">DouglasRachfordSplitting</span><span class="p">(</span><span class="n">PrimalDualSplitting</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Douglas Rachford splitting algorithm.</span>
+
+<span class="sd">    This class is also accessible via the alias ``DRS()``.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The *Douglas Rachford Splitting (DRS)* can be used to solve problems of the form:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">       {\min_{\mathbf{x}\in\mathbb{R}^N} \mathcal{G}(\mathbf{x})\;\;+\;\;\mathcal{H}(\mathbf{x}).}</span>
+
+<span class="sd">    where:</span>
+
+<span class="sd">    * :math:`\mathcal{G}:\mathbb{R}^N\rightarrow \mathbb{R}\cup\{+\infty\}` and :math:`\mathcal{H}:\mathbb{R}^M\rightarrow \mathbb{R}\cup\{+\infty\}` are two *proper*, *lower semicontinuous* and *convex functions* with *simple proximal operators*.</span>
+<span class="sd">    * The problem is *feasible* --i.e. there exists at least one solution.</span>
+
+<span class="sd">    **Remark 1:**</span>
+
+<span class="sd">    The algorithm is still valid if one of the terms :math:`\mathcal{G}` or :math:`\mathcal{H}` is zero.</span>
+
+<span class="sd">    **Default values of the hyperparameters provided here always ensure convergence of the algorithm.**</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.opt.proxalgs.DRS`, :py:class:`~pycsou.opt.proxalgs.PrimalDualSplitting`, :py:class:`~pycsou.opt.proxalgs.ChambollePockSplitting`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DouglasRachfordSplitting.__init__"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.DouglasRachfordSplitting.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">G</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ProximableFunctional</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">H</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ProximableFunctional</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">tau</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">x0</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">z0</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">max_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">min_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">accuracy_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dim: int</span>
+<span class="sd">            Dimension of the objective functional&#39;s domain.</span>
+<span class="sd">        G: Optional[ProximableFunctional]</span>
+<span class="sd">            Proximable functional :math:`\mathcal{G}`.</span>
+<span class="sd">        H: Optional[ProximableFunctional]</span>
+<span class="sd">            Proximable functional :math:`\mathcal{H}`.</span>
+<span class="sd">        tau: Optional[float]</span>
+<span class="sd">            Primal step size.</span>
+<span class="sd">        x0: Optional[np.ndarray]</span>
+<span class="sd">            Initial guess for the primal variable.</span>
+<span class="sd">        z0: Optional[np.ndarray]</span>
+<span class="sd">            Initial guess for the dual variable.</span>
+<span class="sd">        max_iter: int</span>
+<span class="sd">            Maximal number of iterations.</span>
+<span class="sd">        min_iter: int</span>
+<span class="sd">            Minimal number of iterations.</span>
+<span class="sd">        accuracy_threshold: float</span>
+<span class="sd">            Accuracy threshold for stopping criterion.</span>
+<span class="sd">        verbose: int</span>
+<span class="sd">            Print diagnostics every ``verbose`` iterations. If ``None`` does not print anything.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DouglasRachfordSplitting</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">F</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span> <span class="n">H</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">tau</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                                       <span class="n">x0</span><span class="o">=</span><span class="n">x0</span><span class="p">,</span> <span class="n">z0</span><span class="o">=</span><span class="n">z0</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="n">max_iter</span><span class="p">,</span> <span class="n">min_iter</span><span class="o">=</span><span class="n">min_iter</span><span class="p">,</span>
+                                                       <span class="n">accuracy_threshold</span><span class="o">=</span><span class="n">accuracy_threshold</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span></div></div>
+
+
+<span class="n">DRS</span> <span class="o">=</span> <span class="n">DouglasRachfordSplitting</span>
+
+
+<div class="viewcode-block" id="ForwardBackwardSplitting"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.ForwardBackwardSplitting">[docs]</a><span class="k">class</span> <span class="nc">ForwardBackwardSplitting</span><span class="p">(</span><span class="n">PrimalDualSplitting</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Forward-backward splitting algorithm.</span>
+
+<span class="sd">    This class is also accessible via the alias ``FBS()``.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The *Forward-backward splitting (FBS)* method can be used to solve problems of the form:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">       {\min_{\mathbf{x}\in\mathbb{R}^N} \;\mathcal{F}(\mathbf{x})\;\;+\;\;\mathcal{G}(\mathbf{x}).}</span>
+
+<span class="sd">    where:</span>
+
+<span class="sd">    * :math:`\mathcal{F}:\mathbb{R}^N\rightarrow \mathbb{R}` is *convex* and *differentiable*, with :math:`\beta`-*Lipschitz continuous* gradient,</span>
+<span class="sd">      for some :math:`\beta\in[0,+\infty[`.</span>
+<span class="sd">    * :math:`\mathcal{G}:\mathbb{R}^N\rightarrow \mathbb{R}\cup\{+\infty\}` is *proper*, *lower semicontinuous* and *convex function* with *simple proximal operator*.</span>
+<span class="sd">    * The problem is *feasible* --i.e. there exists at least one solution.</span>
+
+<span class="sd">    **Remark 1:**</span>
+
+<span class="sd">    The algorithm is still valid if one of the terms :math:`\mathcal{F}` or :math:`\mathcal{G}` is zero.</span>
+
+<span class="sd">    **Remark 2:**</span>
+
+<span class="sd">    Assume that the following holds:</span>
+
+<span class="sd">      - :math:`\frac{1}{\tau}\geq \frac{\beta}{2}`,</span>
+<span class="sd">      - :math:`\rho \in ]0,\delta[`, where :math:`\delta:=2-\frac{\beta}{2}\tau\in[1,2[.`</span>
+
+<span class="sd">    Then, there exists a pair :math:`(\mathbf{x}^\star,\mathbf{z}^\star)\in\mathbb{R}^N\times \mathbb{R}^M`} solution s.t. the primal and dual sequences of  estimates :math:`(\mathbf{x}_n)_{n\in\mathbb{N}}` and :math:`(\mathbf{z}_n)_{n\in\mathbb{N}}` *converge* towards :math:`\mathbf{x}^\star` and :math:`\mathbf{z}^\star` respectively, i.e.</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \lim_{n\rightarrow +\infty}\Vert\mathbf{x}^\star-\mathbf{x}_n\Vert_2=0, \quad \text{and} \quad  \lim_{n\rightarrow +\infty}\Vert\mathbf{z}^\star-\mathbf{z}_n\Vert_2=0.</span>
+
+<span class="sd">    **Default values of the hyperparameters provided here always ensure convergence of the algorithm.**</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.opt.proxalgs.FBS`, :py:class:`~pycsou.opt.proxalgs.AcceleratedProximalGradientDescent`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ForwardBackwardSplitting.__init__"><a class="viewcode-back" href="../../../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.ForwardBackwardSplitting.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">F</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DifferentiableFunctional</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">G</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ProximableFunctional</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">tau</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x0</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">max_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="n">min_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">accuracy_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dim: int</span>
+<span class="sd">            Dimension of the objective functional&#39;s domain.</span>
+<span class="sd">        F: Optional[DifferentiableMap]</span>
+<span class="sd">            Differentiable map :math:`\mathcal{F}`.</span>
+<span class="sd">        G: Optional[ProximableFunctional]</span>
+<span class="sd">            Proximable functional :math:`\mathcal{G}`.</span>
+<span class="sd">        tau: Optional[float]</span>
+<span class="sd">            Primal step size.</span>
+<span class="sd">        rho: Optional[float]</span>
+<span class="sd">            Momentum parameter.</span>
+<span class="sd">        beta: Optional[float]</span>
+<span class="sd">            Lipschitz constant :math:`\beta` of the derivative of :math:`\mathcal{F}`.</span>
+<span class="sd">        x0: Optional[np.ndarray]</span>
+<span class="sd">            Initial guess for the primal variable.</span>
+<span class="sd">        max_iter: int</span>
+<span class="sd">            Maximal number of iterations.</span>
+<span class="sd">        min_iter: int</span>
+<span class="sd">            Minimal number of iterations.</span>
+<span class="sd">        accuracy_threshold: float</span>
+<span class="sd">            Accuracy threshold for stopping criterion.</span>
+<span class="sd">        verbose: int</span>
+<span class="sd">            Print diagnostics every ``verbose`` iterations. If ``None`` does not print anything.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ForwardBackwardSplitting</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">F</span><span class="o">=</span><span class="n">F</span><span class="p">,</span> <span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span> <span class="n">H</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="n">rho</span><span class="p">,</span>
+                                                       <span class="n">x0</span><span class="o">=</span><span class="n">x0</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="n">max_iter</span><span class="p">,</span> <span class="n">min_iter</span><span class="o">=</span><span class="n">min_iter</span><span class="p">,</span>
+                                                       <span class="n">accuracy_threshold</span><span class="o">=</span><span class="n">accuracy_threshold</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span></div></div>
+
+
+<span class="n">FBS</span> <span class="o">=</span> <span class="n">ForwardBackwardSplitting</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+    <span class="kn">from</span> <span class="nn">pycsou.linop.diff</span> <span class="kn">import</span> <span class="n">FirstDerivative</span>
+    <span class="kn">from</span> <span class="nn">pycsou.func.loss</span> <span class="kn">import</span> <span class="n">SquaredL2Loss</span>
+    <span class="kn">from</span> <span class="nn">pycsou.func.penalty</span> <span class="kn">import</span> <span class="n">L1Norm</span>
+    <span class="kn">from</span> <span class="nn">pycsou.linop.sampling</span> <span class="kn">import</span> <span class="n">DownSampling</span>
+    <span class="kn">from</span> <span class="nn">pycsou.opt.proxalgs</span> <span class="kn">import</span> <span class="n">PrimalDualSplitting</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">FirstDerivative</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;forward&#39;</span><span class="p">)</span>
+    <span class="n">D</span><span class="o">.</span><span class="n">compute_lipschitz_cst</span><span class="p">(</span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">DownSampling</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">downsampling_factor</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">G</span><span class="o">.</span><span class="n">compute_lipschitz_cst</span><span class="p">()</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">l22_loss</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">SquaredL2Loss</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">l22_loss</span> <span class="o">*</span> <span class="n">G</span>
+    <span class="n">lambda_</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">lambda_</span> <span class="o">*</span> <span class="n">L1Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">D</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">L1Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">pds</span> <span class="o">=</span> <span class="n">PrimalDualSplitting</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">F</span><span class="o">=</span><span class="n">F</span><span class="p">,</span> <span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span> <span class="n">H</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="n">D</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">estimate</span><span class="p">,</span> <span class="n">converged</span><span class="p">,</span> <span class="n">diagnostics</span> <span class="o">=</span> <span class="n">pds</span><span class="o">.</span><span class="n">iterate</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">linefmt</span><span class="o">=</span><span class="s1">&#39;C0-&#39;</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="s1">&#39;C0o&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">estimate</span><span class="p">[</span><span class="s1">&#39;primal_variable&#39;</span><span class="p">],</span> <span class="n">linefmt</span><span class="o">=</span><span class="s1">&#39;C1--&#39;</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="s1">&#39;C1s&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Ground truth&#39;</span><span class="p">,</span> <span class="s1">&#39;PDS Estimate&#39;</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

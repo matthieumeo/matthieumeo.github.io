@@ -1,0 +1,835 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Proximal Algorithms &mdash; pycsou 1.0.1.dev11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Mathematical Functions" href="../math/index.html" />
+    <link rel="prev" title="Loss Functionals" href="../functionals/pycsou.func.loss.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pycsou
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1.dev11
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../general/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../general/theory.html">Background Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../general/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../general/examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Pycsou API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../classes/index.html">Abstract Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../operators/index.html">Linear Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functionals/index.html">Cost Functionals</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Proximal Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../math/index.html">Mathematical Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../other.html">Pycsou Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pycsou</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Pycsou API</a> &raquo;</li>
+        
+      <li>Proximal Algorithms</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api/algorithms/pycsou.opt.proxalgs.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="proximal-algorithms">
+<span id="proxalgs"></span><h1>Proximal Algorithms<a class="headerlink" href="#proximal-algorithms" title="Permalink to this headline">¶</a></h1>
+<p>Proximal algorithms for convex optimisation.</p>
+<span class="target" id="module-pycsou.opt.proxalgs"></span><p>Proximal algorithms.</p>
+<p>This module provides various proximal algorithms for convex optimisation.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.opt.proxalgs.PrimalDualSplitting" title="pycsou.opt.proxalgs.PrimalDualSplitting"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PrimalDualSplitting</span></code></a>(dim[, F, G, H, K, tau, …])</p></td>
+<td><p>Primal dual splitting algorithm.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.opt.proxalgs.PDS" title="pycsou.opt.proxalgs.PDS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PDS</span></code></a></p></td>
+<td><p>alias of <a class="reference internal" href="#pycsou.opt.proxalgs.PrimalDualSplitting" title="pycsou.opt.proxalgs.PrimalDualSplitting"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.opt.proxalgs.PrimalDualSplitting</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent" title="pycsou.opt.proxalgs.AcceleratedProximalGradientDescent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AcceleratedProximalGradientDescent</span></code></a>(dim[, F, …])</p></td>
+<td><p>Accelerated proximal gradient descent.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.opt.proxalgs.APGD" title="pycsou.opt.proxalgs.APGD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">APGD</span></code></a></p></td>
+<td><p>alias of <a class="reference internal" href="#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent" title="pycsou.opt.proxalgs.AcceleratedProximalGradientDescent"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.opt.proxalgs.AcceleratedProximalGradientDescent</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.opt.proxalgs.ChambollePockSplitting" title="pycsou.opt.proxalgs.ChambollePockSplitting"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChambollePockSplitting</span></code></a>(dim[, G, H, K, tau, …])</p></td>
+<td><p>Chambolle and Pock primal-dual splitting method.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.opt.proxalgs.CPS" title="pycsou.opt.proxalgs.CPS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CPS</span></code></a></p></td>
+<td><p>alias of <a class="reference internal" href="#pycsou.opt.proxalgs.ChambollePockSplitting" title="pycsou.opt.proxalgs.ChambollePockSplitting"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.opt.proxalgs.ChambollePockSplitting</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.opt.proxalgs.DouglasRachfordSplitting" title="pycsou.opt.proxalgs.DouglasRachfordSplitting"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DouglasRachfordSplitting</span></code></a>(dim[, G, H, tau, …])</p></td>
+<td><p>Douglas Rachford splitting algorithm.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.opt.proxalgs.DRS" title="pycsou.opt.proxalgs.DRS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DRS</span></code></a></p></td>
+<td><p>alias of <a class="reference internal" href="#pycsou.opt.proxalgs.DouglasRachfordSplitting" title="pycsou.opt.proxalgs.DouglasRachfordSplitting"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.opt.proxalgs.DouglasRachfordSplitting</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.opt.proxalgs.ForwardBackwardSplitting" title="pycsou.opt.proxalgs.ForwardBackwardSplitting"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ForwardBackwardSplitting</span></code></a>(dim[, F, G, tau, …])</p></td>
+<td><p>Forward-backward splitting algorithm.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.opt.proxalgs.FBS" title="pycsou.opt.proxalgs.FBS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FBS</span></code></a></p></td>
+<td><p>alias of <a class="reference internal" href="#pycsou.opt.proxalgs.ForwardBackwardSplitting" title="pycsou.opt.proxalgs.ForwardBackwardSplitting"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.opt.proxalgs.ForwardBackwardSplitting</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="pycsou.opt.proxalgs.PrimalDualSplitting">
+<em class="property">class </em><code class="sig-name descname">PrimalDualSplitting</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">F: Optional[pycsou.core.map.DifferentiableMap] = None</em>, <em class="sig-param">G: Optional[pycsou.core.functional.ProximableFunctional] = None</em>, <em class="sig-param">H: Optional[pycsou.core.functional.ProximableFunctional] = None</em>, <em class="sig-param">K: Optional[pycsou.core.linop.LinearOperator] = None</em>, <em class="sig-param">tau: Optional[float] = None</em>, <em class="sig-param">sigma: Optional[float] = None</em>, <em class="sig-param">rho: Optional[float] = None</em>, <em class="sig-param">beta: Optional[float] = None</em>, <em class="sig-param">x0: Optional[numpy.ndarray] = None</em>, <em class="sig-param">z0: Optional[numpy.ndarray] = None</em>, <em class="sig-param">max_iter: int = 500</em>, <em class="sig-param">min_iter: int = 10</em>, <em class="sig-param">accuracy_threshold: float = 0.001</em>, <em class="sig-param">verbose: Optional[int] = 1</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#PrimalDualSplitting"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.PrimalDualSplitting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../classes/pycsou.core.solver.html#pycsou.core.solver.GenericIterativeAlgorithm" title="pycsou.core.solver.GenericIterativeAlgorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.solver.GenericIterativeAlgorithm</span></code></a></p>
+<p>Primal dual splitting algorithm.</p>
+<p>This class is also accessible via the alias <code class="docutils literal notranslate"><span class="pre">PDS()</span></code>.</p>
+<p class="rubric">Notes</p>
+<p>The <em>Primal Dual Splitting (PDS)</em> method is described in <a class="reference internal" href="../../notes/references.html#pds" id="id1"><span>[PDS]</span></a> (this particular implementation is based on the pseudo-code Algorithm 7.1 provided in <a class="reference internal" href="../../notes/references.html#funcsphere" id="id2"><span>[FuncSphere]</span></a> Chapter 7, Section1).
+It can be used to solve problems of the form:</p>
+<div class="math notranslate nohighlight">
+\[{\min_{\mathbf{x}\in\mathbb{R}^N} \;\mathcal{F}(\mathbf{x})\;\;+\;\;\mathcal{G}(\mathbf{x})\;\;+\;\;\mathcal{H}(\mathbf{K} \mathbf{x}).}\]</div>
+<p>where:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(\mathcal{F}:\mathbb{R}^N\rightarrow \mathbb{R}\)</span> is <em>convex</em> and <em>differentiable</em>, with <span class="math notranslate nohighlight">\(\beta\)</span>-<em>Lipschitz continuous</em> gradient,
+for some <span class="math notranslate nohighlight">\(\beta\in[0,+\infty[\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathcal{G}:\mathbb{R}^N\rightarrow \mathbb{R}\cup\{+\infty\}\)</span> and <span class="math notranslate nohighlight">\(\mathcal{H}:\mathbb{R}^M\rightarrow \mathbb{R}\cup\{+\infty\}\)</span> are two <em>proper</em>, <em>lower semicontinuous</em> and <em>convex functions</em> with <em>simple proximal operators</em>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{K}:\mathbb{R}^N\rightarrow \mathbb{R}^M\)</span> is a <em>linear operator</em>, with <strong>operator norm</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\Vert{\mathbf{K}}\Vert_2=\sup_{\mathbf{x}\in\mathbb{R}^N,\Vert\mathbf{x}\Vert_2=1} \Vert\mathbf{K}\mathbf{x}\Vert_2.\]</div>
+</li>
+<li><p>The problem is <em>feasible</em> –i.e. there exists at least one solution.</p></li>
+</ul>
+<p><strong>Remark 1:</strong></p>
+<p>The algorithm is still valid if one or more of the terms <span class="math notranslate nohighlight">\(\mathcal{F}\)</span>, <span class="math notranslate nohighlight">\(\mathcal{G}\)</span> or <span class="math notranslate nohighlight">\(\mathcal{H}\)</span> is zero.</p>
+<p><strong>Remark 2:</strong></p>
+<p>Assume that the following holds:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\beta&gt;0\)</span> and:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(\frac{1}{\tau}-\sigma\Vert\mathbf{K}\Vert_{2}^2\geq \frac{\beta}{2}\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\rho \in ]0,\delta[\)</span>, where <span class="math notranslate nohighlight">\(\delta:=2-\frac{\beta}{2}\left(\frac{1}{\tau}-\sigma\Vert\mathbf{K}\Vert_{2}^2\right)^{-1}\in[1,2[.\)</span></p></li>
+</ul>
+</li>
+<li><p>or <span class="math notranslate nohighlight">\(\beta=0\)</span> and:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(\tau\sigma\Vert\mathbf{K}\Vert_{2}^2\leq 1\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\rho \in [\epsilon,2-\epsilon]\)</span>, for some  <span class="math notranslate nohighlight">\(\epsilon&gt;0.\)</span></p></li>
+</ul>
+</li>
+</ul>
+<p>Then, there exists a pair <span class="math notranslate nohighlight">\((\mathbf{x}^\star,\mathbf{z}^\star)\in\mathbb{R}^N\times \mathbb{R}^M\)</span>} solution s.t. the primal and dual sequences of  estimates <span class="math notranslate nohighlight">\((\mathbf{x}_n)_{n\in\mathbb{N}}\)</span> and <span class="math notranslate nohighlight">\((\mathbf{z}_n)_{n\in\mathbb{N}}\)</span> <em>converge</em> towards <span class="math notranslate nohighlight">\(\mathbf{x}^\star\)</span> and <span class="math notranslate nohighlight">\(\mathbf{z}^\star\)</span> respectively, i.e.</p>
+<div class="math notranslate nohighlight">
+\[\lim_{n\rightarrow +\infty}\Vert\mathbf{x}^\star-\mathbf{x}_n\Vert_2=0, \quad \text{and} \quad  \lim_{n\rightarrow +\infty}\Vert\mathbf{z}^\star-\mathbf{z}_n\Vert_2=0.\]</div>
+<p><strong>Default values of the hyperparameters provided here always ensure convergence of the algorithm.</strong></p>
+<p class="rubric">Examples</p>
+<p>Consider the following optimisation problem:</p>
+<div class="math notranslate nohighlight">
+\[\min_{\mathbf{x}\in\mathbb{R}_+^N}\frac{1}{2}\left\|\mathbf{y}-\mathbf{G}\mathbf{x}\right\|_2^2\quad+\quad\lambda_1 \|\mathbf{D}\mathbf{x}\|_1\quad+\quad\lambda_2 \|\mathbf{x}\|_1,\]</div>
+<p>with <span class="math notranslate nohighlight">\(\mathbf{D}\in\mathbb{R}^{N\times N}\)</span> the discrete derivative operator and <span class="math notranslate nohighlight">\(\mathbf{G}\in\mathbb{R}^{L\times N}, \, \mathbf{y}\in\mathbb{R}^L, \lambda_1,\lambda_2&gt;0.\)</span>
+This problem can be solved via PDS with <span class="math notranslate nohighlight">\(\mathcal{F}(\mathbf{x})= \frac{1}{2}\left\|\mathbf{y}-\mathbf{G}\mathbf{x}\right\|_2^2\)</span>, <span class="math notranslate nohighlight">\(\mathcal{G}(\mathbf{x})=\lambda_2\|\mathbf{x}\|_1,\)</span>
+<span class="math notranslate nohighlight">\(\mathcal{H}(\mathbf{x})=\lambda \|\mathbf{x}\|_1\)</span> and <span class="math notranslate nohighlight">\(\mathbf{K}=\mathbf{D}\)</span>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.diff</span> <span class="kn">import</span> <span class="n">FirstDerivative</span>
+<span class="kn">from</span> <span class="nn">pycsou.func.loss</span> <span class="kn">import</span> <span class="n">SquaredL2Loss</span>
+<span class="kn">from</span> <span class="nn">pycsou.func.penalty</span> <span class="kn">import</span> <span class="n">L1Norm</span><span class="p">,</span> <span class="n">NonNegativeOrthant</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.sampling</span> <span class="kn">import</span> <span class="n">DownSampling</span>
+<span class="kn">from</span> <span class="nn">pycsou.opt.proxalgs</span> <span class="kn">import</span> <span class="n">PrimalDualSplitting</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">FirstDerivative</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;forward&#39;</span><span class="p">)</span>
+<span class="n">D</span><span class="o">.</span><span class="n">compute_lipschitz_cst</span><span class="p">(</span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">DownSampling</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">downsampling_factor</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">G</span><span class="o">.</span><span class="n">compute_lipschitz_cst</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">l22_loss</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">SquaredL2Loss</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">l22_loss</span> <span class="o">*</span> <span class="n">G</span>
+<span class="n">lambda_</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">lambda_</span> <span class="o">*</span> <span class="n">L1Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">D</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">G</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">L1Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">pds</span> <span class="o">=</span> <span class="n">PrimalDualSplitting</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">F</span><span class="o">=</span><span class="n">F</span><span class="p">,</span> <span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span> <span class="n">H</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="n">D</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">estimate</span><span class="p">,</span> <span class="n">converged</span><span class="p">,</span> <span class="n">diagnostics</span> <span class="o">=</span> <span class="n">pds</span><span class="o">.</span><span class="n">iterate</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">linefmt</span><span class="o">=</span><span class="s1">&#39;C0-&#39;</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="s1">&#39;C0o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">estimate</span><span class="p">[</span><span class="s1">&#39;primal_variable&#39;</span><span class="p">],</span> <span class="n">linefmt</span><span class="o">=</span><span class="s1">&#39;C1--&#39;</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="s1">&#39;C1s&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Ground truth&#39;</span><span class="p">,</span> <span class="s1">&#39;PDS Estimate&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="../../api/algorithms/pycsou-opt-proxalgs-1.py">Source code</a>, <a class="reference external" href="../../api/algorithms/pycsou-opt-proxalgs-1.png">png</a>, <a class="reference external" href="../../api/algorithms/pycsou-opt-proxalgs-1.hires.png">hires.png</a>, <a class="reference external" href="../../api/algorithms/pycsou-opt-proxalgs-1.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="../../_images/pycsou-opt-proxalgs-1.png" src="../../_images/pycsou-opt-proxalgs-1.png" />
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#pycsou.opt.proxalgs.PDS" title="pycsou.opt.proxalgs.PDS"><code class="xref py py-class docutils literal notranslate"><span class="pre">PDS</span></code></a>, <a class="reference internal" href="#pycsou.opt.proxalgs.ChambollePockSplitting" title="pycsou.opt.proxalgs.ChambollePockSplitting"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChambollePockSplitting</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DouglasRachford</span></code></p>
+</div>
+<dl class="method">
+<dt id="pycsou.opt.proxalgs.PrimalDualSplitting.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">F: Optional[pycsou.core.map.DifferentiableMap] = None</em>, <em class="sig-param">G: Optional[pycsou.core.functional.ProximableFunctional] = None</em>, <em class="sig-param">H: Optional[pycsou.core.functional.ProximableFunctional] = None</em>, <em class="sig-param">K: Optional[pycsou.core.linop.LinearOperator] = None</em>, <em class="sig-param">tau: Optional[float] = None</em>, <em class="sig-param">sigma: Optional[float] = None</em>, <em class="sig-param">rho: Optional[float] = None</em>, <em class="sig-param">beta: Optional[float] = None</em>, <em class="sig-param">x0: Optional[numpy.ndarray] = None</em>, <em class="sig-param">z0: Optional[numpy.ndarray] = None</em>, <em class="sig-param">max_iter: int = 500</em>, <em class="sig-param">min_iter: int = 10</em>, <em class="sig-param">accuracy_threshold: float = 0.001</em>, <em class="sig-param">verbose: Optional[int] = 1</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#PrimalDualSplitting.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.PrimalDualSplitting.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Dimension of the objective functional’s domain.</p></li>
+<li><p><strong>F</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="../classes/pycsou.core.map.html#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><em>DifferentiableMap</em></a><em>]</em>) – Differentiable map <span class="math notranslate nohighlight">\(\mathcal{F}\)</span>.</p></li>
+<li><p><strong>G</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="../classes/pycsou.core.functional.html#pycsou.core.functional.ProximableFunctional" title="pycsou.core.functional.ProximableFunctional"><em>ProximableFunctional</em></a><em>]</em>) – Proximable functional <span class="math notranslate nohighlight">\(\mathcal{G}\)</span>.</p></li>
+<li><p><strong>H</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="../classes/pycsou.core.functional.html#pycsou.core.functional.ProximableFunctional" title="pycsou.core.functional.ProximableFunctional"><em>ProximableFunctional</em></a><em>]</em>) – Proximable functional <span class="math notranslate nohighlight">\(\mathcal{H}\)</span>.</p></li>
+<li><p><strong>K</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="../classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><em>LinearOperator</em></a><em>]</em>) – Linear operator <span class="math notranslate nohighlight">\(\mathbf{K}\)</span>.</p></li>
+<li><p><strong>tau</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – Primal step size.</p></li>
+<li><p><strong>sigma</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – Dual step size.</p></li>
+<li><p><strong>rho</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – Momentum parameter.</p></li>
+<li><p><strong>beta</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – Lipschitz constant <span class="math notranslate nohighlight">\(\beta\)</span> of the derivative of <span class="math notranslate nohighlight">\(\mathcal{F}\)</span>.</p></li>
+<li><p><strong>x0</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – Initial guess for the primal variable.</p></li>
+<li><p><strong>z0</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – Initial guess for the dual variable.</p></li>
+<li><p><strong>max_iter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Maximal number of iterations.</p></li>
+<li><p><strong>min_iter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Minimal number of iterations.</p></li>
+<li><p><strong>accuracy_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Accuracy threshold for stopping criterion.</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Print diagnostics every <code class="docutils literal notranslate"><span class="pre">verbose</span></code> iterations. If <code class="docutils literal notranslate"><span class="pre">None</span></code> does not print anything.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.opt.proxalgs.PrimalDualSplitting.set_step_sizes">
+<code class="sig-name descname">set_step_sizes</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Tuple[float, float]<a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#PrimalDualSplitting.set_step_sizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.PrimalDualSplitting.set_step_sizes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the primal/dual step sizes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Sensible primal/dual step sizes.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a>]</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>In practice, the convergence speed  of the algorithm is improved by choosing <span class="math notranslate nohighlight">\(\sigma\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> as large as possible and relatively well-balanced –so that both the primal and dual variables converge at the same pace. In practice, it is hence recommended to choose perfectly balanced parameters <span class="math notranslate nohighlight">\(\sigma=\tau\)</span> saturating the convergence inequalities.</p>
+<p>For <span class="math notranslate nohighlight">\(\beta&gt;0\)</span> this yields:</p>
+<div class="math notranslate nohighlight">
+\[\frac{1}{\tau}-\tau\Vert\mathbf{K}\Vert_{2}^2= \frac{\beta}{2} \quad\Longleftrightarrow\quad -2\tau^2\Vert\mathbf{K}\Vert_{2}^2-\beta\tau+2=0,\]</div>
+<p>which admits one positive root</p>
+<div class="math notranslate nohighlight">
+\[\tau=\sigma=\frac{1}{\Vert\mathbf{K}\Vert_{2}^2}\left(-\frac{\beta}{4}+\sqrt{\frac{\beta^2}{16}+\Vert\mathbf{K}\Vert_{2}^2}\right).\]</div>
+<p>For <span class="math notranslate nohighlight">\(\beta=0\)</span>, this yields</p>
+<div class="math notranslate nohighlight">
+\[\tau=\sigma=\Vert\mathbf{K\Vert_{2}^{-1}.}\]</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.opt.proxalgs.PrimalDualSplitting.set_momentum_term">
+<code class="sig-name descname">set_momentum_term</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#PrimalDualSplitting.set_momentum_term"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.PrimalDualSplitting.set_momentum_term" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the momentum term.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Momentum term.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.opt.proxalgs.PrimalDualSplitting.initialize_primal_variable">
+<code class="sig-name descname">initialize_primal_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#PrimalDualSplitting.initialize_primal_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.PrimalDualSplitting.initialize_primal_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the primal variable to zero.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Zero-initialized primal variable.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.opt.proxalgs.PrimalDualSplitting.initialize_dual_variable">
+<code class="sig-name descname">initialize_dual_variable</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Optional[numpy.ndarray]<a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#PrimalDualSplitting.initialize_dual_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.PrimalDualSplitting.initialize_dual_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the dual variable to zero.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Zero-initialized dual variable.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.opt.proxalgs.PrimalDualSplitting.update_iterand">
+<code class="sig-name descname">update_iterand</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Any<a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#PrimalDualSplitting.update_iterand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.PrimalDualSplitting.update_iterand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the iterand.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Result of the update.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.opt.proxalgs.PrimalDualSplitting.print_diagnostics">
+<code class="sig-name descname">print_diagnostics</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#PrimalDualSplitting.print_diagnostics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.PrimalDualSplitting.print_diagnostics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print diagnostics.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.opt.proxalgs.PrimalDualSplitting.stopping_metric">
+<code class="sig-name descname">stopping_metric</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#PrimalDualSplitting.stopping_metric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.PrimalDualSplitting.stopping_metric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stopping metric.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.opt.proxalgs.PrimalDualSplitting.update_diagnostics">
+<code class="sig-name descname">update_diagnostics</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#PrimalDualSplitting.update_diagnostics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.PrimalDualSplitting.update_diagnostics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the diagnostics.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pycsou.opt.proxalgs.PDS">
+<code class="sig-name descname">PDS</code><a class="headerlink" href="#pycsou.opt.proxalgs.PDS" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#pycsou.opt.proxalgs.PrimalDualSplitting" title="pycsou.opt.proxalgs.PrimalDualSplitting"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.opt.proxalgs.PrimalDualSplitting</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.opt.proxalgs.AcceleratedProximalGradientDescent">
+<em class="property">class </em><code class="sig-name descname">AcceleratedProximalGradientDescent</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">F: Optional[pycsou.core.map.DifferentiableMap] = None</em>, <em class="sig-param">G: Optional[pycsou.core.functional.ProximableFunctional] = None</em>, <em class="sig-param">tau: Optional[float] = None</em>, <em class="sig-param">acceleration: Optional[str] = 'CD'</em>, <em class="sig-param">beta: Optional[float] = None</em>, <em class="sig-param">x0: Optional[numpy.ndarray] = None</em>, <em class="sig-param">max_iter: int = 500</em>, <em class="sig-param">min_iter: int = 10</em>, <em class="sig-param">accuracy_threshold: float = 0.001</em>, <em class="sig-param">verbose: Optional[int] = 1</em>, <em class="sig-param">d: float = 75.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#AcceleratedProximalGradientDescent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../classes/pycsou.core.solver.html#pycsou.core.solver.GenericIterativeAlgorithm" title="pycsou.core.solver.GenericIterativeAlgorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.solver.GenericIterativeAlgorithm</span></code></a></p>
+<p>Accelerated proximal gradient descent.</p>
+<p>This class is also accessible via the alias <code class="docutils literal notranslate"><span class="pre">APGD()</span></code>.</p>
+<p class="rubric">Notes</p>
+<p>The <em>Accelerated Proximal Gradient Descent (APGD)</em> method can be used to solve problems of the form:</p>
+<div class="math notranslate nohighlight">
+\[{\min_{\mathbf{x}\in\mathbb{R}^N} \;\mathcal{F}(\mathbf{x})\;\;+\;\;\mathcal{G}(\mathbf{x}).}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathcal{F}:\mathbb{R}^N\rightarrow \mathbb{R}\)</span> is <em>convex</em> and <em>differentiable</em>, with <span class="math notranslate nohighlight">\(\beta\)</span>-<em>Lipschitz continuous</em> gradient,
+for some <span class="math notranslate nohighlight">\(\beta\in[0,+\infty[\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathcal{G}:\mathbb{R}^N\rightarrow \mathbb{R}\cup\{+\infty\}\)</span> is a <em>proper</em>, <em>lower semicontinuous</em> and <em>convex function</em> with a <em>simple proximal operator</em>.</p></li>
+<li><p>The problem is <em>feasible</em> –i.e. there exists at least one solution.</p></li>
+</ul>
+<p><strong>Remark 1:</strong> the algorithm is still valid if one or more of the terms <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> or <span class="math notranslate nohighlight">\(\mathcal{G}\)</span> is zero.</p>
+<p><strong>Remark 2:</strong>  The convergence is guaranteed for step sizes <span class="math notranslate nohighlight">\(\tau\leq 1/\beta\)</span>. Without acceleration, APGD can be seen
+as a PDS method with <span class="math notranslate nohighlight">\(\rho=1\)</span>. The various acceleration schemes are described in <a class="reference internal" href="../../notes/references.html#apgd" id="id3"><span>[APGD]</span></a>.
+For <span class="math notranslate nohighlight">\(0&lt;\tau\leq 1/\beta\)</span> and Chambolle and Dossal’s acceleration scheme (<code class="docutils literal notranslate"><span class="pre">acceleration='CD'</span></code>), APGD achieves the following (optimal) <em>convergence rates</em>:</p>
+<div class="math notranslate nohighlight">
+\[\lim\limits_{n\rightarrow \infty} n^2\left\vert \mathcal{J}(\mathbf{x}^\star)- \mathcal{J}(\mathbf{x}_n)\right\vert=0\qquad \&amp;\qquad \lim\limits_{n\rightarrow \infty} n^2\Vert \mathbf{x}_n-\mathbf{x}_{n-1}\Vert^2_\mathcal{X}=0,\]</div>
+<p>for <em>some minimiser</em> <span class="math notranslate nohighlight">\({\mathbf{x}^\star}\in\arg\min_{\mathbf{x}\in\mathbb{R}^N} \;\left\{\mathcal{J}(\mathbf{x}):=\mathcal{F}(\mathbf{x})+\mathcal{G}(\mathbf{x})\right\}\)</span>.
+In other words, both the objective functional and the APGD iterates <span class="math notranslate nohighlight">\(\{\mathbf{x}_n\}_{n\in\mathbb{N}}\)</span> converge at a rate <span class="math notranslate nohighlight">\(o(1/n^2)\)</span>. In comparison
+Beck and Teboule’s acceleration scheme (<code class="docutils literal notranslate"><span class="pre">acceleration='BT'</span></code>) only achieves a convergence rate of <span class="math notranslate nohighlight">\(O(1/n^2)\)</span>.
+Significant practical <em>speedup</em> can moreover be achieved for values of <span class="math notranslate nohighlight">\(d\)</span> in the range  <span class="math notranslate nohighlight">\([50,100]\)</span>  <a class="reference internal" href="../../notes/references.html#apgd" id="id4"><span>[APGD]</span></a>.</p>
+<p class="rubric">Examples</p>
+<p>Consider the <em>LASSO problem</em>:</p>
+<div class="math notranslate nohighlight">
+\[\min_{\mathbf{x}\in\mathbb{R}^N}\frac{1}{2}\left\|\mathbf{y}-\mathbf{G}\mathbf{x}\right\|_2^2\quad+\quad\lambda \|\mathbf{x}\|_1,\]</div>
+<p>with <span class="math notranslate nohighlight">\(\mathbf{G}\in\mathbb{R}^{L\times N}, \, \mathbf{y}\in\mathbb{R}^L, \lambda&gt;0.\)</span> This problem can be solved via APGD with <span class="math notranslate nohighlight">\(\mathcal{F}(\mathbf{x})= \frac{1}{2}\left\|\mathbf{y}-\mathbf{G}\mathbf{x}\right\|_2^2\)</span> and <span class="math notranslate nohighlight">\(\mathcal{G}(\mathbf{x})=\lambda \|\mathbf{x}\|_1\)</span>. We have:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{\nabla}\mathcal{F}(\mathbf{x})=\mathbf{G}^T(\mathbf{G}\mathbf{x}-\mathbf{y}), \qquad  \text{prox}_{\lambda\|\cdot\|_1}(\mathbf{x})=\text{soft}_\lambda(\mathbf{x}).\]</div>
+<p>This yields the so-called <em>Fast Iterative Soft Thresholding Algorithm (FISTA)</em>, whose convergence is guaranteed for <span class="math notranslate nohighlight">\(d&gt;2\)</span> and <span class="math notranslate nohighlight">\(0&lt;\tau\leq \beta^{-1}=\|\mathbf{G}\|_2^{-2}\)</span>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pycsou.func.loss</span> <span class="kn">import</span> <span class="n">SquaredL2Loss</span>
+<span class="kn">from</span> <span class="nn">pycsou.func.penalty</span> <span class="kn">import</span> <span class="n">L1Norm</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">DenseLinearOperator</span>
+<span class="kn">from</span> <span class="nn">pycsou.opt.proxalgs</span> <span class="kn">import</span> <span class="n">APGD</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">DenseLinearOperator</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">G</span><span class="o">.</span><span class="n">compute_lipschitz_cst</span><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">l22_loss</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">SquaredL2Loss</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">l22_loss</span> <span class="o">*</span> <span class="n">G</span>
+<span class="n">lambda_</span> <span class="o">=</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="n">x</span><span class="p">)))</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">lambda_</span> <span class="o">*</span> <span class="n">L1Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">apgd</span> <span class="o">=</span> <span class="n">APGD</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">F</span><span class="o">=</span><span class="n">F</span><span class="p">,</span> <span class="n">G</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">acceleration</span><span class="o">=</span><span class="s1">&#39;CD&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">estimate</span><span class="p">,</span> <span class="n">converged</span><span class="p">,</span> <span class="n">diagnostics</span> <span class="o">=</span> <span class="n">apgd</span><span class="o">.</span><span class="n">iterate</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">linefmt</span><span class="o">=</span><span class="s1">&#39;C0-&#39;</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="s1">&#39;C0o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">estimate</span><span class="p">[</span><span class="s1">&#39;iterand&#39;</span><span class="p">],</span> <span class="n">linefmt</span><span class="o">=</span><span class="s1">&#39;C1--&#39;</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="s1">&#39;C1s&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Ground truth&#39;</span><span class="p">,</span> <span class="s1">&#39;LASSO Estimate&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="../../api/algorithms/pycsou-opt-proxalgs-2.py">Source code</a>, <a class="reference external" href="../../api/algorithms/pycsou-opt-proxalgs-2.png">png</a>, <a class="reference external" href="../../api/algorithms/pycsou-opt-proxalgs-2.hires.png">hires.png</a>, <a class="reference external" href="../../api/algorithms/pycsou-opt-proxalgs-2.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="../../_images/pycsou-opt-proxalgs-2.png" src="../../_images/pycsou-opt-proxalgs-2.png" />
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#pycsou.opt.proxalgs.APGD" title="pycsou.opt.proxalgs.APGD"><code class="xref py py-class docutils literal notranslate"><span class="pre">APGD</span></code></a></p>
+</div>
+<dl class="method">
+<dt id="pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">F: Optional[pycsou.core.map.DifferentiableMap] = None</em>, <em class="sig-param">G: Optional[pycsou.core.functional.ProximableFunctional] = None</em>, <em class="sig-param">tau: Optional[float] = None</em>, <em class="sig-param">acceleration: Optional[str] = 'CD'</em>, <em class="sig-param">beta: Optional[float] = None</em>, <em class="sig-param">x0: Optional[numpy.ndarray] = None</em>, <em class="sig-param">max_iter: int = 500</em>, <em class="sig-param">min_iter: int = 10</em>, <em class="sig-param">accuracy_threshold: float = 0.001</em>, <em class="sig-param">verbose: Optional[int] = 1</em>, <em class="sig-param">d: float = 75.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#AcceleratedProximalGradientDescent.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Dimension of the objective functional’s domain.</p></li>
+<li><p><strong>F</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="../classes/pycsou.core.map.html#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><em>DifferentiableMap</em></a><em>]</em>) – Differentiable map <span class="math notranslate nohighlight">\(\mathcal{F}\)</span>.</p></li>
+<li><p><strong>G</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="../classes/pycsou.core.functional.html#pycsou.core.functional.ProximableFunctional" title="pycsou.core.functional.ProximableFunctional"><em>ProximableFunctional</em></a><em>]</em>) – Proximable functional <span class="math notranslate nohighlight">\(\mathcal{G}\)</span>.</p></li>
+<li><p><strong>tau</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – Primal step size.</p></li>
+<li><p><strong>acceleration</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>] </em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a><em>, </em><em>'BT'</em><em>, </em><em>'CD'</em><em>]</em>) – Which acceleration scheme should be used (<cite>None</cite> for no acceleration).</p></li>
+<li><p><strong>beta</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – Lipschitz constant <span class="math notranslate nohighlight">\(\beta\)</span> of the derivative of <span class="math notranslate nohighlight">\(\mathcal{F}\)</span>.</p></li>
+<li><p><strong>x0</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – Initial guess for the primal variable.</p></li>
+<li><p><strong>max_iter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Maximal number of iterations.</p></li>
+<li><p><strong>min_iter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Minimal number of iterations.</p></li>
+<li><p><strong>accuracy_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Accuracy threshold for stopping criterion.</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Print diagnostics every <code class="docutils literal notranslate"><span class="pre">verbose</span></code> iterations. If <code class="docutils literal notranslate"><span class="pre">None</span></code> does not print anything.</p></li>
+<li><p><strong>d</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Parameter <span class="math notranslate nohighlight">\(d\)</span> for Chambolle and Dossal’s acceleration scheme (<code class="docutils literal notranslate"><span class="pre">acceleration='CD'</span></code>).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.set_step_size">
+<code class="sig-name descname">set_step_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#AcceleratedProximalGradientDescent.set_step_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.set_step_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the step size to its largest admissible value <span class="math notranslate nohighlight">\(1/\beta\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Largest admissible step size.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.initialize_iterate">
+<code class="sig-name descname">initialize_iterate</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#AcceleratedProximalGradientDescent.initialize_iterate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.initialize_iterate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the iterand to zero.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Zero-initialized iterand.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.update_iterand">
+<code class="sig-name descname">update_iterand</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Any<a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#AcceleratedProximalGradientDescent.update_iterand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.update_iterand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the iterand.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Result of the update.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.print_diagnostics">
+<code class="sig-name descname">print_diagnostics</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#AcceleratedProximalGradientDescent.print_diagnostics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.print_diagnostics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print diagnostics.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.stopping_metric">
+<code class="sig-name descname">stopping_metric</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#AcceleratedProximalGradientDescent.stopping_metric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.stopping_metric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stopping metric.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.update_diagnostics">
+<code class="sig-name descname">update_diagnostics</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#AcceleratedProximalGradientDescent.update_diagnostics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.update_diagnostics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the diagnostics.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pycsou.opt.proxalgs.APGD">
+<code class="sig-name descname">APGD</code><a class="headerlink" href="#pycsou.opt.proxalgs.APGD" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent" title="pycsou.opt.proxalgs.AcceleratedProximalGradientDescent"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.opt.proxalgs.AcceleratedProximalGradientDescent</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.opt.proxalgs.ChambollePockSplitting">
+<em class="property">class </em><code class="sig-name descname">ChambollePockSplitting</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">G: Optional[pycsou.core.functional.ProximableFunctional] = None</em>, <em class="sig-param">H: Optional[pycsou.core.functional.ProximableFunctional] = None</em>, <em class="sig-param">K: Optional[pycsou.core.linop.LinearOperator] = None</em>, <em class="sig-param">tau: Optional[float] = None</em>, <em class="sig-param">sigma: Optional[float] = None</em>, <em class="sig-param">rho: Optional[float] = 1</em>, <em class="sig-param">x0: Optional[numpy.ndarray] = None</em>, <em class="sig-param">z0: Optional[numpy.ndarray] = None</em>, <em class="sig-param">max_iter: int = 500</em>, <em class="sig-param">min_iter: int = 10</em>, <em class="sig-param">accuracy_threshold: float = 0.001</em>, <em class="sig-param">verbose: Optional[int] = 1</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#ChambollePockSplitting"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.ChambollePockSplitting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.opt.proxalgs.PrimalDualSplitting" title="pycsou.opt.proxalgs.PrimalDualSplitting"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.opt.proxalgs.PrimalDualSplitting</span></code></a></p>
+<p>Chambolle and Pock primal-dual splitting method.</p>
+<p>This class is also accessible via the alias <code class="docutils literal notranslate"><span class="pre">CPS()</span></code>.</p>
+<p class="rubric">Notes</p>
+<p>The <em>Chambolle and Pock primal-dual splitting (CPS)</em> method can be used to solve problems of the form:</p>
+<div class="math notranslate nohighlight">
+\[{\min_{\mathbf{x}\in\mathbb{R}^N} \mathcal{G}(\mathbf{x})\;\;+\;\;\mathcal{H}(\mathbf{K} \mathbf{x}).}\]</div>
+<p>where:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(\mathcal{G}:\mathbb{R}^N\rightarrow \mathbb{R}\cup\{+\infty\}\)</span> and <span class="math notranslate nohighlight">\(\mathcal{H}:\mathbb{R}^M\rightarrow \mathbb{R}\cup\{+\infty\}\)</span> are two <em>proper</em>, <em>lower semicontinuous</em> and <em>convex functions</em> with <em>simple proximal operators</em>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{K}:\mathbb{R}^N\rightarrow \mathbb{R}^M\)</span> is a <em>linear operator</em>, with <strong>operator norm</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\Vert{\mathbf{K}}\Vert_2=\sup_{\mathbf{x}\in\mathbb{R}^N,\Vert\mathbf{x}\Vert_2=1} \Vert\mathbf{K}\mathbf{x}\Vert_2.\]</div>
+</li>
+<li><p>The problem is <em>feasible</em> –i.e. there exists at least one solution.</p></li>
+</ul>
+<p><strong>Remark 1:</strong></p>
+<p>The algorithm is still valid if one of the terms <span class="math notranslate nohighlight">\(\mathcal{G}\)</span> or <span class="math notranslate nohighlight">\(\mathcal{H}\)</span> is zero.</p>
+<p><strong>Remark 2:</strong></p>
+<p>Assume that the following holds:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\tau\sigma\Vert\mathbf{K}\Vert_{2}^2\leq 1\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\rho \in [\epsilon,2-\epsilon]\)</span>, for some  <span class="math notranslate nohighlight">\(\epsilon&gt;0.\)</span></p></li>
+</ul>
+<p>Then, there exists a pair <span class="math notranslate nohighlight">\((\mathbf{x}^\star,\mathbf{z}^\star)\in\mathbb{R}^N\times \mathbb{R}^M\)</span>} solution s.t. the primal and dual sequences of  estimates <span class="math notranslate nohighlight">\((\mathbf{x}_n)_{n\in\mathbb{N}}\)</span> and <span class="math notranslate nohighlight">\((\mathbf{z}_n)_{n\in\mathbb{N}}\)</span> <em>converge</em> towards <span class="math notranslate nohighlight">\(\mathbf{x}^\star\)</span> and <span class="math notranslate nohighlight">\(\mathbf{z}^\star\)</span> respectively, i.e.</p>
+<div class="math notranslate nohighlight">
+\[\lim_{n\rightarrow +\infty}\Vert\mathbf{x}^\star-\mathbf{x}_n\Vert_2=0, \quad \text{and} \quad  \lim_{n\rightarrow +\infty}\Vert\mathbf{z}^\star-\mathbf{z}_n\Vert_2=0.\]</div>
+<p><strong>Default values of the hyperparameters provided here always ensure convergence of the algorithm.</strong></p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#pycsou.opt.proxalgs.CPS" title="pycsou.opt.proxalgs.CPS"><code class="xref py py-class docutils literal notranslate"><span class="pre">CPS</span></code></a>, <a class="reference internal" href="#pycsou.opt.proxalgs.PrimalDualSplitting" title="pycsou.opt.proxalgs.PrimalDualSplitting"><code class="xref py py-class docutils literal notranslate"><span class="pre">PrimalDualSplitting</span></code></a>, <a class="reference internal" href="#pycsou.opt.proxalgs.DouglasRachfordSplitting" title="pycsou.opt.proxalgs.DouglasRachfordSplitting"><code class="xref py py-class docutils literal notranslate"><span class="pre">DouglasRachfordSplitting</span></code></a></p>
+</div>
+<dl class="method">
+<dt id="pycsou.opt.proxalgs.ChambollePockSplitting.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">G: Optional[pycsou.core.functional.ProximableFunctional] = None</em>, <em class="sig-param">H: Optional[pycsou.core.functional.ProximableFunctional] = None</em>, <em class="sig-param">K: Optional[pycsou.core.linop.LinearOperator] = None</em>, <em class="sig-param">tau: Optional[float] = None</em>, <em class="sig-param">sigma: Optional[float] = None</em>, <em class="sig-param">rho: Optional[float] = 1</em>, <em class="sig-param">x0: Optional[numpy.ndarray] = None</em>, <em class="sig-param">z0: Optional[numpy.ndarray] = None</em>, <em class="sig-param">max_iter: int = 500</em>, <em class="sig-param">min_iter: int = 10</em>, <em class="sig-param">accuracy_threshold: float = 0.001</em>, <em class="sig-param">verbose: Optional[int] = 1</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#ChambollePockSplitting.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.ChambollePockSplitting.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Dimension of the objective functional’s domain.</p></li>
+<li><p><strong>G</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="../classes/pycsou.core.functional.html#pycsou.core.functional.ProximableFunctional" title="pycsou.core.functional.ProximableFunctional"><em>ProximableFunctional</em></a><em>]</em>) – Proximable functional <span class="math notranslate nohighlight">\(\mathcal{G}\)</span>.</p></li>
+<li><p><strong>H</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="../classes/pycsou.core.functional.html#pycsou.core.functional.ProximableFunctional" title="pycsou.core.functional.ProximableFunctional"><em>ProximableFunctional</em></a><em>]</em>) – Proximable functional <span class="math notranslate nohighlight">\(\mathcal{H}\)</span>.</p></li>
+<li><p><strong>K</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="../classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><em>LinearOperator</em></a><em>]</em>) – Linear operator <span class="math notranslate nohighlight">\(\mathbf{K}\)</span>.</p></li>
+<li><p><strong>tau</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – Primal step size.</p></li>
+<li><p><strong>sigma</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – Dual step size.</p></li>
+<li><p><strong>rho</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – Momentum parameter.</p></li>
+<li><p><strong>x0</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – Initial guess for the primal variable.</p></li>
+<li><p><strong>z0</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – Initial guess for the dual variable.</p></li>
+<li><p><strong>max_iter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Maximal number of iterations.</p></li>
+<li><p><strong>min_iter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Minimal number of iterations.</p></li>
+<li><p><strong>accuracy_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Accuracy threshold for stopping criterion.</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Print diagnostics every <code class="docutils literal notranslate"><span class="pre">verbose</span></code> iterations. If <code class="docutils literal notranslate"><span class="pre">None</span></code> does not print anything.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pycsou.opt.proxalgs.CPS">
+<code class="sig-name descname">CPS</code><a class="headerlink" href="#pycsou.opt.proxalgs.CPS" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#pycsou.opt.proxalgs.ChambollePockSplitting" title="pycsou.opt.proxalgs.ChambollePockSplitting"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.opt.proxalgs.ChambollePockSplitting</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.opt.proxalgs.DouglasRachfordSplitting">
+<em class="property">class </em><code class="sig-name descname">DouglasRachfordSplitting</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">G: Optional[pycsou.core.functional.ProximableFunctional] = None</em>, <em class="sig-param">H: Optional[pycsou.core.functional.ProximableFunctional] = None</em>, <em class="sig-param">tau: float = 1.0</em>, <em class="sig-param">x0: Optional[numpy.ndarray] = None</em>, <em class="sig-param">z0: Optional[numpy.ndarray] = None</em>, <em class="sig-param">max_iter: int = 500</em>, <em class="sig-param">min_iter: int = 10</em>, <em class="sig-param">accuracy_threshold: float = 0.001</em>, <em class="sig-param">verbose: Optional[int] = 1</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#DouglasRachfordSplitting"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.DouglasRachfordSplitting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.opt.proxalgs.PrimalDualSplitting" title="pycsou.opt.proxalgs.PrimalDualSplitting"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.opt.proxalgs.PrimalDualSplitting</span></code></a></p>
+<p>Douglas Rachford splitting algorithm.</p>
+<p>This class is also accessible via the alias <code class="docutils literal notranslate"><span class="pre">DRS()</span></code>.</p>
+<p class="rubric">Notes</p>
+<p>The <em>Douglas Rachford Splitting (DRS)</em> can be used to solve problems of the form:</p>
+<div class="math notranslate nohighlight">
+\[{\min_{\mathbf{x}\in\mathbb{R}^N} \mathcal{G}(\mathbf{x})\;\;+\;\;\mathcal{H}(\mathbf{x}).}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathcal{G}:\mathbb{R}^N\rightarrow \mathbb{R}\cup\{+\infty\}\)</span> and <span class="math notranslate nohighlight">\(\mathcal{H}:\mathbb{R}^M\rightarrow \mathbb{R}\cup\{+\infty\}\)</span> are two <em>proper</em>, <em>lower semicontinuous</em> and <em>convex functions</em> with <em>simple proximal operators</em>.</p></li>
+<li><p>The problem is <em>feasible</em> –i.e. there exists at least one solution.</p></li>
+</ul>
+<p><strong>Remark 1:</strong></p>
+<p>The algorithm is still valid if one of the terms <span class="math notranslate nohighlight">\(\mathcal{G}\)</span> or <span class="math notranslate nohighlight">\(\mathcal{H}\)</span> is zero.</p>
+<p><strong>Default values of the hyperparameters provided here always ensure convergence of the algorithm.</strong></p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#pycsou.opt.proxalgs.DRS" title="pycsou.opt.proxalgs.DRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">DRS</span></code></a>, <a class="reference internal" href="#pycsou.opt.proxalgs.PrimalDualSplitting" title="pycsou.opt.proxalgs.PrimalDualSplitting"><code class="xref py py-class docutils literal notranslate"><span class="pre">PrimalDualSplitting</span></code></a>, <a class="reference internal" href="#pycsou.opt.proxalgs.ChambollePockSplitting" title="pycsou.opt.proxalgs.ChambollePockSplitting"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChambollePockSplitting</span></code></a></p>
+</div>
+<dl class="method">
+<dt id="pycsou.opt.proxalgs.DouglasRachfordSplitting.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">G: Optional[pycsou.core.functional.ProximableFunctional] = None</em>, <em class="sig-param">H: Optional[pycsou.core.functional.ProximableFunctional] = None</em>, <em class="sig-param">tau: float = 1.0</em>, <em class="sig-param">x0: Optional[numpy.ndarray] = None</em>, <em class="sig-param">z0: Optional[numpy.ndarray] = None</em>, <em class="sig-param">max_iter: int = 500</em>, <em class="sig-param">min_iter: int = 10</em>, <em class="sig-param">accuracy_threshold: float = 0.001</em>, <em class="sig-param">verbose: Optional[int] = 1</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#DouglasRachfordSplitting.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.DouglasRachfordSplitting.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Dimension of the objective functional’s domain.</p></li>
+<li><p><strong>G</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="../classes/pycsou.core.functional.html#pycsou.core.functional.ProximableFunctional" title="pycsou.core.functional.ProximableFunctional"><em>ProximableFunctional</em></a><em>]</em>) – Proximable functional <span class="math notranslate nohighlight">\(\mathcal{G}\)</span>.</p></li>
+<li><p><strong>H</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="../classes/pycsou.core.functional.html#pycsou.core.functional.ProximableFunctional" title="pycsou.core.functional.ProximableFunctional"><em>ProximableFunctional</em></a><em>]</em>) – Proximable functional <span class="math notranslate nohighlight">\(\mathcal{H}\)</span>.</p></li>
+<li><p><strong>tau</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – Primal step size.</p></li>
+<li><p><strong>x0</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – Initial guess for the primal variable.</p></li>
+<li><p><strong>z0</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – Initial guess for the dual variable.</p></li>
+<li><p><strong>max_iter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Maximal number of iterations.</p></li>
+<li><p><strong>min_iter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Minimal number of iterations.</p></li>
+<li><p><strong>accuracy_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Accuracy threshold for stopping criterion.</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Print diagnostics every <code class="docutils literal notranslate"><span class="pre">verbose</span></code> iterations. If <code class="docutils literal notranslate"><span class="pre">None</span></code> does not print anything.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pycsou.opt.proxalgs.DRS">
+<code class="sig-name descname">DRS</code><a class="headerlink" href="#pycsou.opt.proxalgs.DRS" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#pycsou.opt.proxalgs.DouglasRachfordSplitting" title="pycsou.opt.proxalgs.DouglasRachfordSplitting"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.opt.proxalgs.DouglasRachfordSplitting</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.opt.proxalgs.ForwardBackwardSplitting">
+<em class="property">class </em><code class="sig-name descname">ForwardBackwardSplitting</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">F: Optional[pycsou.core.functional.DifferentiableFunctional] = None</em>, <em class="sig-param">G: Optional[pycsou.core.functional.ProximableFunctional] = None</em>, <em class="sig-param">tau: Optional[float] = None</em>, <em class="sig-param">rho: Optional[float] = 1</em>, <em class="sig-param">x0: Optional[numpy.ndarray] = None</em>, <em class="sig-param">max_iter: int = 500</em>, <em class="sig-param">min_iter: int = 10</em>, <em class="sig-param">accuracy_threshold: float = 0.001</em>, <em class="sig-param">verbose: Optional[int] = 1</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#ForwardBackwardSplitting"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.ForwardBackwardSplitting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.opt.proxalgs.PrimalDualSplitting" title="pycsou.opt.proxalgs.PrimalDualSplitting"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.opt.proxalgs.PrimalDualSplitting</span></code></a></p>
+<p>Forward-backward splitting algorithm.</p>
+<p>This class is also accessible via the alias <code class="docutils literal notranslate"><span class="pre">FBS()</span></code>.</p>
+<p class="rubric">Notes</p>
+<p>The <em>Forward-backward splitting (FBS)</em> method can be used to solve problems of the form:</p>
+<div class="math notranslate nohighlight">
+\[{\min_{\mathbf{x}\in\mathbb{R}^N} \;\mathcal{F}(\mathbf{x})\;\;+\;\;\mathcal{G}(\mathbf{x}).}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathcal{F}:\mathbb{R}^N\rightarrow \mathbb{R}\)</span> is <em>convex</em> and <em>differentiable</em>, with <span class="math notranslate nohighlight">\(\beta\)</span>-<em>Lipschitz continuous</em> gradient,
+for some <span class="math notranslate nohighlight">\(\beta\in[0,+\infty[\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathcal{G}:\mathbb{R}^N\rightarrow \mathbb{R}\cup\{+\infty\}\)</span> is <em>proper</em>, <em>lower semicontinuous</em> and <em>convex function</em> with <em>simple proximal operator</em>.</p></li>
+<li><p>The problem is <em>feasible</em> –i.e. there exists at least one solution.</p></li>
+</ul>
+<p><strong>Remark 1:</strong></p>
+<p>The algorithm is still valid if one of the terms <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> or <span class="math notranslate nohighlight">\(\mathcal{G}\)</span> is zero.</p>
+<p><strong>Remark 2:</strong></p>
+<p>Assume that the following holds:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\frac{1}{\tau}\geq \frac{\beta}{2}\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\rho \in ]0,\delta[\)</span>, where <span class="math notranslate nohighlight">\(\delta:=2-\frac{\beta}{2}\tau\in[1,2[.\)</span></p></li>
+</ul>
+</div></blockquote>
+<p>Then, there exists a pair <span class="math notranslate nohighlight">\((\mathbf{x}^\star,\mathbf{z}^\star)\in\mathbb{R}^N\times \mathbb{R}^M\)</span>} solution s.t. the primal and dual sequences of  estimates <span class="math notranslate nohighlight">\((\mathbf{x}_n)_{n\in\mathbb{N}}\)</span> and <span class="math notranslate nohighlight">\((\mathbf{z}_n)_{n\in\mathbb{N}}\)</span> <em>converge</em> towards <span class="math notranslate nohighlight">\(\mathbf{x}^\star\)</span> and <span class="math notranslate nohighlight">\(\mathbf{z}^\star\)</span> respectively, i.e.</p>
+<div class="math notranslate nohighlight">
+\[\lim_{n\rightarrow +\infty}\Vert\mathbf{x}^\star-\mathbf{x}_n\Vert_2=0, \quad \text{and} \quad  \lim_{n\rightarrow +\infty}\Vert\mathbf{z}^\star-\mathbf{z}_n\Vert_2=0.\]</div>
+<p><strong>Default values of the hyperparameters provided here always ensure convergence of the algorithm.</strong></p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#pycsou.opt.proxalgs.FBS" title="pycsou.opt.proxalgs.FBS"><code class="xref py py-class docutils literal notranslate"><span class="pre">FBS</span></code></a>, <a class="reference internal" href="#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent" title="pycsou.opt.proxalgs.AcceleratedProximalGradientDescent"><code class="xref py py-class docutils literal notranslate"><span class="pre">AcceleratedProximalGradientDescent</span></code></a></p>
+</div>
+<dl class="method">
+<dt id="pycsou.opt.proxalgs.ForwardBackwardSplitting.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">F: Optional[pycsou.core.functional.DifferentiableFunctional] = None</em>, <em class="sig-param">G: Optional[pycsou.core.functional.ProximableFunctional] = None</em>, <em class="sig-param">tau: Optional[float] = None</em>, <em class="sig-param">rho: Optional[float] = 1</em>, <em class="sig-param">x0: Optional[numpy.ndarray] = None</em>, <em class="sig-param">max_iter: int = 500</em>, <em class="sig-param">min_iter: int = 10</em>, <em class="sig-param">accuracy_threshold: float = 0.001</em>, <em class="sig-param">verbose: Optional[int] = 1</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/opt/proxalgs.html#ForwardBackwardSplitting.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.opt.proxalgs.ForwardBackwardSplitting.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Dimension of the objective functional’s domain.</p></li>
+<li><p><strong>F</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="../classes/pycsou.core.map.html#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><em>DifferentiableMap</em></a><em>]</em>) – Differentiable map <span class="math notranslate nohighlight">\(\mathcal{F}\)</span>.</p></li>
+<li><p><strong>G</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="../classes/pycsou.core.functional.html#pycsou.core.functional.ProximableFunctional" title="pycsou.core.functional.ProximableFunctional"><em>ProximableFunctional</em></a><em>]</em>) – Proximable functional <span class="math notranslate nohighlight">\(\mathcal{G}\)</span>.</p></li>
+<li><p><strong>tau</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – Primal step size.</p></li>
+<li><p><strong>rho</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – Momentum parameter.</p></li>
+<li><p><strong>beta</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – Lipschitz constant <span class="math notranslate nohighlight">\(\beta\)</span> of the derivative of <span class="math notranslate nohighlight">\(\mathcal{F}\)</span>.</p></li>
+<li><p><strong>x0</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – Initial guess for the primal variable.</p></li>
+<li><p><strong>max_iter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Maximal number of iterations.</p></li>
+<li><p><strong>min_iter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Minimal number of iterations.</p></li>
+<li><p><strong>accuracy_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Accuracy threshold for stopping criterion.</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Print diagnostics every <code class="docutils literal notranslate"><span class="pre">verbose</span></code> iterations. If <code class="docutils literal notranslate"><span class="pre">None</span></code> does not print anything.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pycsou.opt.proxalgs.FBS">
+<code class="sig-name descname">FBS</code><a class="headerlink" href="#pycsou.opt.proxalgs.FBS" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#pycsou.opt.proxalgs.ForwardBackwardSplitting" title="pycsou.opt.proxalgs.ForwardBackwardSplitting"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.opt.proxalgs.ForwardBackwardSplitting</span></code></a></p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../math/index.html" class="btn btn-neutral float-right" title="Mathematical Functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../functionals/pycsou.func.loss.html" class="btn btn-neutral float-left" title="Loss Functionals" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

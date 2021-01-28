@@ -1,0 +1,893 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pycsou.func.loss &mdash; pycsou 1.0.1.dev11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pycsou
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1.dev11
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/theory.html">Background Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">Pycsou API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/other.html">Pycsou Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pycsou</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pycsou.func.loss</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pycsou.func.loss</h1><div class="highlight"><pre>
+<span></span><span class="c1"># #############################################################################</span>
+<span class="c1"># loss.py</span>
+<span class="c1"># ==========</span>
+<span class="c1"># Author : Matthieu Simeoni [matthieu.simeoni@gmail.com]</span>
+<span class="c1"># #############################################################################</span>
+
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Repository of common loss functionals.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">pycsou.core.functional</span> <span class="kn">import</span> <span class="n">DifferentiableFunctional</span><span class="p">,</span> <span class="n">ProximableFunctional</span><span class="p">,</span> <span class="n">ProxFuncPreComp</span>
+<span class="kn">from</span> <span class="nn">pycsou.func.base</span> <span class="kn">import</span> <span class="n">IndicatorFunctional</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">DenseLinearOperator</span>
+<span class="kn">from</span> <span class="nn">pycsou.func.penalty</span> <span class="kn">import</span> <span class="n">L2Norm</span><span class="p">,</span> <span class="n">L1Norm</span><span class="p">,</span> <span class="n">LInftyNorm</span><span class="p">,</span> <span class="n">L2Ball</span><span class="p">,</span> <span class="n">L1Ball</span><span class="p">,</span> <span class="n">LInftyBall</span><span class="p">,</span> <span class="n">SquaredL1Norm</span><span class="p">,</span> <span class="n">SquaredL2Norm</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="ProximableLoss"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.loss.html#pycsou.func.loss.ProximableLoss">[docs]</a><span class="k">def</span> <span class="nf">ProximableLoss</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">ProximableFunctional</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ProximableFunctional</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Constructor of proximable loss functions.</span>
+
+<span class="sd">    Constructs a proximable loss from a proximable functional and a data vector.</span>
+<span class="sd">    Let :math:`\varphi:\mathbb{R}^N\rightarrow \mathbb{R}` be some proximable functional and :math:`\mathbf{y}\in\mathbb{R}^N`.</span>
+<span class="sd">    This routine defines the loss functional :math:`F(\mathbf{x}; \mathbf{y}):= \varphi(\mathbf{x}-\mathbf{y}), \,\forall \mathbf{x}\in\mathbb{R}^N.`</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    func: ProximableFunctional</span>
+<span class="sd">        Some proximable functional :math:`\varphi:\mathbb{R}^N\rightarrow \mathbb{R}`.</span>
+<span class="sd">    data: Union[Number, np.ndarray]</span>
+<span class="sd">        Data vector :math:`\mathbf{y}\in\mathbb{R}^N`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`~pycsou.core.functional.ProximableFunctional`</span>
+<span class="sd">        Proximable loss functional constructed as :math:`F(\mathbf{x}; \mathbf{y}):= \varphi(\mathbf{x}-\mathbf{y}), \,\forall \mathbf{x}\in\mathbb{R}^N.`</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.loss import ProximableLoss</span>
+<span class="sd">       from pycsou.func.penalty import L1Norm</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; y = np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; func = L1Norm(dim=y.size)</span>
+<span class="sd">       &gt;&gt;&gt; loss = ProximableLoss(func=func, data=y)</span>
+<span class="sd">       &gt;&gt;&gt; x = 2 * np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(loss(x), func(x-y))</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(loss.prox(x, tau=1), func.prox(x-y, tau=1) + y)</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The proximity operator of the loss functional is automatically computed from the one of the input functional :math:`\varphi` using</span>
+<span class="sd">    properties described in [ProxAlg]_ Section 2.1.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.loss.DifferentiableLoss`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">ProxFuncPreComp</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">shift</span><span class="o">=-</span><span class="n">data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DifferentiableLoss"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.loss.html#pycsou.func.loss.DifferentiableLoss">[docs]</a><span class="k">def</span> <span class="nf">DifferentiableLoss</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">DifferentiableFunctional</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">DifferentiableFunctional</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Constructor of proximable loss functions.</span>
+
+<span class="sd">    Constructs a differentiable loss from a differentiable functional and a data vector.</span>
+<span class="sd">    Let :math:`\varphi:\mathbb{R}^N\rightarrow \mathbb{R}` be some differentiable functional and :math:`\mathbf{y}\in\mathbb{R}^N`.</span>
+<span class="sd">    This routine defines the loss functional :math:`F(\mathbf{x}; \mathbf{y}):= \varphi(\mathbf{x}-\mathbf{y}), \,\forall \mathbf{x}\in\mathbb{R}^N.`</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    func: DifferentiableFunctional</span>
+<span class="sd">        Some differentiable functional :math:`\varphi:\mathbb{R}^N\rightarrow \mathbb{R}`.</span>
+<span class="sd">    data: Union[Number, np.ndarray]</span>
+<span class="sd">        Data vector :math:`\mathbf{y}\in\mathbb{R}^N`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`~pycsou.core.functional.DifferentiableFunctional`</span>
+<span class="sd">        Differentiable loss functional constructed as :math:`F(\mathbf{x}; \mathbf{y}):= \varphi(\mathbf{x}-\mathbf{y}), \,\forall \mathbf{x}\in\mathbb{R}^N.`</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.loss import DifferentiableLoss</span>
+<span class="sd">       from pycsou.func.penalty import SquaredL2Norm</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; y = np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; func = SquaredL2Norm(dim=y.size)</span>
+<span class="sd">       &gt;&gt;&gt; loss = DifferentiableLoss(func=func, data=y)</span>
+<span class="sd">       &gt;&gt;&gt; x = 2 * np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(loss(x), func(x-y))</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(loss.gradient(x), 2*(x-y))</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The derivative and Lipschitz constant of the loss functional are automatically computed from those of the input functional :math:`\varphi`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.loss.ProximableLoss`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">func</span><span class="o">.</span><span class="n">shifter</span><span class="p">(</span><span class="n">shift</span><span class="o">=-</span><span class="n">data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="L2Loss"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.loss.html#pycsou.func.loss.L2Loss">[docs]</a><span class="k">def</span> <span class="nf">L2Loss</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ProximableFunctional</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :math:`\ell_2` loss functional, :math:`F(\mathbf{y},\mathbf{x}):=\|\mathbf{y}-\mathbf{x}\|_2`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim: int</span>
+<span class="sd">        Dimension of the domain.</span>
+<span class="sd">    data: Union[Number, np.ndarray]</span>
+<span class="sd">        Data vector :math:`\mathbf{y}`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`~pycsou.core.functional.ProximableFunctional`</span>
+<span class="sd">        The :math:`\ell_2` loss functional.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.loss import L2Loss</span>
+<span class="sd">       from pycsou.func.penalty import L2Norm</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; y = np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; loss = L2Loss(dim=y.size, data=y)</span>
+<span class="sd">       &gt;&gt;&gt; func = L2Norm(dim=y.size)</span>
+<span class="sd">       &gt;&gt;&gt; x = 2 * np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(loss.prox(x, tau=1), func.prox(x-y, tau=1) + y)</span>
+<span class="sd">       True</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.L2Norm`, :py:func:`~pycsou.func.loss.L1Loss`, :py:func:`~pycsou.func.loss.LInftyLoss`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">L2_norm</span> <span class="o">=</span> <span class="n">L2Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ProximableLoss</span><span class="p">(</span><span class="n">L2_norm</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SquaredL2Loss"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.loss.html#pycsou.func.loss.SquaredL2Loss">[docs]</a><span class="k">def</span> <span class="nf">SquaredL2Loss</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">DifferentiableFunctional</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :math:`\ell^2_2` loss functional, :math:`F(\mathbf{y},\mathbf{x}):=\|\mathbf{y}-\mathbf{x}\|^2_2`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim: int</span>
+<span class="sd">        Dimension of the domain.</span>
+<span class="sd">    data: Union[Number, np.ndarray]</span>
+<span class="sd">        Data vector :math:`\mathbf{y}`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`~pycsou.core.functional.DifferentiableFunctional`</span>
+<span class="sd">        The :math:`\ell^2_2` loss functional.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.loss import SquaredL2Loss</span>
+<span class="sd">       from pycsou.func.penalty import SquaredL2Norm</span>
+<span class="sd">       from pycsou.linop.base import DenseLinearOperator</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; y = np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; loss = SquaredL2Loss(dim=y.size, data=y)</span>
+<span class="sd">       &gt;&gt;&gt; Gmat = np.arange(100).reshape(10, 10).astype(float)</span>
+<span class="sd">       &gt;&gt;&gt; G = DenseLinearOperator(Gmat, is_symmetric=False)</span>
+<span class="sd">       &gt;&gt;&gt; G.compute_lipschitz_cst()</span>
+<span class="sd">       &gt;&gt;&gt; fwd_loss = loss * G</span>
+<span class="sd">       &gt;&gt;&gt; x = 2 * np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(loss(x), np.linalg.norm(y - x) ** 2)</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(fwd_loss(x), loss(G(x)))</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(fwd_loss.diff_lipschitz_cst, 2 * (G.lipschitz_cst ** 2))</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(fwd_loss.gradient(x), 2 * G.adjoint(G(x) - y))</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The :math:`\ell_2^2` functional is the likelihood of the data :math:`\mathbf{y}` under the assumtpion of</span>
+<span class="sd">    Gaussian white noise.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.SquaredL2Norm`, :py:func:`~pycsou.func.loss.L2Loss`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">squared_L2_norm</span> <span class="o">=</span> <span class="n">SquaredL2Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">DifferentiableLoss</span><span class="p">(</span><span class="n">squared_L2_norm</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="L2BallLoss"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.loss.html#pycsou.func.loss.L2BallLoss">[docs]</a><span class="k">def</span> <span class="nf">L2BallLoss</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">radius</span><span class="p">:</span> <span class="n">Number</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProximableFunctional</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :math:`\ell_2`-ball loss functional, :math:`\{\mathbf{x}\in\mathbb{R}^N: \|\mathbf{y}-\mathbf{x}\|_2\leq \text{radius}\}`.</span>
+
+<span class="sd">    The :math:`\ell_2`-ball loss functional is defined as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \iota(\mathbf{x}):=\begin{cases}</span>
+<span class="sd">        0 \,\text{if} \,\|\mathbf{x}-\mathbf{y}\|_2\leq \text{radius},\\</span>
+<span class="sd">         \, 0\,\text{ortherwise}.</span>
+<span class="sd">         \end{cases}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim: int</span>
+<span class="sd">        Dimension of the domain.</span>
+<span class="sd">    data: Union[Number, np.ndarray]</span>
+<span class="sd">        Data vector :math:`\mathbf{y}`.</span>
+<span class="sd">    radius: Number</span>
+<span class="sd">        Radius of the ball.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`~pycsou.core.functional.ProximableFunctional`</span>
+<span class="sd">        The :math:`\ell_2`-ball loss functional.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.loss import L2BallLoss</span>
+<span class="sd">       from pycsou.func.penalty import L2Ball</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; y = np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; loss = L2BallLoss(dim=y.size, data=y, radius=2)</span>
+<span class="sd">       &gt;&gt;&gt; func = L2Ball(dim=y.size, radius=2)</span>
+<span class="sd">       &gt;&gt;&gt; x = 2 * np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(loss.prox(x, tau=1), func.prox(x-y, tau=1) + y)</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The :math:`\ell_2`-ball loss functional is particularly useful in the context of Gaussian white noise with</span>
+<span class="sd">    known standard deviation. In which case, the :math:`\ell_2`-ball defines a confidence region for the data :math:`\mathbf{y}` ([FuncSphere]_ Section 5 of Chapter 7).</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.L2Ball`, :py:func:`~pycsou.func.loss.L2Loss`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">L2_ball</span> <span class="o">=</span> <span class="n">L2Ball</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ProximableLoss</span><span class="p">(</span><span class="n">L2_ball</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="L1Loss"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.loss.html#pycsou.func.loss.L1Loss">[docs]</a><span class="k">def</span> <span class="nf">L1Loss</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ProximableFunctional</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :math:`\ell_1` loss functional, :math:`F(\mathbf{y},\mathbf{x}):=\|\mathbf{y}-\mathbf{x}\|_1`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim: int</span>
+<span class="sd">        Dimension of the domain.</span>
+<span class="sd">    data: Union[Number, np.ndarray]</span>
+<span class="sd">        Data vector :math:`\mathbf{y}`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`~pycsou.core.functional.ProximableFunctional`</span>
+<span class="sd">        The :math:`\ell_1` loss functional.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.loss import L1Loss</span>
+<span class="sd">       from pycsou.func.penalty import L1Norm</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; y = np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; loss = L1Loss(dim=y.size, data=y)</span>
+<span class="sd">       &gt;&gt;&gt; func = L1Norm(dim=y.size)</span>
+<span class="sd">       &gt;&gt;&gt; x = 2 * np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(loss.prox(x, tau=1), func.prox(x-y, tau=1) + y)</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The :math:`\ell_1` loss functional leads to sparse residuals, with most of the predicted samples matching exactly the</span>
+<span class="sd">    observed samples, and a few –potentially large– misfits ([FuncSphere]_ Section 5 of Chapter 7).</span>
+<span class="sd">    Such a functional is particularly useful in the context of salt-and-pepper noise with strong outliers, or more generally</span>
+<span class="sd">    for noise distributions with heavy tails, templated by the Laplace distribution.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.L1Norm`, :py:func:`~pycsou.func.loss.SquaredL1Loss`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">L1_norm</span> <span class="o">=</span> <span class="n">L1Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ProximableLoss</span><span class="p">(</span><span class="n">L1_norm</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SquaredL1Loss"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.loss.html#pycsou.func.loss.SquaredL1Loss">[docs]</a><span class="k">def</span> <span class="nf">SquaredL1Loss</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">prox_computation</span><span class="o">=</span><span class="s1">&#39;sort&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProximableFunctional</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :math:`\ell^2_1` loss functional, :math:`F(\mathbf{y},\mathbf{x}):=\|\mathbf{y}-\mathbf{x}\|^2_1`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim: int</span>
+<span class="sd">        Dimension of the domain.</span>
+<span class="sd">    data: Union[Number, np.ndarray]</span>
+<span class="sd">        Data vector :math:`\mathbf{y}`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`~pycsou.core.functional.ProximableFunctional`</span>
+<span class="sd">        The :math:`\ell^2_1` loss functional.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.loss import SquaredL1Loss</span>
+<span class="sd">       from pycsou.func.penalty import SquaredL1Norm</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; y = np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; loss = SquaredL1Loss(dim=y.size, data=y)</span>
+<span class="sd">       &gt;&gt;&gt; func = SquaredL1Norm(dim=y.size)</span>
+<span class="sd">       &gt;&gt;&gt; x = 2 * np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(loss.prox(x, tau=1), func.prox(x-y, tau=1) + y)</span>
+<span class="sd">       True</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.SquaredL1Norm`, :py:func:`~pycsou.func.loss.L1Loss`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">squared_L1_norm</span> <span class="o">=</span> <span class="n">SquaredL1Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">prox_computation</span><span class="o">=</span><span class="n">prox_computation</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ProximableLoss</span><span class="p">(</span><span class="n">squared_L1_norm</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="L1BallLoss"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.loss.html#pycsou.func.loss.L1BallLoss">[docs]</a><span class="k">def</span> <span class="nf">L1BallLoss</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">radius</span><span class="p">:</span> <span class="n">Number</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProximableFunctional</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :math:`\ell_1`-ball loss functional, :math:`\{\mathbf{x}\in\mathbb{R}^N: \|\mathbf{y}-\mathbf{x}\|_1\leq \text{radius}\}`.</span>
+
+<span class="sd">    The :math:`\ell_1`-ball loss functional is defined as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \iota(\mathbf{x}):=\begin{cases}</span>
+<span class="sd">        0 \,\text{if} \,\|\mathbf{x}-\mathbf{y}\|_1\leq \text{radius},\\</span>
+<span class="sd">         \, 0\,\text{ortherwise}.</span>
+<span class="sd">         \end{cases}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim: int</span>
+<span class="sd">        Dimension of the domain.</span>
+<span class="sd">    data: Union[Number, np.ndarray]</span>
+<span class="sd">        Data vector :math:`\mathbf{y}`.</span>
+<span class="sd">    radius: Number</span>
+<span class="sd">        Radius of the ball.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`~pycsou.core.functional.ProximableFunctional`</span>
+<span class="sd">        The :math:`\ell_1`-ball loss functional.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.loss import L1BallLoss</span>
+<span class="sd">       from pycsou.func.penalty import L1Ball</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; y = np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; loss = L1BallLoss(dim=y.size, data=y, radius=2)</span>
+<span class="sd">       &gt;&gt;&gt; func = L1Ball(dim=y.size, radius=2)</span>
+<span class="sd">       &gt;&gt;&gt; x = 2 * np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(loss.prox(x, tau=1), func.prox(x-y, tau=1) + y)</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The :math:`\ell_1`-ball loss functional is particularly useful in the context of salt-and-pepper noise with</span>
+<span class="sd">    known standard deviation. In which case, the :math:`\ell_1`-ball defines a confidence region for the data :math:`\mathbf{y}`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.L1Ball`, :py:func:`~pycsou.func.loss.L1Loss`, :py:func:`~pycsou.func.loss.SquaredL1Loss`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">L1_ball</span> <span class="o">=</span> <span class="n">L1Ball</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ProximableLoss</span><span class="p">(</span><span class="n">L1_ball</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LInftyLoss"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.loss.html#pycsou.func.loss.LInftyLoss">[docs]</a><span class="k">def</span> <span class="nf">LInftyLoss</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ProximableFunctional</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :math:`\ell_\infty` loss functional, :math:`F(\mathbf{y},\mathbf{x}):=\|\mathbf{y}-\mathbf{x}\|_\infty`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim: int</span>
+<span class="sd">        Dimension of the domain.</span>
+<span class="sd">    data: Union[Number, np.ndarray]</span>
+<span class="sd">        Data vector :math:`\mathbf{y}`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`~pycsou.core.functional.ProximableFunctional`</span>
+<span class="sd">        The :math:`\ell_\infty` loss functional.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.loss import LInftyLoss</span>
+<span class="sd">       from pycsou.func.penalty import LInftyNorm</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; y = np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; loss = LInftyLoss(dim=y.size, data=y)</span>
+<span class="sd">       &gt;&gt;&gt; func = LInftyNorm(dim=y.size)</span>
+<span class="sd">       &gt;&gt;&gt; x = 2 * np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; loss(x)</span>
+<span class="sd">       9</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(loss.prox(x, tau=1), func.prox(x-y, tau=1) + y)</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The :math:`\ell_\infty` loss functional is particularly useful in the context of quantisation noise, or more generally</span>
+<span class="sd">    for noise distributions with compact support.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.LInftyNorm`, :py:func:`~pycsou.func.loss.LInftyBallLoss`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LInfty_norm</span> <span class="o">=</span> <span class="n">LInftyNorm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ProximableLoss</span><span class="p">(</span><span class="n">LInfty_norm</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LInftyBallLoss"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.loss.html#pycsou.func.loss.LInftyBallLoss">[docs]</a><span class="k">def</span> <span class="nf">LInftyBallLoss</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">radius</span><span class="p">:</span> <span class="n">Number</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProximableFunctional</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :math:`\ell_\infty`-ball loss functional, :math:`\{\mathbf{x}\in\mathbb{R}^N: \|\mathbf{y}-\mathbf{x}\|_\infty\leq \text{radius}\}`.</span>
+
+<span class="sd">    The :math:`\ell_1`-ball loss functional is defined as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \iota(\mathbf{x}):=\begin{cases}</span>
+<span class="sd">        0 \,\text{if} \,\|\mathbf{x}-\mathbf{y}\|_\infty\leq \text{radius},\\</span>
+<span class="sd">         \, 0\,\text{ortherwise}.</span>
+<span class="sd">         \end{cases}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim: int</span>
+<span class="sd">        Dimension of the domain.</span>
+<span class="sd">    data: Union[Number, np.ndarray]</span>
+<span class="sd">        Data vector :math:`\mathbf{y}`.</span>
+<span class="sd">    radius: Number</span>
+<span class="sd">        Radius of the ball.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`~pycsou.core.functional.ProximableFunctional`</span>
+<span class="sd">        The :math:`\ell_\infty`-ball loss functional.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.loss import LInftyBallLoss</span>
+<span class="sd">       from pycsou.func.penalty import LInftyBall</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; y = np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; loss = LInftyBallLoss(dim=y.size, data=y, radius=2)</span>
+<span class="sd">       &gt;&gt;&gt; func = LInftyBall(dim=y.size, radius=2)</span>
+<span class="sd">       &gt;&gt;&gt; x = 2 * np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(loss.prox(x, tau=1), func.prox(x-y, tau=1) + y)</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The :math:`\ell_\infty`-ball loss functional is particularly useful in the context of quantisation noise with</span>
+<span class="sd">    compact support. In which case, the :math:`\ell_\infty`-ball defines a confidence region for the data :math:`\mathbf{y}`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.func.penalty.LInftyBall`, :py:func:`~pycsou.func.loss.LInftyLoss`, :py:func:`~pycsou.func.penalty.LInftyNorm`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LInfty_ball</span> <span class="o">=</span> <span class="n">LInftyBall</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ProximableLoss</span><span class="p">(</span><span class="n">LInfty_ball</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ConsistencyLoss"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.loss.html#pycsou.func.loss.ConsistencyLoss">[docs]</a><span class="k">def</span> <span class="nf">ConsistencyLoss</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Consistency loss functional :math:`\mathbf{y}=\mathbf{x}`.</span>
+
+<span class="sd">    The consistency loss functional is defined as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \iota(\mathbf{x}):=\begin{cases}</span>
+<span class="sd">        0 \,\text{if} \,\mathbf{x}=\mathbf{y},\\</span>
+<span class="sd">         \, 0\,\text{ortherwise}.</span>
+<span class="sd">         \end{cases}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim: int</span>
+<span class="sd">        Dimension of the domain.</span>
+<span class="sd">    data: Union[Number, np.ndarray]</span>
+<span class="sd">        Data vector :math:`\mathbf{y}` to match.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`~pycsou.core.functional.ProximableFunctional`</span>
+<span class="sd">        The consistency loss functional.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.loss import ConsistencyLoss</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; y = np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; loss = ConsistencyLoss(dim=y.size, data=y)</span>
+<span class="sd">       &gt;&gt;&gt; x = 2 * np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; loss(x), loss(y)</span>
+<span class="sd">       (inf, 0)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(loss.prox(x, tau=1), y)</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This functional enforces an exact match between the predicted and observed samples, as required in interpolation problems.</span>
+<span class="sd">    Such a functional is mainly useful in the context of noiseless data as it can lead to serious overfitting issues in the presence of noise.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">condition_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+    <span class="n">projection_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">data</span>
+    <span class="k">return</span> <span class="n">IndicatorFunctional</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">condition_func</span><span class="o">=</span><span class="n">condition_func</span><span class="p">,</span> <span class="n">projection_func</span><span class="o">=</span><span class="n">projection_func</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="KLDivergence"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.loss.html#pycsou.func.loss.KLDivergence">[docs]</a><span class="k">class</span> <span class="nc">KLDivergence</span><span class="p">(</span><span class="n">ProximableFunctional</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generalised Kullback-Leibler divergence :math:`D_{KL}(\mathbf{y}||\mathbf{x}):=\sum_{i=1}^N y_i\log(y_i/x_i) -y_i +z_i`.</span>
+
+<span class="sd">    The generalised Kullback-Leibler divergence is defined as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       D_{KL}(\mathbf{y}||\mathbf{x}):=\sum_{i=1}^N H(y_i,x_i) -y_i +z_i, \quad \forall \mathbf{y}, \mathbf{x} \in \mathbb{R}^N,</span>
+
+<span class="sd">    where</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       H(y,x):=\begin{cases}</span>
+<span class="sd">       y\log(y/x) &amp;\, \text{if} \,x&gt;0, y&gt;0,\\</span>
+<span class="sd">       0&amp;\, \text{if} \,x=0, y\geq 0,\\</span>
+<span class="sd">       +\infty &amp;\,\text{otherwise.}</span>
+<span class="sd">       \end{cases}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim: int</span>
+<span class="sd">        Dimension of the domain.</span>
+<span class="sd">    data: Union[Number, np.ndarray]</span>
+<span class="sd">        Data vector :math:`\mathbf{y}` to match.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`~pycsou.core.functional.ProximableFunctional`</span>
+<span class="sd">        The KL-divergence.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.loss import KLDivergence</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; y = np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; loss = KLDivergence(dim=y.size, data=y)</span>
+<span class="sd">       &gt;&gt;&gt; x = 2 * np.arange(10)</span>
+<span class="sd">       &gt;&gt;&gt; loss(x)</span>
+<span class="sd">       13.80837687480246</span>
+<span class="sd">       &gt;&gt;&gt; np.round(loss.prox(x, tau=1))</span>
+<span class="sd">       array([ 0.,  2.,  4.,  6.,  8., 10., 12., 14., 16., 18.])</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    In information theory, and in the case where :math:`\mathbf{y}` and :math:`\mathbf{x}`  sum to one  --and hence can be interpreted as discrete probability distributions,</span>
+<span class="sd">    the KL-divergence can be interpreted as the relative entropy of :math:`\mathbf{y}` w.r.t. :math:`\mathbf{x}`,</span>
+<span class="sd">    i.e. the amount of information lost when using :math:`\mathbf{x}` to approximate :math:`\mathbf{y}`.</span>
+<span class="sd">    It is particularly useful in the context of count data with Poisson distribution. Indeed, the KL-divergence corresponds</span>
+<span class="sd">    –up to an additive constant– to the likelihood of the data :math:`\mathbf{y}` where each component is independent</span>
+<span class="sd">    with Poisson distribution and respective intensities given by the entries of :math:`\mathbf{x}`.</span>
+<span class="sd">    See [FuncSphere]_ Section 5 of Chapter 7 for the computation of its proximal operator.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.func.penalty.ShannonEntropy`, :py:class:`~pycsou.func.penalty.LogBarrier`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="KLDivergence.__init__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.loss.html#pycsou.func.loss.KLDivergence.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">KLDivergence</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_differentiable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_linear</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="KLDivergence.__call__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.loss.html#pycsou.func.loss.KLDivergence.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Number</span><span class="p">:</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">infty</span>
+        <span class="n">z</span><span class="p">[(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">/</span> <span class="n">x</span><span class="p">[(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)])</span>
+        <span class="n">z</span><span class="p">[(</span><span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">z</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">+</span> <span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KLDivergence.prox"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.loss.html#pycsou.func.loss.KLDivergence.prox">[docs]</a>    <span class="k">def</span> <span class="nf">prox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">tau</span><span class="p">:</span> <span class="n">Number</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Proximal operator of the KL-divergence functional (see [FuncSphere]_ Section 5 of Chapter 7).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x: Union[Number, np.ndarray]</span>
+<span class="sd">            Input.</span>
+<span class="sd">        tau: Number</span>
+<span class="sd">            Scaling constant.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Union[Number, np.ndarray]</span>
+<span class="sd">            Proximal point of x.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">tau</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">tau</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">tau</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">doctest</span>
+
+    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

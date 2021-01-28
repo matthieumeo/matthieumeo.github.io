@@ -1,0 +1,432 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Functionals &mdash; pycsou 1.0.1.dev11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Algorithms" href="pycsou.core.solver.html" />
+    <link rel="prev" title="Linear Operators" href="pycsou.core.linop.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pycsou
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1.dev11
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../general/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../general/theory.html">Background Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../general/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../general/examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Pycsou API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Abstract Classes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pycsou.core.map.html">Multidimensional Maps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycsou.core.linop.html">Linear Operators</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Functionals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycsou.core.solver.html">Algorithms</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../operators/index.html">Linear Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functionals/index.html">Cost Functionals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../algorithms/pycsou.opt.proxalgs.html">Proximal Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../math/index.html">Mathematical Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../other.html">Pycsou Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pycsou</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Pycsou API</a> &raquo;</li>
+        
+          <li><a href="index.html">Abstract Classes</a> &raquo;</li>
+        
+      <li>Functionals</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api/classes/pycsou.core.functional.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="functionals">
+<h1>Functionals<a class="headerlink" href="#functionals" title="Permalink to this headline">¶</a></h1>
+<p>Abstract classes for functionals.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.core.functional.Functional" title="pycsou.core.functional.Functional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Functional</span></code></a>(dim[, data, is_differentiable, …])</p></td>
+<td><p>Base class for functionals.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.core.functional.DifferentiableFunctional" title="pycsou.core.functional.DifferentiableFunctional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DifferentiableFunctional</span></code></a>(dim[, data, …])</p></td>
+<td><p>Base class for differentiable functionals.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.core.functional.ProximableFunctional" title="pycsou.core.functional.ProximableFunctional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProximableFunctional</span></code></a>(dim[, data, …])</p></td>
+<td><p>Base class for proximable functionals.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="pycsou.core.functional.Functional">
+<em class="property">class </em><code class="sig-name descname">Functional</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">data: Union[None</em>, <em class="sig-param">numbers.Number</em>, <em class="sig-param">numpy.ndarray] = None</em>, <em class="sig-param">is_differentiable: bool = False</em>, <em class="sig-param">is_linear: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/functional.html#Functional"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.Functional" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pycsou.core.map.html#pycsou.core.map.Map" title="pycsou.core.map.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.map.Map</span></code></a></p>
+<p>Base class for functionals.</p>
+<p class="rubric">Notes</p>
+<p>Functionals are (real) single-valued nonlinear maps.</p>
+<dl class="method">
+<dt id="pycsou.core.functional.Functional.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">data: Union[None</em>, <em class="sig-param">numbers.Number</em>, <em class="sig-param">numpy.ndarray] = None</em>, <em class="sig-param">is_differentiable: bool = False</em>, <em class="sig-param">is_linear: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/functional.html#Functional.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.Functional.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>,</em>) – Dimension of the functional’s domain.</p></li>
+<li><p><strong>data</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a><em>, </em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Optional data vector.</p></li>
+<li><p><strong>is_differentiable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the functional is differentiable or not.</p></li>
+<li><p><strong>is_linear</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the functional is linear or not.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.functional.DifferentiableFunctional">
+<em class="property">class </em><code class="sig-name descname">DifferentiableFunctional</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">data: Union[None</em>, <em class="sig-param">numbers.Number</em>, <em class="sig-param">numpy.ndarray] = None</em>, <em class="sig-param">is_linear: bool = False</em>, <em class="sig-param">lipschitz_cst: float = inf</em>, <em class="sig-param">diff_lipschitz_cst: float = inf</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/functional.html#DifferentiableFunctional"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.DifferentiableFunctional" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.functional.Functional" title="pycsou.core.functional.Functional"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.functional.Functional</span></code></a>, <a class="reference internal" href="pycsou.core.map.html#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.map.DifferentiableMap</span></code></a></p>
+<p>Base class for differentiable functionals.</p>
+<dl class="method">
+<dt id="pycsou.core.functional.DifferentiableFunctional.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">data: Union[None</em>, <em class="sig-param">numbers.Number</em>, <em class="sig-param">numpy.ndarray] = None</em>, <em class="sig-param">is_linear: bool = False</em>, <em class="sig-param">lipschitz_cst: float = inf</em>, <em class="sig-param">diff_lipschitz_cst: float = inf</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/functional.html#DifferentiableFunctional.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.DifferentiableFunctional.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>,</em>) – Dimension of the functional’s domain.</p></li>
+<li><p><strong>data</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a><em>, </em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Optional data vector.</p></li>
+<li><p><strong>is_linear</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the functional is linear or not.</p></li>
+<li><p><strong>lipschitz_cst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Lispchitz constant of the differentiable map if it exists/is known. Default to <span class="math notranslate nohighlight">\(+\infty\)</span>.</p></li>
+<li><p><strong>diff_lipschitz_cst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Lispchitz constant of the derivative of the differentiable map if it exists/is known. Default to <span class="math notranslate nohighlight">\(+\infty\)</span>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.functional.DifferentiableFunctional.jacobianT">
+<em class="property">abstract </em><code class="sig-name descname">jacobianT</code><span class="sig-paren">(</span><em class="sig-param">arg: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; Union[numbers.Number, numpy.ndarray]<a class="reference internal" href="../../_modules/pycsou/core/functional.html#DifferentiableFunctional.jacobianT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.DifferentiableFunctional.jacobianT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transpose of the Jacobian matrix of the differentiable map evaluated at <code class="docutils literal notranslate"><span class="pre">arg</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>arg</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Point at which the transposed Jacobian matrix is evaluated.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Linear operator associated to the transposed Jacobian matrix.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinearOperator</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.functional.ProximableFunctional">
+<em class="property">class </em><code class="sig-name descname">ProximableFunctional</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">data: Union[None</em>, <em class="sig-param">numbers.Number</em>, <em class="sig-param">numpy.ndarray] = None</em>, <em class="sig-param">is_differentiable: bool = False</em>, <em class="sig-param">is_linear: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/functional.html#ProximableFunctional"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.ProximableFunctional" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.functional.Functional" title="pycsou.core.functional.Functional"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.functional.Functional</span></code></a></p>
+<p>Base class for proximable functionals.</p>
+<p>Any instance/subclass of this class must at least implement the abstract methods <code class="docutils literal notranslate"><span class="pre">__call__</span></code> and <code class="docutils literal notranslate"><span class="pre">prox</span></code>.</p>
+<p class="rubric">Notes</p>
+<p>A functional <span class="math notranslate nohighlight">\(f:\mathbb{R}^N\to \mathbb{R}\)</span> is said <em>proximable</em> is its <strong>proximity operator</strong> (<a class="reference internal" href="../../notes/references.html#proxalg" id="id1"><span>[ProxAlg]</span></a> Section 1.1)</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{\text{prox}}_{\tau f}(\mathbf{z}):=\arg\min_{\mathbf{x}\in\mathbb{R}^N} f(x)+\frac{1}{2\tau} \|\mathbf{x}-\mathbf{z}\|_2^2, \quad \forall \mathbf{z}\in\mathbb{R}^N,\]</div>
+<p>admits a <em>simple closed-form expression</em> <strong>or</strong> can be evaluated <em>efficiently</em> and with <em>high accuracy</em>.</p>
+<p>This class supports the following arithmetic operators <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">&#64;</span></code>, <code class="docutils literal notranslate"><span class="pre">**</span></code> and <code class="docutils literal notranslate"><span class="pre">/</span></code>, implemented with the
+class methods <code class="docutils literal notranslate"><span class="pre">__add__</span></code>/<code class="docutils literal notranslate"><span class="pre">__radd__</span></code>, <code class="docutils literal notranslate"><span class="pre">__sub__</span></code>/<code class="docutils literal notranslate"><span class="pre">__neg__</span></code>, <code class="docutils literal notranslate"><span class="pre">__mul__</span></code>/<code class="docutils literal notranslate"><span class="pre">__rmul__</span></code>, <code class="docutils literal notranslate"><span class="pre">__matmul__</span></code>, <code class="docutils literal notranslate"><span class="pre">__pow__</span></code>, <code class="docutils literal notranslate"><span class="pre">__truediv__</span></code>.
+Such arithmetic operators can be used to <em>add</em>, <em>substract</em>, <em>scale</em>, <em>compose</em>, <em>exponentiate</em> or <em>evaluate</em> <code class="docutils literal notranslate"><span class="pre">LinearOperator</span></code> instances.
+For the following basic operations moreover, the proximal operator is automatically updated according to the formula of  <a class="reference internal" href="../../notes/references.html#proxalg" id="id2"><span>[ProxAlg]</span></a> Section 2.2.:</p>
+<ul class="simple">
+<li><p><strong>Postcomposition:</strong> <span class="math notranslate nohighlight">\(g(\mathbf{x})=\alpha f(\mathbf{x})\)</span>,</p></li>
+<li><p><strong>Precomposition:</strong> <span class="math notranslate nohighlight">\(g(\mathbf{x})= f(\alpha\mathbf{x}+b)\)</span> or <span class="math notranslate nohighlight">\(g(\mathbf{x})= f(U\mathbf{x})\)</span> with <span class="math notranslate nohighlight">\(U\)</span> a <em>unitary operator</em>,</p></li>
+<li><p><strong>Affine Sum:</strong> <span class="math notranslate nohighlight">\(g(\mathbf{x})= f(\mathbf{x})+\mathbf{a}^T\mathbf{x}.\)</span></p></li>
+</ul>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pycsou.func.penalty</span> <span class="kn">import</span> <span class="n">L1Norm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">func</span> <span class="o">=</span> <span class="n">L1Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">prox</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">tau</span><span class="p">),</span> <span class="n">func</span><span class="o">.</span><span class="n">prox</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">tau</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">((</span><span class="n">func</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">prox</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">tau</span><span class="p">),</span> <span class="n">func</span><span class="o">.</span><span class="n">prox</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">tau</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">shifter</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">prox</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">tau</span><span class="p">),</span> <span class="n">func</span><span class="o">.</span><span class="n">prox</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">tau</span><span class="p">)</span><span class="o">-</span><span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="pycsou.core.functional.ProximableFunctional.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">data: Union[None</em>, <em class="sig-param">numbers.Number</em>, <em class="sig-param">numpy.ndarray] = None</em>, <em class="sig-param">is_differentiable: bool = False</em>, <em class="sig-param">is_linear: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/functional.html#ProximableFunctional.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.ProximableFunctional.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>,</em>) – Dimension of the functional’s domain.</p></li>
+<li><p><strong>data</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a><em>, </em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Optional data vector.</p></li>
+<li><p><strong>is_linear</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the functional is linear or not.</p></li>
+<li><p><strong>is_differentiable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the functional is differentiable or not.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.functional.ProximableFunctional.prox">
+<em class="property">abstract </em><code class="sig-name descname">prox</code><span class="sig-paren">(</span><em class="sig-param">x: Union[numbers.Number, numpy.ndarray], tau: numbers.Number</em><span class="sig-paren">)</span> &#x2192; Union[numbers.Number, numpy.ndarray]<a class="reference internal" href="../../_modules/pycsou/core/functional.html#ProximableFunctional.prox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.ProximableFunctional.prox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate the proximity operator of the <code class="docutils literal notranslate"><span class="pre">tau</span></code>-scaled functional at the point <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Point at which to perform the evaluation.</p></li>
+<li><p><strong>tau</strong> (<em>Number</em>) – Scale.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Evaluation of the proximity operator of the <code class="docutils literal notranslate"><span class="pre">tau</span></code>-scaled functional at the point <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[Number, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.functional.ProximableFunctional.fenchel_prox">
+<code class="sig-name descname">fenchel_prox</code><span class="sig-paren">(</span><em class="sig-param">z: Union[numbers.Number, numpy.ndarray], sigma: numbers.Number</em><span class="sig-paren">)</span> &#x2192; Union[numbers.Number, numpy.ndarray]<a class="reference internal" href="../../_modules/pycsou/core/functional.html#ProximableFunctional.fenchel_prox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.ProximableFunctional.fenchel_prox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate the proximity operator of the <code class="docutils literal notranslate"><span class="pre">sigma</span></code>-scaled Fenchel conjugate of the functional at a point <code class="docutils literal notranslate"><span class="pre">z</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>z</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Point at which to perform the evaluation.</p></li>
+<li><p><strong>sigma</strong> (<em>Number</em>) – Scale.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result of the evaluation.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[Number, np.ndarray]</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The <em>Fenchel conjugate</em> is defined as <a class="reference internal" href="../../notes/references.html#funcsphere" id="id3"><span>[FuncSphere]</span></a> Chapter 7, Section 1:</p>
+<div class="math notranslate nohighlight">
+\[f^\ast(\mathbf{z}):=\max_{\mathbf{x}\in\mathbb{R}^N} \langle \mathbf{x},\mathbf{z} \rangle - f(\mathbf{x}).\]</div>
+<p>From <strong>Moreau’s identity</strong>, its proximal operator is given by:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{\text{prox}}_{\sigma f^\ast}(\mathbf{z})= \mathbf{z}- \sigma \mathbf{\text{prox}}_{f/\sigma}(\mathbf{z}/\sigma).\]</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.functional.ProximableFunctional.shifter">
+<code class="sig-name descname">shifter</code><span class="sig-paren">(</span><em class="sig-param">shift: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; pycsou.core.functional.ProxFuncPreComp<a class="reference internal" href="../../_modules/pycsou/core/functional.html#ProximableFunctional.shifter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.ProximableFunctional.shifter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a shifted version of the functional.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>shift</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Shift vector.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Shifted map.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ProxFuncPreComp</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="pycsou.core.solver.html" class="btn btn-neutral float-right" title="Algorithms" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="pycsou.core.linop.html" class="btn btn-neutral float-left" title="Linear Operators" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,315 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Examples &mdash; pycsou 1.0.1.dev11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Pycsou API" href="../api/index.html" />
+    <link rel="prev" title="Features" href="features.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> pycsou
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1.dev11
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Background Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#penalised-basis-pursuit">Penalised Basis Pursuit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lasso">LASSO</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">Pycsou API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/other.html">Pycsou Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pycsou</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Examples</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/general/examples.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="penalised-basis-pursuit">
+<h2>Penalised Basis Pursuit<a class="headerlink" href="#penalised-basis-pursuit" title="Permalink to this headline">¶</a></h2>
+<p>Consider the following optimisation problem:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\min_{\mathbf{x}\in\mathbb{R}_+^N}\frac{1}{2}\left\|\mathbf{y}-\mathbf{G}\mathbf{x}\right\|_2^2\quad+\quad\lambda_1 \|\mathbf{D}\mathbf{x}\|_1\quad+\quad\lambda_2 \|\mathbf{x}\|_1,\]</div>
+</div></blockquote>
+<p>with <span class="math notranslate nohighlight">\(\mathbf{D}\in\mathbb{R}^{N\times N}\)</span> the discrete derivative operator and <span class="math notranslate nohighlight">\(\mathbf{G}\in\mathbb{R}^{L\times N}, \, \mathbf{y}\in\mathbb{R}^L, \lambda_1,\lambda_2&gt;0.\)</span>
+This problem can be solved via the <a class="reference internal" href="../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.PrimalDualSplitting" title="pycsou.opt.proxalgs.PrimalDualSplitting"><code class="xref py py-class docutils literal notranslate"><span class="pre">PrimalDualSplitting</span></code></a> algorithm  with <span class="math notranslate nohighlight">\(\mathcal{F}(\mathbf{x})= \frac{1}{2}\left\|\mathbf{y}-\mathbf{G}\mathbf{x}\right\|_2^2\)</span>, <span class="math notranslate nohighlight">\(\mathcal{G}(\mathbf{x})=\lambda_2\|\mathbf{x}\|_1,\)</span>
+<span class="math notranslate nohighlight">\(\mathcal{H}(\mathbf{x})=\lambda \|\mathbf{x}\|_1\)</span> and <span class="math notranslate nohighlight">\(\mathbf{K}=\mathbf{D}\)</span>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.diff</span> <span class="kn">import</span> <span class="n">FirstDerivative</span>
+<span class="kn">from</span> <span class="nn">pycsou.func.loss</span> <span class="kn">import</span> <span class="n">SquaredL2Loss</span>
+<span class="kn">from</span> <span class="nn">pycsou.func.penalty</span> <span class="kn">import</span> <span class="n">L1Norm</span><span class="p">,</span> <span class="n">NonNegativeOrthant</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.sampling</span> <span class="kn">import</span> <span class="n">DownSampling</span>
+<span class="kn">from</span> <span class="nn">pycsou.opt.proxalgs</span> <span class="kn">import</span> <span class="n">PrimalDualSplitting</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">FirstDerivative</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;forward&#39;</span><span class="p">)</span>
+<span class="n">D</span><span class="o">.</span><span class="n">compute_lipschitz_cst</span><span class="p">(</span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">DownSampling</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">downsampling_factor</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">G</span><span class="o">.</span><span class="n">compute_lipschitz_cst</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">l22_loss</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">SquaredL2Loss</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">l22_loss</span> <span class="o">*</span> <span class="n">G</span>
+<span class="n">lambda_</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">lambda_</span> <span class="o">*</span> <span class="n">L1Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">D</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">G</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">L1Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">pds</span> <span class="o">=</span> <span class="n">PrimalDualSplitting</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">F</span><span class="o">=</span><span class="n">F</span><span class="p">,</span> <span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span> <span class="n">H</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="n">D</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">estimate</span><span class="p">,</span> <span class="n">converged</span><span class="p">,</span> <span class="n">diagnostics</span> <span class="o">=</span> <span class="n">pds</span><span class="o">.</span><span class="n">iterate</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">linefmt</span><span class="o">=</span><span class="s1">&#39;C0-&#39;</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="s1">&#39;C0o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">estimate</span><span class="p">[</span><span class="s1">&#39;primal_variable&#39;</span><span class="p">],</span> <span class="n">linefmt</span><span class="o">=</span><span class="s1">&#39;C1--&#39;</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="s1">&#39;C1s&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Ground truth&#39;</span><span class="p">,</span> <span class="s1">&#39;PDS Estimate&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="../general/examples-1.py">Source code</a>, <a class="reference external" href="../general/examples-1.png">png</a>, <a class="reference external" href="../general/examples-1.hires.png">hires.png</a>, <a class="reference external" href="../general/examples-1.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="../_images/examples-1.png" src="../_images/examples-1.png" />
+</div>
+</div>
+<div class="section" id="lasso">
+<h2>LASSO<a class="headerlink" href="#lasso" title="Permalink to this headline">¶</a></h2>
+<p>Consider the <em>LASSO problem</em>:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\min_{\mathbf{x}\in\mathbb{R}^N}\frac{1}{2}\left\|\mathbf{y}-\mathbf{G}\mathbf{x}\right\|_2^2\quad+\quad\lambda \|\mathbf{x}\|_1,\]</div>
+</div></blockquote>
+<p>with <span class="math notranslate nohighlight">\(\mathbf{G}\in\mathbb{R}^{L\times N}, \, \mathbf{y}\in\mathbb{R}^L, \lambda&gt;0.\)</span> This problem can be solved via <a class="reference internal" href="../api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.APGD" title="pycsou.opt.proxalgs.APGD"><code class="xref py py-class docutils literal notranslate"><span class="pre">APGD</span></code></a> with <span class="math notranslate nohighlight">\(\mathcal{F}(\mathbf{x})= \frac{1}{2}\left\|\mathbf{y}-\mathbf{G}\mathbf{x}\right\|_2^2\)</span> and <span class="math notranslate nohighlight">\(\mathcal{G}(\mathbf{x})=\lambda \|\mathbf{x}\|_1\)</span>. We have:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\mathbf{\nabla}\mathcal{F}(\mathbf{x})=\mathbf{G}^T(\mathbf{G}\mathbf{x}-\mathbf{y}), \qquad  \text{prox}_{\lambda\|\cdot\|_1}(\mathbf{x})=\text{soft}_\lambda(\mathbf{x}).\]</div>
+</div></blockquote>
+<p>This yields the so-called <em>Fast Iterative Soft Thresholding Algorithm (FISTA)</em>, whose convergence is guaranteed for <span class="math notranslate nohighlight">\(d&gt;2\)</span> and <span class="math notranslate nohighlight">\(0&lt;\tau\leq \beta^{-1}=\|\mathbf{G}\|_2^{-2}\)</span>.</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pycsou.func.loss</span> <span class="kn">import</span> <span class="n">SquaredL2Loss</span>
+<span class="kn">from</span> <span class="nn">pycsou.func.penalty</span> <span class="kn">import</span> <span class="n">L1Norm</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">DenseLinearOperator</span>
+<span class="kn">from</span> <span class="nn">pycsou.opt.proxalgs</span> <span class="kn">import</span> <span class="n">APGD</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">DenseLinearOperator</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">G</span><span class="o">.</span><span class="n">compute_lipschitz_cst</span><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">l22_loss</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">SquaredL2Loss</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">l22_loss</span> <span class="o">*</span> <span class="n">G</span>
+<span class="n">lambda_</span> <span class="o">=</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="n">x</span><span class="p">)))</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">lambda_</span> <span class="o">*</span> <span class="n">L1Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">apgd</span> <span class="o">=</span> <span class="n">APGD</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">F</span><span class="o">=</span><span class="n">F</span><span class="p">,</span> <span class="n">G</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">acceleration</span><span class="o">=</span><span class="s1">&#39;CD&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">estimate</span><span class="p">,</span> <span class="n">converged</span><span class="p">,</span> <span class="n">diagnostics</span> <span class="o">=</span> <span class="n">apgd</span><span class="o">.</span><span class="n">iterate</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">linefmt</span><span class="o">=</span><span class="s1">&#39;C0-&#39;</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="s1">&#39;C0o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">estimate</span><span class="p">[</span><span class="s1">&#39;iterand&#39;</span><span class="p">],</span> <span class="n">linefmt</span><span class="o">=</span><span class="s1">&#39;C1--&#39;</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="s1">&#39;C1s&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Ground truth&#39;</span><span class="p">,</span> <span class="s1">&#39;LASSO Estimate&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="../general/examples-2.py">Source code</a>, <a class="reference external" href="../general/examples-2.png">png</a>, <a class="reference external" href="../general/examples-2.hires.png">hires.png</a>, <a class="reference external" href="../general/examples-2.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="../_images/examples-2.png" src="../_images/examples-2.png" />
+</div>
+</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../api/index.html" class="btn btn-neutral float-right" title="Pycsou API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="features.html" class="btn btn-neutral float-left" title="Features" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

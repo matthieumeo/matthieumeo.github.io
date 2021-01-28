@@ -1,0 +1,773 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pycsou.core.linop &mdash; pycsou 1.0.1.dev11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pycsou
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1.dev11
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/theory.html">Background Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">Pycsou API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/other.html">Pycsou Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pycsou</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pycsou.core.linop</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pycsou.core.linop</h1><div class="highlight"><pre>
+<span></span><span class="c1"># #############################################################################</span>
+<span class="c1"># linop.py</span>
+<span class="c1"># ========</span>
+<span class="c1"># Author : Matthieu Simeoni [matthieu.simeoni@gmail.com]</span>
+<span class="c1"># #############################################################################</span>
+
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Abstract classes for multidimensional linear maps.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">pycsou.core.map</span> <span class="kn">import</span> <span class="n">DifferentiableMap</span><span class="p">,</span> <span class="n">DiffMapSum</span><span class="p">,</span> <span class="n">DiffMapComp</span><span class="p">,</span> <span class="n">Map</span><span class="p">,</span> <span class="n">MapSum</span><span class="p">,</span> <span class="n">MapComp</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
+<span class="kn">import</span> <span class="nn">pylops</span>
+<span class="kn">from</span> <span class="nn">pylops.optimization.leastsquares</span> <span class="kn">import</span> <span class="n">NormalEquationsInversion</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse.linalg</span> <span class="k">as</span> <span class="nn">spls</span>
+
+<div class="viewcode-block" id="LinearOperator"><a class="viewcode-back" href="../../../api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator">[docs]</a><span class="k">class</span> <span class="nc">LinearOperator</span><span class="p">(</span><span class="n">DifferentiableMap</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for linear operators.</span>
+
+<span class="sd">    Any instance/subclass of this class must at least implement the abstract methods ``__call__`` and ``adjoint``.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This class supports the following arithmetic operators ``+``, ``-``, ``*``, ``@``, ``**`` and ``/``, implemented with the</span>
+<span class="sd">    class methods ``__add__``/``__radd__``, ``__sub__``/``__neg__``, ``__mul__``/``__rmul__``, ``__matmul__``, ``__pow__``, ``__truediv__``.</span>
+<span class="sd">    Such arithmetic operators can be used to *add*, *substract*, *scale*, *compose*, *exponentiate* or *evaluate* ``LinearOperator`` instances.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LinearOperator.__init__"><a class="viewcode-back" href="../../../api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">type</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">is_explicit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">is_dense</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">is_sparse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">is_dask</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">is_symmetric</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">lipschitz_cst</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">infty</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        shape: Tuple[int, int]</span>
+<span class="sd">            Shape of the linear operator.</span>
+<span class="sd">        dtype: Optional[type]</span>
+<span class="sd">            Data type of the linear operator.</span>
+<span class="sd">        is_explicit: bool</span>
+<span class="sd">            If  ``True``, the linear operator is specified explicitly in terms of a Numpy/Scipy/Dask array.</span>
+<span class="sd">        is_dense: bool</span>
+<span class="sd">            If  ``True``, the linear operator is specified explicitly in terms of a Numpy array.</span>
+<span class="sd">        is_sparse: bool</span>
+<span class="sd">            If  ``True``, the linear operator is specified explicitly in terms of a Scipy sparse matrix.</span>
+<span class="sd">        is_dask: bool</span>
+<span class="sd">            If  ``True``, the linear operator is specified explicitly in terms of a Dask array.</span>
+<span class="sd">        is_symmetric: bool</span>
+<span class="sd">            Whether the linear operator is symmetric or not.</span>
+<span class="sd">        lipschitz_cst: float</span>
+<span class="sd">            Lipschitz constant (maximal singular value) of the linear operator if known. Default to :math:`+\infty`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">DifferentiableMap</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">is_linear</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lipschitz_cst</span><span class="o">=</span><span class="n">lipschitz_cst</span><span class="p">,</span>
+                                   <span class="n">diff_lipschitz_cst</span><span class="o">=</span><span class="n">lipschitz_cst</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_explicit</span> <span class="o">=</span> <span class="n">is_explicit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_dense</span> <span class="o">=</span> <span class="n">is_dense</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_sparse</span> <span class="o">=</span> <span class="n">is_sparse</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_dask</span> <span class="o">=</span> <span class="n">is_dask</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_symmetric</span> <span class="o">=</span> <span class="n">is_symmetric</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_square</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">else</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="LinearOperator.matvec"><a class="viewcode-back" href="../../../api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.matvec">[docs]</a>    <span class="k">def</span> <span class="nf">matvec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Alias for ``self.__call__`` to comply with Scipy&#39;s interface.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LinearOperator.adjoint"><a class="viewcode-back" href="../../../api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.adjoint">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluates the adjoint of the operator at a point.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y: Union[Number, np.ndarray]</span>
+<span class="sd">            Point at which the adjoint should be evaluated.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Union[Number, np.ndarray]</span>
+<span class="sd">            Evaluation of the adjoint at ``y``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="LinearOperator.jacobianT"><a class="viewcode-back" href="../../../api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.jacobianT">[docs]</a>    <span class="k">def</span> <span class="nf">jacobianT</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;LinearOperator&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_adjointOp</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LinearOperator.get_adjointOp"><a class="viewcode-back" href="../../../api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.get_adjointOp">[docs]</a>    <span class="k">def</span> <span class="nf">get_adjointOp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;LinearOperator&#39;</span><span class="p">,</span> <span class="s1">&#39;AdjointLinearOperator&#39;</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the adjoint operator as a ``LinearOperator`` instance.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Union[&#39;LinearOperator&#39;, &#39;AdjointLinearOperator&#39;]</span>
+<span class="sd">            The adjoint operator.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_symmetric</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">AdjointLinearOperator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">H</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Alias for ``self.get_adjointOp``.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_adjointOp</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">RangeGram</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Range-Gram operator, obtained by the composition ``self * self.H`` (adjoint followed by operator).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :py:class:`~pycsou.core.linop.SymmetricLinearOperator`</span>
+<span class="sd">            The Range-Gram operator.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">SymmetricLinearOperator</span><span class="p">(</span><span class="bp">self</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">H</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">DomainGram</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Domain-Gram operator, obtained by the composition ``self.H * self`` (operator followed by adjoint).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :py:class:`~pycsou.core.linop.SymmetricLinearOperator`</span>
+<span class="sd">            The Domain-Gram operator.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">SymmetricLinearOperator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">H</span> <span class="o">*</span> <span class="bp">self</span><span class="p">)</span>
+
+<div class="viewcode-block" id="LinearOperator.eigenvals"><a class="viewcode-back" href="../../../api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.eigenvals">[docs]</a>    <span class="k">def</span> <span class="nf">eigenvals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;LM&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find ``k`` eigenvalues of a square operator.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        k: int</span>
+<span class="sd">            The number of eigenvalues and eigenvectors desired. ``k`` must be strictly smaller than the dimension of the operator.</span>
+<span class="sd">            It is not possible to compute all eigenvectors of a matrix.</span>
+<span class="sd">        which: str, [‘LM’ | ‘SM’ | ‘LR’ | ‘SR’ | ‘LI’ | ‘SI’]</span>
+<span class="sd">            Which ``k`` eigenvalues to find:</span>
+
+<span class="sd">                * ‘LM’ : largest magnitude</span>
+<span class="sd">                * ‘SM’ : smallest magnitude</span>
+<span class="sd">                * ‘LR’ : largest real part</span>
+<span class="sd">                * ‘SR’ : smallest real part</span>
+<span class="sd">                * ‘LI’ : largest imaginary part</span>
+<span class="sd">                * ‘SI’ : smallest imaginary part</span>
+
+<span class="sd">        kwargs: dict</span>
+<span class="sd">            A dict of additional keyword arguments values accepted by Scipy&#39;s functions :py:func:`scipy.sparse.linalg.eigs` and :py:func:`scipy.sparse.linalg.eigsh`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Array containing the ``k`` requested eigenvalues.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        NotImplementedError</span>
+<span class="sd">            If the linear operator is not square.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This function calls one of the two Scipy&#39;s functions: :py:func:`scipy.sparse.linalg.eigs` and :py:func:`scipy.sparse.linalg.eigsh`.</span>
+<span class="sd">        See the documentation of these two functions for more information on their behaviour and the underlying ARPACK functions they rely on.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        :py:meth:`~pycsou.core.linop.LinearOperator.svds`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_symmetric</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">eigen_values</span> <span class="o">=</span> <span class="n">spls</span><span class="o">.</span><span class="n">eigsh</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">SciOp</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="n">which</span><span class="p">,</span> <span class="n">return_eigenvectors</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_square</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">eigen_values</span> <span class="o">=</span> <span class="n">spls</span><span class="o">.</span><span class="n">eigs</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">SciOp</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="n">which</span><span class="p">,</span> <span class="n">return_eigenvectors</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s1">&#39;The function eigenvals is only for square linear operator. For non square linear operators, use the method singularvals.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">eigen_values</span></div>
+
+<div class="viewcode-block" id="LinearOperator.singularvals"><a class="viewcode-back" href="../../../api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.singularvals">[docs]</a>    <span class="k">def</span> <span class="nf">singularvals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;LM&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the largest or smallest ``k`` singular values of an operator.</span>
+<span class="sd">        The order of the singular values is not guaranteed.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        k: int</span>
+<span class="sd">            Number of singular values to compute. Must be ``1 &lt;= k &lt; min(self.shape)``.</span>
+
+<span class="sd">        which: str, [‘LM’ | ‘SM’]</span>
+<span class="sd">            Which ``k`` singular values to find:</span>
+
+<span class="sd">                * ‘LM’ : largest magnitude</span>
+<span class="sd">                * ‘SM’ : smallest magnitude</span>
+
+<span class="sd">        kwargs: dict</span>
+<span class="sd">            A dict of additional keyword arguments values accepted by Scipy&#39;s function :py:func:`scipy.sparse.linalg.svds`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Array containing the ``k`` requested singular values.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        .. testsetup::</span>
+
+<span class="sd">           import numpy as np</span>
+<span class="sd">           from pycsou.linop.conv import Convolve1D</span>
+<span class="sd">           from scipy import signal</span>
+
+<span class="sd">        .. doctest::</span>
+
+<span class="sd">           &gt;&gt;&gt; sig = np.repeat([0., 1., 0.], 10)</span>
+<span class="sd">           &gt;&gt;&gt; filter = signal.hann(5); filter[filter.size//2:] = 0</span>
+<span class="sd">           &gt;&gt;&gt; ConvOp = Convolve1D(size=sig.size, filter=filter)</span>
+<span class="sd">           &gt;&gt;&gt; np.round((ConvOp.singularvals(k=3, which=&#39;LM&#39;, tol=1e-3)), 2)</span>
+<span class="sd">           array([0.5, 0.5, 0.5])</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This function calls the Scipy&#39;s function: :py:func:`scipy.sparse.linalg.svds`.</span>
+<span class="sd">        See the documentation of this function for more information on its behaviour and the underlying ARPACK/LOBPCG functions it relies on.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        :py:meth:`~pycsou.core.linop.LinearOperator.eigenvals`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">spls</span><span class="o">.</span><span class="n">svds</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">SciOp</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="n">which</span><span class="p">,</span> <span class="n">return_singular_vectors</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LinearOperator.compute_lipschitz_cst"><a class="viewcode-back" href="../../../api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.compute_lipschitz_cst">[docs]</a>    <span class="k">def</span> <span class="nf">compute_lipschitz_cst</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the Lipschitz constant of the operator.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        kwargs: dict</span>
+<span class="sd">            A dict of additional keyword arguments values accepted by Scipy&#39;s functions :py:func:`scipy.sparse.linalg.eigs`,</span>
+<span class="sd">            :py:func:`scipy.sparse.linalg.eigsh`, :py:func:`scipy.sparse.linalg.svds`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">            Nothing: The Lipschitz constant is stored in the attribute ``self.lipschitz_cst``.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        .. doctest::</span>
+
+<span class="sd">           &gt;&gt;&gt; sig = np.repeat([0., 1., 0.], 10)</span>
+<span class="sd">           &gt;&gt;&gt; filter = signal.hann(5); filter[filter.size//2:] = 0</span>
+<span class="sd">           &gt;&gt;&gt; ConvOp = Convolve1D(size=sig.size, filter=filter)</span>
+<span class="sd">           &gt;&gt;&gt; ConvOp.compute_lipschitz_cst(tol=1e-2); np.round(ConvOp.lipschitz_cst,1)</span>
+<span class="sd">           0.4</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The Lipschtiz constant of a linear operator is its largest singular value / eigenvalue (in terms of magnitude). This function therefore calls</span>
+<span class="sd">        the methods  ``self.singularvals`` or ``self.eigenvals`` with ``k=1`` and ``which=&#39;LM&#39;`` to perform this computation.</span>
+
+<span class="sd">        Warnings</span>
+<span class="sd">        --------</span>
+<span class="sd">        For high-dimensional linear operators this method can be very time-consuming. Reducing the computation accuracy with</span>
+<span class="sd">        the optional argument ``tol: float`` may help reduce the computational burden. See Scipy&#39;s functions :py:func:`scipy.sparse.linalg.eigs`,</span>
+<span class="sd">        :py:func:`scipy.sparse.linalg.eigsh`, :py:func:`scipy.sparse.linalg.svds` for more on this parameter.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_square</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eigenvals</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">singularvals</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lipschitz_cst</span></div>
+
+<div class="viewcode-block" id="LinearOperator.todense"><a class="viewcode-back" href="../../../api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.todense">[docs]</a>    <span class="k">def</span> <span class="nf">todense</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;DenseLinearOperator&#39;</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert the operator to a :py:class:`~pycsou.linop.base.DenseLinearOperator`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :py:class:`~pycsou.linop.base.DenseLinearOperator`</span>
+<span class="sd">            The dense linear operator representation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">DenseLinearOperator</span>
+
+        <span class="k">return</span> <span class="n">DenseLinearOperator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PyLop</span><span class="o">.</span><span class="n">todense</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="LinearOperator.tosparse"><a class="viewcode-back" href="../../../api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.tosparse">[docs]</a>    <span class="k">def</span> <span class="nf">tosparse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;SparseLinearOperator&#39;</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert the operator to a :py:class:`~pycsou.linop.base.SparseLinearOperator`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :py:class:`~pycsou.linop.base.SparseLinearOperator`</span>
+<span class="sd">            The sparse linear operator representation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">SparseLinearOperator</span>
+
+        <span class="k">return</span> <span class="n">SparseLinearOperator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PyLop</span><span class="o">.</span><span class="n">tosparse</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="LinearOperator.tosciop"><a class="viewcode-back" href="../../../api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.tosciop">[docs]</a>    <span class="k">def</span> <span class="nf">tosciop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">spls</span><span class="o">.</span><span class="n">LinearOperator</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert the operator to a Scipy :py:class:`scipy.sparse.linalg.LinearOperator`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :py:class:`scipy.sparse.linalg.LinearOperator`</span>
+<span class="sd">            The Scipy linear operator representation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">spls</span><span class="o">.</span><span class="n">LinearOperator</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">matvec</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">matvec</span><span class="p">,</span> <span class="n">rmatvec</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">adjoint</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">SciOp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Alias for method ``self.tosciop``.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tosciop</span><span class="p">()</span>
+
+<div class="viewcode-block" id="LinearOperator.topylop"><a class="viewcode-back" href="../../../api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.topylop">[docs]</a>    <span class="k">def</span> <span class="nf">topylop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pylops</span><span class="o">.</span><span class="n">LinearOperator</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert the operator to a Pylops :py:class:`pylops.LinearOperator`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :py:class:`pylops.LinearOperator`</span>
+<span class="sd">            The Pylops linear operator representation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">pylops</span><span class="o">.</span><span class="n">LinearOperator</span><span class="p">(</span><span class="n">Op</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">SciOp</span><span class="p">,</span> <span class="n">explicit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_explicit</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">PyLop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Alias for method ``self.topylop``.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">topylop</span><span class="p">()</span>
+
+<div class="viewcode-block" id="LinearOperator.cond"><a class="viewcode-back" href="../../../api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.cond">[docs]</a>    <span class="k">def</span> <span class="nf">cond</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the condition number of the operator.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        kwargs: dict</span>
+<span class="sd">            A dict of additional keyword arguments values accepted by Pylops&#39; method :py:meth:`pylops.LinearOperator.cond`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            Condition number.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">PyLop</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LinearOperator.pinv"><a class="viewcode-back" href="../../../api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.pinv">[docs]</a>    <span class="k">def</span> <span class="nf">pinv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">eps</span><span class="p">:</span> <span class="n">Number</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate the pseudo-inverse of the operator at ``y``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y: Union[Number, np.ndarray]</span>
+<span class="sd">            Point at which the pseudo-inverse is evaluated.</span>
+<span class="sd">        eps: Number</span>
+<span class="sd">            Tikhonov damping.</span>
+<span class="sd">        kwargs:</span>
+<span class="sd">            Arbitrary keyword arguments accepted by the function: :py:func:`pylops.optimization.leastsquares.NormalEquationsInversion`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            Evaluation of the pseudo-inverse of the operator at ``y``.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This is a wrapper around the function :py:func:`pylops.optimization.leastsquares.NormalEquationsInversion`. Additional</span>
+<span class="sd">        information can be found in the help of this function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">NormalEquationsInversion</span><span class="p">(</span><span class="n">Op</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">PyLop</span><span class="p">,</span> <span class="n">Regs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">epsI</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">returninfo</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">PinvOp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;LinOpPinv&#39;</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the pseudo-inverse of the operator as a ``LinearOperator``.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">LinOpPinv</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dagger</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;LinOpPinv&#39;</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Alias for ``self.PinvOp``.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">PinvOp</span>
+
+<div class="viewcode-block" id="LinearOperator.RowProjector"><a class="viewcode-back" href="../../../api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.RowProjector">[docs]</a>    <span class="k">def</span> <span class="nf">RowProjector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Orthogonal projection operator onto the rows of ``self``. It is given by ``self * self.dagger``.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">SymmetricLinearOperator</span><span class="p">(</span><span class="bp">self</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dagger</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LinearOperator.ColProjector"><a class="viewcode-back" href="../../../api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.ColProjector">[docs]</a>    <span class="k">def</span> <span class="nf">ColProjector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Orthogonal projection operator onto the columns of ``self``. It is given by ``self.dagger * self``.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">SymmetricLinearOperator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dagger</span> <span class="o">*</span> <span class="bp">self</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;Map&#39;</span><span class="p">,</span> <span class="s1">&#39;DifferentiableMap&#39;</span><span class="p">,</span> <span class="s1">&#39;LinearOperator&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span>
+        <span class="s1">&#39;MapSum&#39;</span><span class="p">,</span> <span class="s1">&#39;DiffMapSum&#39;</span><span class="p">,</span> <span class="s1">&#39;LinOpSum&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">LinearOperator</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">LinOpSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">DifferentiableMap</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">DiffMapSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Map</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">MapSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;Map&#39;</span><span class="p">,</span> <span class="s1">&#39;DifferentiableMap&#39;</span><span class="p">,</span> <span class="s1">&#39;LinearOperator&#39;</span><span class="p">,</span> <span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span>
+        <span class="s1">&#39;MapSum&#39;</span><span class="p">,</span> <span class="s1">&#39;DiffMapSum&#39;</span><span class="p">,</span> <span class="s1">&#39;LinOpSum&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
+            <span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">HomothetyMap</span>
+
+            <span class="n">other</span> <span class="o">=</span> <span class="n">HomothetyMap</span><span class="p">(</span><span class="n">constant</span><span class="o">=</span><span class="n">other</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">LinearOperator</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">LinOpComp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">DifferentiableMap</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">DiffMapComp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Map</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">MapComp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">def</span> <span class="fm">__rmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;Map&#39;</span><span class="p">,</span> <span class="s1">&#39;DifferentiableMap&#39;</span><span class="p">,</span> <span class="s1">&#39;LinearOperator&#39;</span><span class="p">,</span> <span class="n">Number</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span>
+        <span class="s1">&#39;MapSum&#39;</span><span class="p">,</span> <span class="s1">&#39;DiffMapSum&#39;</span><span class="p">,</span> <span class="s1">&#39;LinOpSum&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
+            <span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">HomothetyMap</span>
+
+            <span class="n">other</span> <span class="o">=</span> <span class="n">HomothetyMap</span><span class="p">(</span><span class="n">constant</span><span class="o">=</span><span class="n">other</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">LinearOperator</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">LinOpComp</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">DifferentiableMap</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">DiffMapComp</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Map</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">MapComp</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<span class="k">class</span> <span class="nc">AdjointLinearOperator</span><span class="p">(</span><span class="n">LinearOperator</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LinOp</span><span class="p">:</span> <span class="n">LinearOperator</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AdjointLinearOperator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">LinOp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">LinOp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">LinOp</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                                                    <span class="n">is_explicit</span><span class="o">=</span><span class="n">LinOp</span><span class="o">.</span><span class="n">is_explicit</span><span class="p">,</span> <span class="n">is_dask</span><span class="o">=</span><span class="n">LinOp</span><span class="o">.</span><span class="n">is_dask</span><span class="p">,</span>
+                                                    <span class="n">is_dense</span><span class="o">=</span><span class="n">LinOp</span><span class="o">.</span><span class="n">is_dense</span><span class="p">,</span> <span class="n">is_sparse</span><span class="o">=</span><span class="n">LinOp</span><span class="o">.</span><span class="n">is_sparse</span><span class="p">,</span>
+                                                    <span class="n">is_symmetric</span><span class="o">=</span><span class="n">LinOp</span><span class="o">.</span><span class="n">is_symmetric</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Linop</span> <span class="o">=</span> <span class="n">LinOp</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Linop</span><span class="o">.</span><span class="n">adjoint</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Linop</span><span class="o">.</span><span class="n">matvec</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">compute_lipschitz_cst</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Linop</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">infty</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Linop</span><span class="o">.</span><span class="n">lipschitz_cst</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">LinearOperator</span><span class="o">.</span><span class="n">compute_lipschitz_cst</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">LinOpSum</span><span class="p">(</span><span class="n">LinearOperator</span><span class="p">,</span> <span class="n">DiffMapSum</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LinOp1</span><span class="p">:</span> <span class="n">LinearOperator</span><span class="p">,</span> <span class="n">LinOp2</span><span class="p">:</span> <span class="n">LinearOperator</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">type</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">LinOp1</span><span class="o">.</span><span class="n">dtype</span> <span class="k">if</span> <span class="n">LinOp1</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">is</span> <span class="n">LinOp2</span><span class="o">.</span><span class="n">dtype</span> <span class="k">else</span> <span class="n">dtype</span>
+        <span class="n">DiffMapSum</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map1</span><span class="o">=</span><span class="n">LinOp1</span><span class="p">,</span> <span class="n">map2</span><span class="o">=</span><span class="n">LinOp2</span><span class="p">)</span>
+        <span class="n">LinearOperator</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+                                <span class="n">is_explicit</span><span class="o">=</span><span class="n">LinOp1</span><span class="o">.</span><span class="n">is_explicit</span> <span class="o">&amp;</span> <span class="n">LinOp2</span><span class="o">.</span><span class="n">is_explicit</span><span class="p">,</span>
+                                <span class="n">is_dask</span><span class="o">=</span><span class="n">LinOp1</span><span class="o">.</span><span class="n">is_dask</span> <span class="o">&amp;</span> <span class="n">LinOp2</span><span class="o">.</span><span class="n">is_dask</span><span class="p">,</span> <span class="n">is_dense</span><span class="o">=</span><span class="n">LinOp1</span><span class="o">.</span><span class="n">is_dense</span> <span class="o">&amp;</span> <span class="n">LinOp2</span><span class="o">.</span><span class="n">is_dense</span><span class="p">,</span>
+                                <span class="n">is_sparse</span><span class="o">=</span><span class="n">LinOp1</span><span class="o">.</span><span class="n">is_sparse</span> <span class="o">&amp;</span> <span class="n">LinOp2</span><span class="o">.</span><span class="n">is_sparse</span><span class="p">,</span>
+                                <span class="n">is_symmetric</span><span class="o">=</span><span class="n">LinOp1</span><span class="o">.</span><span class="n">is_symmetric</span> <span class="o">&amp;</span> <span class="n">LinOp2</span><span class="o">.</span><span class="n">is_symmetric</span><span class="p">,</span>
+                                <span class="n">lipschitz_cst</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">lipschitz_cst</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LinOp1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">LinOp2</span> <span class="o">=</span> <span class="n">LinOp1</span><span class="p">,</span> <span class="n">LinOp2</span>
+
+    <span class="k">def</span> <span class="nf">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">LinOp1</span><span class="o">.</span><span class="n">adjoint</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">LinOp2</span><span class="o">.</span><span class="n">adjoint</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">LinOpComp</span><span class="p">(</span><span class="n">LinearOperator</span><span class="p">,</span> <span class="n">DiffMapComp</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LinOp1</span><span class="p">:</span> <span class="n">LinearOperator</span><span class="p">,</span> <span class="n">LinOp2</span><span class="p">:</span> <span class="n">LinearOperator</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">type</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">LinOp1</span><span class="o">.</span><span class="n">dtype</span> <span class="k">if</span> <span class="n">LinOp1</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">is</span> <span class="n">LinOp2</span><span class="o">.</span><span class="n">dtype</span> <span class="k">else</span> <span class="n">dtype</span>
+        <span class="n">DiffMapComp</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map1</span><span class="o">=</span><span class="n">LinOp1</span><span class="p">,</span> <span class="n">map2</span><span class="o">=</span><span class="n">LinOp2</span><span class="p">)</span>
+        <span class="n">LinearOperator</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+                                <span class="n">is_explicit</span><span class="o">=</span><span class="n">LinOp1</span><span class="o">.</span><span class="n">is_explicit</span> <span class="o">&amp;</span> <span class="n">LinOp2</span><span class="o">.</span><span class="n">is_explicit</span><span class="p">,</span>
+                                <span class="n">is_dask</span><span class="o">=</span><span class="n">LinOp1</span><span class="o">.</span><span class="n">is_dask</span> <span class="o">&amp;</span> <span class="n">LinOp2</span><span class="o">.</span><span class="n">is_dask</span><span class="p">,</span> <span class="n">is_dense</span><span class="o">=</span><span class="n">LinOp1</span><span class="o">.</span><span class="n">is_dense</span> <span class="o">&amp;</span> <span class="n">LinOp2</span><span class="o">.</span><span class="n">is_dense</span><span class="p">,</span>
+                                <span class="n">is_sparse</span><span class="o">=</span><span class="n">LinOp1</span><span class="o">.</span><span class="n">is_sparse</span> <span class="o">&amp;</span> <span class="n">LinOp2</span><span class="o">.</span><span class="n">is_sparse</span><span class="p">,</span>
+                                <span class="n">is_symmetric</span><span class="o">=</span><span class="n">LinOp1</span><span class="o">.</span><span class="n">is_symmetric</span> <span class="o">&amp;</span> <span class="n">LinOp2</span><span class="o">.</span><span class="n">is_symmetric</span><span class="p">,</span>
+                                <span class="n">lipschitz_cst</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">lipschitz_cst</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LinOp1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">LinOp2</span> <span class="o">=</span> <span class="n">LinOp1</span><span class="p">,</span> <span class="n">LinOp2</span>
+
+    <span class="k">def</span> <span class="nf">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">LinOp2</span><span class="o">.</span><span class="n">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LinOp1</span><span class="o">.</span><span class="n">adjoint</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+
+
+<span class="k">class</span> <span class="nc">SymmetricLinearOperator</span><span class="p">(</span><span class="n">LinearOperator</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LinOp</span><span class="p">:</span> <span class="n">LinearOperator</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">LinOp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">LinOp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;The input linear operator is not symmetric.&#39;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SymmetricLinearOperator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">LinOp</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">LinOp</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                                                      <span class="n">is_explicit</span><span class="o">=</span><span class="n">LinOp</span><span class="o">.</span><span class="n">is_explicit</span><span class="p">,</span>
+                                                      <span class="n">is_dask</span><span class="o">=</span><span class="n">LinOp</span><span class="o">.</span><span class="n">is_dask</span><span class="p">,</span> <span class="n">is_dense</span><span class="o">=</span><span class="n">LinOp</span><span class="o">.</span><span class="n">is_dense</span><span class="p">,</span>
+                                                      <span class="n">is_sparse</span><span class="o">=</span><span class="n">LinOp</span><span class="o">.</span><span class="n">is_sparse</span><span class="p">,</span> <span class="n">is_symmetric</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                      <span class="n">lipschitz_cst</span><span class="o">=</span><span class="n">LinOp</span><span class="o">.</span><span class="n">lipschitz_cst</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LinOp</span> <span class="o">=</span> <span class="n">LinOp</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">LinOp</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">UnitaryOperator</span><span class="p">(</span><span class="n">LinearOperator</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">type</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">is_explicit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">is_dense</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">is_sparse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">is_dask</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">is_symmetric</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">UnitaryOperator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">is_explicit</span><span class="o">=</span><span class="n">is_explicit</span><span class="p">,</span>
+                                              <span class="n">is_dense</span><span class="o">=</span><span class="n">is_dense</span><span class="p">,</span>
+                                              <span class="n">is_sparse</span><span class="o">=</span><span class="n">is_sparse</span><span class="p">,</span> <span class="n">is_dask</span><span class="o">=</span><span class="n">is_dask</span><span class="p">,</span> <span class="n">is_symmetric</span><span class="o">=</span><span class="n">is_symmetric</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">RangeGram</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">IdentityOperator</span>
+
+        <span class="k">return</span> <span class="n">IdentityOperator</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">DomainGram</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">IdentityOperator</span>
+
+        <span class="k">return</span> <span class="n">IdentityOperator</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">eigenvals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;LM&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">singularvals</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;LM&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">singularvals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;LM&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">fmin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The number of singular values must not exceed the smallest dimension size.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">k</span><span class="p">,))</span>
+
+    <span class="k">def</span> <span class="nf">compute_lipschitz_cst</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">pinv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">eps</span><span class="p">:</span> <span class="n">Number</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adjoint</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">PinvOp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">H</span>
+
+    <span class="k">def</span> <span class="nf">cond</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">1</span>
+
+
+<span class="k">class</span> <span class="nc">LinOpPinv</span><span class="p">(</span><span class="n">LinearOperator</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LinOp</span><span class="p">:</span> <span class="n">LinearOperator</span><span class="p">,</span> <span class="n">eps</span><span class="p">:</span> <span class="n">Number</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LinOp</span> <span class="o">=</span> <span class="n">LinOp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LinOpPinv</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">LinOp</span><span class="o">.</span><span class="n">H</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">LinOp</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">is_explicit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_dense</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                        <span class="n">is_dask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_symmetric</span><span class="o">=</span><span class="n">LinOp</span><span class="o">.</span><span class="n">is_symmetric</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">NormalEquationsInversion</span><span class="p">(</span><span class="n">Op</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">PyLop</span><span class="p">,</span> <span class="n">Regs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">epsI</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">,</span> <span class="n">returninfo</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">LinOpPinv</span><span class="p">(</span><span class="n">LinOp</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">LinOp</span><span class="o">.</span><span class="n">H</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

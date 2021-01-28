@@ -1,0 +1,1627 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pycsou.linop.diff &mdash; pycsou 1.0.1.dev11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pycsou
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1.dev11
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/theory.html">Background Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">Pycsou API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/other.html">Pycsou Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pycsou</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pycsou.linop.diff</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pycsou.linop.diff</h1><div class="highlight"><pre>
+<span></span><span class="c1"># #############################################################################</span>
+<span class="c1"># diff.py</span>
+<span class="c1"># =======</span>
+<span class="c1"># Author : Matthieu Simeoni [matthieu.simeoni@gmail.com]</span>
+<span class="c1"># #############################################################################</span>
+
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Discrete differential and integral operators.</span>
+
+<span class="sd">This module provides differential operators for discrete signals defined over regular grids or arbitrary meshes (graphs).</span>
+
+<span class="sd">Many of the linear operators provided in this module are derived from linear operators from `PyLops &lt;https://pylops.readthedocs.io/en/latest/api/index.html#smoothing-and-derivatives&gt;`_.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pylops</span>
+<span class="kn">import</span> <span class="nn">pygsp</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">pycsou.core.linop</span> <span class="kn">import</span> <span class="n">LinearOperator</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">PyLopLinearOperator</span><span class="p">,</span> <span class="n">SparseLinearOperator</span><span class="p">,</span> <span class="n">PolynomialLinearOperator</span><span class="p">,</span> <span class="n">LinOpVStack</span><span class="p">,</span> \
+    <span class="n">DiagonalOperator</span><span class="p">,</span> <span class="n">IdentityOperator</span>
+<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
+
+
+<div class="viewcode-block" id="FirstDerivative"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.diff.html#pycsou.linop.diff.FirstDerivative">[docs]</a><span class="k">def</span> <span class="nf">FirstDerivative</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">edge</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                    <span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;float64&#39;</span><span class="p">,</span> <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;forward&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PyLopLinearOperator</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    First derivative.</span>
+
+<span class="sd">    *This docstring was adapted from ``pylops.FirstDerivative``.*</span>
+
+<span class="sd">    Approximates the first derivative of a multi-dimensional array along a specific ``axis`` using finite-differences.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    size: int</span>
+<span class="sd">        Size of the input array.</span>
+<span class="sd">    shape: tuple</span>
+<span class="sd">        Shape of the input array.</span>
+<span class="sd">    axis: int</span>
+<span class="sd">        Axis along which to differentiate.</span>
+<span class="sd">    step: float</span>
+<span class="sd">        Step size.</span>
+<span class="sd">    edge: bool</span>
+<span class="sd">        For ``kind=&#39;centered&#39;``, use reduced order derivative at edges (``True``) or ignore them (``False``).</span>
+<span class="sd">    dtype: str</span>
+<span class="sd">        Type of elements in input array.</span>
+<span class="sd">    kind: str</span>
+<span class="sd">        Derivative kind (``forward``, ``centered``, or ``backward``).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`~pycsou.linop.base.PyLopLinearOperator`</span>
+<span class="sd">        First derivative operator.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If ``shape`` and ``size`` are not compatible.</span>
+<span class="sd">    NotImplementedError</span>
+<span class="sd">        If ``kind`` is not one of: ``forward``, ``centered``, or ``backward``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.linop.diff import FirstDerivative</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.repeat([0,2,1,3,0,2,0], 10)</span>
+<span class="sd">       &gt;&gt;&gt; Dop = FirstDerivative(size=x.size)</span>
+<span class="sd">       &gt;&gt;&gt; y = Dop * x</span>
+<span class="sd">       &gt;&gt;&gt; np.sum(np.abs(y) &gt; 0)</span>
+<span class="sd">       6</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(y, np.diff(x, append=0))</span>
+<span class="sd">       True</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       from pycsou.linop.diff import FirstDerivative</span>
+
+<span class="sd">       x = np.repeat([0,2,1,3,0,2,0], 10)</span>
+<span class="sd">       Dop_bwd = FirstDerivative(size=x.size, kind=&#39;backward&#39;)</span>
+<span class="sd">       Dop_fwd = FirstDerivative(size=x.size, kind=&#39;forward&#39;)</span>
+<span class="sd">       Dop_cent = FirstDerivative(size=x.size, kind=&#39;centered&#39;)</span>
+<span class="sd">       y_bwd = Dop_bwd * x</span>
+<span class="sd">       y_cent = Dop_cent * x</span>
+<span class="sd">       y_fwd = Dop_fwd * x</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       plt.plot(np.arange(x.size), x)</span>
+<span class="sd">       plt.plot(np.arange(x.size), y_bwd)</span>
+<span class="sd">       plt.plot(np.arange(x.size), y_cent)</span>
+<span class="sd">       plt.plot(np.arange(x.size), y_fwd)</span>
+<span class="sd">       plt.legend([&#39;Signal&#39;, &#39;Backward&#39;, &#39;Centered&#39;, &#39;Forward&#39;])</span>
+<span class="sd">       plt.title(&#39;First derivative&#39;)</span>
+<span class="sd">       plt.show()</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The ``FirstDerivative`` operator applies a first derivative along a given axis</span>
+<span class="sd">    of a multi-dimensional array using either a *second-order centered stencil* or *first-order forward/backward stencils*.</span>
+
+<span class="sd">    For simplicity, given a one dimensional array, the second-order centered</span>
+<span class="sd">    first derivative is:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        y[i] = (0.5x[i+1] - 0.5x[i-1]) / \text{step}</span>
+
+<span class="sd">    while the first-order forward stencil is:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        y[i] = (x[i+1] - x[i]) / \text{step}</span>
+
+<span class="sd">    and the first-order backward stencil is:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        y[i] = (x[i] - x[i-1]) / \text{step}.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.linop.diff.SecondDerivative`, :py:func:`~pycsou.linop.diff.GeneralisedDerivative`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">first_derivative</span> <span class="o">=</span> <span class="n">pylops</span><span class="o">.</span><span class="n">FirstDerivative</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="n">step</span><span class="p">,</span> <span class="n">edge</span><span class="o">=</span><span class="n">edge</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+                                              <span class="n">kind</span><span class="o">=</span><span class="n">kind</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">PyLopLinearOperator</span><span class="p">(</span><span class="n">first_derivative</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SecondDerivative"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.diff.html#pycsou.linop.diff.SecondDerivative">[docs]</a><span class="k">def</span> <span class="nf">SecondDerivative</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">edge</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                     <span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;float64&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PyLopLinearOperator</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Second derivative.</span>
+
+<span class="sd">    *This docstring was adapted from ``pylops.SecondDerivative``.*</span>
+
+<span class="sd">    Approximates the second derivative of a multi-dimensional array along a specific ``axis`` using finite-differences.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    size: int</span>
+<span class="sd">        Size of the input array.</span>
+<span class="sd">    shape: tuple</span>
+<span class="sd">        Shape of the input array.</span>
+<span class="sd">    axis: int</span>
+<span class="sd">        Axis along which to differentiate.</span>
+<span class="sd">    step: float</span>
+<span class="sd">        Step size.</span>
+<span class="sd">    edge: bool</span>
+<span class="sd">        Use reduced order derivative at edges (``True``) or ignore them (``False``).</span>
+<span class="sd">    dtype: str</span>
+<span class="sd">        Type of elements in input array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`~pycsou.linop.base.PyLopLinearOperator`</span>
+<span class="sd">        Second derivative operator.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If ``shape`` and ``size`` are not compatible.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.linop.diff import SecondDerivative</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.linspace(-2.5, 2.5, 100)</span>
+<span class="sd">       &gt;&gt;&gt; z = np.piecewise(x, [x &lt; -1, (x &gt;= - 1) * (x&lt;0), x&gt;=0], [lambda x: -x, lambda x: 3 * x + 4, lambda x: -0.5 * x + 4])</span>
+<span class="sd">       &gt;&gt;&gt; Dop = SecondDerivative(size=x.size)</span>
+<span class="sd">       &gt;&gt;&gt; y = Dop * z</span>
+
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       from pycsou.linop.diff import SecondDerivative</span>
+
+<span class="sd">       x = np.linspace(-2.5, 2.5, 200)</span>
+<span class="sd">       z = np.piecewise(x, [x &lt; -1, (x &gt;= - 1) * (x&lt;0), x&gt;=0], [lambda x: -x, lambda x: 3 * x + 4, lambda x: -0.5 * x + 4])</span>
+<span class="sd">       Dop = SecondDerivative(size=x.size)</span>
+<span class="sd">       y = Dop * z</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       plt.plot(np.arange(x.size), z)</span>
+<span class="sd">       plt.title(&#39;Signal&#39;)</span>
+<span class="sd">       plt.show()</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       plt.plot(np.arange(x.size), y)</span>
+<span class="sd">       plt.title(&#39;Second Derivative&#39;)</span>
+<span class="sd">       plt.show()</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The ``SecondDerivative`` operator applies a second derivative to any chosen</span>
+<span class="sd">    direction of a multi-dimensional array.</span>
+
+<span class="sd">    For simplicity, given a one dimensional array, the second-order centered</span>
+<span class="sd">    second derivative is given by:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        y[i] = (x[i+1] - 2x[i] + x[i-1]) / \text{step}^2.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.linop.diff.FirstDerivative`, :py:func:`~pycsou.linop.diff.GeneralisedDerivative`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">PyLopLinearOperator</span><span class="p">(</span>
+        <span class="n">pylops</span><span class="o">.</span><span class="n">SecondDerivative</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="n">step</span><span class="p">,</span> <span class="n">edge</span><span class="o">=</span><span class="n">edge</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="GeneralisedDerivative"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.diff.html#pycsou.linop.diff.GeneralisedDerivative">[docs]</a><span class="k">def</span> <span class="nf">GeneralisedDerivative</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">edge</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                          <span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;float64&#39;</span><span class="p">,</span> <span class="n">kind_op</span><span class="o">=</span><span class="s1">&#39;iterated&#39;</span><span class="p">,</span> <span class="n">kind_diff</span><span class="o">=</span><span class="s1">&#39;centered&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LinearOperator</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generalised derivative.</span>
+
+<span class="sd">    Approximates the generalised derivative of a multi-dimensional array along a specific ``axis`` using finite-differences.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    size: int</span>
+<span class="sd">        Size of the input array.</span>
+<span class="sd">    shape: tuple</span>
+<span class="sd">        Shape of the input array.</span>
+<span class="sd">    axis: int</span>
+<span class="sd">        Axis along which to differentiate.</span>
+<span class="sd">    step: float</span>
+<span class="sd">        Step size.</span>
+<span class="sd">    edge: bool</span>
+<span class="sd">        For ``kind_diff = &#39;centered&#39;``, use reduced order derivative at edges (``True``) or ignore them (``False``).</span>
+<span class="sd">    dtype: str</span>
+<span class="sd">        Type of elements in input array.</span>
+<span class="sd">    kind_diff: str</span>
+<span class="sd">        Derivative kind (``forward``, ``centered``, or ``backward``).</span>
+<span class="sd">    kind_op: str</span>
+<span class="sd">        Type of generalised derivative (``&#39;iterated&#39;``, ``&#39;sobolev&#39;``, ``&#39;exponential&#39;``, ``&#39;polynomial&#39;``).</span>
+<span class="sd">        Depending on the cases, the ``GeneralisedDerivative`` operator is defined as follows:</span>
+
+<span class="sd">        * ``&#39;iterated&#39;``: :math:`\mathscr{D}=D^N`,</span>
+<span class="sd">        * ``&#39;sobolev&#39;``: :math:`\mathscr{D}=(\alpha^2 \mathrm{Id}-D^2)^N`, with :math:`\alpha\in\mathbb{R}`,</span>
+<span class="sd">        * ``&#39;exponential&#39;``: :math:`\mathscr{D}=(\alpha \mathrm{Id} + D)^N`,  with :math:`\alpha\in\mathbb{R}`,</span>
+<span class="sd">        * ``&#39;polynomial&#39;``: :math:`\mathscr{D}=\sum_{n=0}^N \alpha_n D^n`,  with :math:`\{\alpha_0,\ldots,\alpha_N\} \subset\mathbb{R}`,</span>
+
+<span class="sd">        where :math:`D` is the :py:func:`~pycsou.linop.diff.FirstDerivative` operator.</span>
+
+<span class="sd">    kwargs: Any</span>
+<span class="sd">        Additional arguments depending on the value of ``kind_op``:</span>
+
+<span class="sd">        * ``&#39;iterated&#39;``: ``kwargs={order: int}`` where ``order`` defines the exponent :math:`N`.</span>
+<span class="sd">        * ``&#39;sobolev&#39;, &#39;exponential&#39;``: ``kwargs={order: int, constant: float}`` where ``order`` defines the exponent :math:`N` and ``constant`` the scalar :math:`\alpha\in\mathbb{R}`.</span>
+<span class="sd">        * ``kind_op=&#39;polynomial&#39;``: ``kwargs={coeffs: Union[np.ndarray, list, tuple]}`` where ``coeffs`` is an array containing the coefficients :math:`\{\alpha_0,\ldots,\alpha_N\} \subset\mathbb{R}`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`pycsou.core.linop.LinearOperator`</span>
+<span class="sd">        A generalised derivative operator.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    NotImplementedError</span>
+<span class="sd">        If ``kind_op`` is not one of: ``&#39;iterated&#39;``, ``&#39;sobolev&#39;``, ``&#39;exponential&#39;``, ``&#39;polynomial&#39;``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.linop.diff import GeneralisedDerivative, FirstDerivative</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.linspace(-5, 5, 100)</span>
+<span class="sd">       &gt;&gt;&gt; z = np.sinc(x)</span>
+<span class="sd">       &gt;&gt;&gt; Dop = GeneralisedDerivative(size=x.size, kind_op=&#39;iterated&#39;, order=1, kind_diff=&#39;forward&#39;)</span>
+<span class="sd">       &gt;&gt;&gt; D = FirstDerivative(size=x.size, kind=&#39;forward&#39;)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(Dop * z, D * z)</span>
+<span class="sd">       True</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       from pycsou.linop.diff import GeneralisedDerivative</span>
+
+<span class="sd">       x  = np.linspace(-2.5, 2.5, 500)</span>
+<span class="sd">       z = np.exp(-x ** 2)</span>
+<span class="sd">       Dop_it = GeneralisedDerivative(size=x.size, kind_op=&#39;iterated&#39;, order=4)</span>
+<span class="sd">       Dop_sob = GeneralisedDerivative(size=x.size, kind_op=&#39;sobolev&#39;, order=2, constant=1e-2)</span>
+<span class="sd">       Dop_exp = GeneralisedDerivative(size=x.size, kind_op=&#39;exponential&#39;, order=4, constant=-1e-2)</span>
+<span class="sd">       Dop_pol = GeneralisedDerivative(size=x.size, kind_op=&#39;polynomial&#39;,</span>
+<span class="sd">                                       coeffs= 1/2 * np.array([1e-8, 0, -2 * 1e-4, 0, 1]))</span>
+<span class="sd">       y_it = Dop_it * z</span>
+<span class="sd">       y_sob = Dop_sob * z</span>
+<span class="sd">       y_exp = Dop_exp * z</span>
+<span class="sd">       y_pol = Dop_pol * z</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       plt.plot(x, z)</span>
+<span class="sd">       plt.title(&#39;Signal&#39;)</span>
+<span class="sd">       plt.show()</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       plt.plot(x, y_it)</span>
+<span class="sd">       plt.plot(x, y_sob)</span>
+<span class="sd">       plt.plot(x, y_exp)</span>
+<span class="sd">       plt.plot(x, y_pol)</span>
+<span class="sd">       plt.legend([&#39;Iterated&#39;, &#39;Sobolev&#39;, &#39;Exponential&#39;, &#39;Polynomial&#39;])</span>
+<span class="sd">       plt.title(&#39;Generalised derivatives&#39;)</span>
+<span class="sd">       plt.show()</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Problematic values at edges are set to zero.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.linop.diff.FirstDerivative`, :py:func:`~pycsou.linop.diff.SecondDerivative`,</span>
+<span class="sd">    :py:func:`~pycsou.linop.diff.GeneralisedLaplacian`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">FirstDerivative</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span> <span class="n">edge</span><span class="o">=</span><span class="n">edge</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">kind_diff</span><span class="p">)</span>
+    <span class="n">D</span><span class="o">.</span><span class="n">is_symmetric</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">D2</span> <span class="o">=</span> <span class="n">SecondDerivative</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span> <span class="n">edge</span><span class="o">=</span><span class="n">edge</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">kind_op</span> <span class="o">==</span> <span class="s1">&#39;iterated&#39;</span><span class="p">:</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span>
+        <span class="n">Dgen</span> <span class="o">=</span> <span class="n">D</span> <span class="o">**</span> <span class="n">N</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">N</span>
+    <span class="k">elif</span> <span class="n">kind_op</span> <span class="o">==</span> <span class="s1">&#39;sobolev&#39;</span><span class="p">:</span>
+        <span class="n">I</span> <span class="o">=</span> <span class="n">IdentityOperator</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;constant&#39;</span><span class="p">]</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span>
+        <span class="n">Dgen</span> <span class="o">=</span> <span class="p">((</span><span class="n">alpha</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">I</span> <span class="o">-</span> <span class="n">D2</span><span class="p">)</span> <span class="o">**</span> <span class="n">N</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">N</span>
+    <span class="k">elif</span> <span class="n">kind_op</span> <span class="o">==</span> <span class="s1">&#39;exponential&#39;</span><span class="p">:</span>
+        <span class="n">I</span> <span class="o">=</span> <span class="n">IdentityOperator</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;constant&#39;</span><span class="p">]</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span>
+        <span class="n">Dgen</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">I</span> <span class="o">+</span> <span class="n">D</span><span class="p">)</span> <span class="o">**</span> <span class="n">N</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">N</span>
+    <span class="k">elif</span> <span class="n">kind_op</span> <span class="o">==</span> <span class="s1">&#39;polynomial&#39;</span><span class="p">:</span>
+        <span class="n">coeffs</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;coeffs&#39;</span><span class="p">]</span>
+        <span class="n">Dgen</span> <span class="o">=</span> <span class="n">PolynomialLinearOperator</span><span class="p">(</span><span class="n">LinOp</span><span class="o">=</span><span class="n">D</span><span class="p">,</span> <span class="n">coeffs</span><span class="o">=</span><span class="n">coeffs</span><span class="p">)</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s1">&#39;Supported generalised derivative types are: iterated, sobolev, exponential, polynomial.&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kill_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">Dgen</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">kill_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">axis</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">kill_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">kill_edges</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">kind_diff</span> <span class="o">==</span> <span class="s1">&#39;forward&#39;</span><span class="p">:</span>
+        <span class="n">kill_edges</span><span class="p">[</span><span class="o">-</span><span class="n">order</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">elif</span> <span class="n">kind_diff</span> <span class="o">==</span> <span class="s1">&#39;backward&#39;</span><span class="p">:</span>
+        <span class="n">kill_edges</span><span class="p">[:</span><span class="n">order</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">elif</span> <span class="n">kind_diff</span> <span class="o">==</span> <span class="s1">&#39;centered&#39;</span><span class="p">:</span>
+        <span class="n">kill_edges</span><span class="p">[</span><span class="o">-</span><span class="n">order</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">kill_edges</span><span class="p">[:</span><span class="n">order</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">if</span> <span class="n">axis</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">kill_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">kill_edges</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+    <span class="n">KillEdgeOp</span> <span class="o">=</span> <span class="n">DiagonalOperator</span><span class="p">(</span><span class="n">kill_edges</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">Dgen</span> <span class="o">=</span> <span class="n">KillEdgeOp</span> <span class="o">*</span> <span class="n">Dgen</span>
+    <span class="k">return</span> <span class="n">Dgen</span></div>
+
+
+<div class="viewcode-block" id="FirstDirectionalDerivative"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.diff.html#pycsou.linop.diff.FirstDirectionalDerivative">[docs]</a><span class="k">def</span> <span class="nf">FirstDirectionalDerivative</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">directions</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span>
+                               <span class="n">edge</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;float64&#39;</span><span class="p">,</span>
+                               <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;centered&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PyLopLinearOperator</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    First directional derivative.</span>
+
+<span class="sd">    Computes the directional derivative of a multi-dimensional array (at least two dimensions are required)</span>
+<span class="sd">    along either a single common direction or different ``directions`` for each entry of the array.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    shape: tuple</span>
+<span class="sd">        Shape of the input array.</span>
+<span class="sd">    directions: np.ndarray</span>
+<span class="sd">        Single direction (array of size :math:`n_{dims}`) or different directions for each entry (array of size :math:`[n_{dims} \times (n_{d_0} \times ... \times n_{d_{n_{dims}}})]`).</span>
+<span class="sd">        Each column should be normalised.</span>
+<span class="sd">    step: Union[float, Tuple[float, ...]]</span>
+<span class="sd">        Step size in each direction.</span>
+<span class="sd">    edge: bool</span>
+<span class="sd">        For ``kind = &#39;centered&#39;``, use reduced order derivative at edges (``True``) or ignore them (``False``).</span>
+<span class="sd">    dtype: str</span>
+<span class="sd">        Type of elements in input vector.</span>
+<span class="sd">    kind: str</span>
+<span class="sd">        Derivative kind (``forward``, ``centered``, or ``backward``).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`pycsou.linop.base.PyLopLinearOperator`</span>
+<span class="sd">        Directional derivative operator.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.linop.diff import FirstDirectionalDerivative, FirstDerivative</span>
+<span class="sd">       from pycsou.util.misc import peaks</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.linspace(-2.5, 2.5, 100)</span>
+<span class="sd">       &gt;&gt;&gt; X,Y = np.meshgrid(x,x)</span>
+<span class="sd">       &gt;&gt;&gt; Z = peaks(X, Y)</span>
+<span class="sd">       &gt;&gt;&gt; direction = np.array([1,0])</span>
+<span class="sd">       &gt;&gt;&gt; Dop = FirstDirectionalDerivative(shape=Z.shape, directions=direction, kind=&#39;forward&#39;)</span>
+<span class="sd">       &gt;&gt;&gt; D = FirstDerivative(size=Z.size, shape=Z.shape, kind=&#39;forward&#39;)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(Dop * Z.flatten(), D * Z.flatten())</span>
+<span class="sd">       True</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       from pycsou.linop.diff import FirstDirectionalDerivative, FirstDerivative</span>
+<span class="sd">       from pycsou.util.misc import peaks</span>
+
+<span class="sd">       x  = np.linspace(-2.5, 2.5, 25)</span>
+<span class="sd">       X,Y = np.meshgrid(x,x)</span>
+<span class="sd">       Z = peaks(X, Y)</span>
+<span class="sd">       directions = np.zeros(shape=(2,Z.size))</span>
+<span class="sd">       directions[0, :Z.size//2] = 1</span>
+<span class="sd">       directions[1, Z.size//2:] = 1</span>
+<span class="sd">       Dop = FirstDirectionalDerivative(shape=Z.shape, directions=directions)</span>
+<span class="sd">       y = Dop * Z.flatten()</span>
+
+<span class="sd">       plt.figure()</span>
+<span class="sd">       h = plt.pcolormesh(X,Y,Z, shading=&#39;auto&#39;)</span>
+<span class="sd">       plt.quiver(x, x, directions[1].reshape(X.shape), directions[0].reshape(X.shape))</span>
+<span class="sd">       plt.colorbar(h)</span>
+<span class="sd">       plt.title(&#39;Signal and directions of derivatives&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       h = plt.pcolormesh(X,Y,y.reshape(X.shape), shading=&#39;auto&#39;)</span>
+<span class="sd">       plt.colorbar(h)</span>
+<span class="sd">       plt.title(&#39;Directional derivatives&#39;)</span>
+<span class="sd">       plt.show()</span>
+
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The ``FirstDirectionalDerivative`` applies a first-order derivative</span>
+<span class="sd">    to a multi-dimensional array along the direction defined by the unitary</span>
+<span class="sd">    vector :math:`\mathbf{v}`:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        d_\mathbf{v}f =</span>
+<span class="sd">            \langle\nabla f, \mathbf{v}\rangle,</span>
+
+<span class="sd">    or along the directions defined by the unitary vectors</span>
+<span class="sd">    :math:`\mathbf{v}(x, y)`:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        d_\mathbf{v}(x,y) f =</span>
+<span class="sd">            \langle\nabla f(x,y), \mathbf{v}(x,y)\rangle</span>
+
+<span class="sd">    where we have here considered the 2-dimensional case.</span>
+<span class="sd">    Note that the 2D case, choosing :math:`\mathbf{v}=[1,0]` or :math:`\mathbf{v}=[0,1]`</span>
+<span class="sd">    is equivalent to the ``FirstDerivative`` operator applied to axis 0 or 1 respectively.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.linop.diff.SecondDirectionalDerivative`, :py:func:`~pycsou.linop.diff.FirstDerivative`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">PyLopLinearOperator</span><span class="p">(</span>
+        <span class="n">pylops</span><span class="o">.</span><span class="n">FirstDirectionalDerivative</span><span class="p">(</span><span class="n">dims</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">directions</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="n">step</span><span class="p">,</span> <span class="n">edge</span><span class="o">=</span><span class="n">edge</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">kind</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SecondDirectionalDerivative"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.diff.html#pycsou.linop.diff.SecondDirectionalDerivative">[docs]</a><span class="k">def</span> <span class="nf">SecondDirectionalDerivative</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">directions</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span>
+                                <span class="n">edge</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;float64&#39;</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Second directional derivative.</span>
+
+<span class="sd">    Computes the second directional derivative of a multi-dimensional array (at least two dimensions are required)</span>
+<span class="sd">    along either a single common direction or different ``directions`` for each entry of the array.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    shape: tuple</span>
+<span class="sd">        Shape of the input array.</span>
+<span class="sd">    directions: np.ndarray</span>
+<span class="sd">        Single direction (array of size :math:`n_{dims}`) or different directions for each entry (array of size :math:`[n_{dims} \times (n_{d_0} \times ... \times n_{d_{n_{dims}}})]`).</span>
+<span class="sd">        Each column should be normalised.</span>
+<span class="sd">    step: Union[float, Tuple[float, ...]]</span>
+<span class="sd">        Step size in each direction.</span>
+<span class="sd">    edge: bool</span>
+<span class="sd">        Use reduced order derivative at edges (``True``) or ignore them (``False``).</span>
+<span class="sd">    dtype: str</span>
+<span class="sd">        Type of elements in input vector.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`pycsou.linop.base.PyLopLinearOperator`</span>
+<span class="sd">        Second directional derivative operator.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.linop.diff import SecondDirectionalDerivative</span>
+<span class="sd">       from pycsou.util.misc import peaks</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.linspace(-2.5, 2.5, 100)</span>
+<span class="sd">       &gt;&gt;&gt; X,Y = np.meshgrid(x,x)</span>
+<span class="sd">       &gt;&gt;&gt; Z = peaks(X, Y)</span>
+<span class="sd">       &gt;&gt;&gt; direction = np.array([1,0])</span>
+<span class="sd">       &gt;&gt;&gt; Dop = SecondDirectionalDerivative(shape=Z.shape, directions=direction)</span>
+<span class="sd">       &gt;&gt;&gt; dir_d2 = (Dop * Z.reshape(-1)).reshape(Z.shape)</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       from pycsou.linop.diff import FirstDirectionalDerivative, SecondDirectionalDerivative</span>
+<span class="sd">       from pycsou.util.misc import peaks</span>
+
+<span class="sd">       x  = np.linspace(-2.5, 2.5, 25)</span>
+<span class="sd">       X,Y = np.meshgrid(x,x)</span>
+<span class="sd">       Z = peaks(X, Y)</span>
+<span class="sd">       directions = np.zeros(shape=(2,Z.size))</span>
+<span class="sd">       directions[0, :Z.size//2] = 1</span>
+<span class="sd">       directions[1, Z.size//2:] = 1</span>
+<span class="sd">       Dop = FirstDirectionalDerivative(shape=Z.shape, directions=directions)</span>
+<span class="sd">       Dop2 = SecondDirectionalDerivative(shape=Z.shape, directions=directions)</span>
+<span class="sd">       y = Dop * Z.flatten()</span>
+<span class="sd">       y2 = Dop2 * Z.flatten()</span>
+
+<span class="sd">       plt.figure()</span>
+<span class="sd">       h = plt.pcolormesh(X,Y,Z, shading=&#39;auto&#39;)</span>
+<span class="sd">       plt.quiver(x, x, directions[1].reshape(X.shape), directions[0].reshape(X.shape))</span>
+<span class="sd">       plt.colorbar(h)</span>
+<span class="sd">       plt.title(&#39;Signal and directions of derivatives&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       h = plt.pcolormesh(X,Y,y.reshape(X.shape), shading=&#39;auto&#39;)</span>
+<span class="sd">       plt.quiver(x, x, directions[1].reshape(X.shape), directions[0].reshape(X.shape))</span>
+<span class="sd">       plt.colorbar(h)</span>
+<span class="sd">       plt.title(&#39;First Directional derivatives&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       h = plt.pcolormesh(X,Y,y2.reshape(X.shape), shading=&#39;auto&#39;)</span>
+<span class="sd">       plt.colorbar(h)</span>
+<span class="sd">       plt.title(&#39;Second Directional derivatives&#39;)</span>
+<span class="sd">       plt.show()</span>
+
+
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The ``SecondDirectionalDerivative`` applies a second-order derivative</span>
+<span class="sd">    to a multi-dimensional array along the direction defined by the unitary</span>
+<span class="sd">    vector :math:`\mathbf{v}`:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        d^2_\mathbf{v} f =</span>
+<span class="sd">            - d_\mathbf{v}^\ast (d_\mathbf{v} f)</span>
+
+<span class="sd">    where :math:`d_\mathbf{v}` is the first-order directional derivative</span>
+<span class="sd">    implemented by :py:func:`~pycsou.linop.diff.FirstDirectionalDerivative`. The above formula generalises the well-known relationship:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \Delta f= -\text{div}(\nabla f),</span>
+
+<span class="sd">    where minus the divergence operator is the adjoint of the gradient.</span>
+
+<span class="sd">    **Note that problematic values at edges are set to zero.**</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.linop.diff.FirstDirectionalDerivative`, :py:func:`~pycsou.linop.diff.SecondDerivative`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Pylop</span> <span class="o">=</span> <span class="n">PyLopLinearOperator</span><span class="p">(</span>
+        <span class="n">pylops</span><span class="o">.</span><span class="n">SecondDirectionalDerivative</span><span class="p">(</span><span class="n">dims</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">directions</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="n">step</span><span class="p">,</span> <span class="n">edge</span><span class="o">=</span><span class="n">edge</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">))</span>
+    <span class="n">kill_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)):</span>
+        <span class="n">kill_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">kill_edges</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">kill_edges</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">kill_edges</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">kill_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">kill_edges</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+    <span class="n">KillEdgeOp</span> <span class="o">=</span> <span class="n">DiagonalOperator</span><span class="p">(</span><span class="n">kill_edges</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">DirD2</span> <span class="o">=</span> <span class="n">KillEdgeOp</span> <span class="o">*</span> <span class="n">Pylop</span>
+    <span class="k">return</span> <span class="n">DirD2</span></div>
+
+
+<div class="viewcode-block" id="DirectionalGradient"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.diff.html#pycsou.linop.diff.DirectionalGradient">[docs]</a><span class="k">def</span> <span class="nf">DirectionalGradient</span><span class="p">(</span><span class="n">first_directional_derivatives</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FirstDirectionalDerivative</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">LinOpVStack</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Directional gradient.</span>
+
+<span class="sd">    Computes the directional derivative of a multi-dimensional array (at least two dimensions are required)</span>
+<span class="sd">    along multiple ``directions`` for each entry of the array.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    first_directional_derivatives: List[FirstDirectionalDerivative]</span>
+<span class="sd">        List of the directional derivatives to be stacked.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`pycsou.core.linop.LinearOperator`</span>
+<span class="sd">        Stack of first directional derivatives.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       from pycsou.linop.diff import FirstDirectionalDerivative, DirectionalGradient</span>
+<span class="sd">       from pycsou.util.misc import peaks</span>
+
+<span class="sd">       x  = np.linspace(-2.5, 2.5, 25)</span>
+<span class="sd">       X,Y = np.meshgrid(x,x)</span>
+<span class="sd">       Z = peaks(X, Y)</span>
+<span class="sd">       directions1 = np.zeros(shape=(2,Z.size))</span>
+<span class="sd">       directions1[0, :Z.size//2] = 1</span>
+<span class="sd">       directions1[1, Z.size//2:] = 1</span>
+<span class="sd">       directions2 = np.zeros(shape=(2,Z.size))</span>
+<span class="sd">       directions2[1, :Z.size//2] = -1</span>
+<span class="sd">       directions2[0, Z.size//2:] = -1</span>
+<span class="sd">       Dop1 = FirstDirectionalDerivative(shape=Z.shape, directions=directions1)</span>
+<span class="sd">       Dop2 = FirstDirectionalDerivative(shape=Z.shape, directions=directions2)</span>
+<span class="sd">       Dop = DirectionalGradient([Dop1, Dop2])</span>
+<span class="sd">       y = Dop * Z.flatten()</span>
+
+<span class="sd">       plt.figure()</span>
+<span class="sd">       h = plt.pcolormesh(X,Y,Z, shading=&#39;auto&#39;)</span>
+<span class="sd">       plt.quiver(x, x, directions1[1].reshape(X.shape), directions1[0].reshape(X.shape))</span>
+<span class="sd">       plt.quiver(x, x, directions2[1].reshape(X.shape), directions2[0].reshape(X.shape), color=&#39;red&#39;)</span>
+<span class="sd">       plt.colorbar(h)</span>
+<span class="sd">       plt.title(&#39;Signal and directions of derivatives&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       h = plt.pcolormesh(X,Y,y[:Z.size].reshape(X.shape), shading=&#39;auto&#39;)</span>
+<span class="sd">       plt.colorbar(h)</span>
+<span class="sd">       plt.title(&#39;Directional derivatives in 1st direction&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       h = plt.pcolormesh(X,Y,y[Z.size:].reshape(X.shape), shading=&#39;auto&#39;)</span>
+<span class="sd">       plt.colorbar(h)</span>
+<span class="sd">       plt.title(&#39;Directional derivatives in 2nd direction&#39;)</span>
+<span class="sd">       plt.show()</span>
+
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The ``DirectionalGradient`` of a multivariate function :math:`f(\mathbf{x})` is defined as:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        d_{\mathbf{v}_1(\mathbf{x}),\ldots,\mathbf{v}_N(\mathbf{x})} f =</span>
+<span class="sd">            \left[\begin{array}{c}</span>
+<span class="sd">            \langle\nabla f, \mathbf{v}_1(\mathbf{x})\rangle\\</span>
+<span class="sd">            \vdots\\</span>
+<span class="sd">            \langle\nabla f, \mathbf{v}_N(\mathbf{x})\rangle</span>
+<span class="sd">            \end{array}\right],</span>
+
+<span class="sd">    where :math:`d_\mathbf{v}` is the first-order directional derivative</span>
+<span class="sd">    implemented by :py:func:`~pycsou.linop.diff.FirstDirectionalDerivative`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.linop.diff.Gradient`, :py:func:`~pycsou.linop.diff.FirstDirectionalDerivative`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">LinOpVStack</span><span class="p">(</span><span class="o">*</span><span class="n">first_directional_derivatives</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DirectionalLaplacian"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.diff.html#pycsou.linop.diff.DirectionalLaplacian">[docs]</a><span class="k">def</span> <span class="nf">DirectionalLaplacian</span><span class="p">(</span><span class="n">second_directional_derivatives</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">SecondDirectionalDerivative</span><span class="p">],</span>
+                         <span class="n">weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LinearOperator</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Directional Laplacian.</span>
+
+<span class="sd">    Sum of the second directional derivatives of a multi-dimensional array (at least two dimensions are required)</span>
+<span class="sd">    along multiple ``directions`` for each entry of the array.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    second_directional_derivatives: List[SecondDirectionalDerivative]</span>
+<span class="sd">        List of the second directional derivatives to be summed.</span>
+<span class="sd">    weights: Optional[Iterable[float]]</span>
+<span class="sd">        List of optional positive weights with which each second directional derivative operator is multiplied.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`pycsou.core.linop.LinearOperator`</span>
+<span class="sd">         Directional Laplacian.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       from pycsou.linop.diff import SecondDirectionalDerivative, DirectionalLaplacian</span>
+<span class="sd">       from pycsou.util.misc import peaks</span>
+
+<span class="sd">       x  = np.linspace(-2.5, 2.5, 25)</span>
+<span class="sd">       X,Y = np.meshgrid(x,x)</span>
+<span class="sd">       Z = peaks(X, Y)</span>
+<span class="sd">       directions1 = np.zeros(shape=(2,Z.size))</span>
+<span class="sd">       directions1[0, :Z.size//2] = 1</span>
+<span class="sd">       directions1[1, Z.size//2:] = 1</span>
+<span class="sd">       directions2 = np.zeros(shape=(2,Z.size))</span>
+<span class="sd">       directions2[1, :Z.size//2] = -1</span>
+<span class="sd">       directions2[0, Z.size//2:] = -1</span>
+<span class="sd">       Dop1 = SecondDirectionalDerivative(shape=Z.shape, directions=directions1)</span>
+<span class="sd">       Dop2 = SecondDirectionalDerivative(shape=Z.shape, directions=directions2)</span>
+<span class="sd">       Dop = DirectionalLaplacian([Dop1, Dop2])</span>
+<span class="sd">       y = Dop * Z.flatten()</span>
+
+<span class="sd">       plt.figure()</span>
+<span class="sd">       h = plt.pcolormesh(X,Y,Z, shading=&#39;auto&#39;)</span>
+<span class="sd">       plt.quiver(x, x, directions1[1].reshape(X.shape), directions1[0].reshape(X.shape))</span>
+<span class="sd">       plt.quiver(x, x, directions2[1].reshape(X.shape), directions2[0].reshape(X.shape), color=&#39;red&#39;)</span>
+<span class="sd">       plt.colorbar(h)</span>
+<span class="sd">       plt.title(&#39;Signal and directions of derivatives&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       h = plt.pcolormesh(X,Y,y.reshape(X.shape), shading=&#39;auto&#39;)</span>
+<span class="sd">       plt.colorbar(h)</span>
+<span class="sd">       plt.title(&#39;Directional Laplacian&#39;)</span>
+<span class="sd">       plt.show()</span>
+
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The ``DirectionalLaplacian`` of a multivariate function :math:`f(\mathbf{x})` is defined as:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        d^2_{\mathbf{v}_1(\mathbf{x}),\ldots,\mathbf{v}_N(\mathbf{x})} f =</span>
+<span class="sd">            -\sum_{n=1}^N</span>
+<span class="sd">            d^\ast_{\mathbf{v}_n(\mathbf{x})}(d_{\mathbf{v}_n(\mathbf{x})} f).</span>
+
+<span class="sd">    where :math:`d_\mathbf{v}` is the first-order directional derivative</span>
+<span class="sd">    implemented by :py:func:`~pycsou.linop.diff.FirstDirectionalDerivative`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.linop.diff.SecondDirectionalDerivative`, :py:func:`~pycsou.linop.diff.Laplacian`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">directional_laplacian</span> <span class="o">=</span> <span class="n">second_directional_derivatives</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">second_directional_derivatives</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">second_directional_derivatives</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The number of weights and operators provided differ.&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">second_directional_derivatives</span><span class="p">)):</span>
+        <span class="n">directional_laplacian</span> <span class="o">+=</span> <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">second_directional_derivatives</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">directional_laplacian</span></div>
+
+
+<div class="viewcode-block" id="Gradient"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.diff.html#pycsou.linop.diff.Gradient">[docs]</a><span class="k">def</span> <span class="nf">Gradient</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">edge</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;float64&#39;</span><span class="p">,</span>
+             <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;centered&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PyLopLinearOperator</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gradient.</span>
+
+<span class="sd">    Computes the gradient of a multi-dimensional array (at least two dimensions are required).</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    shape: tuple</span>
+<span class="sd">        Shape of the input array.</span>
+<span class="sd">    step: Union[float, Tuple[float, ...]]</span>
+<span class="sd">        Step size in each direction.</span>
+<span class="sd">    edge: bool</span>
+<span class="sd">        For ``kind = &#39;centered&#39;``, use reduced order derivative at edges (``True``) or ignore them (``False``).</span>
+<span class="sd">    dtype: str</span>
+<span class="sd">        Type of elements in input vector.</span>
+<span class="sd">    kind: str</span>
+<span class="sd">        Derivative kind (``forward``, ``centered``, or ``backward``).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`pycsou.core.linop.LinearOperator`</span>
+<span class="sd">        Gradient operator.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.linop.diff import Gradient, FirstDerivative</span>
+<span class="sd">       from pycsou.util.misc import peaks</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; x = np.linspace(-2.5, 2.5, 100)</span>
+<span class="sd">       &gt;&gt;&gt; X,Y = np.meshgrid(x,x)</span>
+<span class="sd">       &gt;&gt;&gt; Z = peaks(X, Y)</span>
+<span class="sd">       &gt;&gt;&gt; Nabla = Gradient(shape=Z.shape, kind=&#39;forward&#39;)</span>
+<span class="sd">       &gt;&gt;&gt; D = FirstDerivative(size=Z.size, shape=Z.shape, kind=&#39;forward&#39;)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose((Nabla * Z.flatten())[:Z.size], D * Z.flatten())</span>
+<span class="sd">       True</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       from pycsou.linop.diff import Gradient</span>
+<span class="sd">       from pycsou.util.misc import peaks</span>
+
+<span class="sd">       x  = np.linspace(-2.5, 2.5, 25)</span>
+<span class="sd">       X,Y = np.meshgrid(x,x)</span>
+<span class="sd">       Z = peaks(X, Y)</span>
+<span class="sd">       Dop = Gradient(shape=Z.shape)</span>
+<span class="sd">       y = Dop * Z.flatten()</span>
+
+<span class="sd">       plt.figure()</span>
+<span class="sd">       h = plt.pcolormesh(X,Y,Z, shading=&#39;auto&#39;)</span>
+<span class="sd">       plt.colorbar(h)</span>
+<span class="sd">       plt.title(&#39;Signal&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       h = plt.pcolormesh(X,Y,y[:Z.size].reshape(X.shape), shading=&#39;auto&#39;)</span>
+<span class="sd">       plt.colorbar(h)</span>
+<span class="sd">       plt.title(&#39;Gradient (1st component)&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       h = plt.pcolormesh(X,Y,y[Z.size:].reshape(X.shape), shading=&#39;auto&#39;)</span>
+<span class="sd">       plt.colorbar(h)</span>
+<span class="sd">       plt.title(&#39;Gradient (2nd component)&#39;)</span>
+<span class="sd">       plt.show()</span>
+
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The ``Gradient`` operator applies a first-order derivative to each dimension of</span>
+<span class="sd">    a multi-dimensional array in forward mode.</span>
+
+<span class="sd">    For simplicity, given a three dimensional array, the ``Gradient`` in forward</span>
+<span class="sd">    mode using a centered stencil can be expressed as:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \mathbf{g}_{i, j, k} =</span>
+<span class="sd">            (f_{i+1, j, k} - f_{i-1, j, k}) / d_1 \mathbf{i_1} +</span>
+<span class="sd">            (f_{i, j+1, k} - f_{i, j-1, k}) / d_2 \mathbf{i_2} +</span>
+<span class="sd">            (f_{i, j, k+1} - f_{i, j, k-1}) / d_3 \mathbf{i_3}</span>
+
+<span class="sd">    which is discretized as follows:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \mathbf{g}  =</span>
+<span class="sd">        \begin{bmatrix}</span>
+<span class="sd">           \mathbf{df_1} \\</span>
+<span class="sd">           \mathbf{df_2} \\</span>
+<span class="sd">           \mathbf{df_3}</span>
+<span class="sd">        \end{bmatrix}.</span>
+
+<span class="sd">    In adjoint mode, the adjoints of the first derivatives along different</span>
+<span class="sd">    axes are instead summed together.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.linop.diff.DirectionalGradient`, :py:func:`~pycsou.linop.diff.FirstDerivative`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">PyLopLinearOperator</span><span class="p">(</span><span class="n">pylops</span><span class="o">.</span><span class="n">Gradient</span><span class="p">(</span><span class="n">dims</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="n">step</span><span class="p">,</span> <span class="n">edge</span><span class="o">=</span><span class="n">edge</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">kind</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="Laplacian"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.diff.html#pycsou.linop.diff.Laplacian">[docs]</a><span class="k">def</span> <span class="nf">Laplacian</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">weights</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">step</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">edge</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+              <span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;float64&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PyLopLinearOperator</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Laplacian.</span>
+
+<span class="sd">    Computes the Laplacian of a 2D array.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    shape: tuple</span>
+<span class="sd">        Shape of the input array.</span>
+<span class="sd">    weights: Tuple[float]</span>
+<span class="sd">        Weight to apply to each direction (real laplacian operator if ``weights=[1,1]``)</span>
+<span class="sd">    step: Union[float, Tuple[float, ...]]</span>
+<span class="sd">        Step size in each direction.</span>
+<span class="sd">    edge: bool</span>
+<span class="sd">       Use reduced order derivative at edges (``True``) or ignore them (``False``).</span>
+<span class="sd">    dtype: str</span>
+<span class="sd">        Type of elements in input vector.</span>
+<span class="sd">    kind: str</span>
+<span class="sd">        Derivative kind (``forward``, ``centered``, or ``backward``).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`pycsou.core.linop.LinearOperator`</span>
+<span class="sd">        Laplacian operator.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       from pycsou.linop.diff import Laplacian</span>
+<span class="sd">       from pycsou.util.misc import peaks</span>
+
+<span class="sd">       x  = np.linspace(-2.5, 2.5, 25)</span>
+<span class="sd">       X,Y = np.meshgrid(x,x)</span>
+<span class="sd">       Z = peaks(X, Y)</span>
+<span class="sd">       Dop = Laplacian(shape=Z.shape)</span>
+<span class="sd">       y = Dop * Z.flatten()</span>
+
+<span class="sd">       plt.figure()</span>
+<span class="sd">       h = plt.pcolormesh(X,Y,Z, shading=&#39;auto&#39;)</span>
+<span class="sd">       plt.colorbar(h)</span>
+<span class="sd">       plt.title(&#39;Signal&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       h = plt.pcolormesh(X,Y,y.reshape(X.shape), shading=&#39;auto&#39;)</span>
+<span class="sd">       plt.colorbar(h)</span>
+<span class="sd">       plt.title(&#39;Laplacian&#39;)</span>
+<span class="sd">       plt.show()</span>
+
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The Laplacian operator sums the second directional derivatives of a 2D array along the two canonical directions.</span>
+
+<span class="sd">    It is defined as:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        y[i, j] =\frac{x[i+1, j] + x[i-1, j] + x[i, j-1] +x[i, j+1] - 4x[i, j]}</span>
+<span class="sd">                  {dx\times dy}.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.linop.diff.DirectionalLaplacian`, :py:func:`~pycsou.linop.diff.SecondDerivative`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
+        <span class="n">step</span> <span class="o">=</span> <span class="p">[</span><span class="n">step</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">PyLopLinearOperator</span><span class="p">(</span><span class="n">pylops</span><span class="o">.</span><span class="n">Laplacian</span><span class="p">(</span><span class="n">dims</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="n">step</span><span class="p">,</span> <span class="n">edge</span><span class="o">=</span><span class="n">edge</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="GeneralisedLaplacian"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.diff.html#pycsou.linop.diff.GeneralisedLaplacian">[docs]</a><span class="k">def</span> <span class="nf">GeneralisedLaplacian</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">edge</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                         <span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;float64&#39;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;iterated&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LinearOperator</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generalised Laplacian operator.</span>
+
+<span class="sd">    Generalised Laplacian operator for a 2D array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    shape: tuple</span>
+<span class="sd">        Shape of the input array.</span>
+<span class="sd">    step: Union[tuple, float] = 1.</span>
+<span class="sd">        Step size for each dimension.</span>
+<span class="sd">    edge: bool</span>
+<span class="sd">        Use reduced order derivative at edges (``True``) or ignore them (``False``).</span>
+<span class="sd">    dtype: str</span>
+<span class="sd">        Type of elements in input array.</span>
+<span class="sd">    kind: str</span>
+<span class="sd">        Type of generalised differential operator (``&#39;iterated&#39;``, ``&#39;sobolev&#39;``, ``&#39;polynomial&#39;``).</span>
+<span class="sd">        Depending on the cases, the ``GeneralisedLaplacian`` operator is defined as follows:</span>
+
+<span class="sd">        * ``&#39;iterated&#39;``: :math:`\mathscr{D}=\Delta^N`,</span>
+<span class="sd">        * ``&#39;sobolev&#39;``: :math:`\mathscr{D}=(\alpha^2 \mathrm{Id}-\Delta)^N`, with :math:`\alpha\in\mathbb{R}`,</span>
+<span class="sd">        * ``&#39;polynomial&#39;``: :math:`\mathscr{D}=\sum_{n=0}^N \alpha_n \Delta^n`,  with :math:`\{\alpha_0,\ldots,\alpha_N\} \subset\mathbb{R}`,</span>
+
+<span class="sd">        where :math:`\Delta` is the :py:func:`~pycsou.linop.diff.Laplacian` operator.</span>
+
+<span class="sd">    kwargs: Any</span>
+<span class="sd">        Additional arguments depending on the value of ``kind``:</span>
+
+<span class="sd">        * ``&#39;iterated&#39;``: ``kwargs={order: int}`` where ``order`` defines the exponent :math:`N`.</span>
+<span class="sd">        * ``&#39;sobolev&#39;``: ``kwargs={order: int, constant: float}`` where ``order`` defines the exponent :math:`N` and ``constant`` the scalar :math:`\alpha\in\mathbb{R}`.</span>
+<span class="sd">        * ``&#39;polynomial&#39;``: ``kwargs={coeffs: Union[np.ndarray, list, tuple]}`` where ``coeffs`` is an array containing the coefficients :math:`\{\alpha_0,\ldots,\alpha_N\} \subset\mathbb{R}`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`pycsou.core.linop.LinearOperator`</span>
+<span class="sd">        Generalised Laplacian operator.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    NotImplementedError</span>
+<span class="sd">        If ``kind`` is not one of: ``&#39;iterated&#39;``, ``&#39;sobolev&#39;``, ``&#39;polynomial&#39;``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       from pycsou.linop.diff import GeneralisedLaplacian</span>
+<span class="sd">       from pycsou.util.misc import peaks</span>
+
+<span class="sd">       x  = np.linspace(-2.5, 2.5, 50)</span>
+<span class="sd">       X,Y = np.meshgrid(x,x)</span>
+<span class="sd">       Z = peaks(X, Y)</span>
+<span class="sd">       Dop = GeneralisedLaplacian(shape=Z.shape, kind=&#39;sobolev&#39;, order=2, constant=0)</span>
+<span class="sd">       y = Dop * Z.flatten()</span>
+
+<span class="sd">       plt.figure()</span>
+<span class="sd">       h = plt.pcolormesh(X,Y,Z, shading=&#39;auto&#39;)</span>
+<span class="sd">       plt.colorbar(h)</span>
+<span class="sd">       plt.title(&#39;Signal&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       h = plt.pcolormesh(X,Y,y.reshape(X.shape), shading=&#39;auto&#39;)</span>
+<span class="sd">       plt.colorbar(h)</span>
+<span class="sd">       plt.title(&#39;Sobolev&#39;)</span>
+<span class="sd">       plt.show()</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Problematic values at edges are set to zero.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.linop.diff.GeneralisedDerivative`, :py:func:`~pycsou.linop.diff.Laplacian`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Delta</span> <span class="o">=</span> <span class="n">Laplacian</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span> <span class="n">edge</span><span class="o">=</span><span class="n">edge</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">Delta</span><span class="o">.</span><span class="n">is_symmetric</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;iterated&#39;</span><span class="p">:</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span>
+        <span class="n">Dgen</span> <span class="o">=</span> <span class="n">Delta</span> <span class="o">**</span> <span class="n">N</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">N</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;sobolev&#39;</span><span class="p">:</span>
+        <span class="n">I</span> <span class="o">=</span> <span class="n">IdentityOperator</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;constant&#39;</span><span class="p">]</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span>
+        <span class="n">Dgen</span> <span class="o">=</span> <span class="p">((</span><span class="n">alpha</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">I</span> <span class="o">-</span> <span class="n">Delta</span><span class="p">)</span> <span class="o">**</span> <span class="n">N</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">N</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;polynomial&#39;</span><span class="p">:</span>
+        <span class="n">coeffs</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;coeffs&#39;</span><span class="p">]</span>
+        <span class="n">Dgen</span> <span class="o">=</span> <span class="n">PolynomialLinearOperator</span><span class="p">(</span><span class="n">LinOp</span><span class="o">=</span><span class="n">Delta</span><span class="p">,</span> <span class="n">coeffs</span><span class="o">=</span><span class="n">coeffs</span><span class="p">)</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s1">&#39;Supported generalised derivative types are: iterated, sobolev, polynomial.&#39;</span><span class="p">)</span>
+
+    <span class="n">kill_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)):</span>
+        <span class="n">kill_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">kill_edges</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">kill_edges</span><span class="p">[</span><span class="o">-</span><span class="n">order</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">kill_edges</span><span class="p">[:</span><span class="n">order</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">kill_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">kill_edges</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+
+    <span class="n">KillEdgeOp</span> <span class="o">=</span> <span class="n">DiagonalOperator</span><span class="p">(</span><span class="n">kill_edges</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">Dgen</span> <span class="o">=</span> <span class="n">KillEdgeOp</span> <span class="o">*</span> <span class="n">Dgen</span>
+    <span class="k">return</span> <span class="n">Dgen</span></div>
+
+
+<div class="viewcode-block" id="Integration1D"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.diff.html#pycsou.linop.diff.Integration1D">[docs]</a><span class="k">def</span> <span class="nf">Integration1D</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span>
+                  <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float64&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PyLopLinearOperator</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    1D integral/cumsum operator.</span>
+
+<span class="sd">    Integrates a multi-dimensional array along a specific ``axis``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    size: int</span>
+<span class="sd">        Size of the input array.</span>
+<span class="sd">    shape: Optional[tuple]</span>
+<span class="sd">        Shape of the input array if multi-dimensional.</span>
+<span class="sd">    axis: int</span>
+<span class="sd">        Axis along which integration is performed.</span>
+<span class="sd">    step: float</span>
+<span class="sd">        Step size.</span>
+<span class="sd">    dtype: str</span>
+<span class="sd">        Type of elements in input array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :py:class:`pycsou.linop.base.PyLopLinearOperator`</span>
+<span class="sd">        Integral operator.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       from pycsou.linop.diff import Integration1D</span>
+
+<span class="sd">       x = np.array([0,0,0,1,0,0,0,0,0,2,0,0,0,0,-1,0,0,0,0,2,0,0,0,0])</span>
+<span class="sd">       Int = Integration1D(size=x.size)</span>
+<span class="sd">       y = Int * x</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       plt.plot(np.arange(x.size), x)</span>
+<span class="sd">       plt.plot(np.arange(x.size), y)</span>
+<span class="sd">       plt.legend([&#39;Signal&#39;, &#39;Integral&#39;])</span>
+<span class="sd">       plt.title(&#39;Integration&#39;)</span>
+<span class="sd">       plt.show()</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The ``Integration1D`` operator applies a causal integration to any chosen</span>
+<span class="sd">    direction of a multi-dimensional array.</span>
+
+<span class="sd">    For simplicity, given a one dimensional array, the causal integration is:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        y(t) = \int x(t) dt</span>
+
+<span class="sd">    which can be discretised as :</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        y[i] = \sum_{j=0}^i x[j] dt,</span>
+
+<span class="sd">    where :math:`dt` is the ``sampling`` interval.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.linop.diff.FirstDerivative`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">PyLopLinearOperator</span><span class="p">(</span>
+        <span class="n">pylops</span><span class="o">.</span><span class="n">CausalIntegration</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="n">step</span><span class="p">,</span> <span class="n">halfcurrent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="GraphLaplacian"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.diff.html#pycsou.linop.diff.GraphLaplacian">[docs]</a><span class="k">class</span> <span class="nc">GraphLaplacian</span><span class="p">(</span><span class="n">LinearOperator</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Graph Laplacian.</span>
+
+<span class="sd">    Normalised graph Laplacian for signals defined on graphs.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pygsp.graphs import Ring</span>
+<span class="sd">       from pycsou.linop.diff import GraphLaplacian</span>
+<span class="sd">       np.random.seed(1)</span>
+<span class="sd">       G = Ring(N=32, k=4)</span>
+<span class="sd">       G.compute_laplacian(lap_type=&#39;normalized&#39;)</span>
+<span class="sd">       G.set_coordinates(kind=&#39;spring&#39;)</span>
+<span class="sd">       x = np.arange(G.N)</span>
+<span class="sd">       signal = np.piecewise(x, [x &lt; G.N//3, (x &gt;= G.N//3) * (x&lt; 2 * G.N//3), x&gt;=2 * G.N//3], [lambda x: -x, lambda x: 3 * x - 4 * G.N//3, lambda x: -0.5 * x + G.N])</span>
+<span class="sd">       Lap = GraphLaplacian(Graph=G)</span>
+<span class="sd">       lap_sig = Lap * signal</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       ax=plt.gca()</span>
+<span class="sd">       G.plot_signal(signal, ax=ax, backend=&#39;matplotlib&#39;)</span>
+<span class="sd">       plt.title(&#39;Signal&#39;)</span>
+<span class="sd">       plt.axis(&#39;equal&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       plt.plot(signal)</span>
+<span class="sd">       plt.title(&#39;Signal&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       ax=plt.gca()</span>
+<span class="sd">       G.plot_signal(lap_sig, ax=ax, backend=&#39;matplotlib&#39;)</span>
+<span class="sd">       plt.title(&#39;Laplacian of signal&#39;)</span>
+<span class="sd">       plt.axis(&#39;equal&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       plt.plot(-lap_sig)</span>
+<span class="sd">       plt.title(&#39;Laplacian of signal&#39;)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    For undirected graphs, the normalized graph Laplacian is defined as</span>
+
+<span class="sd">    .. math:: \mathbf{L} = \mathbf{I} - \mathbf{D}^{-1/2} \mathbf{W} \mathbf{D}^{-1/2},</span>
+
+<span class="sd">    where :math:`\mathbf{I}` is the identity matrix, :math:`\mathbf{W}` is the weighted adjacency matrix and :math:`\mathbf{D}` the</span>
+<span class="sd">    weighted degree matrix.</span>
+
+<span class="sd">    For directed graphs, the Laplacians are built from a symmetrized</span>
+<span class="sd">    version of the weighted adjacency matrix that is the average of the</span>
+<span class="sd">    weighted adjacency matrix and its transpose. As the Laplacian is</span>
+<span class="sd">    defined as the divergence of the gradient, it is not affected by the</span>
+<span class="sd">    orientation of the edges.</span>
+
+<span class="sd">    For both Laplacians, the diagonal entries corresponding to disconnected</span>
+<span class="sd">    nodes (i.e., nodes with degree zero) are set to zero.</span>
+
+<span class="sd">    The ``GraphLaplacian`` operator is self-adjoint.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.linop.diff.GraphGradient`, :py:func:`~pycsou.linop.diff.GeneralisedGraphLaplacian`</span>
+<span class="sd">    :py:class:`~pycsou.linop.conv.GraphConvolution`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GraphLaplacian.__init__"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.diff.html#pycsou.linop.diff.GraphLaplacian.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Graph</span><span class="p">:</span> <span class="n">pygsp</span><span class="o">.</span><span class="n">graphs</span><span class="o">.</span><span class="n">Graph</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Graph: `pygsp.graphs.Graph &lt;https://pygsp.readthedocs.io/en/stable/reference/graphs.html#pygsp.graphs.Graph&gt;`_</span>
+<span class="sd">            Graph on which the signal is defined, with normalised Laplacian ``Graph.L`` precomputed (see `pygsp.graphs.Graph.compute_laplacian(lap_type=&#39;normalized&#39;) &lt;https://pygsp.readthedocs.io/en/stable/reference/graphs.html#pygsp.graphs.Graph.compute_laplacian&gt;`_.</span>
+<span class="sd">        dtype: type</span>
+<span class="sd">            Type of the entries of the graph filer.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        AttributeError</span>
+<span class="sd">            If ``Graph.L`` does not exist.</span>
+<span class="sd">        NotImplementedError</span>
+<span class="sd">            If ``Graph.lap_type`` is &#39;combinatorial&#39;.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Graph</span> <span class="o">=</span> <span class="n">Graph</span>
+        <span class="k">if</span> <span class="n">Graph</span><span class="o">.</span><span class="n">L</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="sa">r</span><span class="s1">&#39;Please compute the normalised Laplacian of the graph with the routine https://pygsp.readthedocs.io/en/stable/reference/graphs.html#pygsp.graphs.Graph.compute_laplacian&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">Graph</span><span class="o">.</span><span class="n">lap_type</span> <span class="o">!=</span> <span class="s1">&#39;normalized&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Combinatorial graph Laplacians are not supported.&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Graph</span><span class="o">.</span><span class="n">L</span><span class="o">.</span><span class="n">tocsc</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GraphLaplacian</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Graph</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">is_explicit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                             <span class="n">is_dense</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_dask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                             <span class="n">is_symmetric</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GraphLaplacian.adjoint"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.diff.html#pycsou.linop.diff.GraphLaplacian.adjoint">[docs]</a>    <span class="k">def</span> <span class="nf">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">(</span><span class="n">y</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="GraphGradient"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.diff.html#pycsou.linop.diff.GraphGradient">[docs]</a><span class="k">class</span> <span class="nc">GraphGradient</span><span class="p">(</span><span class="n">LinearOperator</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Graph gradient.</span>
+
+<span class="sd">    Gradient operator for signals defined on graphs.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pygsp.graphs import Ring</span>
+<span class="sd">       from pycsou.linop.diff import GraphLaplacian, GraphGradient</span>
+<span class="sd">       np.random.seed(1)</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; G = Ring(N=32, k=4)</span>
+<span class="sd">       &gt;&gt;&gt; G.compute_laplacian(lap_type=&#39;normalized&#39;)</span>
+<span class="sd">       &gt;&gt;&gt; G.compute_differential_operator()</span>
+<span class="sd">       &gt;&gt;&gt; G.set_coordinates(kind=&#39;spring&#39;)</span>
+<span class="sd">       &gt;&gt;&gt; x = np.arange(G.N)</span>
+<span class="sd">       &gt;&gt;&gt; signal = np.piecewise(x, [x &lt; G.N//3, (x &gt;= G.N//3) * (x&lt; 2 * G.N//3), x&gt;=2 * G.N//3], [lambda x: -x, lambda x: 3 * x - 4 * G.N//3, lambda x: -0.5 * x + G.N])</span>
+<span class="sd">       &gt;&gt;&gt; Lap = GraphLaplacian(Graph=G)</span>
+<span class="sd">       &gt;&gt;&gt; Grad = GraphGradient(Graph=G)</span>
+<span class="sd">       &gt;&gt;&gt; lap_sig = Lap * signal</span>
+<span class="sd">       &gt;&gt;&gt; lap_sig2 = Grad.adjoint(Grad(signal))</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(lap_sig, lap_sig2)</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The adjoint of the ``GraphGradient`` operator is called the graph divergence operator.</span>
+
+<span class="sd">    Warnings</span>
+<span class="sd">    --------</span>
+<span class="sd">    In the newest version of PyGSP (&gt; 0.5.1) the convention is changed: ``Graph.D`` is the divergence operator and</span>
+<span class="sd">    ``Graph.D.transpose()`` the gradient (see routine `Graph.compute_differential_operator &lt;https://pygsp.readthedocs.io/en/latest/reference/graphs.html#pygsp.graphs.Graph.compute_differential_operator&gt;`_). The code should be adapted when this new version is released.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.linop.diff.GraphLaplacian`, :py:func:`~pycsou.linop.diff.GeneralisedGraphLaplacian`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GraphGradient.__init__"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.diff.html#pycsou.linop.diff.GraphGradient.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Graph</span><span class="p">:</span> <span class="n">pygsp</span><span class="o">.</span><span class="n">graphs</span><span class="o">.</span><span class="n">Graph</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Graph: `pygsp.graphs.Graph &lt;https://pygsp.readthedocs.io/en/stable/reference/graphs.html#pygsp.graphs.Graph&gt;`_</span>
+<span class="sd">            Graph on which the signal is defined, with differential operator ``Graph.D`` precomputed (see `pygsp.graphs.Graph.compute_differential_operator() &lt;https://pygsp.readthedocs.io/en/stable/reference/graphs.html#pygsp.graphs.Graph.compute_differential_operator&gt;`_.</span>
+<span class="sd">        dtype: type</span>
+<span class="sd">            Type of the entries of the graph filer.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        AttributeError</span>
+<span class="sd">            If ``Graph.D`` does not exist.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Graph</span> <span class="o">=</span> <span class="n">Graph</span>
+        <span class="k">if</span> <span class="n">Graph</span><span class="o">.</span><span class="n">D</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="sa">r</span><span class="s1">&#39;Please compute the differential operator of the graph with the routine https://pygsp.readthedocs.io/en/stable/reference/graphs.html#pygsp.graphs.Graph.compute_differential_operator&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Graph</span><span class="o">.</span><span class="n">D</span><span class="o">.</span><span class="n">tocsc</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GraphGradient</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Graph</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">is_explicit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                            <span class="n">is_dense</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_dask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                            <span class="n">is_symmetric</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">D</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GraphGradient.adjoint"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.diff.html#pycsou.linop.diff.GraphGradient.adjoint">[docs]</a>    <span class="k">def</span> <span class="nf">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">D</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">y</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="GeneralisedGraphLaplacian"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.diff.html#pycsou.linop.diff.GeneralisedGraphLaplacian">[docs]</a><span class="k">def</span> <span class="nf">GeneralisedGraphLaplacian</span><span class="p">(</span><span class="n">Graph</span><span class="p">:</span> <span class="n">pygsp</span><span class="o">.</span><span class="n">graphs</span><span class="o">.</span><span class="n">Graph</span><span class="p">,</span> <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;iterated&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generalised graph Laplacian operator.</span>
+
+<span class="sd">    Generalised Laplacian operator signals defined on graphs.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Graph: `pygsp.graphs.Graph &lt;https://pygsp.readthedocs.io/en/stable/reference/graphs.html#pygsp.graphs.Graph&gt;`_</span>
+<span class="sd">        Graph on which the signal is defined, with normalised Laplacian ``Graph.L`` precomputed (see `pygsp.graphs.Graph.compute_laplacian(lap_type=&#39;normalized&#39;) &lt;https://pygsp.readthedocs.io/en/stable/reference/graphs.html#pygsp.graphs.Graph.compute_laplacian&gt;`_.</span>
+<span class="sd">    dtype: type</span>
+<span class="sd">        Type of the entries of the graph filer.</span>
+<span class="sd">    kind: str</span>
+<span class="sd">        Type of generalised differential operator (``&#39;iterated&#39;``, ``&#39;sobolev&#39;``, ``&#39;polynomial&#39;``).</span>
+<span class="sd">        Depending on the cases, the ``GeneralisedLaplacian`` operator is defined as follows:</span>
+
+<span class="sd">        * ``&#39;iterated&#39;``: :math:`\mathscr{D}=\mathbf{L}^N`,</span>
+<span class="sd">        * ``&#39;sobolev&#39;``: :math:`\mathscr{D}=(\alpha^2 \mathrm{Id}-\mathbf{L})^N`, with :math:`\alpha\in\mathbb{R}`,</span>
+<span class="sd">        * ``&#39;polynomial&#39;``: :math:`\mathscr{D}=\sum_{n=0}^N \alpha_n \mathbf{L}^n`,  with :math:`\{\alpha_0,\ldots,\alpha_N\} \subset\mathbb{R}`,</span>
+
+<span class="sd">        where :math:`\mathbf{L}` is the :py:func:`~pycsou.linop.diff.GraphLaplacian` operator.</span>
+<span class="sd">    kwargs: Any</span>
+<span class="sd">        Additional arguments depending on the value of ``kind``:</span>
+
+<span class="sd">        * ``&#39;iterated&#39;``: ``kwargs={order: int}`` where ``order`` defines the exponent :math:`N`.</span>
+<span class="sd">        * ``&#39;sobolev&#39;``: ``kwargs={order: int, constant: float}`` where ``order`` defines the exponent :math:`N` and ``constant`` the scalar :math:`\alpha\in\mathbb{R}`.</span>
+<span class="sd">        * ``&#39;polynomial&#39;``: ``kwargs={coeffs: Union[np.ndarray, list, tuple]}`` where ``coeffs`` is an array containing the coefficients :math:`\{\alpha_0,\ldots,\alpha_N\} \subset\mathbb{R}`.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    AttributeError</span>
+<span class="sd">        If ``Graph.L`` does not exist.</span>
+<span class="sd">    NotImplementedError</span>
+<span class="sd">        If ``Graph.lap_type`` is &#39;combinatorial&#39;.</span>
+<span class="sd">    NotImplementedError</span>
+<span class="sd">        If ``kind`` is not &#39;iterated&#39;, &#39;sobolev&#39; or &#39;polynomial&#39;.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pygsp.graphs import Ring</span>
+<span class="sd">       from pycsou.linop.diff import GeneralisedGraphLaplacian</span>
+<span class="sd">       np.random.seed(1)</span>
+<span class="sd">       G = Ring(N=32, k=4)</span>
+<span class="sd">       G.compute_laplacian(lap_type=&#39;normalized&#39;)</span>
+<span class="sd">       G.set_coordinates(kind=&#39;spring&#39;)</span>
+<span class="sd">       x = np.arange(G.N)</span>
+<span class="sd">       signal = np.piecewise(x, [x &lt; G.N//3, (x &gt;= G.N//3) * (x&lt; 2 * G.N//3), x&gt;=2 * G.N//3], [lambda x: -x, lambda x: 3 * x - 4 * G.N//3, lambda x: -0.5 * x + G.N])</span>
+<span class="sd">       Dop = GeneralisedGraphLaplacian(Graph=G, kind=&#39;polynomial&#39;, coeffs=[1,-1,2])</span>
+<span class="sd">       gen_lap = Dop * signal</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       ax=plt.gca()</span>
+<span class="sd">       G.plot_signal(signal, ax=ax, backend=&#39;matplotlib&#39;)</span>
+<span class="sd">       plt.title(&#39;Signal&#39;)</span>
+<span class="sd">       plt.axis(&#39;equal&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       ax=plt.gca()</span>
+<span class="sd">       G.plot_signal(gen_lap, ax=ax, backend=&#39;matplotlib&#39;)</span>
+<span class="sd">       plt.title(&#39;Generalized Laplacian of signal&#39;)</span>
+<span class="sd">       plt.axis(&#39;equal&#39;)</span>
+
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The ``GeneralisedGraphLaplacian`` operator is self-adjoint.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:func:`~pycsou.linop.diff.GeneralisedDerivative`, :py:class:`~pycsou.linop.diff.GeneralisedLaplacian`</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">Graph</span><span class="o">.</span><span class="n">L</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+            <span class="sa">r</span><span class="s1">&#39;Please compute the normalised Laplacian of the graph with the routine https://pygsp.readthedocs.io/en/stable/reference/graphs.html#pygsp.graphs.Graph.compute_laplacian&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">Graph</span><span class="o">.</span><span class="n">lap_type</span> <span class="o">!=</span> <span class="s1">&#39;normalized&#39;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Combinatorial graph Laplacians are not supported.&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">Graph</span><span class="o">.</span><span class="n">L</span><span class="o">.</span><span class="n">tocsc</span><span class="p">()</span>
+        <span class="n">LapOp</span> <span class="o">=</span> <span class="n">SparseLinearOperator</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">is_symmetric</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;iterated&#39;</span><span class="p">:</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span>
+        <span class="n">Dgen</span> <span class="o">=</span> <span class="n">LapOp</span> <span class="o">**</span> <span class="n">N</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;sobolev&#39;</span><span class="p">:</span>
+        <span class="n">I</span> <span class="o">=</span> <span class="n">IdentityOperator</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">LapOp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">LapOp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;constant&#39;</span><span class="p">]</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span>
+        <span class="n">Dgen</span> <span class="o">=</span> <span class="p">((</span><span class="n">alpha</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">I</span> <span class="o">-</span> <span class="n">LapOp</span><span class="p">)</span> <span class="o">**</span> <span class="n">N</span>
+    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;polynomial&#39;</span><span class="p">:</span>
+        <span class="n">coeffs</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;coeffs&#39;</span><span class="p">]</span>
+        <span class="n">Dgen</span> <span class="o">=</span> <span class="n">PolynomialLinearOperator</span><span class="p">(</span><span class="n">LinOp</span><span class="o">=</span><span class="n">LapOp</span><span class="p">,</span> <span class="n">coeffs</span><span class="o">=</span><span class="n">coeffs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s1">&#39;Supported generalised Laplacian types are: iterated, sobolev, polynomial.&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Dgen</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

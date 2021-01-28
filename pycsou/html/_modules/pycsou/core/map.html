@@ -1,0 +1,1092 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pycsou.core.map &mdash; pycsou 1.0.1.dev11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pycsou
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1.dev11
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/theory.html">Background Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">Pycsou API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/other.html">Pycsou Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pycsou</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pycsou.core.map</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pycsou.core.map</h1><div class="highlight"><pre>
+<span></span><span class="c1"># #############################################################################</span>
+<span class="c1"># map.py</span>
+<span class="c1"># ======</span>
+<span class="c1"># Author : Matthieu Simeoni [matthieu.simeoni@gmail.com]</span>
+<span class="c1"># #############################################################################</span>
+
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Abstract classes for multidimensional nonlinear maps.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
+<span class="kn">from</span> <span class="nn">pycsou.util.misc</span> <span class="kn">import</span> <span class="n">is_range_broadcastable</span><span class="p">,</span> <span class="n">range_broadcast_shape</span>
+
+
+<div class="viewcode-block" id="Map"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.Map">[docs]</a><span class="k">class</span> <span class="nc">Map</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for multidimensional maps.</span>
+
+<span class="sd">    Any instance/subclass of this class must at least implement the abstract method ``__call__``.</span>
+<span class="sd">    This class supports the following arithmetic operators ``+``, ``-``, ``*``, ``@``, ``**`` and ``/``, implemented with the</span>
+<span class="sd">    class methods ``__add__``/``__radd__``, ``__sub__``/``__neg__``, ``__mul__``/``__rmul__``, ``__matmul__``, ``__pow__``, ``__truediv__``.</span>
+<span class="sd">    Such arithmetic operators can be used to *add*, *substract*, *scale*, *compose*, *exponentiate* or *evaluate* ``Map`` instances.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.penalty import L1Norm, SquaredL2Norm</span>
+<span class="sd">       from pycsou.linop.conv import Convolve1D</span>
+<span class="sd">       from scipy import signal</span>
+
+<span class="sd">       x = np.arange(10)</span>
+<span class="sd">       filter = signal.hann(5)</span>
+<span class="sd">       filter[filter.size//2:] = 0</span>
+<span class="sd">       f1 = L1Norm(dim=x.size)</span>
+<span class="sd">       f2 = SquaredL2Norm(dim=x.size)</span>
+<span class="sd">       L1 = Convolve1D(size=x.size, filter=filter)</span>
+<span class="sd">       L2 = Convolve1D(size=x.size, filter=filter/2)</span>
+
+<span class="sd">    Consider four maps: two nonlinear functionals :math:`f_1:\mathbb{R}^{10}\to \mathbb{R}`, :math:`f_2:\mathbb{R}^{10}\to \mathbb{R}`</span>
+<span class="sd">    and two linear operators :math:`L_1:\mathbb{R}^{10}\to \mathbb{R}^{10}`, :math:`L_2:\mathbb{R}^{10}\to \mathbb{R}^{10}`.</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; print(f1.shape, f2.shape, L1.shape, L2.shape)</span>
+<span class="sd">       (1, 10) (1, 10) (10, 10) (10, 10)</span>
+
+<span class="sd">    We can combine linearly/compose the maps with consistent domains/ranges:</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; f3 = f1 / 3 + np.pi * f2</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(f3(x), f1(x) / 3 + np.pi * f2(x))</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; L3 = L1 * 3 - (L2 ** 2) / 6</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(L3(x), L1(x) * 3 - (L2(L2(x))) / 6)</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; f4 = f3 * L3</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(f4(x), f3(L3(x)))</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Note that multiplying a map with an array is the same as evaluating the map at the array.</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; np.allclose(f3 * x, f3(x))</span>
+<span class="sd">       True</span>
+
+<span class="sd">    The multiplication operator ``@`` can also be used in place of ``*``, in compliance with Numpy&#39;s interface:</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; np.allclose(f3 * x, f3 @ x)</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose((f1 * L1)(x), (f1 @ L1)(x))</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Finally, maps can be shifted via the method ``shifter``:</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; f5=f4.shifter(shift=2 * x)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(f5(x), f4(x + 2 * x))</span>
+<span class="sd">       True</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Map.__init__"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.Map.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">is_linear</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">is_differentiable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        shape: Tuple[int, int]</span>
+<span class="sd">            Shape of the map.</span>
+<span class="sd">        is_linear: bool</span>
+<span class="sd">            Whether the map is linear or not.</span>
+<span class="sd">        is_differentiable: bool</span>
+<span class="sd">            Whether the map is differentiable or not.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s1">&#39;Shapes of map objects must be tuples of length 2 (tensorial maps not supported).&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_linear</span> <span class="o">=</span> <span class="n">is_linear</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_functional</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_differentiable</span> <span class="o">=</span> <span class="n">is_differentiable</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Map</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Map.__call__"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.Map.__call__">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Call self as a function.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        arg: Union[Number, np.ndarray]</span>
+<span class="sd">            Argument of the map.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Union[Number, np.ndarray]</span>
+<span class="sd">            Value of ``arg`` through the map.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Map.shifter"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.Map.shifter">[docs]</a>    <span class="k">def</span> <span class="nf">shifter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shift</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;MapShifted&#39;</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a shifted version of the map.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        shift: Union[Number, np.ndarray]</span>
+<span class="sd">            Shift vector.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :py:class:`~pycsou.core.map.MapShifted`</span>
+<span class="sd">            Shifted map.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Let ``A`` be a ``Map`` instance  and ``B=A.shifter(y)`` with ``y`` some vector in the domain of ``A``. Then we have:</span>
+<span class="sd">        ``B(x)=A(x+y)``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">MapShifted</span><span class="p">(</span><span class="nb">map</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="n">shift</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Map.__add__"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.Map.__add__">[docs]</a>    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;Map&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MapSum&#39;</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a map with another map instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other: Union[&#39;Map&#39;, np.ndarray]</span>
+<span class="sd">            The other map or array to be added.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :py:class:`~pycsou.core.map.MapSum`</span>
+<span class="sd">            Sum of the map with another map.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        NotImplementedError</span>
+<span class="sd">            If ``other`` is not a map.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># if isinstance(other, np.ndarray):</span>
+        <span class="c1">#     return MapBias(self, bias=other)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Map</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">MapSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+    <span class="k">def</span> <span class="fm">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;Map&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MapSum&#39;</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a map with another map instance when the latter is on the right hand side of the summation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other: Union[&#39;Map&#39;, np.ndarray]</span>
+<span class="sd">            The other map or array to be added.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :py:class:`~pycsou.core.map.MapSum`</span>
+<span class="sd">            Sum of the map with another map.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        NotImplementedError</span>
+<span class="sd">            If ``other`` is not a map.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># if isinstance(other, np.ndarray):</span>
+        <span class="c1">#     return MapBias(self, bias=other)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Map</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">MapSum</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+<div class="viewcode-block" id="Map.__mul__"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.Map.__mul__">[docs]</a>    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="s1">&#39;Map&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;MapComp&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Multiply a map with another map, a scalar, or an array.</span>
+
+<span class="sd">        The behaviour of this method depends on the type of ``other``:</span>
+
+<span class="sd">        * If ``other`` is another map, then it returns the composition of the map with ``other``.</span>
+<span class="sd">        * If ``other`` is an array with compatible shape, then it calls the map on ``other``.</span>
+<span class="sd">        * If ``other`` is a scalar, then it multiplies the map with this scalar.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other: Union[Number, &#39;Map&#39;, np.ndarray]</span>
+<span class="sd">            Scalar, map or array with which to multiply.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :py:class:`~pycsou.core.map.MapComp`, np.ndarray</span>
+<span class="sd">            Composition of the map with another map, or product with a scalar or array.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        NotImplementedError</span>
+<span class="sd">            If ``other`` is not a scalar, a map or an array.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        :py:func:`~pycsou.core.map.Map.__matmul__`, :py:func:`~pycsou.core.map.Map.__rmul__`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
+            <span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">HomothetyMap</span>
+
+            <span class="n">other</span> <span class="o">=</span> <span class="n">HomothetyMap</span><span class="p">(</span><span class="n">constant</span><span class="o">=</span><span class="n">other</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Map</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">MapComp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+    <span class="k">def</span> <span class="fm">__rmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="s1">&#39;Map&#39;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;MapComp&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
+            <span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">HomothetyMap</span>
+
+            <span class="n">other</span> <span class="o">=</span> <span class="n">HomothetyMap</span><span class="p">(</span><span class="n">constant</span><span class="o">=</span><span class="n">other</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Map</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">MapComp</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+<div class="viewcode-block" id="Map.__matmul__"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.Map.__matmul__">[docs]</a>    <span class="k">def</span> <span class="fm">__matmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;Map&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MapComp&#39;</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Alias for :py:func:`~pycsou.core.map.Map.__mul__` offered to comply with Numpy&#39;s interface.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__mul__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Map.__neg__"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.Map.__neg__">[docs]</a>    <span class="k">def</span> <span class="fm">__neg__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MapComp&#39;</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Negates a map. Alias for ``self.__mul__(-1)``.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__mul__</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Map.__sub__"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.Map.__sub__">[docs]</a>    <span class="k">def</span> <span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;Map&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;MapSum&#39;</span><span class="p">,</span> <span class="s1">&#39;MapBias&#39;</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Substracts a map, scalar, or array to another map. Alias for ``self.__add__(other.__neg__())``.&quot;&quot;&quot;</span>
+        <span class="n">other</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="fm">__neg__</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__add__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Map.__pow__"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.Map.__pow__">[docs]</a>    <span class="k">def</span> <span class="fm">__pow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">power</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MapComp&#39;</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Raise a map to a certain ``power``. Alias for ``A*A*...*A`` with ``power`` multiplications.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">power</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="n">exp_map</span> <span class="o">=</span> <span class="bp">self</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">power</span><span class="p">):</span>
+                <span class="n">exp_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__mul__</span><span class="p">(</span><span class="n">exp_map</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">exp_map</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="Map.__truediv__"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.Map.__truediv__">[docs]</a>    <span class="k">def</span> <span class="fm">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar</span><span class="p">:</span> <span class="n">Number</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MapComp&#39;</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Divides a map by a ``scalar``. Alias for ``self.__mul__(1 / scalar)``.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scalar</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__mul__</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">scalar</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">MapShifted</span><span class="p">(</span><span class="n">Map</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">map</span><span class="p">:</span> <span class="n">Map</span><span class="p">,</span> <span class="n">shift</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">map</span> <span class="o">=</span> <span class="nb">map</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shift</span> <span class="o">=</span> <span class="n">shift</span>
+        <span class="k">if</span> <span class="n">shift</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="nb">map</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Invalid shift size.&#39;</span><span class="p">)</span>
+        <span class="n">Map</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="nb">map</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">is_linear</span><span class="o">=</span><span class="nb">map</span><span class="o">.</span><span class="n">is_linear</span><span class="p">,</span> <span class="n">is_differentiable</span><span class="o">=</span><span class="nb">map</span><span class="o">.</span><span class="n">is_differentiable</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">arg</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">shift</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">MapSum</span><span class="p">(</span><span class="n">Map</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map1</span><span class="p">:</span> <span class="n">Map</span><span class="p">,</span> <span class="n">map2</span><span class="p">:</span> <span class="n">Map</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_range_broadcastable</span><span class="p">(</span><span class="n">map1</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">map2</span><span class="o">.</span><span class="n">shape</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Cannot sum two maps with inconsistent range or domain sizes.&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Map</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">range_broadcast_shape</span><span class="p">(</span><span class="n">map1</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">map2</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span>
+                         <span class="n">is_linear</span><span class="o">=</span><span class="n">map1</span><span class="o">.</span><span class="n">is_linear</span> <span class="o">&amp;</span> <span class="n">map2</span><span class="o">.</span><span class="n">is_linear</span><span class="p">,</span>
+                         <span class="n">is_differentiable</span><span class="o">=</span><span class="n">map1</span><span class="o">.</span><span class="n">is_differentiable</span> <span class="o">&amp;</span> <span class="n">map2</span><span class="o">.</span><span class="n">is_differentiable</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">map1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">map2</span> <span class="o">=</span> <span class="n">map1</span><span class="p">,</span> <span class="n">map2</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">map1</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">map2</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+
+
+<span class="c1"># class MapBias(Map):</span>
+<span class="c1">#     def __init__(self, map_: Map, bias: np.ndarray):</span>
+<span class="c1">#         if not is_range_broadcastable(map_.shape, bias.shape):</span>
+<span class="c1">#             raise ValueError(&#39;Inconsistent range sizes between map and bias.&#39;)</span>
+<span class="c1">#         else:</span>
+<span class="c1">#             super(MapBias, self).__init__(shape=map_.shape, is_linear=False, is_differentiable=map_.is_differentiable)</span>
+<span class="c1">#             self.map, self.bias = map_, bias</span>
+<span class="c1">#</span>
+<span class="c1">#     def __call__(self, arg: Union[Number, np.ndarray]) -&gt; Union[Number, np.ndarray]:</span>
+<span class="c1">#         return self.map(arg) + self.bias</span>
+
+
+<span class="k">class</span> <span class="nc">MapComp</span><span class="p">(</span><span class="n">Map</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map1</span><span class="p">:</span> <span class="n">Map</span><span class="p">,</span> <span class="n">map2</span><span class="p">:</span> <span class="n">Map</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">map1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">map2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">map2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">map1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Cannot compose two maps with inconsistent range or domain sizes.&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Map</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">map1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">map2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                         <span class="n">is_linear</span><span class="o">=</span><span class="n">map1</span><span class="o">.</span><span class="n">is_linear</span> <span class="o">&amp;</span> <span class="n">map2</span><span class="o">.</span><span class="n">is_linear</span><span class="p">,</span>
+                         <span class="n">is_differentiable</span><span class="o">=</span><span class="n">map1</span><span class="o">.</span><span class="n">is_differentiable</span> <span class="o">&amp;</span> <span class="n">map2</span><span class="o">.</span><span class="n">is_differentiable</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">map1</span> <span class="o">=</span> <span class="n">map1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">map2</span> <span class="o">=</span> <span class="n">map2</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">map1</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map2</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="DifferentiableMap"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.DifferentiableMap">[docs]</a><span class="k">class</span> <span class="nc">DifferentiableMap</span><span class="p">(</span><span class="n">Map</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for multidimensional differentiable maps.</span>
+
+<span class="sd">    Any instance/subclass of this class must at least implement the abstract methods ``__call__`` and ``jacobianT``.</span>
+<span class="sd">    The attributes ``lipschitz_cst``, ``diff_lipschitz_cst`` and the method ``jacobianT`` are automatically updated</span>
+<span class="sd">    using standard differentiation rules when scaling, composing , summing or shifting differentiable maps.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.penalty import SquaredL2Norm</span>
+<span class="sd">       from pycsou.linop.diff import FirstDerivative</span>
+
+<span class="sd">       x = np.arange(10)</span>
+<span class="sd">       f = SquaredL2Norm(dim=x.size)</span>
+<span class="sd">       L1 = FirstDerivative(size=x.size)</span>
+<span class="sd">       L1.compute_lipschitz_cst()</span>
+<span class="sd">       L2 = FirstDerivative(size=x.size, kind=&#39;centered&#39;)</span>
+<span class="sd">       L2.compute_lipschitz_cst()</span>
+
+<span class="sd">    Consider three differentiable maps: a nonlinear differentiable functional :math:`f:\mathbb{R}^{10}\to \mathbb{R}`,</span>
+<span class="sd">    and two linear operators :math:`L_1:\mathbb{R}^{10}\to \mathbb{R}^{10}`, :math:`L_2:\mathbb{R}^{10}\to \mathbb{R}^{10}`.</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; print(f.lipschitz_cst, f.diff_lipschitz_cst)</span>
+<span class="sd">       inf 2</span>
+<span class="sd">       &gt;&gt;&gt; print(np.round(L1.lipschitz_cst,1), np.round(L1.diff_lipschitz_cst,1))</span>
+<span class="sd">       1.0 1.0</span>
+<span class="sd">       &gt;&gt;&gt; print(np.round(L2.lipschitz_cst,1), np.round(L2.diff_lipschitz_cst,1))</span>
+<span class="sd">       0.9 0.9</span>
+<span class="sd">       &gt;&gt;&gt; L3 = 2 * L1 + (L2 ** 2) / 3</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(L3.lipschitz_cst, 2 * L1.lipschitz_cst + (L2.lipschitz_cst ** 2)/3)</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; map_ = f * L1</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(map_.lipschitz_cst, f.lipschitz_cst * L1.lipschitz_cst)</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(map_.jacobianT(x), L1.jacobianT(x) * f.jacobianT(L1(x)))</span>
+<span class="sd">       True</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This class supports the following arithmetic operators ``+``, ``-``, ``*``, ``@``, ``**`` and ``/``, implemented with the</span>
+<span class="sd">    class methods ``__add__``/``__radd__``, ``__sub__``/``__neg__``, ``__mul__``/``__rmul__``, ``__matmul__``, ``__pow__``, ``__truediv__``.</span>
+<span class="sd">    Such arithmetic operators can be used to *add*, *substract*, *scale*, *compose*, *exponentiate* or *evaluate* ``DifferentiableMap`` instances.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DifferentiableMap.__init__"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.DifferentiableMap.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">is_linear</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">lipschitz_cst</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">infty</span><span class="p">,</span>
+                 <span class="n">diff_lipschitz_cst</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">infty</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        shape: Tuple[int, int]</span>
+<span class="sd">            Shape of the differentiable map.</span>
+<span class="sd">        is_linear: bool</span>
+<span class="sd">            Whether the differentiable map is linear or not.</span>
+<span class="sd">        lipschitz_cst: float</span>
+<span class="sd">            Lispchitz constant of the differentiable map if it exists/is known. Default to :math:`+\infty`.</span>
+<span class="sd">        diff_lipschitz_cst: float</span>
+<span class="sd">            Lispchitz constant of the derivative of the differentiable map if it exists/is known. Default to :math:`+\infty`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DifferentiableMap</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">is_linear</span><span class="o">=</span><span class="n">is_linear</span><span class="p">,</span> <span class="n">is_differentiable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">=</span> <span class="n">lipschitz_cst</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span> <span class="o">=</span> <span class="n">diff_lipschitz_cst</span></div>
+
+<div class="viewcode-block" id="DifferentiableMap.jacobianT"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.DifferentiableMap.jacobianT">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">jacobianT</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;LinearOperator&#39;</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transpose of the Jacobian matrix of the differentiable map evaluated at ``arg``.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        arg: Union[Number, np.ndarray]</span>
+<span class="sd">            Point at which the transposed Jacobian matrix is evaluated.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ::py:class:`~pycsou.core.linop.LinearOperator`</span>
+<span class="sd">            Linear operator associated to the transposed Jacobian matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DifferentiableMap.gradient"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.DifferentiableMap.gradient">[docs]</a>    <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;LinearOperator&#39;</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Alias for ``self.jacobianT``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jacobianT</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DifferentiableMap.compute_lipschitz_cst"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.DifferentiableMap.compute_lipschitz_cst">[docs]</a>    <span class="k">def</span> <span class="nf">compute_lipschitz_cst</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        User-implemented method to compute the Lipschitz constant of the map.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DifferentiableMap.compute_diff_lipschitz_cst"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.DifferentiableMap.compute_diff_lipschitz_cst">[docs]</a>    <span class="k">def</span> <span class="nf">compute_diff_lipschitz_cst</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        User-implemented method to compute the Lipschitz constant of the derivative of the map.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DifferentiableMap.shifter"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.DifferentiableMap.shifter">[docs]</a>    <span class="k">def</span> <span class="nf">shifter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shift</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;DiffMapShifted&#39;</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a shifted version of the map.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        shift: Union[Number, np.ndarray]</span>
+<span class="sd">            Shift vector.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :py:class:`~pycsou.core.map.DiffMapShifted`</span>
+<span class="sd">            Shifted map.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        :py:meth:`~pycsou.core.map.Map.shifter`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">DiffMapShifted</span><span class="p">(</span><span class="nb">map</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="n">shift</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;Map&#39;</span><span class="p">,</span> <span class="s1">&#39;DifferentiableMap&#39;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;MapSum&#39;</span><span class="p">,</span> <span class="s1">&#39;DiffMapSum&#39;</span><span class="p">]:</span>
+        <span class="c1"># if isinstance(other, np.ndarray):</span>
+        <span class="c1">#     return DiffMapBias(self, other)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">DifferentiableMap</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">DiffMapSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Map</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">MapSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">def</span> <span class="fm">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;Map&#39;</span><span class="p">,</span> <span class="s1">&#39;DifferentiableMap&#39;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;MapSum&#39;</span><span class="p">,</span> <span class="s1">&#39;DiffMapSum&#39;</span><span class="p">]:</span>
+        <span class="c1"># if isinstance(other, np.ndarray):</span>
+        <span class="c1">#     return DiffMapBias(self, other)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">DifferentiableMap</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">DiffMapSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Map</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">MapSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="s1">&#39;Map&#39;</span><span class="p">,</span> <span class="s1">&#39;DifferentiableMap&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> \
+            <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;MapComp&#39;</span><span class="p">,</span> <span class="s1">&#39;DiffMapComp&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
+            <span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">HomothetyMap</span>
+
+            <span class="n">other</span> <span class="o">=</span> <span class="n">HomothetyMap</span><span class="p">(</span><span class="n">constant</span><span class="o">=</span><span class="n">other</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">DifferentiableMap</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">DiffMapComp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Map</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">MapComp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">def</span> <span class="fm">__rmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="s1">&#39;Map&#39;</span><span class="p">,</span> <span class="s1">&#39;DifferentiableMap&#39;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;MapComp&#39;</span><span class="p">,</span> <span class="s1">&#39;DiffMapComp&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
+            <span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">HomothetyMap</span>
+
+            <span class="n">other</span> <span class="o">=</span> <span class="n">HomothetyMap</span><span class="p">(</span><span class="n">constant</span><span class="o">=</span><span class="n">other</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">DifferentiableMap</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">DiffMapComp</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Map</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">MapComp</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<span class="k">class</span> <span class="nc">DiffMapShifted</span><span class="p">(</span><span class="n">MapShifted</span><span class="p">,</span> <span class="n">DifferentiableMap</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">map</span><span class="p">:</span> <span class="n">DifferentiableMap</span><span class="p">,</span> <span class="n">shift</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]):</span>
+        <span class="n">MapShifted</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">map</span><span class="o">=</span><span class="nb">map</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="n">shift</span><span class="p">)</span>
+        <span class="n">DifferentiableMap</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">is_linear</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_linear</span><span class="p">,</span>
+                                   <span class="n">lipschitz_cst</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="o">.</span><span class="n">lipschitz_cst</span><span class="p">,</span>
+                                   <span class="n">diff_lipschitz_cst</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">jacobianT</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;LinearOperator&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">map</span><span class="o">.</span><span class="n">jacobianT</span><span class="p">(</span><span class="n">arg</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">shift</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">DiffMapSum</span><span class="p">(</span><span class="n">MapSum</span><span class="p">,</span> <span class="n">DifferentiableMap</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map1</span><span class="p">:</span> <span class="n">DifferentiableMap</span><span class="p">,</span> <span class="n">map2</span><span class="p">:</span> <span class="n">DifferentiableMap</span><span class="p">):</span>
+        <span class="n">MapSum</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map1</span><span class="o">=</span><span class="n">map1</span><span class="p">,</span> <span class="n">map2</span><span class="o">=</span><span class="n">map2</span><span class="p">)</span>
+        <span class="n">DifferentiableMap</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">is_linear</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_linear</span><span class="p">,</span>
+                                   <span class="n">lipschitz_cst</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">map1</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">map2</span><span class="o">.</span><span class="n">lipschitz_cst</span><span class="p">,</span>
+                                   <span class="n">diff_lipschitz_cst</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">map1</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">map2</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">jacobianT</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;LinearOperator&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">map1</span><span class="o">.</span><span class="n">jacobianT</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">map2</span><span class="o">.</span><span class="n">jacobianT</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+
+
+<span class="c1"># class DiffMapBias(MapBias, DifferentiableMap):</span>
+<span class="c1">#     def __init__(self, map_: DifferentiableMap, bias: np.ndarray):</span>
+<span class="c1">#         MapBias.__init__(self, map_=map_, bias=bias)</span>
+<span class="c1">#         DifferentiableMap.__init__(self, shape=self.shape, is_linear=False, lipschitz_cst=self.map.lipschitz_cst,</span>
+<span class="c1">#                                    diff_lipschitz_cst=self.map.diff_lipschitz_cst)</span>
+<span class="c1">#</span>
+<span class="c1">#     def jacobianT(self, arg: Union[Number, np.ndarray]) -&gt; &#39;LinearOperator&#39;:</span>
+<span class="c1">#         return self.map.jacobianT(arg) * self.map2.jacobianT(arg) * self.map1.jacobianT(self.map2(arg))</span>
+
+
+<span class="k">class</span> <span class="nc">DiffMapComp</span><span class="p">(</span><span class="n">MapComp</span><span class="p">,</span> <span class="n">DifferentiableMap</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map1</span><span class="p">:</span> <span class="n">DifferentiableMap</span><span class="p">,</span> <span class="n">map2</span><span class="p">:</span> <span class="n">DifferentiableMap</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">HomothetyMap</span>
+
+        <span class="n">MapComp</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map1</span><span class="o">=</span><span class="n">map1</span><span class="p">,</span> <span class="n">map2</span><span class="o">=</span><span class="n">map2</span><span class="p">)</span>
+        <span class="n">lipschitz_cst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">map2</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">map1</span><span class="o">.</span><span class="n">lipschitz_cst</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">map1</span><span class="p">,</span> <span class="n">HomothetyMap</span><span class="p">):</span>
+            <span class="n">diff_lipschitz_cst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">map1</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">map2</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">diff_lipschitz_cst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">map1</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">map2</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">map2</span><span class="o">.</span><span class="n">lipschitz_cst</span>
+        <span class="n">DifferentiableMap</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">is_linear</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_linear</span><span class="p">,</span>
+                                   <span class="n">lipschitz_cst</span><span class="o">=</span><span class="n">lipschitz_cst</span><span class="p">,</span> <span class="n">diff_lipschitz_cst</span><span class="o">=</span><span class="n">diff_lipschitz_cst</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">jacobianT</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;LinearOperator&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">map2</span><span class="o">.</span><span class="n">jacobianT</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">map1</span><span class="o">.</span><span class="n">jacobianT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map2</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="MapStack"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.MapStack">[docs]</a><span class="k">class</span> <span class="nc">MapStack</span><span class="p">(</span><span class="n">Map</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Stack maps together.</span>
+
+<span class="sd">    This class constructs a map by stacking multiple maps together, either **vertically** (``axis=0``) or **horizontally** (``axis=1``):</span>
+
+<span class="sd">    - **Vertical stacking**: Consider a collection :math:`\{L_i:\mathbb{R}^{N}\to \mathbb{R}^{M_i}, i=1,\ldots, k\}`</span>
+<span class="sd">      of maps. Their vertical stacking is defined as the operator</span>
+
+<span class="sd">      .. math::</span>
+
+<span class="sd">         V:\begin{cases}\mathbb{R}^{N}\to \mathbb{R}^{M_1}\times \cdots \times\mathbb{R}^{M_k}\\</span>
+<span class="sd">         \mathbf{x}\mapsto (L_1\mathbf{x},\ldots, L_k\mathbf{x}).</span>
+<span class="sd">         \end{cases}</span>
+
+<span class="sd">    - **Horizontal stacking**: Consider a collection :math:`\{L_i:\mathbb{R}^{N_i}\to \mathbb{R}^{M}, i=1,\ldots, k\}`</span>
+<span class="sd">      of maps. Their horizontal stacking is defined as the operator</span>
+
+<span class="sd">      .. math::</span>
+
+<span class="sd">         H:\begin{cases}\mathbb{R}^{N_1}\times \cdots \times\mathbb{R}^{N_k}\to \mathbb{R}^{M}\\</span>
+<span class="sd">         (\mathbf{x}_1,\ldots, \mathbf{x}_k)\mapsto \sum_{i=1}^k L_i \mathbf{x}_i.</span>
+<span class="sd">         \end{cases}</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.penalty import SquaredL2Norm</span>
+<span class="sd">       from pycsou.linop.diff import FirstDerivative</span>
+<span class="sd">       from pycsou.core.map import MapStack</span>
+
+<span class="sd">       x = np.arange(10)</span>
+<span class="sd">       y = np.arange(20)</span>
+<span class="sd">       f = SquaredL2Norm(dim=x.size)</span>
+<span class="sd">       g = SquaredL2Norm(dim=y.size)</span>
+<span class="sd">       A1 = FirstDerivative(size=x.size)</span>
+<span class="sd">       A2 = FirstDerivative(size=y.size, kind=&#39;centered&#39;)</span>
+<span class="sd">       A3 = A1 / 2</span>
+<span class="sd">       K1 = f * A1</span>
+<span class="sd">       K2 = g * A2</span>
+<span class="sd">       K3 = A3</span>
+
+<span class="sd">    Consider three maps :math:`K_1:\mathbb{R}^{10}\to \mathbb{R}`, :math:`K_2:\mathbb{R}^{20}\to \mathbb{R}` and</span>
+<span class="sd">    :math:`K_3:\mathbb{R}^{10}\to \mathbb{R}^{10}`</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; V = MapStack(K1, K3, axis=0)</span>
+<span class="sd">       &gt;&gt;&gt; V.shape</span>
+<span class="sd">       (11, 10)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(V(x), np.concatenate((K1(x).flatten(), K3(x).flatten())))</span>
+<span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; H = MapStack(K1,K2, axis=1)</span>
+<span class="sd">       &gt;&gt;&gt; H.shape</span>
+<span class="sd">       (1, 30)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(H(np.concatenate((x,y))), K1(x) + K2(y))</span>
+<span class="sd">       True</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.core.map.MapVStack`, :py:class:`~pycsou.core.map.MapHStack`, :py:class:`~pycsou.core.map.DiffMapStack`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="MapStack.__init__"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.MapStack.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">maps</span><span class="p">:</span> <span class="n">Map</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        maps: Map</span>
+<span class="sd">            List of maps to stack.</span>
+<span class="sd">        axis:</span>
+<span class="sd">            Stacking direction: 0 for vertical and 1 for horizontal stacking.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maps</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">maps</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Axis must be one of {0, 1,-1}.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_linear_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">map_</span><span class="o">.</span><span class="n">is_linear</span> <span class="k">for</span> <span class="n">map_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">maps</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_differentiable_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">map_</span><span class="o">.</span><span class="n">is_differentiable</span> <span class="k">for</span> <span class="n">map_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">maps</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shapes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">map_</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">map_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">maps</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">map_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="k">for</span> <span class="n">map_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">maps</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sections</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">block_sizes</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_valid_stack</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Inconsistent map shapes for  stacking.&#39;</span><span class="p">)</span>
+        <span class="n">Map</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_shape</span><span class="p">(),</span>
+                     <span class="n">is_linear</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">is_linear_list</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)),</span>
+                     <span class="n">is_differentiable</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">is_differentiable_list</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)))</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">out_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">map_</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="k">for</span> <span class="n">map_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">maps</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">out_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x_split</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sections</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">map_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maps</span><span class="p">):</span>
+                <span class="n">result</span> <span class="o">+=</span> <span class="n">map_</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">x_split</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span> <span class="nf">is_valid_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">col_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">map_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">]</span> <span class="k">for</span> <span class="n">map_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">maps</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">col_sizes</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">get_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="n">sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">map_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">]</span> <span class="k">for</span> <span class="n">map_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">maps</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sizes</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)),</span> <span class="bp">self</span><span class="o">.</span><span class="n">maps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">],</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sizes</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)))</span></div>
+
+
+<div class="viewcode-block" id="MapVStack"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.MapVStack">[docs]</a><span class="k">class</span> <span class="nc">MapVStack</span><span class="p">(</span><span class="n">MapStack</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Alias for vertical stacking, equivalent to ``MapStack(*maps, axis=0)``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       from pycsou.core.map import MapVStack</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; V1 = MapStack(K1, K3, axis=0)</span>
+<span class="sd">       &gt;&gt;&gt; V2 = MapVStack(K1, K3)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(V1(x), V2(x))</span>
+<span class="sd">       True</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="MapVStack.__init__"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.MapVStack.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">maps</span><span class="p">:</span> <span class="n">Map</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        maps: Map</span>
+<span class="sd">            List of maps to stack.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MapVStack</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">maps</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="MapHStack"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.MapHStack">[docs]</a><span class="k">class</span> <span class="nc">MapHStack</span><span class="p">(</span><span class="n">MapStack</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Alias for horizontal stacking, equivalent to ``MapStack(*maps, axis=1)``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">      from pycsou.core.map import MapHStack</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">      &gt;&gt;&gt; V1 = MapStack(K1, K2, axis=1)</span>
+<span class="sd">      &gt;&gt;&gt; V2 = MapHStack(K1, K2)</span>
+<span class="sd">      &gt;&gt;&gt; np.allclose(V1(np.arange(V1.shape[1])), V2(np.arange(V1.shape[1])))</span>
+<span class="sd">      True</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="MapHStack.__init__"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.MapHStack.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">maps</span><span class="p">:</span> <span class="n">Map</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        maps: Map</span>
+<span class="sd">            List of maps to stack.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MapHStack</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">maps</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DiffMapStack"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.DiffMapStack">[docs]</a><span class="k">class</span> <span class="nc">DiffMapStack</span><span class="p">(</span><span class="n">MapStack</span><span class="p">,</span> <span class="n">DifferentiableMap</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Stack differentiable maps together.</span>
+
+<span class="sd">    This class constructs a differentiable map by stacking multiple maps together, either **vertically** (``axis=0``) or **horizontally** (``axis=1``).</span>
+<span class="sd">    The attributes ``lipschitz_cst``, ``diff_lipschitz_cst`` and the method ``jacobianT`` are inferred from those of</span>
+<span class="sd">    the stacked maps.</span>
+
+<span class="sd">    - **Vertical stacking**: Consider a collection :math:`\{L_i:\mathbb{R}^{N}\to \mathbb{R}^{M_i}, i=1,\ldots, k\}`</span>
+<span class="sd">      of maps, with Lipschitz constants :math:`\{\beta_i\in\mathbb{R}_+\cup\{+\infty\}, i=1,\ldots, k\}`, Jacobian matrices</span>
+<span class="sd">      :math:`\{\mathbf{J}_i(\mathbf{x})\in\mathbb{R}^{M_i\times N},  i=1,\ldots, k\}` for some :math:`\mathbf{x}\in\mathbb{R}^N`.</span>
+<span class="sd">      Then the vertically stacked operator</span>
+
+<span class="sd">      .. math::</span>
+
+<span class="sd">         V:\begin{cases}\mathbb{R}^{N}\to \mathbb{R}^{M_1}\times \cdots \times\mathbb{R}^{M_k}\\</span>
+<span class="sd">         \mathbf{x}\mapsto (L_1\mathbf{x},\ldots, L_k\mathbf{x}).</span>
+<span class="sd">         \end{cases}</span>
+
+<span class="sd">      has a Lipschitz constant bounded by :math:`\sqrt{\sum_{i=1}^k \beta_i^2}`. Moreover the Jacobian matrix of :math:`V` is obtained by stacking the individual Jacobian matrices vertically:</span>
+
+<span class="sd">      .. math::</span>
+
+<span class="sd">         \mathbf{J}(\mathbf{x})=\left[\begin{array}{c}\mathbf{J}_1(\mathbf{x})\\\vdots\\ \mathbf{J}_k(\mathbf{x}) \end{array}\right]\in\mathbb{R}^{(\sum_{i=1}^k M_i)\times N}.</span>
+
+<span class="sd">    - **Horizontal stacking**: Consider a collection :math:`\{L_i:\mathbb{R}^{N_i}\to \mathbb{R}^{M}, i=1,\ldots, k\}`</span>
+<span class="sd">      of maps, with Lipschitz constants :math:`\{\beta_i\in\mathbb{R}_+\cup\{+\infty\}, i=1,\ldots, k\}`, Jacobian matrices</span>
+<span class="sd">      :math:`\{\mathbf{J}_i(\mathbf{x}_i)\in\mathbb{R}^{M\times N_i},  i=1,\ldots, k\}` for some :math:`\mathbf{x}_i\in\mathbb{R}^{N_i}`.</span>
+<span class="sd">      Then the horizontally stacked operator</span>
+
+<span class="sd">      .. math::</span>
+
+<span class="sd">         H:\begin{cases}\mathbb{R}^{N_1}\times \cdots \times\mathbb{R}^{N_k}\to \mathbb{R}^{M}\\</span>
+<span class="sd">         (\mathbf{x}_1,\ldots, \mathbf{x}_k)\mapsto \sum_{i=1}^k L_i \mathbf{x}_i.</span>
+<span class="sd">         \end{cases}</span>
+
+<span class="sd">      has a Lipschitz constant bounded by :math:`\sqrt{\sum_{i=1}^k \beta_i^2}`. Moreover the Jacobian matrix of :math:`H` is obtained by stacking the individual Jacobian matrices horizontally:</span>
+
+<span class="sd">      .. math::</span>
+
+<span class="sd">         \mathbf{J}(\mathbf{x}_1,\ldots,\mathbf{x}_k)=\left[\begin{array}{c}\mathbf{J}_1(\mathbf{x}_1)&amp;\cdots&amp; \mathbf{J}_k(\mathbf{x}_k) \end{array}\right]\in\mathbb{R}^{M\times (\sum_{i=1}^k N_i)}.</span>
+
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.func.penalty import SquaredL2Norm</span>
+<span class="sd">       from pycsou.linop.diff import FirstDerivative</span>
+<span class="sd">       from pycsou.core.map import MapStack, DiffMapStack</span>
+
+<span class="sd">       x = np.arange(10)</span>
+<span class="sd">       y = np.arange(20)</span>
+<span class="sd">       f = SquaredL2Norm(dim=x.size)</span>
+<span class="sd">       g = SquaredL2Norm(dim=y.size)</span>
+<span class="sd">       A1 = FirstDerivative(size=x.size)</span>
+<span class="sd">       A1.compute_lipschitz_cst()</span>
+<span class="sd">       A2 = FirstDerivative(size=y.size, kind=&#39;centered&#39;)</span>
+<span class="sd">       A2.compute_lipschitz_cst()</span>
+<span class="sd">       A3 = A1 / 2</span>
+<span class="sd">       K1 = f * A1</span>
+<span class="sd">       K2 = g * A2</span>
+<span class="sd">       K3 = A3</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; V = DiffMapStack(K1, K3, axis=0)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(V.lipschitz_cst, np.sqrt(K1.lipschitz_cst ** 2 + K3.lipschitz_cst ** 2))</span>
+<span class="sd">       True</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.core.map.DiffMapVStack`, :py:class:`~pycsou.core.map.DiffMapHStack`, :py:class:`~pycsou.core.map.MapStack`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DiffMapStack.__init__"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.DiffMapStack.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">diffmaps</span><span class="p">:</span> <span class="n">DifferentiableMap</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        diffmaps: DifferentiableMap</span>
+<span class="sd">            List of differentiable maps to be stacked</span>
+<span class="sd">        axis: int</span>
+<span class="sd">            Stacking direction: 0 for vertical and 1 for horizontal stacking.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">MapStack</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">diffmaps</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+        <span class="n">lipschitz_cst</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">diffmap</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">diffmap</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">maps</span><span class="p">]))</span>
+        <span class="n">diff_lipschitz_cst</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">diffmap</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">diffmap</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">maps</span><span class="p">]))</span>
+        <span class="n">DifferentiableMap</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">is_linear</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_linear</span><span class="p">,</span> <span class="n">lipschitz_cst</span><span class="o">=</span><span class="n">lipschitz_cst</span><span class="p">,</span>
+                                   <span class="n">diff_lipschitz_cst</span><span class="o">=</span><span class="n">diff_lipschitz_cst</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DiffMapStack.jacobianT"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.DiffMapStack.jacobianT">[docs]</a>    <span class="k">def</span> <span class="nf">jacobianT</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;LinOpHStack&#39;</span><span class="p">,</span> <span class="s1">&#39;LinOpVStack&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">jacobianT_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">diffmap</span><span class="o">.</span><span class="n">jacobianT</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">diffmap</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">maps</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">LinOpHStack</span><span class="p">(</span><span class="o">*</span><span class="n">jacobianT_list</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">arg_split</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sections</span><span class="p">)</span>
+            <span class="n">jacobianT_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">diffmap</span><span class="o">.</span><span class="n">jacobianT</span><span class="p">(</span><span class="n">arg_split</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">diffmap</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maps</span><span class="p">)]</span>
+            <span class="k">return</span> <span class="n">LinOpVStack</span><span class="p">(</span><span class="o">*</span><span class="n">jacobianT_list</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DiffMapVStack"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.DiffMapVStack">[docs]</a><span class="k">class</span> <span class="nc">DiffMapVStack</span><span class="p">(</span><span class="n">DiffMapStack</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Alias for vertical stacking of differentiable maps, equivalent to ``DiffMapStack(*maps, axis=0)``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DiffMapVStack.__init__"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.DiffMapVStack.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">diffmaps</span><span class="p">:</span> <span class="n">DifferentiableMap</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        diffmaps: DifferentiableMap</span>
+<span class="sd">            List of differentiable maps to be stacked</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DiffMapVStack</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">diffmaps</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DiffMapHStack"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.DiffMapHStack">[docs]</a><span class="k">class</span> <span class="nc">DiffMapHStack</span><span class="p">(</span><span class="n">DiffMapStack</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Alias for horizontal stacking of differentiable maps, equivalent to ``DiffMapStack(*maps, axis=1)``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DiffMapHStack.__init__"><a class="viewcode-back" href="../../../api/classes/pycsou.core.map.html#pycsou.core.map.DiffMapHStack.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">diffmaps</span><span class="p">:</span> <span class="n">DifferentiableMap</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        diffmaps: DifferentiableMap</span>
+<span class="sd">            List of differentiable maps to be stacked.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DiffMapHStack</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">diffmaps</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">DenseLinearOperator</span><span class="p">,</span> <span class="n">LinOpStack</span><span class="p">,</span> <span class="n">LinOpVStack</span><span class="p">,</span> <span class="n">LinOpHStack</span><span class="p">,</span> <span class="n">HomothetyMap</span>
+    <span class="kn">from</span> <span class="nn">pycsou.linop.conv</span> <span class="kn">import</span> <span class="n">Convolve1D</span>
+    <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">signal</span>
+
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+    <span class="nb">filter</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">hann</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="nb">filter</span><span class="p">[</span><span class="nb">filter</span><span class="o">.</span><span class="n">size</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">L1</span> <span class="o">=</span> <span class="n">Convolve1D</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">x1</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">)</span>
+    <span class="n">L2</span> <span class="o">=</span> <span class="n">DenseLinearOperator</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x2</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="n">L1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">L1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x2</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+    <span class="n">L3</span> <span class="o">=</span> <span class="n">LinOpStack</span><span class="p">(</span><span class="n">L1</span><span class="p">,</span> <span class="n">L2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">L3</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)))</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

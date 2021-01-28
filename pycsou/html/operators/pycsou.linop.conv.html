@@ -1,0 +1,677 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Convolution Operators &mdash; pycsou 0.0.1.dev38 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Differential Operators" href="pycsou.linop.diff.html" />
+    <link rel="prev" title="Constructors" href="pycsou.linop.base.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> pycsou
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1.dev38
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../general/index.html">General</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classes/index.html">Abstract Classes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Linear Operators</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pycsou.linop.base.html">Constructors</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Convolution Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycsou.linop.diff.html">Differential Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycsou.linop.sampling.html">Sampling Operators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../functionals/index.html">Cost Functionals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/index.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../math/index.html">Mathematical Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pycsou</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Linear Operators</a> &raquo;</li>
+        
+      <li>Convolution Operators</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/operators/pycsou.linop.conv.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pycsou.linop.conv">
+<span id="convolution-operators"></span><h1>Convolution Operators<a class="headerlink" href="#module-pycsou.linop.conv" title="Permalink to this headline">¶</a></h1>
+<p>Convolution and smoothing operators for 1D, 2D and graph signals.</p>
+<p>Many of the linear operator provided in this module are derived from linear operators from <a class="reference external" href="https://pylops.readthedocs.io/en/latest/api/index.html#linear-operators">PyLops</a>.</p>
+<p class="rubric">1D Operators</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.linop.conv.Convolve1D" title="pycsou.linop.conv.Convolve1D"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Convolve1D</span></code></a>(size, filter[, reshape_dims, …])</p></td>
+<td><p>1D convolution operator.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.linop.conv.MovingAverage1D" title="pycsou.linop.conv.MovingAverage1D"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MovingAverage1D</span></code></a>(window_size, shape[, axis, …])</p></td>
+<td><p>1D moving average.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">2D Operators</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.linop.conv.Convolve2D" title="pycsou.linop.conv.Convolve2D"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Convolve2D</span></code></a>(size, filter, shape[, dtype, method])</p></td>
+<td><p>2D convolution operator.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.linop.conv.MovingAverage2D" title="pycsou.linop.conv.MovingAverage2D"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MovingAverage2D</span></code></a>(window_shape, shape[, dtype])</p></td>
+<td><p>2D moving average.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Graph Operators</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.linop.conv.GraphConvolution" title="pycsou.linop.conv.GraphConvolution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GraphConvolution</span></code></a>(Graph, coefficients)</p></td>
+<td><p>Graph convolution.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="function">
+<dt id="pycsou.linop.conv.Convolve1D">
+<code class="sig-name descname">Convolve1D</code><span class="sig-paren">(</span><em class="sig-param">size: int</em>, <em class="sig-param">filter: numpy.ndarray</em>, <em class="sig-param">reshape_dims: Optional[tuple] = None</em>, <em class="sig-param">axis: int = 0</em>, <em class="sig-param">dtype: type = 'float64'</em>, <em class="sig-param">method: Optional[str] = None</em><span class="sig-paren">)</span> &#x2192; pycsou.linop.base.PyLopLinearOperator<a class="reference internal" href="../_modules/pycsou/linop/conv.html#Convolve1D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.linop.conv.Convolve1D" title="Permalink to this definition">¶</a></dt>
+<dd><p>1D convolution operator.</p>
+<p><em>This docstring was adapted from ``pylops.signalprocessing.Convolve1D``.</em></p>
+<p>Convolve a multi-dimensional array along a specific <code class="docutils literal notranslate"><span class="pre">axis</span></code> with a one-dimensional compact <code class="docutils literal notranslate"><span class="pre">filter</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Size of the input array.</p></li>
+<li><p><strong>filter</strong> (<em>np.ndarray</em>) – 1d compact filter. The latter should be real-valued and centered around its mid-size index.</p></li>
+<li><p><strong>reshape_dims</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a><em>]</em>) – Shape of the array to which the convolution should be applied.</p></li>
+<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Axis along which to apply convolution.</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Type of elements of the input array.</p></li>
+<li><p><strong>method</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – Method used to calculate the convolution (<code class="docutils literal notranslate"><span class="pre">direct</span></code>, <code class="docutils literal notranslate"><span class="pre">fft</span></code>,
+or <code class="docutils literal notranslate"><span class="pre">overlapadd</span></code>). Note that only <code class="docutils literal notranslate"><span class="pre">direct</span></code> and <code class="docutils literal notranslate"><span class="pre">fft</span></code> are allowed
+when <code class="docutils literal notranslate"><span class="pre">dims=None</span></code>, whilst <code class="docutils literal notranslate"><span class="pre">fft</span></code> and <code class="docutils literal notranslate"><span class="pre">overlapadd</span></code> are allowed
+when <code class="docutils literal notranslate"><span class="pre">dims</span></code> is provided.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Convolution operator.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pycsou.linop.base.html#pycsou.linop.base.PyLopLinearOperator" title="pycsou.linop.base.PyLopLinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.linop.base.PyLopLinearOperator</span></code></a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.9)"><strong>NotImplementedError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">method</span></code> provided is not allowed.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">filter</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">hann</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span> <span class="nb">filter</span><span class="p">[</span><span class="nb">filter</span><span class="o">.</span><span class="n">size</span><span class="o">//</span><span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ConvOp</span> <span class="o">=</span> <span class="n">Convolve1D</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">sig</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filtered</span> <span class="o">=</span> <span class="n">ConvOp</span> <span class="o">*</span> <span class="n">sig</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filtered_scipy</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;direct&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">filtered</span><span class="p">,</span> <span class="n">filtered_scipy</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.conv</span> <span class="kn">import</span> <span class="n">Convolve1D</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">signal</span>
+<span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="mi">100</span><span class="p">)</span>
+<span class="nb">filter</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">hann</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span> <span class="nb">filter</span><span class="p">[</span><span class="nb">filter</span><span class="o">.</span><span class="n">size</span><span class="o">//</span><span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">ConvOp</span> <span class="o">=</span> <span class="n">Convolve1D</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">sig</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">)</span>
+<span class="n">filtered</span> <span class="o">=</span> <span class="n">ConvOp</span> <span class="o">*</span> <span class="n">sig</span>
+<span class="n">correlated</span> <span class="o">=</span> <span class="n">ConvOp</span><span class="o">.</span><span class="n">H</span> <span class="o">*</span> <span class="n">sig</span>
+<span class="n">backprojected</span> <span class="o">=</span> <span class="n">ConvOp</span><span class="o">.</span><span class="n">DomainGram</span> <span class="o">*</span> <span class="n">sig</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sig</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="nb">filter</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="nb">filter</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Signal&#39;</span><span class="p">,</span> <span class="s1">&#39;Filter&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">filtered</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Filtered Signal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">correlated</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Correlated Signal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">backprojected</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Backprojected Signal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="../operators/pycsou-linop-conv-1.py">Source code</a>, <a class="reference external" href="../operators/pycsou-linop-conv-1.png">png</a>, <a class="reference external" href="../operators/pycsou-linop-conv-1.hires.png">hires.png</a>, <a class="reference external" href="../operators/pycsou-linop-conv-1.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="../_images/pycsou-linop-conv-1.png" src="../_images/pycsou-linop-conv-1.png" />
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.conv</span> <span class="kn">import</span> <span class="n">Convolve1D</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">signal</span>
+<span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">))</span>
+<span class="n">sig</span><span class="p">[</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="nb">filter</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">hann</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">ConvOp</span> <span class="o">=</span> <span class="n">Convolve1D</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">sig</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">,</span> <span class="n">reshape_dims</span><span class="o">=</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">filtered</span> <span class="o">=</span> <span class="p">(</span><span class="n">ConvOp</span> <span class="o">*</span> <span class="n">sig</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;plasma&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Signal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">filtered</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;plasma&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Filtered Signal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="../operators/pycsou-linop-conv-2.py">Source code</a>, <a class="reference external" href="../operators/pycsou-linop-conv-2.png">png</a>, <a class="reference external" href="../operators/pycsou-linop-conv-2.hires.png">hires.png</a>, <a class="reference external" href="../operators/pycsou-linop-conv-2.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="../_images/pycsou-linop-conv-2.png" src="../_images/pycsou-linop-conv-2.png" />
+</div>
+<p class="rubric">Notes</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Convolve1D</span></code> operator applies convolution between the input signal
+<span class="math notranslate nohighlight">\(x(t)\)</span> and a compact filter kernel <span class="math notranslate nohighlight">\(h(t)\)</span> in forward model:</p>
+<div class="math notranslate nohighlight">
+\[y(t) = \int_{-\infty}^{\infty} h(t-\tau) x(\tau) d\tau\]</div>
+<p>This operation can be discretized as follows</p>
+<div class="math notranslate nohighlight">
+\[y[n] = \sum_{m\in\mathbb{Z}} h[n-m] x[m], \, n\in\mathbb{Z},\]</div>
+<p>as well as performed in the frequency domain:</p>
+<div class="math notranslate nohighlight">
+\[Y(f) = \mathscr{F} (h(t)) \times \mathscr{F} (x(t)),\; f\in\mathbb{R}.\]</div>
+<p><code class="docutils literal notranslate"><span class="pre">Convolve1D</span></code> operator uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.convolve.html#scipy.signal.convolve" title="(in SciPy v1.6.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.convolve()</span></code></a> that
+automatically chooses the best method for computing the convolution
+for one dimensional inputs. The FFT implementation
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.fftconvolve.html#scipy.signal.fftconvolve" title="(in SciPy v1.6.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.fftconvolve()</span></code></a> is however enforced for signals in
+2 or more dimensions as this routine efficiently operates on
+multi-dimensional arrays. The method <code class="docutils literal notranslate"><span class="pre">overlapadd</span></code> uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.oaconvolve.html#scipy.signal.oaconvolve" title="(in SciPy v1.6.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.oaconvolve()</span></code></a>.</p>
+<p>As the adjoint of convolution is correlation, <code class="docutils literal notranslate"><span class="pre">Convolve1D</span></code> operator applies
+correlation in the adjoint mode.</p>
+<p>In time domain:</p>
+<div class="math notranslate nohighlight">
+\[x(t) = \int_{-\infty}^{\infty} h(t+\tau) x(\tau) d\tau\]</div>
+<p>or in frequency domain:</p>
+<div class="math notranslate nohighlight">
+\[y(t) = \mathscr{F}^{-1} (H(f)^\ast \times X(f)).\]</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#pycsou.linop.conv.Convolve2D" title="pycsou.linop.conv.Convolve2D"><code class="xref py py-func docutils literal notranslate"><span class="pre">Convolve2D()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pycsou.linop.conv.Convolve2D">
+<code class="sig-name descname">Convolve2D</code><span class="sig-paren">(</span><em class="sig-param">size: int</em>, <em class="sig-param">filter: numpy.ndarray</em>, <em class="sig-param">shape: tuple</em>, <em class="sig-param">dtype: type = 'float64'</em>, <em class="sig-param">method: str = 'fft'</em><span class="sig-paren">)</span> &#x2192; pycsou.linop.base.PyLopLinearOperator<a class="reference internal" href="../_modules/pycsou/linop/conv.html#Convolve2D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.linop.conv.Convolve2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>2D convolution operator.</p>
+<p><em>This docstring was adapted from ``pylops.signalprocessing.Convolve2D``.</em></p>
+<p>Convolve a two-dimensional array with a two-dimensional compact <code class="docutils literal notranslate"><span class="pre">filter</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Size of the input array.</p></li>
+<li><p><strong>filter</strong> (<em>np.ndarray</em>) – 2d compact filter. The latter should be real-valued and centered around its central indices.</p></li>
+<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a>) – Shape of the array to which the convolution should be applied.</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Type of elements of the input array.</p></li>
+<li><p><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Method used to calculate the convolution (<code class="docutils literal notranslate"><span class="pre">direct</span></code> or <code class="docutils literal notranslate"><span class="pre">fft</span></code>).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Convolution operator.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pycsou.linop.base.html#pycsou.linop.base.PyLopLinearOperator" title="pycsou.linop.base.PyLopLinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.linop.base.PyLopLinearOperator</span></code></a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">filter</span></code> is not a 2D array.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sig</span><span class="p">[</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">filter</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">hann</span><span class="p">(</span><span class="mi">25</span><span class="p">);</span> <span class="nb">filter</span><span class="p">[</span><span class="nb">filter</span><span class="o">.</span><span class="n">size</span><span class="o">//</span><span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">filter</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">[</span><span class="kc">None</span><span class="p">,:]</span> <span class="o">*</span> <span class="nb">filter</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ConvOp</span> <span class="o">=</span> <span class="n">Convolve2D</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">sig</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filtered</span> <span class="o">=</span> <span class="p">(</span><span class="n">ConvOp</span> <span class="o">*</span> <span class="n">sig</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filtered_scipy</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">filtered</span><span class="p">,</span> <span class="n">filtered_scipy</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.conv</span> <span class="kn">import</span> <span class="n">Convolve2D</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">signal</span>
+<span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">))</span>
+<span class="n">sig</span><span class="p">[</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="nb">filter</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">hann</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="nb">filter</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">[</span><span class="kc">None</span><span class="p">,:]</span> <span class="o">*</span> <span class="nb">filter</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]</span>
+<span class="n">ConvOp</span> <span class="o">=</span> <span class="n">Convolve2D</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">sig</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">filtered</span> <span class="o">=</span> <span class="p">(</span><span class="n">ConvOp</span> <span class="o">*</span> <span class="n">sig</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">correlated</span> <span class="o">=</span> <span class="p">(</span><span class="n">ConvOp</span><span class="o">.</span><span class="n">H</span> <span class="o">*</span> <span class="n">sig</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;plasma&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Signal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">filtered</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;plasma&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Filtered Signal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">correlated</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;plasma&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Correlated Signal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="../operators/pycsou-linop-conv-3.py">Source code</a>, <a class="reference external" href="../operators/pycsou-linop-conv-3.png">png</a>, <a class="reference external" href="../operators/pycsou-linop-conv-3.hires.png">hires.png</a>, <a class="reference external" href="../operators/pycsou-linop-conv-3.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="../_images/pycsou-linop-conv-3.png" src="../_images/pycsou-linop-conv-3.png" />
+</div>
+<p class="rubric">Notes</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Convolve2D</span></code> operator applies two-dimensional convolution
+between the input signal <span class="math notranslate nohighlight">\(d(t,x)\)</span> and a compact filter kernel
+<span class="math notranslate nohighlight">\(h(t,x)\)</span> in forward model:</p>
+<div class="math notranslate nohighlight">
+\[y(t,x) = \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}
+h(t-\tau,x-\chi) d(\tau,\chi) d\tau d\chi\]</div>
+<p>This operation can be discretized as follows</p>
+<div class="math notranslate nohighlight">
+\[y[i,n] = \sum_{j=-\infty}^{\infty} \sum_{m=-\infty}^{\infty} h[i-j,n-m] d[j,m]\]</div>
+<p>as well as performed in the frequency domain:</p>
+<div class="math notranslate nohighlight">
+\[Y(f, k_x) = \mathscr{F} (h(t,x)) \times \mathscr{F} (d(t,x)).\]</div>
+<p><code class="docutils literal notranslate"><span class="pre">Convolve2D</span></code> operator uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.convolve.html#scipy.signal.convolve" title="(in SciPy v1.6.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.convolve()</span></code></a>
+that automatically chooses the best domain for the operation
+to be carried out.</p>
+<p>As the adjoint of convolution is correlation, <code class="docutils literal notranslate"><span class="pre">Convolve2D</span></code> operator
+applies correlation in the adjoint mode.</p>
+<p>In time domain:</p>
+<div class="math notranslate nohighlight">
+\[y(t,x) = \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}
+h(t+\tau,x+\chi) d(\tau,\chi) d\tau d\chi\]</div>
+<p>or in frequency domain:</p>
+<div class="math notranslate nohighlight">
+\[y(t, x) = \mathscr{F}^{-1} (H(f, k_x)^\ast \times X(f, k_x)).\]</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#pycsou.linop.conv.Convolve1D" title="pycsou.linop.conv.Convolve1D"><code class="xref py py-func docutils literal notranslate"><span class="pre">Convolve1D()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pycsou.linop.conv.MovingAverage1D">
+<code class="sig-name descname">MovingAverage1D</code><span class="sig-paren">(</span><em class="sig-param">window_size: int</em>, <em class="sig-param">shape: tuple</em>, <em class="sig-param">axis: int = 0</em>, <em class="sig-param">dtype='float64'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/linop/conv.html#MovingAverage1D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.linop.conv.MovingAverage1D" title="Permalink to this definition">¶</a></dt>
+<dd><p>1D moving average.</p>
+<p>Apply moving average to a multi-dimensional array along a specific axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>window_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Size of the window for moving average (must be <em>odd</em>).</p></li>
+<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a>) – Shape of the input array.</p></li>
+<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Axis along which moving average is applied.</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Type of elements in input array.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>1D moving average operator.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pycsou.linop.base.html#pycsou.linop.base.PyLopLinearOperator" title="pycsou.linop.base.PyLopLinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.linop.base.PyLopLinearOperator</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.conv</span> <span class="kn">import</span> <span class="n">MovingAverage1D</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">signal</span>
+<span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">))</span>
+<span class="n">sig</span><span class="p">[</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">MAOp</span> <span class="o">=</span> <span class="n">MovingAverage1D</span><span class="p">(</span><span class="n">window_size</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">moving_average</span> <span class="o">=</span> <span class="p">(</span><span class="n">MAOp</span> <span class="o">*</span> <span class="n">sig</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;plasma&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Signal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">moving_average</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;plasma&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Moving Average&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="../operators/pycsou-linop-conv-4.py">Source code</a>, <a class="reference external" href="../operators/pycsou-linop-conv-4.png">png</a>, <a class="reference external" href="../operators/pycsou-linop-conv-4.hires.png">hires.png</a>, <a class="reference external" href="../operators/pycsou-linop-conv-4.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="../_images/pycsou-linop-conv-4.png" src="../_images/pycsou-linop-conv-4.png" />
+</div>
+<p class="rubric">Notes</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">MovingAverage1D</span></code> operator is a special type of convolution operator that
+convolves along a specific axis an array with a constant filter of size <span class="math notranslate nohighlight">\(n_{smooth}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{h} = [ 1/n_{smooth}, 1/n_{smooth}, ..., 1/n_{smooth} ]\]</div>
+<p>For example, for a 3D array <span class="math notranslate nohighlight">\(x\)</span>,  <code class="docutils literal notranslate"><span class="pre">MovingAverage1D</span></code> applied to the first axis yields:</p>
+<div class="math notranslate nohighlight">
+\[y[i,j,k] = 1/n_{smooth} \sum_{l=-(n_{smooth}-1)/2}^{(n_{smooth}-1)/2}
+x[l,j,k].\]</div>
+<p>Note that since the filter is symmetrical, the <code class="docutils literal notranslate"><span class="pre">MovingAverage1D</span></code> operator is
+self-adjoint.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pycsou.linop.conv.MovingAverage2D">
+<code class="sig-name descname">MovingAverage2D</code><span class="sig-paren">(</span><em class="sig-param">window_shape: Union[tuple, list], shape: tuple, dtype='float64'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/linop/conv.html#MovingAverage2D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.linop.conv.MovingAverage2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>2D moving average.</p>
+<p>Apply moving average to a 2D array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>window_size</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a><em>]</em>) – Shape of the window for moving average (sizes in each dimension must be <em>odd</em>).</p></li>
+<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a>) – Shape of the input array.</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Type of elements in input array.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>2D moving average operator.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="pycsou.linop.base.html#pycsou.linop.base.PyLopLinearOperator" title="pycsou.linop.base.PyLopLinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.linop.base.PyLopLinearOperator</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.conv</span> <span class="kn">import</span> <span class="n">MovingAverage2D</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">signal</span>
+<span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">))</span>
+<span class="n">sig</span><span class="p">[</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">MAOp</span> <span class="o">=</span> <span class="n">MovingAverage2D</span><span class="p">(</span><span class="n">window_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">25</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">moving_average</span> <span class="o">=</span> <span class="p">(</span><span class="n">MAOp</span> <span class="o">*</span> <span class="n">sig</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;plasma&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Signal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">moving_average</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;plasma&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Moving Average&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="../operators/pycsou-linop-conv-5.py">Source code</a>, <a class="reference external" href="../operators/pycsou-linop-conv-5.png">png</a>, <a class="reference external" href="../operators/pycsou-linop-conv-5.hires.png">hires.png</a>, <a class="reference external" href="../operators/pycsou-linop-conv-5.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="../_images/pycsou-linop-conv-5.png" src="../_images/pycsou-linop-conv-5.png" />
+</div>
+<p class="rubric">Notes</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">MovingAverage2D</span></code> operator is a special type of convolution operator that
+convolves a 2D array with a constant 2d filter of size <span class="math notranslate nohighlight">\(n_{smooth, 1} \quad \times \quad n_{smooth, 2}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[y[i,j] = \frac{1}{n_{smooth, 1} n_{smooth, 2}}
+\sum_{l=-(n_{smooth,1}-1)/2}^{(n_{smooth,1}-1)/2}
+\sum_{m=-(n_{smooth,2}-1)/2}^{(n_{smooth,2}-1)/2} x[l,m]\]</div>
+<p>Note that since the filter is symmetrical, the <code class="docutils literal notranslate"><span class="pre">MovingAverage2D</span></code> operator is
+self-adjoint.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.linop.conv.GraphConvolution">
+<em class="property">class </em><code class="sig-name descname">GraphConvolution</code><span class="sig-paren">(</span><em class="sig-param">Graph: pygsp.graphs.graph.Graph, coefficients: Union[numpy.ndarray, list, tuple]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/linop/conv.html#GraphConvolution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.linop.conv.GraphConvolution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.linop.base.PolynomialLinearOperator</span></code></p>
+<p>Graph convolution.</p>
+<p>Convolve a signal <span class="math notranslate nohighlight">\(\mathbf{u}\in\mathbb{C}^N\)</span> defined on a graph with a polynomial filter <span class="math notranslate nohighlight">\(\mathbf{D}:\mathbb{C}^N\rightarrow \mathbb{C}^N\)</span>
+of the form:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{D}=\sum_{k=0}^K \theta_k \mathbf{L}^k,\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{L}:\mathbb{C}^N\rightarrow \mathbb{C}^N\)</span> is the <em>normalised graph Laplacian</em> (see <a class="reference internal" href="../notes/references.html#funcsphere" id="id1"><span>[FuncSphere]</span></a> Section 2.3 of Chapter 6).</p>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">G</span> <span class="o">=</span> <span class="n">RandomRegular</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">G</span><span class="o">.</span><span class="n">compute_laplacian</span><span class="p">(</span><span class="n">lap_type</span><span class="o">=</span><span class="s1">&#39;normalized&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">p</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ConvOp</span> <span class="o">=</span> <span class="n">GraphConvolution</span><span class="p">(</span><span class="n">Graph</span><span class="o">=</span><span class="n">G</span><span class="p">,</span> <span class="n">coefficients</span><span class="o">=</span><span class="n">coefficients</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filtered</span> <span class="o">=</span> <span class="n">ConvOp</span> <span class="o">*</span> <span class="n">signal</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pygsp.graphs</span> <span class="kn">import</span> <span class="n">Ring</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.conv</span> <span class="kn">import</span> <span class="n">GraphConvolution</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">Ring</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">G</span><span class="o">.</span><span class="n">compute_laplacian</span><span class="p">(</span><span class="n">lap_type</span><span class="o">=</span><span class="s1">&#39;normalized&#39;</span><span class="p">)</span>
+<span class="n">G</span><span class="o">.</span><span class="n">set_coordinates</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;spring&#39;</span><span class="p">)</span>
+<span class="n">signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">p</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+<span class="n">coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ConvOp</span> <span class="o">=</span> <span class="n">GraphConvolution</span><span class="p">(</span><span class="n">Graph</span><span class="o">=</span><span class="n">G</span><span class="p">,</span> <span class="n">coefficients</span><span class="o">=</span><span class="n">coefficients</span><span class="p">)</span>
+<span class="n">e1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+<span class="n">e1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="nb">filter</span> <span class="o">=</span> <span class="n">ConvOp</span> <span class="o">*</span> <span class="n">e1</span>
+<span class="n">filtered</span> <span class="o">=</span> <span class="n">ConvOp</span> <span class="o">*</span> <span class="n">signal</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">G</span><span class="o">.</span><span class="n">plot_signal</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;matplotlib&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Signal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">G</span><span class="o">.</span><span class="n">plot_signal</span><span class="p">(</span><span class="nb">filter</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;matplotlib&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Filter&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">G</span><span class="o">.</span><span class="n">plot_signal</span><span class="p">(</span><span class="n">filtered</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;matplotlib&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Filtered Signal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="../operators/pycsou-linop-conv-6.py">Source code</a>)</p>
+<div class="figure align-default" id="id3">
+<img alt="../_images/pycsou-linop-conv-6_00.png" src="../_images/pycsou-linop-conv-6_00.png" />
+<p class="caption"><span class="caption-text">(<a class="reference external" href="../operators/pycsou-linop-conv-6_00.png">png</a>, <a class="reference external" href="../operators/pycsou-linop-conv-6_00.hires.png">hires.png</a>, <a class="reference external" href="../operators/pycsou-linop-conv-6_00.pdf">pdf</a>)</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<div class="figure align-default" id="id4">
+<img alt="../_images/pycsou-linop-conv-6_01.png" src="../_images/pycsou-linop-conv-6_01.png" />
+<p class="caption"><span class="caption-text">(<a class="reference external" href="../operators/pycsou-linop-conv-6_01.png">png</a>, <a class="reference external" href="../operators/pycsou-linop-conv-6_01.hires.png">hires.png</a>, <a class="reference external" href="../operators/pycsou-linop-conv-6_01.pdf">pdf</a>)</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+<div class="figure align-default" id="id5">
+<img alt="../_images/pycsou-linop-conv-6_02.png" src="../_images/pycsou-linop-conv-6_02.png" />
+<p class="caption"><span class="caption-text">(<a class="reference external" href="../operators/pycsou-linop-conv-6_02.png">png</a>, <a class="reference external" href="../operators/pycsou-linop-conv-6_02.hires.png">hires.png</a>, <a class="reference external" href="../operators/pycsou-linop-conv-6_02.pdf">pdf</a>)</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</div>
+<p class="rubric">Notes</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">GraphConvolution</span></code> operator is self-adjoint and operates in a matrix-free fashion, as described in Section 4.3, Chapter 7 of  <a class="reference internal" href="../notes/references.html#funcsphere" id="id2"><span>[FuncSphere]</span></a>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="pycsou.linop.diff.html#pycsou.linop.diff.GraphLaplacian" title="pycsou.linop.diff.GraphLaplacian"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphLaplacian</span></code></a></p>
+</div>
+<dl class="method">
+<dt id="pycsou.linop.conv.GraphConvolution.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">Graph: pygsp.graphs.graph.Graph, coefficients: Union[numpy.ndarray, list, tuple]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsou/linop/conv.html#GraphConvolution.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.linop.conv.GraphConvolution.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Graph</strong> (<a class="reference external" href="https://pygsp.readthedocs.io/en/stable/reference/graphs.html#pygsp.graphs.Graph">pygsp.graphs.Graph</a>) – Graph on which the signal is defined, with normalised Laplacian <code class="docutils literal notranslate"><span class="pre">Graph.L</span></code> precomputed (see <a class="reference external" href="https://pygsp.readthedocs.io/en/stable/reference/graphs.html#pygsp.graphs.Graph.compute_laplacian">pygsp.graphs.Graph.compute_laplacian(lap_type=’normalized’)</a>.</p></li>
+<li><p><strong>coefficients</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a><em>]</em>) – Coefficients <span class="math notranslate nohighlight">\(\{\theta_k, \,k=0,\ldots,K\}\subset \mathbb{C}\)</span> of the polynomial filter.</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.9)"><em>type</em></a>) – Type of the entries of the graph filer.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.9)"><strong>AttributeError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">Graph.L</span></code> does not exist.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.9)"><strong>NotImplementedError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">Graph.lap_type</span></code> is ‘combinatorial’.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="pycsou.linop.diff.html" class="btn btn-neutral float-right" title="Differential Operators" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="pycsou.linop.base.html" class="btn btn-neutral float-left" title="Constructors" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
