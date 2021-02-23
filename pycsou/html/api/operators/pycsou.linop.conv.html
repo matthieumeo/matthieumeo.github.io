@@ -89,7 +89,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../general/install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../general/theory.html">Background Concepts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../general/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../general/pycsou_classes.html">Solving Inverse Problems with Pycsou</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../general/examples.html">Examples</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
@@ -325,12 +325,12 @@ when <code class="docutils literal notranslate"><span class="pre">dims</span></c
 <p>as well as performed in the frequency domain:</p>
 <div class="math notranslate nohighlight">
 \[Y(f) = \mathscr{F} (h(t)) \times \mathscr{F} (x(t)),\; f\in\mathbb{R}.\]</div>
-<p><code class="docutils literal notranslate"><span class="pre">Convolve1D</span></code> operator uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.convolve.html#scipy.signal.convolve" title="(in SciPy v1.6.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.convolve()</span></code></a> that
+<p><code class="docutils literal notranslate"><span class="pre">Convolve1D</span></code> operator uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.convolve.html#scipy.signal.convolve" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.convolve()</span></code></a> that
 automatically chooses the best method for computing the convolution
 for one dimensional inputs. The FFT implementation
-<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.fftconvolve.html#scipy.signal.fftconvolve" title="(in SciPy v1.6.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.fftconvolve()</span></code></a> is however enforced for signals in
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.fftconvolve.html#scipy.signal.fftconvolve" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.fftconvolve()</span></code></a> is however enforced for signals in
 2 or more dimensions as this routine efficiently operates on
-multi-dimensional arrays. The method <code class="docutils literal notranslate"><span class="pre">overlapadd</span></code> uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.oaconvolve.html#scipy.signal.oaconvolve" title="(in SciPy v1.6.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.oaconvolve()</span></code></a>.</p>
+multi-dimensional arrays. The method <code class="docutils literal notranslate"><span class="pre">overlapadd</span></code> uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.oaconvolve.html#scipy.signal.oaconvolve" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.oaconvolve()</span></code></a>.</p>
 <p>As the adjoint of convolution is correlation, <code class="docutils literal notranslate"><span class="pre">Convolve1D</span></code> operator applies
 correlation in the adjoint mode.</p>
 <p>In time domain:</p>
@@ -421,7 +421,7 @@ h(t-\tau,x-\chi) d(\tau,\chi) d\tau d\chi\]</div>
 <p>as well as performed in the frequency domain:</p>
 <div class="math notranslate nohighlight">
 \[Y(f, k_x) = \mathscr{F} (h(t,x)) \times \mathscr{F} (d(t,x)).\]</div>
-<p><code class="docutils literal notranslate"><span class="pre">Convolve2D</span></code> operator uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.convolve.html#scipy.signal.convolve" title="(in SciPy v1.6.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.convolve()</span></code></a>
+<p><code class="docutils literal notranslate"><span class="pre">Convolve2D</span></code> operator uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.convolve.html#scipy.signal.convolve" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.convolve()</span></code></a>
 that automatically chooses the best domain for the operation
 to be carried out.</p>
 <p>As the adjoint of convolution is correlation, <code class="docutils literal notranslate"><span class="pre">Convolve2D</span></code> operator

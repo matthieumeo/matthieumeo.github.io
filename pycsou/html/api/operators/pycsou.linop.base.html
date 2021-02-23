@@ -89,7 +89,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../general/install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../general/theory.html">Background Concepts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../general/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../general/pycsou_classes.html">Solving Inverse Problems with Pycsou</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../general/examples.html">Examples</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
@@ -200,7 +200,7 @@
 <td><p>Construct a linear operator from a Numpy array.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#pycsou.linop.base.SparseLinearOperator" title="pycsou.linop.base.SparseLinearOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SparseLinearOperator</span></code></a>(spmatrix[, is_symmetric])</p></td>
-<td><p>Construct a linear operator from a sparse Scipy matrix (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.spmatrix.html#scipy.sparse.spmatrix" title="(in SciPy v1.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">scipy.sparse.spmatrix</span></code></a>).</p></td>
+<td><p>Construct a linear operator from a sparse Scipy matrix (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.spmatrix.html#scipy.sparse.spmatrix" title="(in SciPy v1.6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">scipy.sparse.spmatrix</span></code></a>).</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.linop.base.DaskLinearOperator" title="pycsou.linop.base.DaskLinearOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DaskLinearOperator</span></code></a>(dask_array[, is_symmetric])</p></td>
 <td><p>Construct a linear operator from a Dask array (<code class="xref py py-class docutils literal notranslate"><span class="pre">dask.array.core.Array</span></code>).</p></td>
@@ -328,7 +328,7 @@ The array is stored in the attribute <code class="docutils literal notranslate">
 <dt id="pycsou.linop.base.SparseLinearOperator">
 <em class="property">class </em><code class="sig-name descname">SparseLinearOperator</code><span class="sig-paren">(</span><em class="sig-param">spmatrix: scipy.sparse.base.spmatrix</em>, <em class="sig-param">is_symmetric: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/linop/base.html#SparseLinearOperator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.linop.base.SparseLinearOperator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pycsou.linop.base.ExplicitLinearOperator" title="pycsou.linop.base.ExplicitLinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.linop.base.ExplicitLinearOperator</span></code></a></p>
-<p>Construct a linear operator from a sparse Scipy matrix (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.spmatrix.html#scipy.sparse.spmatrix" title="(in SciPy v1.6.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">scipy.sparse.spmatrix</span></code></a>).</p>
+<p>Construct a linear operator from a sparse Scipy matrix (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.spmatrix.html#scipy.sparse.spmatrix" title="(in SciPy v1.6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">scipy.sparse.spmatrix</span></code></a>).</p>
 <p>The array is stored in the attribute <code class="docutils literal notranslate"><span class="pre">self.mat</span></code>.</p>
 <dl class="method">
 <dt id="pycsou.linop.base.SparseLinearOperator.__init__">
@@ -336,7 +336,7 @@ The array is stored in the attribute <code class="docutils literal notranslate">
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>spmatrix</strong> (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.spmatrix.html#scipy.sparse.spmatrix" title="(in SciPy v1.6.0)"><em>scipy.sparse.spmatrix</em></a>) – Scipy sparse matrix from which to construct the linear operator.</p></li>
+<li><p><strong>spmatrix</strong> (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.spmatrix.html#scipy.sparse.spmatrix" title="(in SciPy v1.6.1)"><em>scipy.sparse.spmatrix</em></a>) – Scipy sparse matrix from which to construct the linear operator.</p></li>
 <li><p><strong>is_symmetric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the linear operator is symmetric or not.</p></li>
 </ul>
 </dd>
@@ -482,7 +482,7 @@ It is not possible to compute all eigenvectors of a matrix.</p></li>
 </ul>
 </div></blockquote>
 </p></li>
-<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A dict of additional keyword arguments values accepted by Scipy’s functions <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.6.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a> and <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>.</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A dict of additional keyword arguments values accepted by Scipy’s functions <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a> and <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -496,7 +496,7 @@ It is not possible to compute all eigenvectors of a matrix.</p></li>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>This function calls one of the two Scipy’s functions: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.6.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a> and <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>.
+<p>This function calls one of the two Scipy’s functions: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a> and <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>.
 See the documentation of these two functions for more information on their behaviour and the underlying ARPACK functions they rely on.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -521,7 +521,7 @@ The order of the singular values is not guaranteed.</p>
 </ul>
 </div></blockquote>
 </p></li>
-<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A dict of additional keyword arguments values accepted by Scipy’s function <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.6.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a>.</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A dict of additional keyword arguments values accepted by Scipy’s function <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -540,7 +540,7 @@ The order of the singular values is not guaranteed.</p>
 </pre></div>
 </div>
 <p class="rubric">Notes</p>
-<p>This function calls the Scipy’s function: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.6.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a>.
+<p>This function calls the Scipy’s function: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a>.
 See the documentation of this function for more information on its behaviour and the underlying ARPACK/LOBPCG functions it relies on.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>

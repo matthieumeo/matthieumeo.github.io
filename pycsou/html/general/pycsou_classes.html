@@ -1,0 +1,739 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Solving Inverse Problems with Pycsou &mdash; pycsou 1.0.4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="Background Concepts" href="theory.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> pycsou
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Background Concepts</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Solving Inverse Problems with Pycsou</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#multidimensional-maps">Multidimensional Maps</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#operations-on-map-instances">Operations on <code class="docutils literal notranslate"><span class="pre">Map</span></code> Instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#differentiable-maps">Differentiable Maps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#operations-on-differentiablemap-instances">Operations on <code class="docutils literal notranslate"><span class="pre">DifferentiableMap</span></code> Instances</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#functionals">Functionals</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#proximable-functionals">Proximable Functionals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#operations-on-proximable-functionals">Operations on Proximable Functionals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#horizontal-stacking-of-proximable-functionals">Horizontal Stacking of Proximable Functionals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-implementing-new-differentiable-functionals">Example: Implementing New Differentiable Functionals</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#linear-operators">Linear Operators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#matrix-free-operators">Matrix-Free Operators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#explicit-operators">Explicit Operators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#operations-on-linear-operators">Operations on Linear Operators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-implementing-new-linear-operators">Example: Implementing New Linear Operators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pycsou-class-diagram">Pycsou Class Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#algorithms">Algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#primal-dual-splitting-method-pds">Primal Dual Splitting Method (PDS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hyperparameters-auto-tuning">Hyperparameters Auto-tuning</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">Pycsou API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/other.html">Pycsou Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pycsou</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Solving Inverse Problems with Pycsou</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/general/pycsou_classes.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="solving-inverse-problems-with-pycsou">
+<h1>Solving Inverse Problems with Pycsou<a class="headerlink" href="#solving-inverse-problems-with-pycsou" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">Pycsou</span></code> is a <em>Python 3 package</em> for solving linear inverse problems
+with state-of-the-art proximal algorithms. The library provides abstract
+classes for the main building blocks of generic penalised convex
+optimisation problems:</p>
+<ul class="simple">
+<li><p>linear operators,</p></li>
+<li><p>loss functionals,</p></li>
+<li><p>penalty functionals,</p></li>
+<li><p>proximal algorithms.</p></li>
+</ul>
+<p>Penalised convex optimisation problems can then be constructed by
+<em>adding</em>, <em>subtracting</em>, <em>scaling</em>, <em>composing</em>, <em>exponentiating</em> or
+<em>stacking</em> together the various linear operators and functionals shipped
+with Pycsou (or custom, user-defined ones).</p>
+<div class="section" id="multidimensional-maps">
+<h2>Multidimensional Maps<a class="headerlink" href="#multidimensional-maps" title="Permalink to this headline">¶</a></h2>
+<p>Pycsou’s base classes for functionals and linear operators both inherit
+from the abstract class <code class="docutils literal notranslate"><span class="pre">Map</span></code> with signature:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Map</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">is_linear</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+          <span class="n">is_differentiable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>This is the base class for <em>multidimensional maps</em> (potentially
+nonlinear) <span class="math notranslate nohighlight">\(\mathbf{h}:\mathbb{R}^M\to\mathbb{R}^N\)</span>.</p>
+<p>Any instance/subclass of this class must at least implement the abstract
+method <code class="docutils literal notranslate"><span class="pre">__call__</span></code> for <em>pointwise evaluation</em>.</p>
+<div class="section" id="operations-on-map-instances">
+<h3>Operations on <code class="docutils literal notranslate"><span class="pre">Map</span></code> Instances<a class="headerlink" href="#operations-on-map-instances" title="Permalink to this headline">¶</a></h3>
+<p>The class <code class="docutils literal notranslate"><span class="pre">Map</span></code> supports the following arithmetic operators <code class="docutils literal notranslate"><span class="pre">+</span></code>,
+<code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">&#64;</span></code>, <code class="docutils literal notranslate"><span class="pre">**</span></code> and <code class="docutils literal notranslate"><span class="pre">/</span></code>, implemented with the class
+methods <code class="docutils literal notranslate"><span class="pre">__add__/__radd__</span></code>, <code class="docutils literal notranslate"><span class="pre">__sub__/__neg__</span></code>, <code class="docutils literal notranslate"><span class="pre">__mul__/__rmul__</span></code>,
+<code class="docutils literal notranslate"><span class="pre">__matmul__</span></code>, <code class="docutils literal notranslate"><span class="pre">__pow__</span></code>,<code class="docutils literal notranslate"><span class="pre">__truediv__</span></code>. Such arithmetic operators
+can be used to <em>add, substract, scale, compose, exponentiate or
+evaluate</em> <code class="docutils literal notranslate"><span class="pre">Map</span></code> instances. The <code class="docutils literal notranslate"><span class="pre">__call__</span></code> methods of <code class="docutils literal notranslate"><span class="pre">Map</span></code> objects
+constructed this way are automatically computed:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f3</span> <span class="o">=</span> <span class="n">f1</span> <span class="o">/</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">f3</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">f1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">h3</span> <span class="o">=</span> <span class="n">h1</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">-</span> <span class="p">(</span><span class="n">h2</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">h3</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">h1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">-</span> <span class="p">(</span><span class="n">h2</span><span class="p">(</span><span class="n">h2</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Note that multiplying a map with an array is the same as evaluating the
+map at the array:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">h</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">h</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>The multiplication operator <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> can also be used in place of <code class="docutils literal notranslate"><span class="pre">*</span></code>, in
+compliance with Numpy’s interface:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">h</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">h</span> <span class="o">@</span> <span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">((</span><span class="n">h1</span> <span class="o">*</span> <span class="n">h2</span><span class="p">)(</span><span class="n">x</span><span class="p">),</span> <span class="p">(</span><span class="n">h1</span> <span class="o">@</span> <span class="n">h2</span><span class="p">)(</span><span class="n">x</span><span class="p">))</span>
+<span class="go">True, True</span>
+</pre></div>
+</div>
+<p>Finally, maps can be shifted via the method <code class="docutils literal notranslate"><span class="pre">shifter</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">h</span><span class="o">=</span><span class="n">g</span><span class="o">.</span><span class="n">shifter</span><span class="p">(</span><span class="n">shift</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">h</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">g</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="differentiable-maps">
+<h3>Differentiable Maps<a class="headerlink" href="#differentiable-maps" title="Permalink to this headline">¶</a></h3>
+<p>An important subclass of <code class="docutils literal notranslate"><span class="pre">Map</span></code> is <code class="docutils literal notranslate"><span class="pre">DifferentiableMap</span></code> which is the
+base class for differentiable maps. It has the following signature:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">DifferentiableMap</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span><span class="n">is_linear</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                        <span class="n">lipschitz_cst</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">inf</span><span class="p">,</span>
+                        <span class="n">diff_lipschitz_cst</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">inf</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>Any instance/subclass of this class must implement the abstract methods
+<code class="docutils literal notranslate"><span class="pre">__call__</span></code> and <code class="docutils literal notranslate"><span class="pre">jacobianT</span></code> which returns the <strong>transpose</strong> of the
+<em>Jacobian matrix</em></p>
+<div class="math notranslate nohighlight">
+\[(\mathbf{J}_{\mathbf{h}}(\mathbf{x}))_{ij}:=\frac{\partial h_i}{\partial x_j}(\mathbf{x})\]</div>
+<p>of the multidimensional
+<span class="math notranslate nohighlight">\(\mathbf{h}=[h_1, \ldots, h_N]: \mathbb{R}^M\to\mathbb{R}^N\)</span> at a
+given point <span class="math notranslate nohighlight">\(\mathbf{x}\in\mathbb{R}^M\)</span>.</p>
+</div>
+<div class="section" id="operations-on-differentiablemap-instances">
+<h3>Operations on <code class="docutils literal notranslate"><span class="pre">DifferentiableMap</span></code> Instances<a class="headerlink" href="#operations-on-differentiablemap-instances" title="Permalink to this headline">¶</a></h3>
+<p>Standard arithmetic operators can also be used on <code class="docutils literal notranslate"><span class="pre">DifferentiableMap</span></code>
+instances so as to <em>add, substract, scale, compose, exponentiate or
+evaluate</em> them. The attributes <code class="docutils literal notranslate"><span class="pre">lipschitz_cst</span></code>, <code class="docutils literal notranslate"><span class="pre">diff_lipschitz_cst</span></code>
+and the method <code class="docutils literal notranslate"><span class="pre">jacobianT</span></code> are automatically updated using standard
+differentiation rules.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">map_</span> <span class="o">=</span> <span class="n">f</span> <span class="o">*</span> <span class="n">g</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">map_</span><span class="o">.</span><span class="n">lipschitz_cst</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">*</span> <span class="n">g</span><span class="o">.</span><span class="n">lipschitz_cst</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">map_</span><span class="o">.</span><span class="n">jacobianT</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">g</span><span class="o">.</span><span class="n">jacobianT</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">f</span><span class="o">.</span><span class="n">jacobianT</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="functionals">
+<h2>Functionals<a class="headerlink" href="#functionals" title="Permalink to this headline">¶</a></h2>
+<p>Functionals are (real) single-valued maps
+<span class="math notranslate nohighlight">\(h:\mathbb{R}^N\to \mathbb{R}\)</span>. They can be implemented via a
+subclass of <code class="docutils literal notranslate"><span class="pre">Map</span></code> called <code class="docutils literal notranslate"><span class="pre">Functional</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Functional</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">is_differentiable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">is_linear</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For differentiable functionals, the subclass
+<code class="docutils literal notranslate"><span class="pre">DifferentiableFunctional</span></code> can be used. The latter admits a method
+<code class="docutils literal notranslate"><span class="pre">gradient</span></code> which is an <em>alias</em> for the abstract method <code class="docutils literal notranslate"><span class="pre">jacobianT</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Reminder: for a functional <span class="math notranslate nohighlight">\(h\)</span>,
+<span class="math notranslate nohighlight">\(\mathbf{J}^T_h(\mathbf{x})=\nabla h (\mathbf{x})\)</span>.</p>
+</div>
+<div class="section" id="proximable-functionals">
+<h3>Proximable Functionals<a class="headerlink" href="#proximable-functionals" title="Permalink to this headline">¶</a></h3>
+<p>We say that a functional <span class="math notranslate nohighlight">\(f:\mathbb{R}^N\to \mathbb{R}\)</span> is
+<em>proximable</em> is its <strong>proximity operator</strong></p>
+<div class="math notranslate nohighlight">
+\[\mathbf{\text{prox}}_{\tau f}(\mathbf{z}):=\arg\min_{\mathbf{x}\in\mathbb{R}^N} f(x)+\frac{1}{2\tau} \|\mathbf{x}-\mathbf{z}\|_2^2, \quad \forall \mathbf{z}\in\mathbb{R}^N,\]</div>
+<p>admits a <em>simple closed-form expression</em> <strong>or</strong> can be evaluated
+<em>efficiently</em> and with <em>high accuracy</em>.</p>
+<p>They are represented by the subclass <code class="docutils literal notranslate"><span class="pre">ProximableFunctional</span></code>. The
+latter has signature:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ProximableFunctional</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                           <span class="n">data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                           <span class="n">is_differentiable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                           <span class="n">is_linear</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Every subclass/instance of <code class="docutils literal notranslate"><span class="pre">ProximableFunctional</span></code> must at least
+implement the abstract methods <code class="docutils literal notranslate"><span class="pre">__call__</span></code> <strong>and</strong> <code class="docutils literal notranslate"><span class="pre">prox</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>See <a class="reference internal" href="../api/functionals/index.html#functionals"><span class="std std-ref">Cost Functionals</span></a> for a list of common functionals already implemented in Pycsou.</p>
+</div>
+</div>
+<div class="section" id="operations-on-proximable-functionals">
+<h3>Operations on Proximable Functionals<a class="headerlink" href="#operations-on-proximable-functionals" title="Permalink to this headline">¶</a></h3>
+<p>For the following basic operations, the proximal operator can be
+automatically updated:</p>
+<ul class="simple">
+<li><p><strong>Postcomposition:</strong> <span class="math notranslate nohighlight">\(g(\mathbf{x})=\alpha f(\mathbf{x})\)</span>,</p></li>
+<li><p><strong>Precomposition:</strong> <span class="math notranslate nohighlight">\(g(\mathbf{x})= f(\alpha\mathbf{x}+b)\)</span> or
+<span class="math notranslate nohighlight">\(g(\mathbf{x})= f(U\mathbf{x})\)</span> with <span class="math notranslate nohighlight">\(U\)</span> a <em>unitary
+operator</em>,</p></li>
+<li><p><strong>Affine Sum:</strong>
+<span class="math notranslate nohighlight">\(g(\mathbf{x})= f(\mathbf{x})+\mathbf{a}^T\mathbf{x}.\)</span></p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pycsou.func.penalty</span> <span class="kn">import</span> <span class="n">L1Norm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">func</span> <span class="o">=</span> <span class="n">L1Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">prox</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">tau</span><span class="p">),</span> <span class="n">func</span><span class="o">.</span><span class="n">prox</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">tau</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">((</span><span class="n">func</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">prox</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">tau</span><span class="p">),</span> <span class="n">func</span><span class="o">.</span><span class="n">prox</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">tau</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">shifter</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">prox</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">tau</span><span class="p">),</span> <span class="n">func</span><span class="o">.</span><span class="n">prox</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">tau</span><span class="p">)</span><span class="o">-</span><span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="horizontal-stacking-of-proximable-functionals">
+<h3>Horizontal Stacking of Proximable Functionals<a class="headerlink" href="#horizontal-stacking-of-proximable-functionals" title="Permalink to this headline">¶</a></h3>
+<p>The class <code class="docutils literal notranslate"><span class="pre">ProxFuncHStack</span></code> allows to stack many functionals
+<span class="math notranslate nohighlight">\(\{f_i:\mathbb{R}^{N_i}\to \mathbb{R}, i=1,\ldots, k\}\)</span>
+horizontally:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}h:\begin{cases}\mathbb{R}^{N_1}\times \cdots \times\mathbb{R}^{N_k}\to \mathbb{R}\\
+   (\mathbf{x}_1,\ldots, \mathbf{x}_k)\mapsto \sum_{i=1}^k f_i(\mathbf{x}_i).
+   \end{cases}\end{split}\]</div>
+<p>The proximity operator of the stacked functional <span class="math notranslate nohighlight">\(h\)</span> is moreover
+computed automatically (and soon in parallel) via the formula:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{\text{prox}}_{\tau h}(\mathbf{x}_1,\ldots, \mathbf{x}_k)=\left(\mathbf{\text{prox}}_{\tau f_1}(\mathbf{x}_1),\ldots, \mathbf{\text{prox}}_{\tau f_k}(\mathbf{x}_k)\right).\]</div>
+</div>
+<div class="section" id="example-implementing-new-differentiable-functionals">
+<h3>Example: Implementing New Differentiable Functionals<a class="headerlink" href="#example-implementing-new-differentiable-functionals" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pycsou.core</span> <span class="kn">import</span> <span class="n">DifferentiableFunctional</span>
+
+<span class="k">class</span> <span class="nc">OneSidedSquaredL2Norm</span><span class="p">(</span><span class="n">DifferentiableFunctional</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">OneSidedSquaredL2Norm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span> <span class="c1">#Implement abstract method __call__</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">jacobianT</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span> <span class="c1">#Implement abstract method jacobianT</span>
+        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">func</span><span class="o">=</span><span class="n">OneSidedSquaredL2Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">x</span><span class="p">];</span> <span class="n">dy</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">dy</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/Introduction_to_Pycsou_33_1.png"><img alt="../_images/Introduction_to_Pycsou_33_1.png" class="align-center" src="../_images/Introduction_to_Pycsou_33_1.png" style="width: 70%;" /></a>
+</div>
+</div>
+<div class="section" id="linear-operators">
+<h2>Linear Operators<a class="headerlink" href="#linear-operators" title="Permalink to this headline">¶</a></h2>
+<p>The base class for linear operators
+<span class="math notranslate nohighlight">\(\mathbf{L}:\mathbb{R}^N\to \mathbb{R}^M\)</span> is <code class="docutils literal notranslate"><span class="pre">LinearOperator</span></code>, a
+subclass of <code class="docutils literal notranslate"><span class="pre">DifferentiableMap</span></code> with signature:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LinearOperator</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">type</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">is_explicit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">is_dense</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                    <span class="n">is_sparse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">is_dask</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                    <span class="n">is_symmetric</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                    <span class="n">lipschitz_cst</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">inf</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Any instance/subclass of this class must at least implement the abstract
+methods <code class="docutils literal notranslate"><span class="pre">__call__</span></code> for <em>forward evaluation</em>
+<span class="math notranslate nohighlight">\(\mathbf{L}\mathbf{x}\)</span> <strong>and</strong> <code class="docutils literal notranslate"><span class="pre">adjoint</span></code> for <em>backward
+evaluation</em> <span class="math notranslate nohighlight">\(\mathbf{L}^\ast\mathbf{y}\)</span> where
+<span class="math notranslate nohighlight">\(\mathbf{L}^\ast:\mathbb{R}^M\to \mathbb{R}^N\)</span> is the <em>adjoint</em> of
+<span class="math notranslate nohighlight">\(\mathbf{L}\)</span> defined as:</p>
+<div class="math notranslate nohighlight">
+\[\langle \mathbf{x}, \mathbf{L}^\ast\mathbf{y}\rangle_{\mathbb{R}^N}:=\langle \mathbf{L}\mathbf{x}, \mathbf{y}\rangle_{\mathbb{R}^M}, \qquad\forall (\mathbf{x},\mathbf{y})\in \mathbb{R}^N\times \mathbb{R}^M.\]</div>
+<div class="section" id="matrix-free-operators">
+<h3>Matrix-Free Operators<a class="headerlink" href="#matrix-free-operators" title="Permalink to this headline">¶</a></h3>
+<p>Pycsou’s linear operators are inherently <strong>matrix-free</strong>: the operator
+<span class="math notranslate nohighlight">\(\mathbf{L}\)</span> needs not be stored as an <em>array</em> since the methods
+<code class="docutils literal notranslate"><span class="pre">__call__</span></code> (alias <code class="docutils literal notranslate"><span class="pre">matvec</span></code>) and <code class="docutils literal notranslate"><span class="pre">adjoint</span></code> can be used to perform
+matrix-vector products <span class="math notranslate nohighlight">\(\mathbf{L}\mathbf{x}\)</span> and
+<span class="math notranslate nohighlight">\(\mathbf{L}^\ast\mathbf{y}\)</span> respectively. This is particularly
+useful when the dimensions <span class="math notranslate nohighlight">\(N\)</span> and <span class="math notranslate nohighlight">\(M\)</span> are <strong>very large</strong>
+(e.g. in <em>image processing</em>) and <span class="math notranslate nohighlight">\(\mathbf{L}\)</span> cannot be stored in
+memory as a Numpy array.</p>
+<p>The class <code class="docutils literal notranslate"><span class="pre">LinearOperator</span></code> can be thought as an
+<em>interface-compatible overload</em> of the standard matrix-free classes
+<code class="docutils literal notranslate"><span class="pre">pylops.LinearOperator</span></code> and <code class="docutils literal notranslate"><span class="pre">scipy.sparse.linalg.LinearOperator</span></code>
+from PyLops and Scipy respectively.</p>
+<p>Pycsou’s <code class="docutils literal notranslate"><span class="pre">LinearOperator</span></code> introduces notably the method <code class="docutils literal notranslate"><span class="pre">jacobianT</span></code>,
+useful for automatic differentiation when composing linear operators
+with differentiable functionals:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{J}^T_{\mathbf{L}}(\mathbf{x}):=\mathbf{L}^T, \;\forall\mathbf{x}\in\mathbb{R}^N.\]</div>
+<p>It also introduces convenience linear algebra methods such as
+<code class="docutils literal notranslate"><span class="pre">eigenvals</span></code>, <code class="docutils literal notranslate"><span class="pre">svds</span></code>, <code class="docutils literal notranslate"><span class="pre">pinv</span></code>, <code class="docutils literal notranslate"><span class="pre">cond</span></code>, etc.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>See <a class="reference internal" href="../api/operators/index.html#operators"><span class="std std-ref">Linear Operators</span></a> for a list of matrix-free linear operators already implemented in Pycsou.</p>
+</div>
+</div>
+<div class="section" id="explicit-operators">
+<h3>Explicit Operators<a class="headerlink" href="#explicit-operators" title="Permalink to this headline">¶</a></h3>
+<p>Sometimes it can be cumbersome to specify an operator in matrix-free
+form. In which case, Pycsou’s class <code class="docutils literal notranslate"><span class="pre">ExplicitLinearOperator</span></code> can be
+used to construct linear operators from array-like representations:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ExplicitLinearOperator</span><span class="p">(</span><span class="n">array</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                                          <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">spmatrix</span><span class="p">,</span>
+                                          <span class="n">dask</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Array</span><span class="p">],</span>
+                             <span class="n">is_symmetric</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This class takes as input <em>Numpy arrays</em>, <em>Scipy sparse matrices</em> (in
+any sparse format) or <em>Dask distributed arrays</em>.</p>
+<p>Finally, matrix-free operators can be converted into explicit operators
+via the methods <code class="docutils literal notranslate"><span class="pre">todense</span></code> or <code class="docutils literal notranslate"><span class="pre">tosparse</span></code> (useful for
+visualisation/debugging but often <strong>memory intensive</strong>).</p>
+</div>
+<div class="section" id="operations-on-linear-operators">
+<h3>Operations on Linear Operators<a class="headerlink" href="#operations-on-linear-operators" title="Permalink to this headline">¶</a></h3>
+<p>Just like <code class="docutils literal notranslate"><span class="pre">DifferentiableMap</span></code>, the class <code class="docutils literal notranslate"><span class="pre">LinearOperator</span></code> supports
+the whole set of arithmetic operations: <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">&#64;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">**</span></code> and <code class="docutils literal notranslate"><span class="pre">/</span></code>. ’</p>
+<p>The abstract methods <code class="docutils literal notranslate"><span class="pre">__call__</span></code>, <code class="docutils literal notranslate"><span class="pre">jacobianT</span></code> and <code class="docutils literal notranslate"><span class="pre">adjoint</span></code> of
+<code class="docutils literal notranslate"><span class="pre">LinearOperator</span></code> instances resulting from arithmetic operations are
+automatically updated.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pycsou.linop</span> <span class="kn">import</span> <span class="n">Convolve2D</span><span class="p">,</span> <span class="n">DownSampling</span>
+
+<span class="n">input_image</span> <span class="o">=</span> <span class="n">face</span><span class="p">(</span><span class="n">gray</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">filter_size</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">filter_support</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">filter_size</span><span class="p">)</span>
+<span class="n">gaussian_filter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">filter_support</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+                           <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">filter_support</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">))</span>
+
+<span class="n">FilterOp</span> <span class="o">=</span> <span class="n">Convolve2D</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">input_image</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
+                      <span class="nb">filter</span><span class="o">=</span><span class="n">gaussian_filter</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">input_image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">DownSamplingOp</span> <span class="o">=</span> <span class="n">DownSampling</span><span class="p">(</span>
+    <span class="n">size</span><span class="o">=</span><span class="n">input_image</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">downsampling_factor</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">input_image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">BlurringOp</span> <span class="o">=</span> <span class="n">DownSamplingOp</span> <span class="o">*</span> <span class="n">FilterOp</span> <span class="c1"># Compose a filtering operator with a downsampling operator.</span>
+
+<span class="n">blurred_image</span> <span class="o">=</span> <span class="p">(</span><span class="n">BlurringOp</span> <span class="o">*</span> <span class="n">input_image</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+                 <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">DownSamplingOp</span><span class="o">.</span><span class="n">output_shape</span><span class="p">)</span> <span class="c1"># Method __call__ of composite operator is available.</span>
+<span class="n">backproj_image</span> <span class="o">=</span> <span class="n">BlurringOp</span><span class="o">.</span><span class="n">adjoint</span><span class="p">(</span>
+    <span class="n">blurred_image</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">input_image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="c1"># Method adjoint of composite operator is available.</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">input_image</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">blurred_image</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">backproj_image</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/IntroductiontoPycsou_38_1.png"><img alt="../_images/IntroductiontoPycsou_38_1.png" class="align-center" src="../_images/IntroductiontoPycsou_38_1.png" style="width: 90%;" /></a>
+<p>It is also possible to stack <code class="docutils literal notranslate"><span class="pre">LinearOperator</span></code> instances
+horizontally/vertically via the class <code class="docutils literal notranslate"><span class="pre">LinOpStack</span></code>:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pycsou.linop</span> <span class="kn">import</span> <span class="n">FirstDerivative</span><span class="p">,</span> <span class="n">LinOpStack</span>
+<span class="kn">from</span> <span class="nn">pycsou.util</span> <span class="kn">import</span> <span class="n">peaks</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span><span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">peaks</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+
+<span class="n">D1</span> <span class="o">=</span> <span class="n">FirstDerivative</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">Z</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">Z</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                         <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;centered&#39;</span><span class="p">)</span>
+<span class="n">D2</span> <span class="o">=</span> <span class="n">FirstDerivative</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">Z</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">Z</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                         <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;centered&#39;</span><span class="p">)</span>
+<span class="n">Gradient</span> <span class="o">=</span> <span class="n">LinOpStack</span><span class="p">(</span><span class="n">D1</span><span class="p">,</span> <span class="n">D2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># Form the gradient by stacking 1D derivative operators</span>
+
+<span class="n">DZ</span><span class="o">=</span><span class="n">Gradient</span><span class="p">(</span><span class="n">Z</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;$f$&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">DZ</span><span class="p">[:</span><span class="n">Z</span><span class="o">.</span><span class="n">size</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">Z</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">partial f/</span><span class="se">\\</span><span class="s1">partial x$&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">DZ</span><span class="p">[</span><span class="n">Z</span><span class="o">.</span><span class="n">size</span><span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">Z</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">partial f/</span><span class="se">\\</span><span class="s1">partial y$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/IntroductiontoPycsou_40_1.png"><img alt="../_images/IntroductiontoPycsou_40_1.png" class="align-center" src="../_images/IntroductiontoPycsou_40_1.png" style="width: 90%;" /></a>
+</div>
+<div class="section" id="example-implementing-new-linear-operators">
+<h3>Example: Implementing New Linear Operators<a class="headerlink" href="#example-implementing-new-linear-operators" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pycsou.core</span> <span class="kn">import</span> <span class="n">LinearOperator</span>
+
+<span class="k">class</span> <span class="nc">RepCol</span><span class="p">(</span><span class="n">LinearOperator</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">reps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reps</span> <span class="o">=</span> <span class="n">reps</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RepCol</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">size</span><span class="o">*</span><span class="n">reps</span><span class="p">,</span> <span class="n">size</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span><span class="kc">None</span><span class="p">],</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reps</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reps</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="n">x</span> <span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">Op</span><span class="o">=</span><span class="n">RepCol</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">y</span><span class="o">=</span><span class="n">Op</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span> <span class="mi">2</span> <span class="mi">2</span> <span class="mi">2</span> <span class="mi">2</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">3</span> <span class="mi">3</span> <span class="mi">3</span> <span class="mi">3</span> <span class="mi">3</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pycsou-class-diagram">
+<h3>Pycsou Class Diagram<a class="headerlink" href="#pycsou-class-diagram" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-default">
+<img alt="Pycsou UML" src="../_images/Pycsou_UML.png" />
+</div>
+</div>
+</div>
+<div class="section" id="algorithms">
+<h2>Algorithms<a class="headerlink" href="#algorithms" title="Permalink to this headline">¶</a></h2>
+<p>The base class for Pycsou’s iterative algorithms is
+<code class="docutils literal notranslate"><span class="pre">GenericIterativeAlgorithm</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">GenericIterativeAlgorithm</span><span class="p">(</span><span class="n">objective_functional</span><span class="p">:</span> <span class="n">pycsou</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">map</span><span class="o">.</span><span class="n">Map</span><span class="p">,</span>
+                                <span class="n">init_iterand</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+                                <span class="n">max_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+                                <span class="n">min_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+                                <span class="n">accuracy_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.001</span><span class="p">,</span>
+                                <span class="n">verbose</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Any instance/subclass of this class must at least implement the abstract
+methods <code class="docutils literal notranslate"><span class="pre">update_iterand</span></code>, <code class="docutils literal notranslate"><span class="pre">print_diagnostics</span></code>,
+<code class="docutils literal notranslate"><span class="pre">update_diagnostics</span></code> and <code class="docutils literal notranslate"><span class="pre">stopping_metric</span></code>.</p>
+<div class="section" id="primal-dual-splitting-method-pds">
+<h3>Primal Dual Splitting Method (PDS)<a class="headerlink" href="#primal-dual-splitting-method-pds" title="Permalink to this headline">¶</a></h3>
+<p>Most algorithms shipped with Pycsou (FBS, APGD, ADMM, CPS, DRS, etc) are
+special cases of Condat’s <em>primal-dual splitting method (PDS)</em>
+implemented in the class <code class="docutils literal notranslate"><span class="pre">PrimalDualSplitting</span></code> (alias <code class="docutils literal notranslate"><span class="pre">PDS</span></code>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PrimalDualSplitting</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                          <span class="n">F</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DifferentiableMap</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                          <span class="n">G</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ProximableFunctional</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                          <span class="n">H</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ProximableFunctional</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                          <span class="n">K</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LinearOperator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                          <span class="n">tau</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                          <span class="n">sigma</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                          <span class="n">rho</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                          <span class="n">beta</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                          <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The user must simply put its problem in the form
+<span class="math notranslate nohighlight">\({\min_{\mathbf{x}\in\mathbb{R}^N} \;\mathcal{F}(\mathbf{x})\;\;+\;\;\mathcal{G}(\mathbf{x})\;\;+\;\;\mathcal{H}(\mathbf{K} \mathbf{x})}\)</span>
+and provide the relevant terms to the class constructor.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>See <a class="reference internal" href="../api/algorithms/pycsou.opt.proxalgs.html#proxalgs"><span class="std std-ref">Proximal Algorithms</span></a> for implementations of the above mentionned algorithms in Pycsou.</p>
+</div>
+</div>
+<div class="section" id="hyperparameters-auto-tuning">
+<h3>Hyperparameters Auto-tuning<a class="headerlink" href="#hyperparameters-auto-tuning" title="Permalink to this headline">¶</a></h3>
+<p>For convergence of the algorithm, the step sizes/momentum parameter
+<span class="math notranslate nohighlight">\(\tau\)</span>, <span class="math notranslate nohighlight">\(\sigma\)</span> and <span class="math notranslate nohighlight">\(\rho\)</span> must verify:</p>
+<ul class="simple">
+<li><p>If the Lipschitz constant <span class="math notranslate nohighlight">\(\beta\)</span> of <span class="math notranslate nohighlight">\(\nabla \mathcal{F}\)</span>
+is <em>positive</em>:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(\frac{1}{\tau}-\sigma\Vert\mathbf{K}\Vert_{2}^2\geq \frac{\beta}{2}\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\rho \in ]0,\delta[\)</span>, where
+<span class="math notranslate nohighlight">\(\delta:=2-\frac{\beta}{2}\left(\frac{1}{\tau}-\sigma\Vert\mathbf{K}\Vert_{2}^2\right)^{-1}\in[1,2[.\)</span></p></li>
+</ul>
+</li>
+<li><p>If the Lipschitz constant <span class="math notranslate nohighlight">\(\beta\)</span> of <span class="math notranslate nohighlight">\(\nabla \mathcal{F}\)</span>
+is <em>null</em> (e.g. <span class="math notranslate nohighlight">\(\mathcal{F}=0\)</span>):</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(\tau\sigma\Vert\mathbf{K}\Vert_{2}^2\leq 1\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\rho \in [\epsilon,2-\epsilon]\)</span>, for some
+<span class="math notranslate nohighlight">\(\epsilon&gt;0.\)</span></p></li>
+</ul>
+</li>
+</ul>
+<p>When the user does not specify hyperparameters, we choose the step sizes
+<em>as large as possible</em> and <em>perfectly balanced</em> (improves practical
+convergence speed):</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(\beta&gt;0\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\tau=\sigma=\frac{1}{\Vert\mathbf{K}\Vert_{2}^2}\left(-\frac{\beta}{4}+\sqrt{\frac{\beta^2}{16}+\Vert\mathbf{K}\Vert_{2}^2}\right).\]</div>
+</li>
+<li><p><span class="math notranslate nohighlight">\(\beta=0\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\tau=\sigma=\Vert\mathbf{K}\Vert_{2}^{-1}.\]</div>
+</li>
+</ul>
+<p>The momentum term <span class="math notranslate nohighlight">\(\rho\)</span> is chosen as <span class="math notranslate nohighlight">\(\rho=0.9\)</span>
+(<span class="math notranslate nohighlight">\(\beta&gt;0\)</span>) or <span class="math notranslate nohighlight">\(\rho=1\)</span> (<span class="math notranslate nohighlight">\(\beta=0\)</span>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><span class="math notranslate nohighlight">\(\Vert\mathbf{K}\Vert_{2}\)</span> can be computed efficiently via the
+method <code class="docutils literal notranslate"><span class="pre">LinearOperator.compute_lipschitz_cst</span></code> which relies on
+Scipy’s sparse linear algebra routines <code class="docutils literal notranslate"><span class="pre">eigs</span></code>/<code class="docutils literal notranslate"><span class="pre">eigsh</span></code>/<code class="docutils literal notranslate"><span class="pre">svds</span></code>.</p>
+</div>
+<div class="section" id="example">
+<h4>Example:<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h4>
+<div class="math notranslate nohighlight">
+\[\min_{\mathbf{x}\in\mathbb{R}^N}\frac{1}{2}\left\|\mathbf{y}-\mathbf{G}\mathbf{x}\right\|_2^2\quad+\quad\lambda_1 \|\mathbf{D}\mathbf{x}\|_1\quad+\quad\lambda_2 \|\mathbf{x}\|_1,\]</div>
+<p>with <span class="math notranslate nohighlight">\(\mathbf{D}\in\mathbb{R}^{N\times N}\)</span> and
+<span class="math notranslate nohighlight">\(\mathbf{G}\in\mathbb{R}^{L\times N}, \, \mathbf{y}\in\mathbb{R}^L, \lambda_1,\lambda_2&gt;0.\)</span>
+This problem can be written in the form</p>
+<div class="math notranslate nohighlight">
+\[{\min_{\mathbf{x}\in\mathbb{R}^N} \;\mathcal{F}(\mathbf{x})\;\;+\;\;\mathcal{G}(\mathbf{x})\;\;+\;\;\mathcal{H}(\mathbf{K} \mathbf{x})}\]</div>
+<p>by choosing
+<span class="math notranslate nohighlight">\(\mathcal{F}(\mathbf{x})= \frac{1}{2}\left\|\mathbf{y}-\mathbf{G}\mathbf{x}\right\|_2^2\)</span>,
+<span class="math notranslate nohighlight">\(\mathcal{G}(\mathbf{x})=\lambda_2\|\mathbf{x}\|_1\)</span>,
+<span class="math notranslate nohighlight">\(\mathcal{H}(\mathbf{x})=\lambda_1 \|\mathbf{x}\|_1\)</span> and
+<span class="math notranslate nohighlight">\(\mathbf{K}=\mathbf{D}\)</span>.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pycsou.linop</span> <span class="kn">import</span> <span class="n">FirstDerivative</span><span class="p">,</span> <span class="n">DownSampling</span>
+<span class="kn">from</span> <span class="nn">pycsou.func</span> <span class="kn">import</span> <span class="n">SquaredL2Loss</span><span class="p">,</span> <span class="n">L1Norm</span><span class="p">,</span> <span class="n">NonNegativeOrthant</span>
+<span class="kn">from</span> <span class="nn">pycsou.opt</span> <span class="kn">import</span> <span class="n">PrimalDualSplitting</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span> <span class="c1"># Ground truth</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">FirstDerivative</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;forward&#39;</span><span class="p">)</span> <span class="c1"># Regularisation operator</span>
+<span class="n">D</span><span class="o">.</span><span class="n">compute_lipschitz_cst</span><span class="p">(</span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">DownSampling</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">downsampling_factor</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># Downsampling operator</span>
+<span class="n">G</span><span class="o">.</span><span class="n">compute_lipschitz_cst</span><span class="p">()</span> <span class="c1"># Compute Lipschitz constant for automatic parameter tuning</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># Input data (downsampled x)</span>
+
+<span class="n">l22_loss</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">SquaredL2Loss</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="n">y</span><span class="p">)</span> <span class="c1"># Least-squares loss</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">l22_loss</span> <span class="o">*</span> <span class="n">G</span> <span class="c1"># Differentiable term F</span>
+<span class="n">H</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">L1Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">D</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c1"># Proximable term H</span>
+<span class="n">G</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">L1Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># Proximable term F</span>
+<span class="n">pds</span> <span class="o">=</span> <span class="n">PrimalDualSplitting</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">F</span><span class="o">=</span><span class="n">F</span><span class="p">,</span> <span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span> <span class="n">H</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="n">D</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="c1"># Initialise PDS</span>
+<span class="n">estimate</span><span class="p">,</span> <span class="n">converged</span><span class="p">,</span> <span class="n">diagnostics</span> <span class="o">=</span> <span class="n">pds</span><span class="o">.</span><span class="n">iterate</span><span class="p">()</span> <span class="c1"># Run PDS</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">linefmt</span><span class="o">=</span><span class="s1">&#39;C0-&#39;</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="s1">&#39;C0o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">estimate</span><span class="p">[</span><span class="s1">&#39;primal_variable&#39;</span><span class="p">],</span> <span class="n">linefmt</span><span class="o">=</span><span class="s1">&#39;C1--&#39;</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="s1">&#39;C1s&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Ground truth&#39;</span><span class="p">,</span> <span class="s1">&#39;PDS Estimate&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/IntroductiontoPycsou_50_1.png" src="../_images/IntroductiontoPycsou_50_1.png" />
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="theory.html" class="btn btn-neutral float-left" title="Background Concepts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

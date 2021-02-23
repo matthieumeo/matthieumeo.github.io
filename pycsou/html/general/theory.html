@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Features" href="features.html" />
+    <link rel="next" title="Solving Inverse Problems with Pycsou" href="pycsou_classes.html" />
     <link rel="prev" title="Installation" href="install.html" /> 
 </head>
 
@@ -97,9 +97,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#choosing-the-penalty">Choosing the Penalty</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#proximal-algorithms">Proximal Algorithms</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycsou_classes.html">Solving Inverse Problems with Pycsou</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
@@ -241,7 +242,7 @@
 <span class="eqno">(1)<a class="headerlink" href="#equation-discrete-pb" title="Permalink to this equation">¶</a></span>\[     \mathbf{y}=\mathbf{G}\mathbf{\alpha}.\]</div>
 <p>Unfortunately, such problems are in general ill-posed:</p>
 <ul class="simple">
-<li><p><strong>There may exist no solutions.</strong> If <span class="math notranslate nohighlight">\(L&gt;N\)</span> indeed (or more generally if <span class="math notranslate nohighlight">\(\mathbf{G}\)</span> is not surjective), <span class="math notranslate nohighlight">\(\mathcal{R}(\mathbf{G})\subsetneq \mathbb{R}^N\)</span>. Therefore the noisy data vector <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> is not guaranteed to belong to <span class="math notranslate nohighlight">\(\mathcal{R}(\mathbf{G})\)</span>.</p></li>
+<li><p><strong>There may exist no solutions.</strong> If  <span class="math notranslate nohighlight">\(\mathbf{G}\)</span> is not surjective, <span class="math notranslate nohighlight">\(\mathcal{R}(\mathbf{G})\subsetneq \mathbb{R}^L\)</span>. Therefore the noisy data vector <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> is not guaranteed to belong to <span class="math notranslate nohighlight">\(\mathcal{R}(\mathbf{G})\)</span>.</p></li>
 <li><p><strong>There may exist more than one solution.</strong> If <span class="math notranslate nohighlight">\(L&lt;N\)</span> indeed (or more generally if <span class="math notranslate nohighlight">\(\mathbf{G}\)</span> is not injective), <span class="math notranslate nohighlight">\(\mathcal{N}(\mathbf{G})\neq \{\mathbf{0}\}\)</span>. Therefore, if <span class="math notranslate nohighlight">\(\mathbf{\alpha}^\star\)</span> is a solution to eqref{inverse_pb_linear_system}, then <span class="math notranslate nohighlight">\(\mathbf{\alpha}^\star + \mathbf{\beta}\)</span> is also a solution <span class="math notranslate nohighlight">\(\forall\mathbf{\beta}\in \mathcal{N}(\mathbf{G})\)</span>:</p></li>
 </ul>
 <div class="math notranslate nohighlight">
@@ -297,6 +298,46 @@ What exactly is meant by “simple” solutions will depend on the specific appl
 <p class="admonition-title">See also</p>
 <p>See <a class="reference internal" href="../api/functionals/pycsou.func.penalty.html#penalties"><span class="std std-ref">Penalty Functionals</span></a> for a rich collection of commonly used penalty functionals provided by Pycsou.</p>
 </div>
+</div>
+</div>
+<div class="section" id="proximal-algorithms">
+<h2>Proximal Algorithms<a class="headerlink" href="#proximal-algorithms" title="Permalink to this headline">¶</a></h2>
+<p>Most optimisation problems used to solve inverse problems in practice
+take the form:</p>
+<div class="math notranslate nohighlight" id="equation-generic-form">
+<span class="eqno">(2)<a class="headerlink" href="#equation-generic-form" title="Permalink to this equation">¶</a></span>\[{\min_{\mathbf{x}\in\mathbb{R}^N} \;\mathcal{F}(\mathbf{x})\;\;+\;\;\mathcal{G}(\mathbf{x})\;\;+\;\;\mathcal{H}(\mathbf{K} \mathbf{x})}\]</div>
+<p>where: * <span class="math notranslate nohighlight">\(\mathcal{F}:\mathbb{R}^N\rightarrow \mathbb{R}\)</span> is
+<em>convex</em> and <em>differentiable</em>, with <span class="math notranslate nohighlight">\(\beta\)</span>-<em>Lipschitz continuous</em>
+gradient. *
+<span class="math notranslate nohighlight">\(\mathcal{G}:\mathbb{R}^N\rightarrow \mathbb{R}\cup\{+\infty\}\)</span>
+and
+<span class="math notranslate nohighlight">\(\mathcal{H}:\mathbb{R}^M\rightarrow \mathbb{R}\cup\{+\infty\}\)</span>
+are two <em>proper</em>, <em>lower semicontinuous</em> and <em>convex functions</em> with
+<em>simple proximal operators</em>.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathbf{K}:\mathbb{R}^N\rightarrow \mathbb{R}^M\)</span> is a <em>linear
+operator</em>.</p></li>
+</ul>
+<p>Problems of the form <a class="reference internal" href="#equation-generic-form">(2)</a> can be solved by means of iterative <strong>proximal
+algorithms</strong>:</p>
+<ul class="simple">
+<li><p><strong>Primal-dual splitting:</strong> solves for problems of the form
+<span class="math notranslate nohighlight">\({\min_{\mathbf{x}\in\mathbb{R}^N} \mathcal{F}(\mathbf{x})+\mathcal{G}(\mathbf{x})+\mathcal{H}(\mathbf{K} \mathbf{x})}\)</span></p></li>
+<li><p><strong>Chambolle Pock splitting:</strong> solves for problems of the form
+<span class="math notranslate nohighlight">\({\min_{\mathbf{x}\in\mathbb{R}^N} \mathcal{G}(\mathbf{x})+\mathcal{H}(\mathbf{K} \mathbf{x})}\)</span></p></li>
+<li><p><strong>Douglas Rachford splitting/ADMM:</strong> solves for problems of the form
+<span class="math notranslate nohighlight">\({\min_{\mathbf{x}\in\mathbb{R}^N} \mathcal{G}(\mathbf{x})+\mathcal{H}(\mathbf{x})}\)</span></p></li>
+<li><p><strong>Forward-Backward splitting/APGD:</strong> solves for problems of the form
+<span class="math notranslate nohighlight">\(\min_{\mathbf{x}\in\mathbb{R}^N} \mathcal{F}(\mathbf{x})+\mathcal{G}(\mathbf{x})\)</span></p></li>
+</ul>
+<p>These are all <strong>first-order algorithms</strong>: they rely only on the gradient
+of <span class="math notranslate nohighlight">\(\mathcal{F}\)</span>, and/or the proximal operators of
+<span class="math notranslate nohighlight">\(\mathcal{G}, \mathcal{H}\)</span>, and/or matrix/vector multiplications
+with <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{K}^T\)</span>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>See <a class="reference internal" href="../api/algorithms/pycsou.opt.proxalgs.html#proxalgs"><span class="std std-ref">Proximal Algorithms</span></a> for implementations of the above mentionned algorithms in Pycsou.</p>
+</div>
 <p class="rubric">Footnotes</p>
 <dl class="footnote brackets">
 <dt class="label" id="f1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
@@ -308,7 +349,6 @@ What exactly is meant by “simple” solutions will depend on the specific appl
 </dl>
 </div>
 </div>
-</div>
 
 
            </div>
@@ -318,7 +358,7 @@ What exactly is meant by “simple” solutions will depend on the specific appl
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="features.html" class="btn btn-neutral float-right" title="Features" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="pycsou_classes.html" class="btn btn-neutral float-right" title="Solving Inverse Problems with Pycsou" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="install.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
