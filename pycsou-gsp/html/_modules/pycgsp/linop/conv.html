@@ -1,0 +1,322 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pycgsp.linop.conv &mdash; pycgsp 1.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pycgsp
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/install.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">Pycsou-GSP API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pycgsp</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pycgsp.linop.conv</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pycgsp.linop.conv</h1><div class="highlight"><pre>
+<span></span><span class="c1"># #############################################################################</span>
+<span class="c1"># conv.py</span>
+<span class="c1"># =======</span>
+<span class="c1"># Author : Matthieu Simeoni [matthieu.simeoni@gmail.com]</span>
+<span class="c1"># #############################################################################</span>
+
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Graph convolution operator.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pygsp</span>
+
+<span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">SparseLinearOperator</span>
+<span class="kn">from</span> <span class="nn">pycgsp.linop.base</span> <span class="kn">import</span> <span class="n">PolynomialLinearOperator</span>
+
+
+<div class="viewcode-block" id="GraphConvolution"><a class="viewcode-back" href="../../../api/operators/pycgsp.linop.conv.html#pycgsp.linop.conv.GraphConvolution">[docs]</a><span class="k">class</span> <span class="nc">GraphConvolution</span><span class="p">(</span><span class="n">PolynomialLinearOperator</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Graph convolution.</span>
+
+<span class="sd">    Convolve a signal :math:`\mathbf{u}\in\mathbb{C}^N` defined on a graph with a polynomial filter :math:`\mathbf{D}:\mathbb{C}^N\rightarrow \mathbb{C}^N`</span>
+<span class="sd">    of the form:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       \mathbf{D}=\sum_{k=0}^K \theta_k \mathbf{L}^k,</span>
+
+<span class="sd">    where :math:`\mathbf{L}:\mathbb{C}^N\rightarrow \mathbb{C}^N` is the *normalised graph Laplacian* (see [FuncSphere]_ Section 2.3 of Chapter 6).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. testsetup::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pygsp.graphs import RandomRegular</span>
+<span class="sd">       from pycgsp.linop.conv import GraphConvolution</span>
+<span class="sd">       np.random.seed(0)</span>
+
+<span class="sd">    .. doctest::</span>
+
+<span class="sd">       &gt;&gt;&gt; G = RandomRegular(seed=0)</span>
+<span class="sd">       &gt;&gt;&gt; G.compute_laplacian(lap_type=&#39;normalized&#39;)</span>
+<span class="sd">       &gt;&gt;&gt; signal = np.random.binomial(n=1,p=0.2,size=G.N)</span>
+<span class="sd">       &gt;&gt;&gt; coefficients = np.ones(shape=(3,))</span>
+<span class="sd">       &gt;&gt;&gt; ConvOp = GraphConvolution(Graph=G, coefficients=coefficients)</span>
+<span class="sd">       &gt;&gt;&gt; filtered = ConvOp * signal</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pygsp.graphs import Ring</span>
+<span class="sd">       from pycgsp.linop.conv import GraphConvolution</span>
+<span class="sd">       np.random.seed(0)</span>
+<span class="sd">       G = Ring(N=32, k=2)</span>
+<span class="sd">       G.compute_laplacian(lap_type=&#39;normalized&#39;)</span>
+<span class="sd">       G.set_coordinates(kind=&#39;spring&#39;)</span>
+<span class="sd">       signal = np.random.binomial(n=1,p=0.2,size=G.N)</span>
+<span class="sd">       coefficients = np.ones(3)</span>
+<span class="sd">       ConvOp = GraphConvolution(Graph=G, coefficients=coefficients)</span>
+<span class="sd">       e1 = np.zeros(shape=G.N)</span>
+<span class="sd">       e1[0] = 1</span>
+<span class="sd">       filter = ConvOp * e1</span>
+<span class="sd">       filtered = ConvOp * signal</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       ax=plt.gca()</span>
+<span class="sd">       G.plot_signal(signal, ax=ax, backend=&#39;matplotlib&#39;)</span>
+<span class="sd">       plt.title(&#39;Signal&#39;)</span>
+<span class="sd">       plt.axis(&#39;equal&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       ax=plt.gca()</span>
+<span class="sd">       G.plot_signal(filter, ax=ax, backend=&#39;matplotlib&#39;)</span>
+<span class="sd">       plt.title(&#39;Filter&#39;)</span>
+<span class="sd">       plt.axis(&#39;equal&#39;)</span>
+<span class="sd">       plt.figure()</span>
+<span class="sd">       ax=plt.gca()</span>
+<span class="sd">       G.plot_signal(filtered, ax=ax, backend=&#39;matplotlib&#39;)</span>
+<span class="sd">       plt.title(&#39;Filtered Signal&#39;)</span>
+<span class="sd">       plt.axis(&#39;equal&#39;)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The ``GraphConvolution`` operator is self-adjoint and operates in a matrix-free fashion, as described in Section 4.3, Chapter 7 of  [FuncSphere]_.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycgsp.linop.diff.GraphLaplacian`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GraphConvolution.__init__"><a class="viewcode-back" href="../../../api/operators/pycgsp.linop.conv.html#pycgsp.linop.conv.GraphConvolution.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Graph</span><span class="p">:</span> <span class="n">pygsp</span><span class="o">.</span><span class="n">graphs</span><span class="o">.</span><span class="n">Graph</span><span class="p">,</span> <span class="n">coefficients</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">]):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Graph: `pygsp.graphs.Graph &lt;https://pygsp.readthedocs.io/en/stable/reference/graphs.html#pygsp.graphs.Graph&gt;`_</span>
+<span class="sd">            Graph on which the signal is defined, with normalised Laplacian ``Graph.L`` precomputed (see `pygsp.graphs.Graph.compute_laplacian(lap_type=&#39;normalized&#39;) &lt;https://pygsp.readthedocs.io/en/stable/reference/graphs.html#pygsp.graphs.Graph.compute_laplacian&gt;`_.</span>
+<span class="sd">        coefficients: Union[np.ndarray, list, tuple]</span>
+<span class="sd">            Coefficients :math:`\{\theta_k, \,k=0,\ldots,K\}\subset \mathbb{C}` of the polynomial filter.</span>
+<span class="sd">        dtype: type</span>
+<span class="sd">            Type of the entries of the graph filer.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        AttributeError</span>
+<span class="sd">            If ``Graph.L`` does not exist.</span>
+<span class="sd">        NotImplementedError</span>
+<span class="sd">            If ``Graph.lap_type`` is &#39;combinatorial&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Graph</span> <span class="o">=</span> <span class="n">Graph</span>
+        <span class="k">if</span> <span class="n">Graph</span><span class="o">.</span><span class="n">L</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="sa">r</span><span class="s1">&#39;Please compute the normalised Laplacian of the graph with the routine https://pygsp.readthedocs.io/en/stable/reference/graphs.html#pygsp.graphs.Graph.compute_laplacian&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">Graph</span><span class="o">.</span><span class="n">lap_type</span> <span class="o">!=</span> <span class="s1">&#39;normalized&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Combinatorial graph Laplacians are not supported.&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Graph</span><span class="o">.</span><span class="n">L</span><span class="o">.</span><span class="n">tocsc</span><span class="p">()</span>
+            <span class="n">Lop</span> <span class="o">=</span> <span class="n">SparseLinearOperator</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">is_symmetric</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span> <span class="o">=</span> <span class="n">coefficients</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GraphConvolution</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">LinOp</span><span class="o">=</span><span class="n">Lop</span><span class="p">,</span> <span class="n">coeffs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
