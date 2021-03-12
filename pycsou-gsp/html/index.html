@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Content &mdash; pycgsp 1.0.1 documentation</title>
+  <title>Content &mdash; pycgsp 1.0.3 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.0.1
+                1.0.3
               </div>
             
           
@@ -167,14 +167,59 @@
 <h1>Content<a class="headerlink" href="#content" title="Permalink to this headline">¶</a></h1>
 <p>The package is organised as follows:</p>
 <ol class="arabic simple">
-<li><p>The subpackage <code class="docutils literal notranslate"><span class="pre">pycgsp.linop</span></code> implements the following common graph linear operators:</p>
-<ul class="simple">
-<li><p>Graph convolution operators: <a class="reference internal" href="api/operators/pycgsp.linop.conv.html#pycgsp.linop.conv.GraphConvolution" title="pycgsp.linop.conv.GraphConvolution"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphConvolution</span></code></a></p></li>
-<li><p>Graph differential operators: <a class="reference internal" href="api/operators/pycgsp.linop.diff.html#pycgsp.linop.diff.GraphLaplacian" title="pycgsp.linop.diff.GraphLaplacian"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphLaplacian</span></code></a>, <a class="reference internal" href="api/operators/pycgsp.linop.diff.html#pycgsp.linop.diff.GraphGradient" title="pycgsp.linop.diff.GraphGradient"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphGradient</span></code></a>, <a class="reference internal" href="api/operators/pycgsp.linop.diff.html#pycgsp.linop.diff.GeneralisedGraphLaplacian" title="pycgsp.linop.diff.GeneralisedGraphLaplacian"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeneralisedGraphLaplacian</span></code></a>.</p></li>
-</ul>
-</li>
-<li><p>The subpackage <code class="docutils literal notranslate"><span class="pre">pycgsp.graph</span></code> provides routines for generating graphs from discrete tessellations of continuous manifolds such as the sphere.</p></li>
+<li><p>The subpackage <code class="docutils literal notranslate"><span class="pre">pycgsp.linop</span></code> implements the following common graph linear operators:</p></li>
 </ol>
+<ul class="simple">
+<li><p>Graph convolution operators (<code class="docutils literal notranslate"><span class="pre">pycgsp.linop.conv</span></code>):</p></li>
+</ul>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/operators/pycgsp.linop.conv.html#pycgsp.linop.conv.GraphConvolution" title="pycgsp.linop.conv.GraphConvolution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycgsp.linop.conv.GraphConvolution</span></code></a>(Graph, …)</p></td>
+<td><p>Graph convolution.</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>Graph differential operators (<code class="docutils literal notranslate"><span class="pre">pycgsp.linop.diff</span></code>):</p></li>
+</ul>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/operators/pycgsp.linop.diff.html#pycgsp.linop.diff.GraphLaplacian" title="pycgsp.linop.diff.GraphLaplacian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycgsp.linop.diff.GraphLaplacian</span></code></a>(Graph[, dtype])</p></td>
+<td><p>Graph Laplacian.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/operators/pycgsp.linop.diff.html#pycgsp.linop.diff.GraphGradient" title="pycgsp.linop.diff.GraphGradient"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycgsp.linop.diff.GraphGradient</span></code></a>(Graph[, dtype])</p></td>
+<td><p>Graph gradient.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/operators/pycgsp.linop.diff.html#pycgsp.linop.diff.GeneralisedGraphLaplacian" title="pycgsp.linop.diff.GeneralisedGraphLaplacian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycgsp.linop.diff.GeneralisedGraphLaplacian</span></code></a>(Graph)</p></td>
+<td><p>Generalised graph Laplacian operator.</p></td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple" start="2">
+<li><p>The module <code class="docutils literal notranslate"><span class="pre">pycgsp.graph</span></code> provides routines for generating graphs from discrete tessellations of continuous manifolds such as the sphere:</p></li>
+</ol>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/graphs/index.html#pycgsp.graph.cvxhull_graph" title="pycgsp.graph.cvxhull_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycgsp.graph.cvxhull_graph</span></code></a>(R[, …])</p></td>
+<td><p>Build the convex hull graph of a point set in <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/graphs/index.html#pycgsp.graph.healpix_nngraph" title="pycgsp.graph.healpix_nngraph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycgsp.graph.healpix_nngraph</span></code></a>(nside[, …])</p></td>
+<td><p>Build the nearest neighbour graph of a HEALPix spherical point set.</p></td>
+</tr>
+</tbody>
+</table>
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">

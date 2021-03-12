@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Constructors &mdash; pycsou 1.0.4 documentation</title>
+  <title>Constructors &mdash; pycsou 1.0.5 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.0.4
+                1.0.5
               </div>
             
           
@@ -90,6 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../general/install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../general/theory.html">Background Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../general/pycsou_classes.html">Solving Inverse Problems with Pycsou</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../general/extensions.html">Extensions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../general/examples.html">Examples</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
@@ -106,6 +107,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../functionals/index.html">Cost Functionals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../algorithms/pycsou.opt.proxalgs.html">Proximal Algorithms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../math/index.html">Mathematical Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#abstract-classes">Abstract classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#linear-operators">Linear Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#cost-functionals">Cost Functionals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#algorithms">Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#mathematical-functions">Mathematical Functions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../other.html">Pycsou Utilities</a></li>
@@ -184,6 +190,7 @@
   <div class="section" id="constructors">
 <h1>Constructors<a class="headerlink" href="#constructors" title="Permalink to this headline">¶</a></h1>
 <p>Classes for constructing linear operators.</p>
+<p class="rubric">Classes</p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -208,19 +215,22 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#pycsou.linop.base.DiagonalOperator" title="pycsou.linop.base.DiagonalOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DiagonalOperator</span></code></a>(diag)</p></td>
 <td><p>Construct a diagonal operator.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.linop.base.IdentityOperator" title="pycsou.linop.base.IdentityOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IdentityOperator</span></code></a>(size[, dtype])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.linop.base.PolynomialLinearOperator" title="pycsou.linop.base.PolynomialLinearOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PolynomialLinearOperator</span></code></a>(LinOp, coeffs)</p></td>
+<td><p>Polynomial linear operator <span class="math notranslate nohighlight">\(P(L)\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.linop.base.IdentityOperator" title="pycsou.linop.base.IdentityOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IdentityOperator</span></code></a>(size[, dtype])</p></td>
 <td><p>Square identity operator.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.linop.base.NullOperator" title="pycsou.linop.base.NullOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NullOperator</span></code></a>(shape[, dtype])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.linop.base.NullOperator" title="pycsou.linop.base.NullOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NullOperator</span></code></a>(shape[, dtype])</p></td>
 <td><p>Null operator.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.linop.base.LinOpStack" title="pycsou.linop.base.LinOpStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LinOpStack</span></code></a>(*linops, axis)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.linop.base.LinOpStack" title="pycsou.linop.base.LinOpStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LinOpStack</span></code></a>(*linops, axis)</p></td>
 <td><p>Stack linear operators together.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.linop.base.LinOpVStack" title="pycsou.linop.base.LinOpVStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LinOpVStack</span></code></a>(*linops)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.linop.base.LinOpVStack" title="pycsou.linop.base.LinOpVStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LinOpVStack</span></code></a>(*linops)</p></td>
 <td><p>Alias for vertical stacking, equivalent to <code class="docutils literal notranslate"><span class="pre">LinOpStack(*linops,</span> <span class="pre">axis=0)</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.linop.base.LinOpHStack" title="pycsou.linop.base.LinOpHStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LinOpHStack</span></code></a>(*linops)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.linop.base.LinOpHStack" title="pycsou.linop.base.LinOpHStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LinOpHStack</span></code></a>(*linops)</p></td>
 <td><p>Alias for horizontal stacking, equivalent to <code class="docutils literal notranslate"><span class="pre">LinOpStack(*linops,</span> <span class="pre">axis=1)</span></code>.</p></td>
 </tr>
 </tbody>
@@ -384,6 +394,61 @@ The array is stored in the attribute <code class="docutils literal notranslate">
 <dl class="method">
 <dt id="pycsou.linop.base.DiagonalOperator.adjoint">
 <code class="sig-name descname">adjoint</code><span class="sig-paren">(</span><em class="sig-param">y: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; Union[numbers.Number, numpy.ndarray]<a class="reference internal" href="../../_modules/pycsou/linop/base.html#DiagonalOperator.adjoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.linop.base.DiagonalOperator.adjoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the adjoint of the operator at a point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>y</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Point at which the adjoint should be evaluated.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Evaluation of the adjoint at <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[Number, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.linop.base.PolynomialLinearOperator">
+<em class="property">class </em><code class="sig-name descname">PolynomialLinearOperator</code><span class="sig-paren">(</span><em class="sig-param">LinOp: pycsou.core.linop.LinearOperator, coeffs: Union[numpy.ndarray, list, tuple]</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/linop/base.html#PolynomialLinearOperator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.linop.base.PolynomialLinearOperator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.linop.LinearOperator</span></code></a></p>
+<p>Polynomial linear operator <span class="math notranslate nohighlight">\(P(L)\)</span>.</p>
+<p>Base class for polynomial operators. Useful for implementing generalised differential operators.</p>
+<p>Given a polynomial <span class="math notranslate nohighlight">\(P(x)=\sum_{k=0}^N a_k x^k\)</span> and a square linear operator <span class="math notranslate nohighlight">\(\mathbf{L}:\mathbb{R}^N\to \mathbb{R}^N,\)</span>
+we define the polynomial linear operator <span class="math notranslate nohighlight">\(P(\mathbf{L}):\mathbb{R}^N\to \mathbb{R}^N\)</span> as:</p>
+<div class="math notranslate nohighlight">
+\[P(\mathbf{L})=\sum_{k=0}^N a_k \mathbf{L}^k,\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{L}^0\)</span> is the identity matrix.
+The <em>adjoint</em> of <span class="math notranslate nohighlight">\(P(\mathbf{L})\)</span> is given by:</p>
+<div class="math notranslate nohighlight">
+\[P(\mathbf{L})^\ast=\sum_{k=0}^N a_k (\mathbf{L}^\ast)^k.\]</div>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pycsou.linop</span> <span class="kn">import</span> <span class="n">DenseLinearOperator</span><span class="p">,</span> <span class="n">PolynomialLinearOperator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">L</span> <span class="o">=</span> <span class="n">DenseLinearOperator</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">PL</span> <span class="o">=</span> <span class="n">PolynomialLinearOperator</span><span class="p">(</span><span class="n">LinOp</span><span class="o">=</span><span class="n">L</span><span class="p">,</span> <span class="n">coeffs</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span> <span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">PL</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">x</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">L</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">L</span><span class="o">**</span><span class="mi">2</span><span class="p">)(</span><span class="n">x</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="pycsou.linop.base.PolynomialLinearOperator.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">LinOp: pycsou.core.linop.LinearOperator, coeffs: Union[numpy.ndarray, list, tuple]</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/linop/base.html#PolynomialLinearOperator.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.linop.base.PolynomialLinearOperator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>LinOp</strong> (<em>pycsou.core.LinearOperator</em>) – Square linear operator <span class="math notranslate nohighlight">\(\mathbf{L}\)</span>.</p></li>
+<li><p><strong>coeffs</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a><em>]</em>) – Coefficients <span class="math notranslate nohighlight">\(\{a_0,\ldots, a_N\}\)</span> of the polynomial <span class="math notranslate nohighlight">\(P\)</span>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.linop.base.PolynomialLinearOperator.adjoint">
+<code class="sig-name descname">adjoint</code><span class="sig-paren">(</span><em class="sig-param">x: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; Union[numbers.Number, numpy.ndarray]<a class="reference internal" href="../../_modules/pycsou/linop/base.html#PolynomialLinearOperator.adjoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.linop.base.PolynomialLinearOperator.adjoint" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluates the adjoint of the operator at a point.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

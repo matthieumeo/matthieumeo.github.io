@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pycsou.linop.conv &mdash; pycsou 1.0.4 documentation</title>
+  <title>pycsou.linop.conv &mdash; pycsou 1.0.5 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                1.0.4
+                1.0.5
               </div>
             
           
@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../general/install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../general/theory.html">Background Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../general/pycsou_classes.html">Solving Inverse Problems with Pycsou</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/extensions.html">Extensions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../general/examples.html">Examples</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
@@ -176,9 +177,8 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pylops.signalprocessing</span> <span class="k">as</span> <span class="nn">pyconv</span>
 <span class="kn">import</span> <span class="nn">pylops</span>
-<span class="kn">import</span> <span class="nn">pygsp</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
-<span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">PyLopLinearOperator</span><span class="p">,</span> <span class="n">SparseLinearOperator</span><span class="p">,</span> <span class="n">PolynomialLinearOperator</span>
+<span class="kn">from</span> <span class="nn">pycsou.linop.base</span> <span class="kn">import</span> <span class="n">PyLopLinearOperator</span><span class="p">,</span> <span class="n">SparseLinearOperator</span>
 
 
 <div class="viewcode-block" id="Convolve1D"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.conv.html#pycsou.linop.conv.Convolve1D">[docs]</a><span class="k">def</span> <span class="nf">Convolve1D</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">reshape_dims</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
@@ -580,111 +580,6 @@
 
     <span class="n">PyLop</span> <span class="o">=</span> <span class="n">pylops</span><span class="o">.</span><span class="n">Smoothing2D</span><span class="p">(</span><span class="n">nsmooth</span><span class="o">=</span><span class="n">window_shape</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">nodir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">PyLopLinearOperator</span><span class="p">(</span><span class="n">PyLop</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="GraphConvolution"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.conv.html#pycsou.linop.conv.GraphConvolution">[docs]</a><span class="k">class</span> <span class="nc">GraphConvolution</span><span class="p">(</span><span class="n">PolynomialLinearOperator</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Graph convolution.</span>
-
-<span class="sd">    Convolve a signal :math:`\mathbf{u}\in\mathbb{C}^N` defined on a graph with a polynomial filter :math:`\mathbf{D}:\mathbb{C}^N\rightarrow \mathbb{C}^N`</span>
-<span class="sd">    of the form:</span>
-
-<span class="sd">    .. math::</span>
-
-<span class="sd">       \mathbf{D}=\sum_{k=0}^K \theta_k \mathbf{L}^k,</span>
-
-<span class="sd">    where :math:`\mathbf{L}:\mathbb{C}^N\rightarrow \mathbb{C}^N` is the *normalised graph Laplacian* (see [FuncSphere]_ Section 2.3 of Chapter 6).</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-
-<span class="sd">    .. testsetup::</span>
-
-<span class="sd">       import numpy as np</span>
-<span class="sd">       from pygsp.graphs import RandomRegular</span>
-<span class="sd">       from pycsou.linop.conv import GraphConvolution</span>
-<span class="sd">       np.random.seed(0)</span>
-
-<span class="sd">    .. doctest::</span>
-
-<span class="sd">       &gt;&gt;&gt; G = RandomRegular(seed=0)</span>
-<span class="sd">       &gt;&gt;&gt; G.compute_laplacian(lap_type=&#39;normalized&#39;)</span>
-<span class="sd">       &gt;&gt;&gt; signal = np.random.binomial(n=1,p=0.2,size=G.N)</span>
-<span class="sd">       &gt;&gt;&gt; coefficients = np.ones(shape=(3,))</span>
-<span class="sd">       &gt;&gt;&gt; ConvOp = GraphConvolution(Graph=G, coefficients=coefficients)</span>
-<span class="sd">       &gt;&gt;&gt; filtered = ConvOp * signal</span>
-
-<span class="sd">    .. plot::</span>
-
-<span class="sd">       import numpy as np</span>
-<span class="sd">       from pygsp.graphs import Ring</span>
-<span class="sd">       from pycsou.linop.conv import GraphConvolution</span>
-<span class="sd">       np.random.seed(0)</span>
-<span class="sd">       G = Ring(N=32, k=2)</span>
-<span class="sd">       G.compute_laplacian(lap_type=&#39;normalized&#39;)</span>
-<span class="sd">       G.set_coordinates(kind=&#39;spring&#39;)</span>
-<span class="sd">       signal = np.random.binomial(n=1,p=0.2,size=G.N)</span>
-<span class="sd">       coefficients = np.ones(3)</span>
-<span class="sd">       ConvOp = GraphConvolution(Graph=G, coefficients=coefficients)</span>
-<span class="sd">       e1 = np.zeros(shape=G.N)</span>
-<span class="sd">       e1[0] = 1</span>
-<span class="sd">       filter = ConvOp * e1</span>
-<span class="sd">       filtered = ConvOp * signal</span>
-<span class="sd">       plt.figure()</span>
-<span class="sd">       ax=plt.gca()</span>
-<span class="sd">       G.plot_signal(signal, ax=ax, backend=&#39;matplotlib&#39;)</span>
-<span class="sd">       plt.title(&#39;Signal&#39;)</span>
-<span class="sd">       plt.axis(&#39;equal&#39;)</span>
-<span class="sd">       plt.figure()</span>
-<span class="sd">       ax=plt.gca()</span>
-<span class="sd">       G.plot_signal(filter, ax=ax, backend=&#39;matplotlib&#39;)</span>
-<span class="sd">       plt.title(&#39;Filter&#39;)</span>
-<span class="sd">       plt.axis(&#39;equal&#39;)</span>
-<span class="sd">       plt.figure()</span>
-<span class="sd">       ax=plt.gca()</span>
-<span class="sd">       G.plot_signal(filtered, ax=ax, backend=&#39;matplotlib&#39;)</span>
-<span class="sd">       plt.title(&#39;Filtered Signal&#39;)</span>
-<span class="sd">       plt.axis(&#39;equal&#39;)</span>
-
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    The ``GraphConvolution`` operator is self-adjoint and operates in a matrix-free fashion, as described in Section 4.3, Chapter 7 of  [FuncSphere]_.</span>
-
-<span class="sd">    See Also</span>
-<span class="sd">    --------</span>
-<span class="sd">    :py:class:`~pycsou.linop.diff.GraphLaplacian`</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-
-<div class="viewcode-block" id="GraphConvolution.__init__"><a class="viewcode-back" href="../../../api/operators/pycsou.linop.conv.html#pycsou.linop.conv.GraphConvolution.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Graph</span><span class="p">:</span> <span class="n">pygsp</span><span class="o">.</span><span class="n">graphs</span><span class="o">.</span><span class="n">Graph</span><span class="p">,</span> <span class="n">coefficients</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">]):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        Graph: `pygsp.graphs.Graph &lt;https://pygsp.readthedocs.io/en/stable/reference/graphs.html#pygsp.graphs.Graph&gt;`_</span>
-<span class="sd">            Graph on which the signal is defined, with normalised Laplacian ``Graph.L`` precomputed (see `pygsp.graphs.Graph.compute_laplacian(lap_type=&#39;normalized&#39;) &lt;https://pygsp.readthedocs.io/en/stable/reference/graphs.html#pygsp.graphs.Graph.compute_laplacian&gt;`_.</span>
-<span class="sd">        coefficients: Union[np.ndarray, list, tuple]</span>
-<span class="sd">            Coefficients :math:`\{\theta_k, \,k=0,\ldots,K\}\subset \mathbb{C}` of the polynomial filter.</span>
-<span class="sd">        dtype: type</span>
-<span class="sd">            Type of the entries of the graph filer.</span>
-
-<span class="sd">        Raises</span>
-<span class="sd">        ------</span>
-<span class="sd">        AttributeError</span>
-<span class="sd">            If ``Graph.L`` does not exist.</span>
-<span class="sd">        NotImplementedError</span>
-<span class="sd">            If ``Graph.lap_type`` is &#39;combinatorial&#39;.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">Graph</span> <span class="o">=</span> <span class="n">Graph</span>
-        <span class="k">if</span> <span class="n">Graph</span><span class="o">.</span><span class="n">L</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
-                <span class="sa">r</span><span class="s1">&#39;Please compute the normalised Laplacian of the graph with the routine https://pygsp.readthedocs.io/en/stable/reference/graphs.html#pygsp.graphs.Graph.compute_laplacian&#39;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">Graph</span><span class="o">.</span><span class="n">lap_type</span> <span class="o">!=</span> <span class="s1">&#39;normalized&#39;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Combinatorial graph Laplacians are not supported.&#39;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Graph</span><span class="o">.</span><span class="n">L</span><span class="o">.</span><span class="n">tocsc</span><span class="p">()</span>
-            <span class="n">Lop</span> <span class="o">=</span> <span class="n">SparseLinearOperator</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">is_symmetric</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span> <span class="o">=</span> <span class="n">coefficients</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">GraphConvolution</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">LinOp</span><span class="o">=</span><span class="n">Lop</span><span class="p">,</span> <span class="n">coeffs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">)</span></div></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>

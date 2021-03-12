@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pycsou.core.map &mdash; pycsou 1.0.4 documentation</title>
+  <title>pycsou.core.map &mdash; pycsou 1.0.5 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                1.0.4
+                1.0.5
               </div>
             
           
@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../general/install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../general/theory.html">Background Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../general/pycsou_classes.html">Solving Inverse Problems with Pycsou</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/extensions.html">Extensions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../general/examples.html">Examples</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
@@ -533,9 +534,9 @@
 <span class="sd">       &gt;&gt;&gt; print(f.lipschitz_cst, f.diff_lipschitz_cst)</span>
 <span class="sd">       inf 2</span>
 <span class="sd">       &gt;&gt;&gt; print(np.round(L1.lipschitz_cst,1), np.round(L1.diff_lipschitz_cst,1))</span>
-<span class="sd">       1.0 1.0</span>
+<span class="sd">       2.0 2.0</span>
 <span class="sd">       &gt;&gt;&gt; print(np.round(L2.lipschitz_cst,1), np.round(L2.diff_lipschitz_cst,1))</span>
-<span class="sd">       0.9 0.9</span>
+<span class="sd">       1.5 1.5</span>
 <span class="sd">       &gt;&gt;&gt; L3 = 2 * L1 + (L2 ** 2) / 3</span>
 <span class="sd">       &gt;&gt;&gt; np.allclose(L3.lipschitz_cst, 2 * L1.lipschitz_cst + (L2.lipschitz_cst ** 2)/3)</span>
 <span class="sd">       True</span>

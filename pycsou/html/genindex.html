@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; pycsou 1.0.4 documentation</title>
+  <title>Index &mdash; pycsou 1.0.5 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.0.4
+                1.0.5
               </div>
             
           
@@ -89,6 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="general/install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="general/theory.html">Background Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="general/pycsou_classes.html">Solving Inverse Problems with Pycsou</a></li>
+<li class="toctree-l1"><a class="reference internal" href="general/extensions.html">Extensions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="general/examples.html">Examples</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
@@ -184,6 +185,7 @@
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
+ | <a href="#W"><strong>W</strong></a>
  
 </div>
 <h2 id="_">_</h2>
@@ -214,6 +216,10 @@
       <li><a href="api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent.__init__">__init__() (AcceleratedProximalGradientDescent method)</a>
 
       <ul>
+        <li><a href="api/math/pycsou.math.green.html#pycsou.math.green.CausalGreenExponential.__init__">(CausalGreenExponential method)</a>
+</li>
+        <li><a href="api/math/pycsou.math.green.html#pycsou.math.green.CausalGreenIteratedDerivative.__init__">(CausalGreenIteratedDerivative method)</a>
+</li>
         <li><a href="api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.ChambollePockSplitting.__init__">(ChambollePockSplitting method)</a>
 </li>
         <li><a href="api/operators/pycsou.linop.base.html#pycsou.linop.base.DaskLinearOperator.__init__">(DaskLinearOperator method)</a>
@@ -245,12 +251,6 @@
         <li><a href="api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.GeneralisedVandermonde.__init__">(GeneralisedVandermonde method)</a>
 </li>
         <li><a href="api/classes/pycsou.core.solver.html#pycsou.core.solver.GenericIterativeAlgorithm.__init__">(GenericIterativeAlgorithm method)</a>
-</li>
-        <li><a href="api/operators/pycsou.linop.conv.html#pycsou.linop.conv.GraphConvolution.__init__">(GraphConvolution method)</a>
-</li>
-        <li><a href="api/operators/pycsou.linop.diff.html#pycsou.linop.diff.GraphGradient.__init__">(GraphGradient method)</a>
-</li>
-        <li><a href="api/operators/pycsou.linop.diff.html#pycsou.linop.diff.GraphLaplacian.__init__">(GraphLaplacian method)</a>
 </li>
         <li><a href="api/operators/pycsou.linop.base.html#pycsou.linop.base.IdentityOperator.__init__">(IdentityOperator method)</a>
 </li>
@@ -284,9 +284,13 @@
 </li>
         <li><a href="api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.Masking.__init__">(Masking method)</a>
 </li>
+        <li><a href="api/math/pycsou.math.green.html#pycsou.math.green.Matern.__init__">(Matern method)</a>
+</li>
         <li><a href="api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.NNSampling.__init__">(NNSampling method)</a>
 </li>
         <li><a href="api/operators/pycsou.linop.base.html#pycsou.linop.base.NullOperator.__init__">(NullOperator method)</a>
+</li>
+        <li><a href="api/operators/pycsou.linop.base.html#pycsou.linop.base.PolynomialLinearOperator.__init__">(PolynomialLinearOperator method)</a>
 </li>
         <li><a href="api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.Pooling.__init__">(Pooling method)</a>
 </li>
@@ -305,6 +309,10 @@
         <li><a href="api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.SquaredL1Norm.__init__">(SquaredL1Norm method)</a>
 </li>
         <li><a href="api/functionals/pycsou.func.penalty.html#pycsou.func.penalty.SquaredL2Norm.__init__">(SquaredL2Norm method)</a>
+</li>
+        <li><a href="api/math/pycsou.math.green.html#pycsou.math.green.SubGaussian.__init__">(SubGaussian method)</a>
+</li>
+        <li><a href="api/math/pycsou.math.green.html#pycsou.math.green.Wendland.__init__">(Wendland method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -329,14 +337,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.AcceleratedProximalGradientDescent">AcceleratedProximalGradientDescent (class in pycsou.opt.proxalgs)</a>
 </li>
+      <li><a href="api/utils/pycsou.util.stats.html#pycsou.util.stats.P2Algorithm.add_sample">add_sample() (P2Algorithm method)</a>
+</li>
       <li><a href="api/operators/pycsou.linop.base.html#pycsou.linop.base.DiagonalOperator.adjoint">adjoint() (DiagonalOperator method)</a>
 
       <ul>
         <li><a href="api/operators/pycsou.linop.base.html#pycsou.linop.base.ExplicitLinearOperator.adjoint">(ExplicitLinearOperator method)</a>
-</li>
-        <li><a href="api/operators/pycsou.linop.diff.html#pycsou.linop.diff.GraphGradient.adjoint">(GraphGradient method)</a>
-</li>
-        <li><a href="api/operators/pycsou.linop.diff.html#pycsou.linop.diff.GraphLaplacian.adjoint">(GraphLaplacian method)</a>
 </li>
         <li><a href="api/operators/pycsou.linop.base.html#pycsou.linop.base.LinOpStack.adjoint">(LinOpStack method)</a>
 </li>
@@ -347,6 +353,8 @@
         <li><a href="api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.NNSampling.adjoint">(NNSampling method)</a>
 </li>
         <li><a href="api/operators/pycsou.linop.base.html#pycsou.linop.base.NullOperator.adjoint">(NullOperator method)</a>
+</li>
+        <li><a href="api/operators/pycsou.linop.base.html#pycsou.linop.base.PolynomialLinearOperator.adjoint">(PolynomialLinearOperator method)</a>
 </li>
         <li><a href="api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.Pooling.adjoint">(Pooling method)</a>
 </li>
@@ -363,6 +371,10 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/math/pycsou.math.green.html#pycsou.math.green.CausalGreenExponential">CausalGreenExponential (class in pycsou.math.green)</a>
+</li>
+      <li><a href="api/math/pycsou.math.green.html#pycsou.math.green.CausalGreenIteratedDerivative">CausalGreenIteratedDerivative (class in pycsou.math.green)</a>
+</li>
       <li><a href="api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.ChambollePockSplitting">ChambollePockSplitting (class in pycsou.opt.proxalgs)</a>
 </li>
       <li><a href="api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.ColProjector">ColProjector() (LinearOperator method)</a>
@@ -475,8 +487,6 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/operators/pycsou.linop.diff.html#pycsou.linop.diff.GeneralisedDerivative">GeneralisedDerivative() (in module pycsou.linop.diff)</a>
 </li>
-      <li><a href="api/operators/pycsou.linop.diff.html#pycsou.linop.diff.GeneralisedGraphLaplacian">GeneralisedGraphLaplacian() (in module pycsou.linop.diff)</a>
-</li>
       <li><a href="api/operators/pycsou.linop.diff.html#pycsou.linop.diff.GeneralisedLaplacian">GeneralisedLaplacian() (in module pycsou.linop.diff)</a>
 </li>
       <li><a href="api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.GeneralisedVandermonde">GeneralisedVandermonde (class in pycsou.linop.sampling)</a>
@@ -487,10 +497,10 @@
 </li>
       <li><a href="api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.MappedDistanceMatrix.get_dask_mdm">get_dask_mdm() (MappedDistanceMatrix method)</a>
 </li>
-      <li><a href="api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.MappedDistanceMatrix.get_dense_mdm">get_dense_mdm() (MappedDistanceMatrix method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.MappedDistanceMatrix.get_dense_mdm">get_dense_mdm() (MappedDistanceMatrix method)</a>
+</li>
       <li><a href="api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.GeneralisedVandermonde.get_generalised_vandermonde_matrix">get_generalised_vandermonde_matrix() (GeneralisedVandermonde method)</a>
 </li>
       <li><a href="api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.Pooling.get_output_shape">get_output_shape() (Pooling method)</a>
@@ -500,12 +510,6 @@
       <li><a href="api/classes/pycsou.core.map.html#pycsou.core.map.DifferentiableMap.gradient">gradient() (DifferentiableMap method)</a>
 </li>
       <li><a href="api/operators/pycsou.linop.diff.html#pycsou.linop.diff.Gradient">Gradient() (in module pycsou.linop.diff)</a>
-</li>
-      <li><a href="api/operators/pycsou.linop.conv.html#pycsou.linop.conv.GraphConvolution">GraphConvolution (class in pycsou.linop.conv)</a>
-</li>
-      <li><a href="api/operators/pycsou.linop.diff.html#pycsou.linop.diff.GraphGradient">GraphGradient (class in pycsou.linop.diff)</a>
-</li>
-      <li><a href="api/operators/pycsou.linop.diff.html#pycsou.linop.diff.GraphLaplacian">GraphLaplacian (class in pycsou.linop.diff)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -629,11 +633,13 @@
 </li>
       <li><a href="api/classes/pycsou.core.map.html#pycsou.core.map.MapStack">MapStack (class in pycsou.core.map)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/classes/pycsou.core.map.html#pycsou.core.map.MapVStack">MapVStack (class in pycsou.core.map)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.Masking">Masking (class in pycsou.linop.sampling)</a>
+</li>
+      <li><a href="api/math/pycsou.math.green.html#pycsou.math.green.Matern">Matern (class in pycsou.math.green)</a>
 </li>
       <li><a href="api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.matvec">matvec() (LinearOperator method)</a>
 </li>
@@ -661,6 +667,8 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/utils/pycsou.util.stats.html#pycsou.util.stats.P2Algorithm">P2Algorithm (class in pycsou.util.stats)</a>
+</li>
       <li><a href="api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.PDS">PDS (in module pycsou.opt.proxalgs)</a>
 </li>
       <li><a href="api/utils/pycsou.util.misc.html#pycsou.util.misc.peaks">peaks() (in module pycsou.util.misc)</a>
@@ -668,6 +676,8 @@
       <li><a href="api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.pinv">pinv() (LinearOperator method)</a>
 </li>
       <li><a href="api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.PinvOp">PinvOp() (LinearOperator property)</a>
+</li>
+      <li><a href="api/operators/pycsou.linop.base.html#pycsou.linop.base.PolynomialLinearOperator">PolynomialLinearOperator (class in pycsou.linop.base)</a>
 </li>
       <li><a href="api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.Pooling">Pooling (class in pycsou.linop.sampling)</a>
 </li>
@@ -729,11 +739,15 @@
 </li>
       <li><a href="api/operators/pycsou.linop.sampling.html#module-pycsou.linop.sampling">pycsou.linop.sampling (module)</a>
 </li>
+      <li><a href="api/math/pycsou.math.green.html#module-pycsou.math.green">pycsou.math.green (module)</a>
+</li>
       <li><a href="api/math/pycsou.math.prox.html#module-pycsou.math.prox">pycsou.math.prox (module)</a>
 </li>
       <li><a href="api/algorithms/pycsou.opt.proxalgs.html#module-pycsou.opt.proxalgs">pycsou.opt.proxalgs (module)</a>
 </li>
       <li><a href="api/utils/pycsou.util.misc.html#module-pycsou.util.misc">pycsou.util.misc (module)</a>
+</li>
+      <li><a href="api/utils/pycsou.util.stats.html#module-pycsou.util.stats">pycsou.util.stats (module)</a>
 </li>
       <li><a href="api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.PyLop">PyLop() (LinearOperator property)</a>
 </li>
@@ -789,14 +803,14 @@
       </ul></li>
       <li><a href="api/math/pycsou.math.prox.html#pycsou.math.prox.sign">sign() (in module pycsou.math.prox)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator.singularvals">singularvals() (LinearOperator method)</a>
 
       <ul>
         <li><a href="api/operators/pycsou.linop.base.html#pycsou.linop.base.NullOperator.singularvals">(NullOperator method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/math/pycsou.math.prox.html#pycsou.math.prox.soft">soft() (in module pycsou.math.prox)</a>
 
       <ul>
@@ -821,7 +835,11 @@
         <li><a href="api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.PrimalDualSplitting.stopping_metric">(PrimalDualSplitting method)</a>
 </li>
       </ul></li>
+      <li><a href="api/math/pycsou.math.green.html#pycsou.math.green.SubGaussian">SubGaussian (class in pycsou.math.green)</a>
+</li>
       <li><a href="api/operators/pycsou.linop.sampling.html#pycsou.linop.sampling.SubSampling">SubSampling() (in module pycsou.linop.sampling)</a>
+</li>
+      <li><a href="api/math/pycsou.math.green.html#pycsou.math.green.Matern.support">support() (Matern method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -863,6 +881,14 @@
         <li><a href="api/algorithms/pycsou.opt.proxalgs.html#pycsou.opt.proxalgs.PrimalDualSplitting.update_iterand">(PrimalDualSplitting method)</a>
 </li>
       </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/math/pycsou.math.green.html#pycsou.math.green.Wendland">Wendland (class in pycsou.math.green)</a>
+</li>
   </ul></td>
 </tr></table>
 

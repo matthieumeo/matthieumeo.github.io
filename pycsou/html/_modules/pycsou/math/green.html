@@ -1,0 +1,550 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pycsou.math.green &mdash; pycsou 1.0.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> pycsou
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/theory.html">Background Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/pycsou_classes.html">Solving Inverse Problems with Pycsou</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/extensions.html">Extensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">Pycsou API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/other.html">Pycsou Utilities</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pycsou</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pycsou.math.green</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pycsou.math.green</h1><div class="highlight"><pre>
+<span></span><span class="c1"># #############################################################################</span>
+<span class="c1"># green.py</span>
+<span class="c1"># ========</span>
+<span class="c1"># Author : Matthieu Simeoni [matthieu.simeoni@gmail.com]</span>
+<span class="c1"># #############################################################################</span>
+
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Green functions of common pseudo-differential operators.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="Matern"><a class="viewcode-back" href="../../../api/math/pycsou.math.green.html#pycsou.math.green.Matern">[docs]</a><span class="k">class</span> <span class="nc">Matern</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Matern function for :math:`k\in\{0,1,2,3\}`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.math.green import Matern</span>
+
+<span class="sd">       x=np.linspace(-3,3,1024)</span>
+<span class="sd">       for k in range(4):</span>
+<span class="sd">          matern=Matern(k)</span>
+<span class="sd">          plt.plot(x, matern(np.abs(x)))</span>
+<span class="sd">       plt.legend([&#39;k=0&#39;, &#39;k=1&#39;, &#39;k=2&#39;, &#39;k=3&#39;])</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The Matern function is defined in full generality as ([GaussProcesses]_, eq (4.14)):</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       S_\nu^\epsilon(r) = \frac{2^{1-\nu}}{\Gamma(\nu)}\left(\frac{\sqrt{2\nu} r}{\epsilon}\right)^\nu K_{\nu}\left(\frac{\sqrt{2\nu} r}{\epsilon}\right), \qquad \forall r\in\mathbb{R}_+,</span>
+
+<span class="sd">    with :math:`\nu, \epsilon&gt;0`,  :math:`\Gamma` and :math:`K_\nu`  are the Gamma and modified Bessel function of the second kind, respectively.</span>
+<span class="sd">    The parameter :math:`nu` determines the smoothness of the Matern function (the higher, the smoother).</span>
+<span class="sd">    The parameter :math:`epsilon` determines the localisation of the Matern function (the higher, the more localised).</span>
+<span class="sd">    For :math:`\nu\in\mathbb{N}+1/2` the above equation simplifies to:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       S_{k+1/2}^\epsilon(r)=\exp\left(-\frac{\sqrt{2\nu} r}{\epsilon}\right) \frac{k!}{(2k)!} \sum_{i=0}^{k} \frac{(k+i)!}{i!(k-i)!}\left(\frac{\sqrt{8\nu}r}{\epsilon}\right)^{k-i}, \qquad \forall r\in\mathbb{R}_+,</span>
+
+<span class="sd">    with :math:`k\in \mathbb{N}`. This class provides the Matern function for :math:`k\in\{0,1,2,3\}` (Matern functions with :math:`k&gt;3` are nearly indistinguishable from a Gaussian function</span>
+<span class="sd">    with standard deviation :math:`\epsilon`). The Matern radial basis function :math:`S_{\nu}^\epsilon(\|\cdot\|)` in :math:`\mathbb{R}^d` is proportional to the Green function of the pseudo-differential operator</span>
+<span class="sd">    :math:`\left(\mbox{Id} - \frac{\epsilon^2}{2\nu}\Delta_{\mathbb{R}^d}\right)^{2\nu+d}`, i.e. :math:`\left(\mbox{Id} - \frac{\epsilon^2}{2\nu}\Delta_{\mathbb{R}^d}\right)^{2\nu+d}S_{\nu}^\epsilon(\|\cdot\|)\propto \delta`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.math.green.Wendland`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Matern.__init__"><a class="viewcode-back" href="../../../api/math/pycsou.math.green.html#pycsou.math.green.Matern.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        k: int, Literal[0, 1 ,2 ,3]</span>
+<span class="sd">            Order of the Matern function.</span>
+<span class="sd">        epsilon: float</span>
+<span class="sd">            Spread of the Matern function (support is approximately `3*epsilon`).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Parameter k must be one of [0,1,2,3].&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">+</span> <span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="n">r</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> \
+                <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">+</span> <span class="p">(</span><span class="mi">42</span> <span class="o">*</span> <span class="n">r</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">15</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+                 <span class="o">+</span> <span class="p">(</span><span class="mi">7</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">15</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">**</span> <span class="mi">3</span><span class="p">))</span> \
+                <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">y</span>
+
+<div class="viewcode-block" id="Matern.support"><a class="viewcode-back" href="../../../api/math/pycsou.math.green.html#pycsou.math.green.Matern.support">[docs]</a>    <span class="k">def</span> <span class="nf">support</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sigmas</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Effective support of the Matern function using a Gaussian approximation.</span>
+
+<span class="sd">        The approximation is poor for :math:`k=0`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        sigmas: int</span>
+<span class="sd">            Number of sigmas defining the support of the approximating Gaussian function.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            Approximate effective support of the Matern function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">sigmas</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span></div></div>
+
+
+<div class="viewcode-block" id="Wendland"><a class="viewcode-back" href="../../../api/math/pycsou.math.green.html#pycsou.math.green.Wendland">[docs]</a><span class="k">class</span> <span class="nc">Wendland</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wendland functions for :math:`k\in\{0, 1, 2, 3\}`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.math.green import Wendland</span>
+
+<span class="sd">       x=np.linspace(-1,1,1024)</span>
+<span class="sd">       for k in range(4):</span>
+<span class="sd">          wendland=Wendland(k)</span>
+<span class="sd">          plt.plot(x, wendland(np.abs(x)))</span>
+<span class="sd">       plt.legend([&#39;k=0&#39;, &#39;k=1&#39;, &#39;k=2&#39;, &#39;k=3&#39;])</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Wendland functions are constructed by repeatedly applying an integral operator to *Askey&#39;s truncated power functions*.</span>
+<span class="sd">    They can be shown to take the form:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">       \phi_{d,k}(r)=\left(1-\frac{r}{\epsilon}\right)_+^{l + k} p_{k,l}(r),\qquad r\in\mathbb{R}_+,</span>
+
+<span class="sd">    where :math:`l=\lfloor d/2\rfloor+k+1`, :math:`a_+=\max(a,0)` and :math:`p_{k,l}` is a polynomial of degree :math:`k` whose coefficients depend</span>
+<span class="sd">    on :math:`l`. These functions are *compactly supported piecewise polynomials* with support :math:`[0,\epsilon)` which</span>
+<span class="sd">    yield **positive definite** radial kernels in :math:`\mathbb{R}^d` with *minimal degree* and *prescribed smoothness*.</span>
+
+<span class="sd">    This class provides an implementation of Wendland functions using the closed-form forumlae in [FuncSphere]_ Figure 8.2  for :math:`k\in\{0, 1 ,2 ,3\}`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.math.green.Matern`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Wendland.__init__"><a class="viewcode-back" href="../../../api/math/pycsou.math.green.html#pycsou.math.green.Wendland.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        k: int</span>
+<span class="sd">            Order of the Wendland function.</span>
+<span class="sd">        epsilon: float</span>
+<span class="sd">            Support of the Wendland function</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Parameter k must be one of [0,1,2,3].&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">support</span> <span class="o">=</span> <span class="n">epsilon</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Number</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Number</span><span class="p">]:</span>
+        <span class="n">truncated_power_function</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">a_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">a_max</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">truncated_power_function</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">truncated_power_function</span> <span class="o">**</span> <span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">r</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">truncated_power_function</span> <span class="o">**</span> <span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">r</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">+</span> <span class="mi">35</span> <span class="o">*</span> <span class="n">r</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">truncated_power_function</span> <span class="o">**</span> <span class="mi">8</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">r</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">+</span> <span class="mi">25</span> <span class="o">*</span> <span class="n">r</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span>
+                                                   <span class="mi">32</span> <span class="o">*</span> <span class="n">r</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">**</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">y</span>
+
+    <span class="k">def</span> <span class="nf">support</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">support</span></div>
+
+
+<div class="viewcode-block" id="CausalGreenIteratedDerivative"><a class="viewcode-back" href="../../../api/math/pycsou.math.green.html#pycsou.math.green.CausalGreenIteratedDerivative">[docs]</a><span class="k">class</span> <span class="nc">CausalGreenIteratedDerivative</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Causal Green function of the iterated derivative :math:`D^k`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.math.green import CausalGreenIteratedDerivative</span>
+
+<span class="sd">       x=np.linspace(-1,1,1024)</span>
+<span class="sd">       for k in range(1,5):</span>
+<span class="sd">          green=CausalGreenIteratedDerivative(k)</span>
+<span class="sd">          plt.plot(x, green(x))</span>
+<span class="sd">       plt.legend([&#39;k=1&#39;, &#39;k=2&#39;, &#39;k=3&#39;, &#39;k=4&#39;])</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The Green function :math:`\rho_k` of the iterated derivative operator :math:`D^k` on  :math:`\mathbb{R}` is defined as</span>
+<span class="sd">    :math:`D^k\rho_k=\delta`. It is given by: :math:`\rho_k(t)\propto t^{k-1}_+`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.math.green.CausalGreenExponential`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CausalGreenIteratedDerivative.__init__"><a class="viewcode-back" href="../../../api/math/pycsou.math.green.html#pycsou.math.green.CausalGreenIteratedDerivative.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        k: int</span>
+<span class="sd">            Exponent :math:`k` of the iterated derivative operator :math:`D^k` for which the Green function is desired.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Number</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Number</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">**</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CausalGreenExponential"><a class="viewcode-back" href="../../../api/math/pycsou.math.green.html#pycsou.math.green.CausalGreenExponential">[docs]</a><span class="k">class</span> <span class="nc">CausalGreenExponential</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Causal Green function of :math:`(D+\alpha\mbox{Id})^k`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.math.green import CausalGreenExponential</span>
+
+<span class="sd">       x=np.linspace(-1,5,1024)</span>
+<span class="sd">       for k in range(1,5):</span>
+<span class="sd">          green=CausalGreenExponential(k)</span>
+<span class="sd">          plt.plot(x, green(x))</span>
+<span class="sd">       plt.legend([&#39;k=1&#39;, &#39;k=2&#39;, &#39;k=3&#39;, &#39;k=4&#39;])</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The Green function :math:`\rho_k` of the 1D pseudo-differential operator :math:`(D+\alpha\mbox{Id})^k` on  :math:`\mathbb{R}` is defined as</span>
+<span class="sd">    :math:`(D+\alpha\mbox{Id})^k\rho_k=\delta`. It is given by: :math:`\rho_k(t)\propto t_+^{k-1}e^{-\alpha t}`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsou.math.green.CausalGreenIteratedDerivative`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CausalGreenExponential.__init__"><a class="viewcode-back" href="../../../api/math/pycsou.math.green.html#pycsou.math.green.CausalGreenExponential.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="sa">R</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        k: int</span>
+<span class="sd">            Exponent :math:`k` of the exponential pseudo-differential operator :math:`(D+\alpha\mbox{Id})^k` for which the Green function is desired.</span>
+<span class="sd">        alpha: float</span>
+<span class="sd">            Strictly positive parameter :math:`\alpha` of the exponential pseudo-differential operator :math:`(D+\alpha\mbox{Id})^k` for which the Green function is desired.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">alpha</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Parameter alpha must be strictly positive.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Number</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Number</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">**</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SubGaussian"><a class="viewcode-back" href="../../../api/math/pycsou.math.green.html#pycsou.math.green.SubGaussian">[docs]</a><span class="k">class</span> <span class="nc">SubGaussian</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sub-Gaussian function.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       import numpy as np</span>
+<span class="sd">       from pycsou.math.green import SubGaussian</span>
+
+<span class="sd">       x=np.linspace(-3,3,1024)</span>
+<span class="sd">       lg=[]</span>
+<span class="sd">       for alpha in np.linspace(0,2,6)[1:-1]:</span>
+<span class="sd">          subgaussian=SubGaussian(alpha)</span>
+<span class="sd">          plt.plot(x, subgaussian(np.abs(x)))</span>
+<span class="sd">          lg.append(f&#39;$\\alpha={np.round(alpha,1)}$&#39;)</span>
+<span class="sd">       plt.legend(lg)</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy as np</span>
+<span class="sd">       import matplotlib.pyplot as plt</span>
+<span class="sd">       from pycsou.linop.sampling import MappedDistanceMatrix</span>
+<span class="sd">       from pycsou.math.green import SubGaussian</span>
+
+<span class="sd">       t = np.linspace(0, 2, 256)</span>
+<span class="sd">       rng = np.random.default_rng(seed=2)</span>
+<span class="sd">       x,y = np.meshgrid(t,t)</span>
+<span class="sd">       samples1 = np.stack((x.flatten(), y.flatten()), axis=-1)</span>
+<span class="sd">       samples2 = np.stack((2 * rng.random(size=4), 2 * rng.random(size=4)), axis=-1)</span>
+<span class="sd">       alpha = np.ones(samples2.shape[0])</span>
+<span class="sd">       ord=.8</span>
+<span class="sd">       epsilon = 1 / 12</span>
+<span class="sd">       func = SubGaussian(alpha=ord, epsilon=epsilon)</span>
+<span class="sd">       MDMOp = MappedDistanceMatrix(samples1=samples1, samples2=samples2, function=func, ord=ord, operator_type=&#39;dask&#39;)</span>
+<span class="sd">       plt.contourf(x,y,(MDMOp * alpha).reshape(t.size, t.size), 50)</span>
+<span class="sd">       plt.title(&#39;Sum of 4 (radial) sub-Gaussians&#39;)</span>
+<span class="sd">       plt.colorbar()</span>
+<span class="sd">       plt.xlabel(&#39;$x$&#39;)</span>
+<span class="sd">       plt.ylabel(&#39;$y$&#39;)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The sub-Gaussian function is defined, for every :math:`\alpha\in (0,2)` and :math:`\epsilon&gt;0`, as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">       f_\epsilon(r)=\exp\left(-\frac{r^\alpha}{\epsilon}\right), \qquad r\in \mathbb{R}_+.</span>
+
+<span class="sd">    It can be used to build sub-Gaussian radial kernels [SubGauss]_, which are known to be *positive-definite* and their inverse Fourier transforms (the so-called α-stable distributions)</span>
+<span class="sd">    are heavy-tailed and infinitely smooth with algebraically decaying derivatives of any order.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SubGaussian.__init__"><a class="viewcode-back" href="../../../api/math/pycsou.math.green.html#pycsou.math.green.SubGaussian.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        alpha: float</span>
+<span class="sd">            Exponent :math:`\alpha\in (0,2)` of the sub-Gaussian function.</span>
+<span class="sd">        epsilon: float</span>
+<span class="sd">            Spread :math:`\epsilon&gt;0` of the sub-Gaussian function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Parameter alpha must be in (0,2).&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Number</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Number</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

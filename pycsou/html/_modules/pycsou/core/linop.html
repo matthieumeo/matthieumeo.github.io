@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pycsou.core.linop &mdash; pycsou 1.0.4 documentation</title>
+  <title>pycsou.core.linop &mdash; pycsou 1.0.5 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                1.0.4
+                1.0.5
               </div>
             
           
@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../general/install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../general/theory.html">Background Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../general/pycsou_classes.html">Solving Inverse Problems with Pycsou</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../general/extensions.html">Extensions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../general/examples.html">Examples</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
@@ -179,6 +180,7 @@
 <span class="kn">import</span> <span class="nn">pylops</span>
 <span class="kn">from</span> <span class="nn">pylops.optimization.leastsquares</span> <span class="kn">import</span> <span class="n">NormalEquationsInversion</span>
 <span class="kn">import</span> <span class="nn">scipy.sparse.linalg</span> <span class="k">as</span> <span class="nn">spls</span>
+
 
 <div class="viewcode-block" id="LinearOperator"><a class="viewcode-back" href="../../../api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator">[docs]</a><span class="k">class</span> <span class="nc">LinearOperator</span><span class="p">(</span><span class="n">DifferentiableMap</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
@@ -419,12 +421,12 @@
 <span class="sd">           &gt;&gt;&gt; filter = signal.hann(5); filter[filter.size//2:] = 0</span>
 <span class="sd">           &gt;&gt;&gt; ConvOp = Convolve1D(size=sig.size, filter=filter)</span>
 <span class="sd">           &gt;&gt;&gt; ConvOp.compute_lipschitz_cst(tol=1e-2); np.round(ConvOp.lipschitz_cst,1)</span>
-<span class="sd">           0.4</span>
+<span class="sd">           0.5</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        The Lipschtiz constant of a linear operator is its largest singular value / eigenvalue (in terms of magnitude). This function therefore calls</span>
-<span class="sd">        the methods  ``self.singularvals`` or ``self.eigenvals`` with ``k=1`` and ``which=&#39;LM&#39;`` to perform this computation.</span>
+<span class="sd">        The Lipschtiz constant of a linear operator is its largest singular value. This function therefore calls</span>
+<span class="sd">        the methods  ``self.singularvals`` with ``k=1`` and ``which=&#39;LM&#39;`` to perform this computation.</span>
 
 <span class="sd">        Warnings</span>
 <span class="sd">        --------</span>
@@ -433,7 +435,7 @@
 <span class="sd">        :py:func:`scipy.sparse.linalg.eigsh`, :py:func:`scipy.sparse.linalg.svds` for more on this parameter.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_square</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_symmetric</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eigenvals</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">singularvals</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>

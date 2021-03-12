@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Pycsou API &mdash; pycsou 1.0.4 documentation</title>
+  <title>Pycsou API &mdash; pycsou 1.0.5 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.0.4
+                1.0.5
               </div>
             
           
@@ -90,6 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../general/install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../general/theory.html">Background Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../general/pycsou_classes.html">Solving Inverse Problems with Pycsou</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../general/extensions.html">Extensions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../general/examples.html">Examples</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
@@ -100,6 +101,11 @@
 <li class="toctree-l2"><a class="reference internal" href="functionals/index.html">Cost Functionals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="algorithms/pycsou.opt.proxalgs.html">Proximal Algorithms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="math/index.html">Mathematical Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#abstract-classes">Abstract classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linear-operators">Linear Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cost-functionals">Cost Functionals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#algorithms">Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mathematical-functions">Mathematical Functions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="other.html">Pycsou Utilities</a></li>
@@ -173,7 +179,105 @@
             
   <div class="section" id="pycsou-api">
 <h1>Pycsou API<a class="headerlink" href="#pycsou-api" title="Permalink to this headline">¶</a></h1>
+<p>Overview of Pycsou’s API.</p>
 <div class="toctree-wrapper compound">
+</div>
+<div class="section" id="abstract-classes">
+<h2>Abstract classes<a class="headerlink" href="#abstract-classes" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.core.map</span></code></p></td>
+<td><p>Abstract classes for multidimensional nonlinear maps.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.core.linop</span></code></p></td>
+<td><p>Abstract classes for multidimensional linear maps.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.core.functional</span></code></p></td>
+<td><p>Abstract classes for functionals.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="classes/pycsou.core.solver.html#module-pycsou.core.solver" title="pycsou.core.solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.core.solver</span></code></a></p></td>
+<td><p>Optimisation algorithms.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="linear-operators">
+<h2>Linear Operators<a class="headerlink" href="#linear-operators" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.linop.base</span></code></p></td>
+<td><p>Interface classes for constructing linear operators.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="operators/pycsou.linop.conv.html#module-pycsou.linop.conv" title="pycsou.linop.conv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.linop.conv</span></code></a></p></td>
+<td><p>Convolution and smoothing operators for 1D, 2D and graph signals.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="operators/pycsou.linop.diff.html#module-pycsou.linop.diff" title="pycsou.linop.diff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.linop.diff</span></code></a></p></td>
+<td><p>Discrete differential and integral operators.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="operators/pycsou.linop.sampling.html#module-pycsou.linop.sampling" title="pycsou.linop.sampling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.linop.sampling</span></code></a></p></td>
+<td><p>Sampling operators.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="cost-functionals">
+<h2>Cost Functionals<a class="headerlink" href="#cost-functionals" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.func.base</span></code></p></td>
+<td><p>Interface classes for constructing functionals.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="functionals/pycsou.func.penalty.html#module-pycsou.func.penalty" title="pycsou.func.penalty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.func.penalty</span></code></a></p></td>
+<td><p>Repository of common penalty functionals.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="functionals/pycsou.func.loss.html#module-pycsou.func.loss" title="pycsou.func.loss"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.func.loss</span></code></a></p></td>
+<td><p>Repository of common loss functionals.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="algorithms">
+<h2>Algorithms<a class="headerlink" href="#algorithms" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="algorithms/pycsou.opt.proxalgs.html#module-pycsou.opt.proxalgs" title="pycsou.opt.proxalgs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.opt.proxalgs</span></code></a></p></td>
+<td><p>Proximal algorithms.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="mathematical-functions">
+<h2>Mathematical Functions<a class="headerlink" href="#mathematical-functions" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="math/pycsou.math.prox.html#module-pycsou.math.prox" title="pycsou.math.prox"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.math.prox</span></code></a></p></td>
+<td><p>Common proximal/projection operators.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="math/pycsou.math.green.html#module-pycsou.math.green" title="pycsou.math.green"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.math.green</span></code></a></p></td>
+<td><p>Green functions of common pseudo-differential operators.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 

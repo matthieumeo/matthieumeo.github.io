@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Solving Inverse Problems with Pycsou &mdash; pycsou 1.0.4 documentation</title>
+  <title>Solving Inverse Problems with Pycsou &mdash; pycsou 1.0.5 documentation</title>
   
 
   
@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="next" title="Extensions" href="extensions.html" />
     <link rel="prev" title="Background Concepts" href="theory.html" /> 
 </head>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.0.4
+                1.0.5
               </div>
             
           
@@ -121,6 +121,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">Extensions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
@@ -375,7 +376,7 @@ computed automatically (and soon in parallel) via the formula:</p>
 </div>
 <div class="section" id="example-implementing-new-differentiable-functionals">
 <h3>Example: Implementing New Differentiable Functionals<a class="headerlink" href="#example-implementing-new-differentiable-functionals" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pycsou.core</span> <span class="kn">import</span> <span class="n">DifferentiableFunctional</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pycsou.core</span> <span class="kn">import</span> <span class="n">DifferentiableFunctional</span>
 
 <span class="k">class</span> <span class="nc">OneSidedSquaredL2Norm</span><span class="p">(</span><span class="n">DifferentiableFunctional</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
@@ -467,7 +468,7 @@ the whole set of arithmetic operations: <code class="docutils literal notranslat
 <p>The abstract methods <code class="docutils literal notranslate"><span class="pre">__call__</span></code>, <code class="docutils literal notranslate"><span class="pre">jacobianT</span></code> and <code class="docutils literal notranslate"><span class="pre">adjoint</span></code> of
 <code class="docutils literal notranslate"><span class="pre">LinearOperator</span></code> instances resulting from arithmetic operations are
 automatically updated.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pycsou.linop</span> <span class="kn">import</span> <span class="n">Convolve2D</span><span class="p">,</span> <span class="n">DownSampling</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pycsou.linop</span> <span class="kn">import</span> <span class="n">Convolve2D</span><span class="p">,</span> <span class="n">DownSampling</span>
 
 <span class="n">input_image</span> <span class="o">=</span> <span class="n">face</span><span class="p">(</span><span class="n">gray</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">filter_size</span> <span class="o">=</span> <span class="mi">40</span>
@@ -498,7 +499,7 @@ automatically updated.</p>
 <a class="reference internal image-reference" href="../_images/IntroductiontoPycsou_38_1.png"><img alt="../_images/IntroductiontoPycsou_38_1.png" class="align-center" src="../_images/IntroductiontoPycsou_38_1.png" style="width: 90%;" /></a>
 <p>It is also possible to stack <code class="docutils literal notranslate"><span class="pre">LinearOperator</span></code> instances
 horizontally/vertically via the class <code class="docutils literal notranslate"><span class="pre">LinOpStack</span></code>:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pycsou.linop</span> <span class="kn">import</span> <span class="n">FirstDerivative</span><span class="p">,</span> <span class="n">LinOpStack</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pycsou.linop</span> <span class="kn">import</span> <span class="n">FirstDerivative</span><span class="p">,</span> <span class="n">LinOpStack</span>
 <span class="kn">from</span> <span class="nn">pycsou.util</span> <span class="kn">import</span> <span class="n">peaks</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
@@ -526,7 +527,7 @@ horizontally/vertically via the class <code class="docutils literal notranslate"
 </div>
 <div class="section" id="example-implementing-new-linear-operators">
 <h3>Example: Implementing New Linear Operators<a class="headerlink" href="#example-implementing-new-linear-operators" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pycsou.core</span> <span class="kn">import</span> <span class="n">LinearOperator</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pycsou.core</span> <span class="kn">import</span> <span class="n">LinearOperator</span>
 
 <span class="k">class</span> <span class="nc">RepCol</span><span class="p">(</span><span class="n">LinearOperator</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">reps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
@@ -656,7 +657,7 @@ This problem can be written in the form</p>
 <span class="math notranslate nohighlight">\(\mathcal{G}(\mathbf{x})=\lambda_2\|\mathbf{x}\|_1\)</span>,
 <span class="math notranslate nohighlight">\(\mathcal{H}(\mathbf{x})=\lambda_1 \|\mathbf{x}\|_1\)</span> and
 <span class="math notranslate nohighlight">\(\mathbf{K}=\mathbf{D}\)</span>.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pycsou.linop</span> <span class="kn">import</span> <span class="n">FirstDerivative</span><span class="p">,</span> <span class="n">DownSampling</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pycsou.linop</span> <span class="kn">import</span> <span class="n">FirstDerivative</span><span class="p">,</span> <span class="n">DownSampling</span>
 <span class="kn">from</span> <span class="nn">pycsou.func</span> <span class="kn">import</span> <span class="n">SquaredL2Loss</span><span class="p">,</span> <span class="n">L1Norm</span><span class="p">,</span> <span class="n">NonNegativeOrthant</span>
 <span class="kn">from</span> <span class="nn">pycsou.opt</span> <span class="kn">import</span> <span class="n">PrimalDualSplitting</span>
 
@@ -695,7 +696,7 @@ This problem can be written in the form</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="extensions.html" class="btn btn-neutral float-right" title="Extensions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="theory.html" class="btn btn-neutral float-left" title="Background Concepts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -1,0 +1,915 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pycsphere.linop &mdash; pycsphere 1.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pycsphere
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../general/install.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">Pycsou-sphere API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pycsphere</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>pycsphere.linop</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pycsphere.linop</h1><div class="highlight"><pre>
+<span></span><span class="c1"># #############################################################################</span>
+<span class="c1"># linop.py</span>
+<span class="c1"># ========</span>
+<span class="c1"># Author : Matthieu Simeoni [matthieu.simeoni@gmail.com]</span>
+<span class="c1"># #############################################################################</span>
+
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Common spherical linear operators.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">pycsou.core</span> <span class="kn">import</span> <span class="n">LinearOperator</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">healpy</span> <span class="k">as</span> <span class="nn">hp</span>
+<span class="kn">from</span> <span class="nn">healpy.pixelfunc</span> <span class="kn">import</span> <span class="n">ud_grade</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">coo_matrix</span>
+<span class="kn">from</span> <span class="nn">pycgsp.linop.diff</span> <span class="kn">import</span> <span class="n">GraphLaplacian</span><span class="p">,</span> <span class="n">GraphGradient</span><span class="p">,</span> <span class="n">GeneralisedGraphLaplacian</span>
+<span class="kn">from</span> <span class="nn">pycgsp.graph</span> <span class="kn">import</span> <span class="n">cvxhull_graph</span><span class="p">,</span> <span class="n">healpix_nngraph</span>
+<span class="kn">from</span> <span class="nn">pycsphere.mesh</span> <span class="kn">import</span> <span class="n">SphericalPointSet</span><span class="p">,</span> <span class="n">HEALPixPointSet</span>
+
+
+<div class="viewcode-block" id="ZonalSphericalConvolution"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.ZonalSphericalConvolution">[docs]</a><span class="k">class</span> <span class="nc">ZonalSphericalConvolution</span><span class="p">(</span><span class="n">LinearOperator</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Zonal spherical convolution.</span>
+
+<span class="sd">    Compute the convolution between a bandlimited *zonal kernel* :math:`\psi(\langle\mathbf{r},\mathbf{s}\rangle)` and a bandlimited *spherical map* :math:`f(\mathbf{r})`:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \left\{\psi\ast f\right\}(\mathbf{r})=\int_{\mathbb{S}^{2}}\psi(\langle\mathbf{r},\mathbf{s}\rangle)f(\mathbf{s})\,d\mathbf{s},\quad \forall \mathbf{r}\in\mathbb{S}^{2}.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        import healpy as hp</span>
+<span class="sd">        import numpy as np</span>
+<span class="sd">        from pycsphere.linop import SHT, FLT, ZonalSphericalConvolution</span>
+<span class="sd">        import matplotlib.pyplot as plt</span>
+<span class="sd">        from scipy.interpolate import interp1d</span>
+
+<span class="sd">        n_max = 30</span>
+<span class="sd">        nside = SHT.nmax2nside(n_max)</span>
+<span class="sd">        rng = np.random.default_rng(0)</span>
+<span class="sd">        map_in = 100 * rng.binomial(n=1, p=0.01, size=int(hp.nside2npix(nside=nside)))</span>
+<span class="sd">        n=np.arange(2000)</span>
+<span class="sd">        spectral_window=1/(100+n*(n+1))**2</span>
+<span class="sd">        flt=FLT(n_max=1999, t=np.linspace(-1,1,2048))</span>
+<span class="sd">        zonal_filter=flt.adjoint(spectral_window)</span>
+<span class="sd">        zonal_filter_interp=interp1d(flt.t, zonal_filter, assume_sorted=True)</span>
+<span class="sd">        convOp = ZonalSphericalConvolution(size=map_in.size, spectral_window=spectral_window)</span>
+<span class="sd">        map_smoothed = convOp(map_in)</span>
+<span class="sd">        map_bismoothed = convOp.adjoint(map_smoothed)</span>
+<span class="sd">        hp.mollview(map=map_in, title=&#39;Input Map&#39;, cmap=&#39;viridis&#39;)</span>
+<span class="sd">        plt.figure()</span>
+<span class="sd">        theta=np.linspace(-np.pi, np.pi, 1024)</span>
+<span class="sd">        plt.plot(theta, zonal_filter_interp(np.cos(theta)))</span>
+<span class="sd">        plt.title(&#39;Angular section of Zonal Filter&#39;)</span>
+<span class="sd">        hp.mollview(map=map_smoothed, title=&#39;Smoothed Map&#39;, cmap=&#39;viridis&#39;)</span>
+<span class="sd">        hp.mollview(map=map_bismoothed, title=&#39;Backprojected Smoothed Map&#39;, cmap=&#39;viridis&#39;)</span>
+
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The ``ZonalSphericalConvolution`` operator is *self-adjoint* and can be computed efficiently in the spherical harmonic domain:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \left\{\psi\ast f\right\}(\mathbf{r})&amp;=\int_{\mathbb{S}^{2}}\psi(\langle\mathbf{r},\mathbf{s}\rangle)f(\mathbf{s})\,d\mathbf{s}\\</span>
+<span class="sd">        &amp;= \sum_{n=0}^N\hat{\psi}_n\sum_{m=-n}^n \hat{f}_n^m Y_n^m(\mathbf{r}),\quad \forall \mathbf{r}\in\mathbb{S}^{2},</span>
+
+<span class="sd">    where :math:`N` is the maximum between the bandwidth of :math:`f` and :math:`\psi`. To perform this computation, we use</span>
+<span class="sd">    the routine :py:func:`healpy.sphtfunc.smoothing` which assumes a RING-ordered HEALPix discretisation of :math:`f`.</span>
+
+<span class="sd">    Warnings</span>
+<span class="sd">    --------</span>
+<span class="sd">    * This class is for *real* spherical maps :math:`f` **only**.</span>
+<span class="sd">    * Using this operator on non-bandlimited spherical maps :math:`f` incurs aliasing.</span>
+<span class="sd">    * HEALPix maps used as inputs must be **RING ordered**.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsphere.linop.SphericalHarmonicTransform`, :py:class:`~pycsphere.linop.FourierLegendreTransform`,</span>
+<span class="sd">    :py:class:`~pycsphere.linop.BiZonalSphericalConvolution`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ZonalSphericalConvolution.__init__"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.ZonalSphericalConvolution.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">spectral_window</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">zonal_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">n_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">use_weights</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        size: int</span>
+<span class="sd">            Size of the RING-ordered, HEALPix-discretised sherical map :math:`f`.</span>
+<span class="sd">        spectral_window: Optional[np.ndarray]</span>
+<span class="sd">            Fourier-Legendre coefficients :math:`\hat{\psi}_n` of the zonal filter. Overrides ``zonal_filter``, ``n_filter``</span>
+<span class="sd">            and ``sigma``.</span>
+<span class="sd">        zonal_filter: Optional[np.ndarray]</span>
+<span class="sd">            Zonal filter :math:`\psi` discretised on [-1,1]. Overrides ``sigma``.</span>
+<span class="sd">        n_filter: Optional[int]</span>
+<span class="sd">            Bandwidth of the zonal filter :math:`\psi`. Only used if ``zonal_filter`` is specified.</span>
+<span class="sd">        sigma: float</span>
+<span class="sd">             Standard deviation of a Gaussian filter in radians.</span>
+<span class="sd">        use_weights: bool</span>
+<span class="sd">            If ``True``, use the ring weighting quadrature rule when computing the spherical harmonic transform.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The zonal filter can be specified in three ways:</span>
+
+<span class="sd">            1. Via its Fourier-Legendre coefficients (keyword ``spectral_window``).</span>
+<span class="sd">            2. Via its discretisation on [-1,1] and its bandwidth  (keywords ``zonal_filter`` and ``n_filter``).</span>
+<span class="sd">            3. As a spherical Gaussian filter with standard deviation ``sigma`` in radians.</span>
+
+<span class="sd">        If keywords from multiple scenarios are used, 1. overrides  2. and 3. and 2. overrides 3.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_weights</span> <span class="o">=</span> <span class="n">use_weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">spectral_window</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">spectral_window</span>
+        <span class="k">elif</span> <span class="n">zonal_filter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">n_filter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">flt</span> <span class="o">=</span> <span class="n">FLT</span><span class="p">(</span><span class="n">n_max</span><span class="o">=</span><span class="n">n_filter</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">zonal_filter</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">flt</span><span class="p">(</span><span class="n">zonal_filter</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">sigma</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid filter specification.&#39;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ZonalSphericalConvolution</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map_in</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">hp</span><span class="o">.</span><span class="n">smoothing</span><span class="p">(</span><span class="n">map_in</span><span class="o">=</span><span class="n">map_in</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">,</span> <span class="n">beam_window</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span> <span class="n">use_weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">use_weights</span><span class="p">,</span>
+                            <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ZonalSphericalConvolution.adjoint"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.ZonalSphericalConvolution.adjoint">[docs]</a>    <span class="k">def</span> <span class="nf">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map_in</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">map_in</span><span class="o">=</span><span class="n">map_in</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="SphericalPooling"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.SphericalPooling">[docs]</a><span class="k">class</span> <span class="nc">SphericalPooling</span><span class="p">(</span><span class="n">LinearOperator</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Spherical pooling operator.</span>
+
+<span class="sd">    Pool an HEALPix map by summing/averaging children pixels nested in a common superpixel.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        import healpy as hp</span>
+<span class="sd">        import numpy as np</span>
+<span class="sd">        from pycsphere.linop import SphericalPooling</span>
+
+<span class="sd">        nside = 16</span>
+<span class="sd">        rng = np.random.default_rng(0)</span>
+<span class="sd">        map_in = rng.binomial(n=1, p=0.2, size=hp.nside2npix(nside=nside))</span>
+<span class="sd">        map_in = hp.smoothing(map_in, sigma=10 * np.pi / 180)</span>
+<span class="sd">        pool = SphericalPooling(nside_in=nside, nside_out=8, pooling_func=&#39;sum&#39;)</span>
+<span class="sd">        pooled_map = pool(map_in)</span>
+<span class="sd">        backprojected_map = pool.adjoint(pooled_map)</span>
+<span class="sd">        hp.mollview(map=map_in, title=&#39;Input Map&#39;, cmap=&#39;viridis&#39;)</span>
+<span class="sd">        hp.mollview(map=pooled_map, title=&#39;Pooled Map&#39;, cmap=&#39;viridis&#39;)</span>
+<span class="sd">        hp.mollview(map=backprojected_map, title=&#39;Backprojected Map&#39;, cmap=&#39;viridis&#39;)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Pooling is performed via the function :py:func:`healpy.pixelfunc.ud_grade` from Healpy.</span>
+<span class="sd">    The adjoint (*unpooling*) is performed by assigning the value of the superpixels through the pooling function (e.g. mean, sum) to each children</span>
+<span class="sd">    pixels of the superpixels.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SphericalPooling.__init__"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.SphericalPooling.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nside_in</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">nside_out</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">order_in</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;RING&#39;</span><span class="p">,</span> <span class="n">order_out</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;RING&#39;</span><span class="p">,</span>
+                 <span class="n">pooling_func</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        nside_in: int</span>
+<span class="sd">            Parameter NSIDE of the input HEALPix map.</span>
+<span class="sd">        nside_out: int</span>
+<span class="sd">            Parameter NSIDE of the pooled HEALPix map.</span>
+<span class="sd">        order_in: str [&#39;RING&#39;, &#39;NESTED&#39;]</span>
+<span class="sd">            Ordering of the input HEALPix map.</span>
+<span class="sd">        order_out: str [&#39;RING&#39;, &#39;NESTED&#39;]</span>
+<span class="sd">            Ordering of the pooled HEALPix map.</span>
+<span class="sd">        pooling_func: str [&#39;mean&#39;, &#39;sum&#39;]</span>
+<span class="sd">            Pooling function.</span>
+<span class="sd">        dtype: type</span>
+<span class="sd">            Data type of the linear operator.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If ``nside_out &gt;= nside_in``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">nside_out</span> <span class="o">&gt;=</span> <span class="n">nside_in</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Parameter nside_out must be smaller than nside_in.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nside_in</span> <span class="o">=</span> <span class="n">nside_in</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nside_out</span> <span class="o">=</span> <span class="n">nside_out</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">order_in</span> <span class="o">=</span> <span class="n">order_in</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">order_out</span> <span class="o">=</span> <span class="n">order_out</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_power</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">pooling_func</span> <span class="o">==</span> <span class="s1">&#39;mean&#39;</span> <span class="k">else</span> <span class="o">-</span><span class="mi">2</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SphericalPooling</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">nside_out</span><span class="p">,</span> <span class="n">nside_in</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map_in</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ud_grade</span><span class="p">(</span><span class="n">map_in</span><span class="o">=</span><span class="n">map_in</span><span class="p">,</span> <span class="n">nside_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nside_out</span><span class="p">,</span> <span class="n">order_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">order_in</span><span class="p">,</span> <span class="n">order_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">order_out</span><span class="p">,</span>
+                        <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_power</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SphericalPooling.adjoint"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.SphericalPooling.adjoint">[docs]</a>    <span class="k">def</span> <span class="nf">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pooled_map</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ud_grade</span><span class="p">(</span><span class="n">map_in</span><span class="o">=</span><span class="n">pooled_map</span><span class="p">,</span> <span class="n">nside_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nside_in</span><span class="p">,</span> <span class="n">order_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">order_out</span><span class="p">,</span> <span class="n">order_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">order_in</span><span class="p">,</span>
+                        <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DiscreteSphericalLaplacian"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.DiscreteSphericalLaplacian">[docs]</a><span class="k">class</span> <span class="nc">DiscreteSphericalLaplacian</span><span class="p">(</span><span class="n">GraphLaplacian</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Discrete spherical Laplacian.</span>
+
+<span class="sd">    Finite-difference approximation of the continuous spherical Laplacian for a map defined over a</span>
+<span class="sd">    :py:class:`~pycsphere.mesh.SphericalPointSet`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        import healpy as hp</span>
+<span class="sd">        import numpy as np</span>
+<span class="sd">        from pycsphere.mesh import HEALPixPointSet</span>
+<span class="sd">        from pycsphere.linop import DiscreteSphericalLaplacian</span>
+
+<span class="sd">        nside = 16</span>
+<span class="sd">        rng = np.random.default_rng(0)</span>
+<span class="sd">        map_in = rng.binomial(n=1, p=0.005, size=hp.nside2npix(nside=nside))</span>
+<span class="sd">        map_in = hp.smoothing(map_in, sigma=10 * np.pi / 180)</span>
+<span class="sd">        laplacian = DiscreteSphericalLaplacian(point_set=HEALPixPointSet(nside=nside))</span>
+<span class="sd">        map_d2 = laplacian(map_in)</span>
+<span class="sd">        hp.mollview(map=map_in, title=&#39;Input Map&#39;, cmap=&#39;viridis&#39;)</span>
+<span class="sd">        hp.mollview(map=np.abs(map_d2), title=&#39;Magnitude of Laplacian Map&#39;, cmap=&#39;viridis&#39;)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The discrete Laplacian is computed as the Laplacian of the spherical point set&#39;s graph `Pycsou-gsp tessellation graphs &lt;https://matthieumeo.github.io/pycsou-gsp/html/api/graphs/index.html#module-pycgsp.graph.__init__&gt;`_ using</span>
+<span class="sd">    :py:class:`pycgsp.linop.diff.GraphLaplacian`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DiscreteSphericalLaplacian.__init__"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.DiscreteSphericalLaplacian.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point_set</span><span class="p">:</span> <span class="n">SphericalPointSet</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        point_set: SphericalPointSet</span>
+<span class="sd">            Spherical point set on which the signal is defined.</span>
+<span class="sd">        dtype: type</span>
+<span class="sd">            Input type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">point_set</span><span class="p">,</span> <span class="n">HEALPixPointSet</span><span class="p">):</span>
+            <span class="n">graph</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">healpix_nngraph</span><span class="p">(</span><span class="n">nside</span><span class="o">=</span><span class="n">point_set</span><span class="o">.</span><span class="n">nside</span><span class="p">,</span> <span class="n">cheb_normalized</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">compute_differential_operator</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">graph</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cvxhull_graph</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">point_set</span><span class="o">.</span><span class="n">vec</span><span class="o">.</span><span class="n">transpose</span><span class="p">(),</span> <span class="n">cheb_normalized</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                  <span class="n">compute_differential_operator</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DiscreteSphericalLaplacian</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">Graph</span><span class="o">=</span><span class="n">graph</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DiscreteSphericalGradient"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.DiscreteSphericalGradient">[docs]</a><span class="k">class</span> <span class="nc">DiscreteSphericalGradient</span><span class="p">(</span><span class="n">GraphGradient</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Discrete spherical gradient.</span>
+
+<span class="sd">    Finite-difference approximation of the continuous spherical gradient for a map defined over a</span>
+<span class="sd">    :py:class:`~pycsphere.mesh.SphericalPointSet`.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The discrete gradient is computed as the gradient of the spherical point set&#39;s graph (see `Pycsou-gsp tessellation graphs &lt;https://matthieumeo.github.io/pycsou-gsp/html/api/graphs/index.html#module-pycgsp.graph.__init__&gt;`_)</span>
+<span class="sd">    using :py:class:`pycgsp.linop.diff.GraphGradient`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DiscreteSphericalGradient.__init__"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.DiscreteSphericalGradient.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point_set</span><span class="p">:</span> <span class="n">SphericalPointSet</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        point_set: SphericalPointSet</span>
+<span class="sd">            Spherical point set on which the signal is defined.</span>
+<span class="sd">        dtype: type</span>
+<span class="sd">            Input type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">point_set</span><span class="p">,</span> <span class="n">HEALPixPointSet</span><span class="p">):</span>
+            <span class="n">graph</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">healpix_nngraph</span><span class="p">(</span><span class="n">nside</span><span class="o">=</span><span class="n">point_set</span><span class="o">.</span><span class="n">nside</span><span class="p">,</span> <span class="n">cheb_normalized</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">compute_differential_operator</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">graph</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cvxhull_graph</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">point_set</span><span class="o">.</span><span class="n">vec</span><span class="o">.</span><span class="n">transpose</span><span class="p">(),</span> <span class="n">cheb_normalized</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                  <span class="n">compute_differential_operator</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DiscreteSphericalGradient</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">Graph</span><span class="o">=</span><span class="n">graph</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="SphericalHarmonicTransform"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.SphericalHarmonicTransform">[docs]</a><span class="k">class</span> <span class="nc">SphericalHarmonicTransform</span><span class="p">(</span><span class="n">LinearOperator</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Spherical Harmonic Transform (SHT).</span>
+
+<span class="sd">    Compute the spherical harmonic transform of a **real** bandlimited spherical function :math:`f:\mathbb{S}^2\to\mathbb{R}`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        import healpy as hp</span>
+<span class="sd">        import numpy as np</span>
+<span class="sd">        from pycsphere.linop import SHT</span>
+<span class="sd">        import matplotlib.pyplot as plt</span>
+
+<span class="sd">        n_max = 20</span>
+<span class="sd">        nside = SHT.nmax2nside(n_max)</span>
+<span class="sd">        rng = np.random.default_rng(0)</span>
+<span class="sd">        map_in = 100 * rng.binomial(n=1, p=0.01, size=int(hp.nside2npix(nside=nside)))</span>
+<span class="sd">        map_in = hp.smoothing(map_in, beam_window=np.ones(shape=(3*n_max//4,)))</span>
+<span class="sd">        sht = SHT(n_max=n_max)</span>
+<span class="sd">        anm = sht(map_in)</span>
+<span class="sd">        synth_map = sht.adjoint(anm)</span>
+<span class="sd">        hp.mollview(map=map_in, title=&#39;Input Map&#39;, cmap=&#39;viridis&#39;)</span>
+<span class="sd">        sht.plot_anm(anm)</span>
+<span class="sd">        hp.mollview(map=synth_map, title=&#39;Synthesised Map&#39;, cmap=&#39;viridis&#39;)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Every function :math:`f\in\mathcal{L}^2(\mathbb{S}^{2})` admits a *spherical Fourier expansion* given by</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        f\stackrel{\mathcal{L}^2}{=}\sum_{n=0}^{+\infty}\sum_{m=-n}^{n} \,\hat{a}_n^m \,Y_n^m,</span>
+
+<span class="sd">    where the *spherical harmonic coefficients* :math:`\{\hat{a}_n^m\}\subset\mathbb{C}` of :math:`f` are given by the *Spherical Harmonic Transform*:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \hat{a}_n^m=\int_{0}^\pi\int_{-\pi}^\pi f(\phi,\theta) \overline{Y_n^m(\phi,\theta)} \,\sin(\theta)d\phi d\theta.</span>
+
+<span class="sd">    The functions :math:`Y_n^m:[-\pi,\pi[\times [0,\pi]\to \mathbb{C}` are called the *spherical harmonics* and are given by:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        Y_n^m(\phi,\theta):=\sqrt{\frac{(2n+1)(n-m)!}{4\pi (n+m)!}}P_n^m(\cos(\theta))e^{j m\phi}, \;\forall (\phi,\theta)\in[-\pi,\pi[\times [0,\pi],</span>
+
+<span class="sd">    where :math:`P_n^m:[-1,1]\rightarrow \mathbb{R}` denote the *associated Legendre functions* (see Chapter 1 of [Rafaely]_).</span>
+
+<span class="sd">    For bandlimited functions of order :math:`N\in\mathbb{N}` (:math:`|\hat{a}_n^m|=0\forall n&gt;N`), the spherical harmonic coefficients</span>
+<span class="sd">    can be approximated very accurately via the spherical quadrature rule (see `HEALPix help &lt;https://healpix.sourceforge.io/html/fac_anafast.htm&gt;`_):</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \hat{a}_n^m=\frac{4\pi}{N_{pix}}\sum_{p=1}^{N_{pix}} f(\phi_p,\theta_p) \overline{Y_n^m(\phi_p,\theta_p)}</span>
+
+<span class="sd">    assuming a HEALPix spherical point set  :math:`\left\{\mathbf{r}_p(\phi_p,\theta_p)\in\mathbb{S}^2, p=1, \ldots, N_{pix}=12N_{side}^2\right\}` with</span>
+<span class="sd">    :math:`2 N_{side}&lt;N\leq 3 N_{side}-1`. The spherical harmonic transform and its inverse (adjoint) are computed with the routines</span>
+<span class="sd">    :py:func:`healpy.sphtfunc.map2alm` and :py:func:`healpy.sphtfunc.alm2map` which compute the spherical harmonics efficiently via</span>
+<span class="sd">    recurrence relations for Legendre polynomials on co-latitudes, and Fast Fourier Transforms on longitudes (see `HEALPix help &lt;https://healpix.sourceforge.io/html/fac_anafast.htm&gt;`_).</span>
+<span class="sd">    If accuracy is a concern, ring-based quadrature rules can also be used with  the keyword ``use_weights=True``.</span>
+
+<span class="sd">    Warnings</span>
+<span class="sd">    --------</span>
+<span class="sd">    * This class is for real spherical maps **only**. Complex spherical maps are not supported yet by the routines</span>
+<span class="sd">      :py:func:`healpy.sphtfunc.map2alm` and :py:func:`healpy.sphtfunc.alm2map` which compute only half of the spherical harmonic coefficients,</span>
+<span class="sd">      assuming symmetry.</span>
+<span class="sd">    * Using this operator on non-bandlimited spherical maps incurs aliasing.</span>
+<span class="sd">    * HEALPix maps used as inputs must be **RING ordered**.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsphere.linop.SHT`, :py:class:`~pycsphere.linop.FourierLegendreTransform`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SphericalHarmonicTransform.nmax2nside"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.SphericalHarmonicTransform.nmax2nside">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">nmax2nside</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">n_max</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the critical HEALPix NSIDE parameter for a given bandwidth ``n_max``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n_max: int</span>
+<span class="sd">            Bandwidth of the map.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            The critical HEALPix NSIDE parameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">((</span><span class="n">n_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="SphericalHarmonicTransform.__init__"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.SphericalHarmonicTransform.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_max</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">use_weights</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n_max: int</span>
+<span class="sd">            Bandwidth of the map.</span>
+<span class="sd">        use_weights: bool</span>
+<span class="sd">            If ``True``, use ring-based quadrature weights (more accurate), otherwise use uniform quadrature weights.</span>
+<span class="sd">            See `HEALPix help &lt;https://healpix.sourceforge.io/html/fac_anafast.htm&gt;`_ for more information.</span>
+<span class="sd">        verbose: bool</span>
+<span class="sd">            If ``True`` prints diagnostic information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">n_max</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Parameter n_max must be a positive integer.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_max</span> <span class="o">=</span> <span class="n">n_max</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_weights</span> <span class="o">=</span> <span class="n">use_weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nside</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_pix</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">nside2npix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nside</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coeffs_size</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">Alm</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">lmax</span><span class="o">=</span><span class="n">n_max</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SphericalHarmonicTransform</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeffs_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_pix</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span>
+                                                         <span class="n">lipschitz_cst</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map_in</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the spherical harmonic transform.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        map_in: np.ndarray</span>
+<span class="sd">            Bandlimited spherical map discretised on a critical RING ordered HEALPix mesh.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Spherical harmonic coefficients :math:`\{\hat{a}_n^m\}\subset\mathbb{C}`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">hp</span><span class="o">.</span><span class="n">map2alm</span><span class="p">(</span><span class="n">maps</span><span class="o">=</span><span class="n">map_in</span><span class="p">,</span> <span class="n">lmax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_max</span><span class="p">,</span> <span class="n">use_weights</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">use_weights</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SphericalHarmonicTransform.adjoint"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.SphericalHarmonicTransform.adjoint">[docs]</a>    <span class="k">def</span> <span class="nf">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">anm</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">nside</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the inverse spherical harmonic transform.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        anm: np.ndarray</span>
+<span class="sd">            Spherical harmonic coefficients :math:`\{\hat{a}_n^m\}\subset\mathbb{C}`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Synthesised bandlimited spherical map discretised on a critical RING ordered HEALPix mesh.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nside</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nside</span> <span class="k">if</span> <span class="n">nside</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">nside</span>
+        <span class="k">return</span> <span class="n">hp</span><span class="o">.</span><span class="n">alm2map</span><span class="p">(</span><span class="n">alms</span><span class="o">=</span><span class="n">anm</span><span class="p">,</span> <span class="n">nside</span><span class="o">=</span><span class="n">nside</span><span class="p">,</span> <span class="n">lmax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_max</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SphericalHarmonicTransform.anm2cn"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.SphericalHarmonicTransform.anm2cn">[docs]</a>    <span class="k">def</span> <span class="nf">anm2cn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">anm</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the angular power spectrum.</span>
+
+<span class="sd">        The *angular power spectrum* is defined as:</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">            \hat{c}_n:=\frac{1}{2n+1}\sum_{m=-n}^n |\hat{a}_n^m|^2, \quad n\in \mathbb{N}.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        anm: np.ndarray</span>
+<span class="sd">            Spherical harmonic coefficients :math:`\{\hat{a}_n^m\}\subset\mathbb{C}`.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        The *angular power spectrum* coefficients :math:`\hat{c}_n`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">hp</span><span class="o">.</span><span class="n">alm2cl</span><span class="p">(</span><span class="n">anm</span><span class="p">,</span> <span class="n">lmax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_max</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SphericalHarmonicTransform.anm_triangle"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.SphericalHarmonicTransform.anm_triangle">[docs]</a>    <span class="k">def</span> <span class="nf">anm_triangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">anm</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Arrange the spherical harmonic coefficients in a lower-triangular matrix where each row represents a level :math:`n`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        anm: np.ndarray</span>
+<span class="sd">            Spherical harmonic coefficients.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Spherical harmonic coefficients arranged in a lower-triangular matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">Alm</span><span class="o">.</span><span class="n">getlm</span><span class="p">(</span><span class="n">lmax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_max</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeffs_size</span><span class="p">))</span>
+        <span class="n">Anm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">coo_matrix</span><span class="p">((</span><span class="n">anm</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">)),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">todense</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">Anm</span></div>
+
+<div class="viewcode-block" id="SphericalHarmonicTransform.plot_anm"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.SphericalHarmonicTransform.plot_anm">[docs]</a>    <span class="k">def</span> <span class="nf">plot_anm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">anm</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">cmap</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">cast</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the spherical harmonic coefficients.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        anm: np.ndarray</span>
+<span class="sd">            Spherical harmonic coefficients.</span>
+<span class="sd">        cmap: str</span>
+<span class="sd">            Colormap.</span>
+<span class="sd">        cast: Callable</span>
+<span class="sd">            Function to cast the complex coefficients into real coefficients (e.g. ``np.abs``, ``np.real``, ``np.imag``...)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Anm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">anm_triangle</span><span class="p">(</span><span class="n">anm</span><span class="p">)</span>
+        <span class="n">triu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">Anm</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="n">Anm</span><span class="p">[</span><span class="n">triu</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">Anm</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Spherical Harmonic Coefficients&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;m&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">)</span></div></div>
+
+
+<span class="n">SHT</span> <span class="o">=</span> <span class="n">SphericalHarmonicTransform</span>
+
+
+<div class="viewcode-block" id="FourierLegendreTransform"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.FourierLegendreTransform">[docs]</a><span class="k">class</span> <span class="nc">FourierLegendreTransform</span><span class="p">(</span><span class="n">LinearOperator</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fourier Legendre Transform (FLT).</span>
+
+<span class="sd">    Compute the Fourier Legendre Transform of a function :math:`f:[-1,1]\to\mathbb{C}`. This is useful for computing the</span>
+<span class="sd">    spherical harmonics coefficients of spherical zonal functions of the form :math:`g(\mathbf{r})=f(\langle\mathbf{r}, \mathbf{s}\rangle)`.</span>
+<span class="sd">    Indeed, for such functions, we have:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \hat{g}_n^m=\hat{f}_n \sqrt{\frac{2n+1}{4\pi}}\delta_n^0, \quad \forall n,m,</span>
+
+<span class="sd">    where :math:`\hat{f}_n` are the Fourier-Legendre coefficients of :math:`f`.  Moreover, from the Fourier-Legendre expansion we have also:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        f(\langle\mathbf{r}, \mathbf{s}\rangle)=\sum_{n=0}^{+\infty} \hat{f}_n\frac{2n+1}{4\pi} P_n(\langle\mathbf{r}, \mathbf{s}\rangle).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        import healpy as hp</span>
+<span class="sd">        import numpy as np</span>
+<span class="sd">        from pycsphere.linop import FLT</span>
+<span class="sd">        import matplotlib.pyplot as plt</span>
+
+<span class="sd">        t = np.linspace(-1, 1, 4096)</span>
+<span class="sd">        b = (np.arccos(t) &lt;= np.pi / 4)</span>
+<span class="sd">        flt = FLT(n_max=40, t=t)</span>
+<span class="sd">        bn = flt(b)</span>
+<span class="sd">        trunc_fl_series = flt.adjoint(bn)</span>
+<span class="sd">        plt.figure()</span>
+<span class="sd">        plt.plot(t, b)</span>
+<span class="sd">        plt.xlabel(&#39;$t$&#39;)</span>
+<span class="sd">        plt.title(&#39;Original Signal&#39;)</span>
+<span class="sd">        plt.figure()</span>
+<span class="sd">        plt.stem(np.arange(flt.n_max + 1), bn)</span>
+<span class="sd">        plt.xlabel(&#39;$n$&#39;)</span>
+<span class="sd">        plt.title(&#39;Fourier-Legendre coefficients&#39;)</span>
+<span class="sd">        plt.figure()</span>
+<span class="sd">        plt.plot(t, trunc_fl_series)</span>
+<span class="sd">        plt.xlabel(&#39;$t$&#39;)</span>
+<span class="sd">        plt.title(&#39;Truncated Fourier-Legendre Expansion&#39;)</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        import healpy as hp</span>
+<span class="sd">        import numpy as np</span>
+<span class="sd">        from pycsphere.linop import FLT</span>
+<span class="sd">        import matplotlib.pyplot as plt</span>
+
+<span class="sd">        t = np.linspace(-1, 1, 4096)</span>
+<span class="sd">        bn = np.ones(21)</span>
+<span class="sd">        flt = FLT(n_max=20, t=t)</span>
+<span class="sd">        b = flt.adjoint(bn)</span>
+<span class="sd">        plt.figure()</span>
+<span class="sd">        plt.stem(np.arange(flt.n_max + 1), bn)</span>
+<span class="sd">        plt.xlabel(&#39;$n$&#39;)</span>
+<span class="sd">        plt.title(&#39;Fourier-Legendre coefficients&#39;)</span>
+<span class="sd">        plt.figure()</span>
+<span class="sd">        plt.plot(t, b)</span>
+<span class="sd">        plt.xlabel(&#39;$t$&#39;)</span>
+<span class="sd">        plt.title(&#39;Fourier-Legendre Expansion&#39;)</span>
+
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Let :math:`\{P_{n}:[-1,1]\rightarrow\mathbb{C}, \, n\in\mathbb{N}\}` be the *Legendre polynomials*.</span>
+<span class="sd">    Then, any  function :math:`b\in\mathcal{L}^2([-1, 1], \mathbb{C})` admits a *Fourier-Legendre expansion* given by</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        b(t)\stackrel{a.e.}{=}\sum_{n=0}^{+\infty} \hat{b}_n\,\frac{2n+1}{4\pi} P_{n}(t),</span>
+
+<span class="sd">    where the *Fourier-Legendre coefficients* are given by the *Fourier-Legendre transform*</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \hat{b}_n:=2\pi \int_{-1}^1 b(t) P_{n}(t) \,dt, \quad n\geq 0.</span>
+
+<span class="sd">    This implementation of the Fourier-Legendre transform  leverages a</span>
+<span class="sd">    recurrence relationship for computing efficiently Legendre polynomials, and a trapezoidal rule for approximating the integral.</span>
+
+<span class="sd">    Warnings</span>
+<span class="sd">    --------</span>
+<span class="sd">    Using this function with ``n_max`` smaller than the function&#39;s bandwidth may result in aliasing/smoothing artefacts.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsphere.linop.FLT`, :py:class:`~pycsphere.linop.SphericalHarmonicTransform`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="FourierLegendreTransform.nmax2t"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.FourierLegendreTransform.nmax2t">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">nmax2t</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">n_max</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">oversampling</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate suitable samples ``t`` for a given ``n_max``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n_max: int</span>
+<span class="sd">            Maximal Fourier-Legendre coefficient index :math:`n`.</span>
+<span class="sd">        oversampling: float</span>
+<span class="sd">            Oversampling factor.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Samples ``t``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">critical_res</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">SHT</span><span class="o">.</span><span class="n">nmax2nside</span><span class="p">(</span><span class="n">n_max</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">oversampling</span> <span class="o">*</span> <span class="n">critical_res</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="FourierLegendreTransform.__init__"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.FourierLegendreTransform.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_max</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n_max: int</span>
+<span class="sd">            Maximal Fourier-Legendre coefficient index :math:`n`.</span>
+<span class="sd">        t: np.ndarray</span>
+<span class="sd">            Grid of :math:`[-1,1]` used to approximate the integral when computing the Fourier-Legendre coefficients.</span>
+<span class="sd">        dtype: type</span>
+<span class="sd">            Data type of the operator.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_max</span> <span class="o">=</span> <span class="n">n_max</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">t</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FourierLegendreTransform</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_max</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+                                                       <span class="n">lipschitz_cst</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the Fourier-Legendre coefficients :math:`\{\hat{b}_n, n=0,\ldots, n_{max}\}`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b: np.ndarray</span>
+<span class="sd">            Function :math:`b` sampled at the points ``t``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            The Fourier-Legendre coefficients :math:`\{\hat{b}_n, n=0,\ldots, n_{max}\}`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">bn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">p0</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="n">bn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">p0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="mi">2</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">bn</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">p1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="mi">2</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">*</span> <span class="n">p1</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">p0</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="n">n</span>
+            <span class="n">bn</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">p2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="mi">2</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+            <span class="n">p0</span> <span class="o">=</span> <span class="n">p1</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="n">p2</span>
+
+        <span class="n">bn</span> <span class="o">*=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+        <span class="k">return</span> <span class="n">bn</span>
+
+<div class="viewcode-block" id="FourierLegendreTransform.adjoint"><a class="viewcode-back" href="../../api/linop.html#pycsphere.linop.FourierLegendreTransform.adjoint">[docs]</a>    <span class="k">def</span> <span class="nf">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bn</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the Fourier-Legendre series truncated at ``n_max``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        bn: np.ndarray</span>
+<span class="sd">            Fourier-Legendre coefficients :math:`\{\hat{b}_n, n=0,\ldots, n_{max}\}`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            The Fourier-Legendre series truncated at ``n_max``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">p0</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="n">b</span> <span class="o">=</span> <span class="n">bn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">p0</span> <span class="o">+</span> <span class="n">bn</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">p1</span> <span class="o">*</span> <span class="mi">3</span>
+
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">*</span> <span class="n">p1</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">p0</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="n">n</span>
+            <span class="n">p0</span> <span class="o">=</span> <span class="n">p1</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="n">p2</span>
+            <span class="n">b</span> <span class="o">+=</span> <span class="n">bn</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">p2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">b</span> <span class="o">/=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+        <span class="k">return</span> <span class="n">b</span></div></div>
+
+
+<span class="n">FLT</span> <span class="o">=</span> <span class="n">FourierLegendreTransform</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

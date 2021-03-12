@@ -1,0 +1,305 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Content &mdash; pycsphere 1.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="general/install.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> pycsphere
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="general/install.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">Pycsou-sphere API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">pycsphere</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Content</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <a class="reference external image-reference" href="https://github.com/matthieumeo/pycsou-sphere"><img alt="_images/pycsou.png" class="align-center" src="_images/pycsou.png" style="width: 50%;" /></a>
+<a class="reference external image-reference" href="https://zenodo.org/badge/latestdoi/277582581"><img alt="https://zenodo.org/badge/277582581.svg" src="https://zenodo.org/badge/277582581.svg" /></a>
+<p><em>Pycsou-sphere</em> is an extension module of the Python 3 package <a class="reference external" href="https://github.com/matthieumeo/pycsou">Pycsou</a> for solving linear inverse problems on the sphere. The extension offers implementations of spherical zonal <em>convolution</em> operators as well as the spherical harmonic and Fourier-Legendre transforms (all compatible with Pycsou’s interface for linear operators). It also provides numerical routines for computing the Green kernels of common spherical pseudo-differential operators and generating spherical meshes/point sets.</p>
+<p>This module heavily relies and follows similar conventions as the <a class="reference external" href="https://healpy.readthedocs.io/en/latest/index.html">healpy</a> package for spherical signal processing with Python.</p>
+<div class="section" id="content">
+<h1>Content<a class="headerlink" href="#content" title="Permalink to this headline">¶</a></h1>
+<p>The package is organised as follows:</p>
+<ol class="arabic simple">
+<li><p>The module <code class="docutils literal notranslate"><span class="pre">pycsphere.linop</span></code> implements the following common spherical linear operators:</p></li>
+</ol>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/linop.html#pycsphere.linop.ZonalSphericalConvolution" title="pycsphere.linop.ZonalSphericalConvolution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsphere.linop.ZonalSphericalConvolution</span></code></a>(size)</p></td>
+<td><p>Zonal spherical convolution.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/linop.html#pycsphere.linop.SphericalPooling" title="pycsphere.linop.SphericalPooling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsphere.linop.SphericalPooling</span></code></a>(nside_in, …)</p></td>
+<td><p>Spherical pooling operator.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/linop.html#pycsphere.linop.DiscreteSphericalLaplacian" title="pycsphere.linop.DiscreteSphericalLaplacian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsphere.linop.DiscreteSphericalLaplacian</span></code></a>(…)</p></td>
+<td><p>Discrete spherical Laplacian.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/linop.html#pycsphere.linop.DiscreteSphericalGradient" title="pycsphere.linop.DiscreteSphericalGradient"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsphere.linop.DiscreteSphericalGradient</span></code></a>(…)</p></td>
+<td><p>Discrete spherical gradient.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/linop.html#pycsphere.linop.SphericalHarmonicTransform" title="pycsphere.linop.SphericalHarmonicTransform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsphere.linop.SphericalHarmonicTransform</span></code></a>(n_max)</p></td>
+<td><p>Spherical Harmonic Transform (SHT).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/linop.html#pycsphere.linop.FourierLegendreTransform" title="pycsphere.linop.FourierLegendreTransform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsphere.linop.FourierLegendreTransform</span></code></a>(…)</p></td>
+<td><p>Fourier Legendre Transform (FLT).</p></td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple" start="2">
+<li><p>The module <code class="docutils literal notranslate"><span class="pre">pycsphere.mesh</span></code> provides routines for generating spherical meshes:</p></li>
+</ol>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/meshes.html#pycsphere.mesh.FibonacciPointSet" title="pycsphere.mesh.FibonacciPointSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsphere.mesh.FibonacciPointSet</span></code></a>(N[, lonlat])</p></td>
+<td><p>Fibonacci point set.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/meshes.html#pycsphere.mesh.HEALPixPointSet" title="pycsphere.mesh.HEALPixPointSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsphere.mesh.HEALPixPointSet</span></code></a>(nside[, …])</p></td>
+<td><p>HEALPix point set.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/meshes.html#pycsphere.mesh.RandomPointSet" title="pycsphere.mesh.RandomPointSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsphere.mesh.RandomPointSet</span></code></a>(N[, seed, lonlat])</p></td>
+<td><p>Random uniform point set.</p></td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple" start="3">
+<li><p>The module <code class="docutils literal notranslate"><span class="pre">pycsphere.green</span></code> provides numerical routines for computing the Green  kernels of common spherical pseudo-differential operators:</p></li>
+</ol>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/green.html#pycsphere.green.ZonalGreenSobolev" title="pycsphere.green.ZonalGreenSobolev"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsphere.green.ZonalGreenSobolev</span></code></a>(alpha, …)</p></td>
+<td><p>Zonal Green kernel of the Sobolev operator <span class="math notranslate nohighlight">\((\alpha^2\mbox{Id} -\Delta_{\mathbb{S}^2})^{\beta/2}\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/green.html#pycsphere.green.ZonalGreenFractionalLaplaceBeltrami" title="pycsphere.green.ZonalGreenFractionalLaplaceBeltrami"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsphere.green.ZonalGreenFractionalLaplaceBeltrami</span></code></a>(…)</p></td>
+<td><p>Zonal Green kernel of the Fractional Laplace-Beltrami operator <span class="math notranslate nohighlight">\((-\Delta_{\mathbb{S}^2})^{\beta/2}\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/green.html#pycsphere.green.ZonalGreenIteratedLaplaceBeltrami" title="pycsphere.green.ZonalGreenIteratedLaplaceBeltrami"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsphere.green.ZonalGreenIteratedLaplaceBeltrami</span></code></a>(…)</p></td>
+<td><p>Zonal Green kernel of the iterated Laplace-Beltrami operator <span class="math notranslate nohighlight">\(\Delta_{\mathbb{S}^2}^{k}\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/green.html#pycsphere.green.ZonalGreenBeltrami" title="pycsphere.green.ZonalGreenBeltrami"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsphere.green.ZonalGreenBeltrami</span></code></a>(k[, …])</p></td>
+<td><p>Zonal Green kernel of the Beltrami operator <span class="math notranslate nohighlight">\(\partial_k=k(k+1)\mbox{Id}+\Delta_{\mathbb{S}^2}\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/green.html#pycsphere.green.ZonalGreenIteratedBeltrami" title="pycsphere.green.ZonalGreenIteratedBeltrami"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsphere.green.ZonalGreenIteratedBeltrami</span></code></a>(k)</p></td>
+<td><p>Zonal Green kernel of the Beltrami operator <span class="math notranslate nohighlight">\(\partial_{0\cdots k}=\partial_0\cdots\partial_k\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/green.html#pycsphere.green.ZonalMatern" title="pycsphere.green.ZonalMatern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsphere.green.ZonalMatern</span></code></a>(k[, epsilon, …])</p></td>
+<td><p>Matern zonal Green kernel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/green.html#pycsphere.green.ZonalWendland" title="pycsphere.green.ZonalWendland"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsphere.green.ZonalWendland</span></code></a>(k[, epsilon, …])</p></td>
+<td><p>Wendland zonal Green kernel.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="general/install.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Linear Operators &mdash; pycsou 1.0.4 documentation</title>
+  <title>Linear Operators &mdash; pycsou 1.0.5 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.0.4
+                1.0.5
               </div>
             
           
@@ -90,6 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../general/install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../general/theory.html">Background Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../general/pycsou_classes.html">Solving Inverse Problems with Pycsou</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../general/extensions.html">Extensions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../general/examples.html">Examples</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference documentation</span></p>
@@ -106,6 +107,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../functionals/index.html">Cost Functionals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../algorithms/pycsou.opt.proxalgs.html">Proximal Algorithms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../math/index.html">Mathematical Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#abstract-classes">Abstract classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#linear-operators">Linear Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#cost-functionals">Cost Functionals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#algorithms">Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#mathematical-functions">Mathematical Functions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../other.html">Pycsou Utilities</a></li>
@@ -266,7 +272,7 @@ Such arithmetic operators can be used to <em>add</em>, <em>substract</em>, <em>s
 
 <dl class="method">
 <dt id="pycsou.core.linop.LinearOperator.get_adjointOp">
-<code class="sig-name descname">get_adjointOp</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Union[pycsou.core.linop.LinearOperator, pycsou.core.linop.AdjointLinearOperator]<a class="reference internal" href="../../_modules/pycsou/core/linop.html#LinearOperator.get_adjointOp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.LinearOperator.get_adjointOp" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_adjointOp</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pycsou.core.linop.LinearOperator<a class="reference internal" href="../../_modules/pycsou/core/linop.html#LinearOperator.get_adjointOp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.LinearOperator.get_adjointOp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the adjoint operator as a <code class="docutils literal notranslate"><span class="pre">LinearOperator</span></code> instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -420,12 +426,12 @@ See the documentation of this function for more information on its behaviour and
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">filter</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">hann</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span> <span class="nb">filter</span><span class="p">[</span><span class="nb">filter</span><span class="o">.</span><span class="n">size</span><span class="o">//</span><span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ConvOp</span> <span class="o">=</span> <span class="n">Convolve1D</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">sig</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ConvOp</span><span class="o">.</span><span class="n">compute_lipschitz_cst</span><span class="p">(</span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">);</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">ConvOp</span><span class="o">.</span><span class="n">lipschitz_cst</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="go">0.4</span>
+<span class="go">0.5</span>
 </pre></div>
 </div>
 <p class="rubric">Notes</p>
-<p>The Lipschtiz constant of a linear operator is its largest singular value / eigenvalue (in terms of magnitude). This function therefore calls
-the methods  <code class="docutils literal notranslate"><span class="pre">self.singularvals</span></code> or <code class="docutils literal notranslate"><span class="pre">self.eigenvals</span></code> with <code class="docutils literal notranslate"><span class="pre">k=1</span></code> and <code class="docutils literal notranslate"><span class="pre">which='LM'</span></code> to perform this computation.</p>
+<p>The Lipschtiz constant of a linear operator is its largest singular value. This function therefore calls
+the methods  <code class="docutils literal notranslate"><span class="pre">self.singularvals</span></code> with <code class="docutils literal notranslate"><span class="pre">k=1</span></code> and <code class="docutils literal notranslate"><span class="pre">which='LM'</span></code> to perform this computation.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>For high-dimensional linear operators this method can be very time-consuming. Reducing the computation accuracy with

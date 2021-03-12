@@ -16,7 +16,7 @@ l22_loss = (1/2) * SquaredL2Loss(dim=G.shape[0], data=y)
 F = l22_loss * G
 lambda_ = 0.9 * np.max(np.abs(F.gradient(0 * x)))
 G = lambda_ * L1Norm(dim=G.shape[1])
-apgd = APGD(dim=G.shape[1], F=F, G=None, acceleration='CD', verbose=None)
+apgd = APGD(dim=G.shape[1], F=F, G=G, acceleration='CD', verbose=None)
 estimate, converged, diagnostics = apgd.iterate()
 plt.figure()
 plt.stem(x, linefmt='C0-', markerfmt='C0o')

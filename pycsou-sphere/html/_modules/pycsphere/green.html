@@ -1,0 +1,924 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pycsphere.green &mdash; pycsphere 1.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pycsphere
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../general/install.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">Pycsou-sphere API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../notes/index.html">Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pycsphere</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>pycsphere.green</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pycsphere.green</h1><div class="highlight"><pre>
+<span></span><span class="c1"># #############################################################################</span>
+<span class="c1"># green.py</span>
+<span class="c1"># ========</span>
+<span class="c1"># Author : Matthieu Simeoni [matthieu.simeoni@gmail.com]</span>
+<span class="c1"># #############################################################################</span>
+
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Common zonal green kernels (see Chapter 4 of [FuncSphere]_ for a survey).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">interp1d</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">pycsphere.linop</span> <span class="kn">import</span> <span class="n">FLT</span>
+<span class="kn">from</span> <span class="nn">pycsou.math.green</span> <span class="kn">import</span> <span class="n">Matern</span><span class="p">,</span> <span class="n">Wendland</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+
+<div class="viewcode-block" id="TruncatedFourierLegendreSeries"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.TruncatedFourierLegendreSeries">[docs]</a><span class="k">class</span> <span class="nc">TruncatedFourierLegendreSeries</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Truncated Fourier-Legendre series.</span>
+
+<span class="sd">    Given coefficients :math:`\{\hat{f}_n, n=0,\ldots, N\}`, compute the *truncated Fourier-Legendre series*:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        f_N(t):=\sum_{n=0}^N \hat{f}_n \frac{2n+1}{4\pi} P_n(t), \quad \forall t\in [-1,1].</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        import numpy as np</span>
+<span class="sd">        from pycsphere.green import TruncatedFourierLegendreSeries</span>
+
+<span class="sd">        n_max=20</span>
+<span class="sd">        n=np.arange(0, n_max + 1).astype(np.float)</span>
+<span class="sd">        fn=0*n; fn[n&gt;0]=(n[n&gt;0]*(n[n&gt;0]+1))**(-1)</span>
+<span class="sd">        fN=TruncatedFourierLegendreSeries(fn)</span>
+<span class="sd">        theta=np.linspace(-np.pi, np.pi, 1024)</span>
+<span class="sd">        plt.plot(theta, fN(np.cos(theta)))</span>
+<span class="sd">        plt.ylabel(&#39;$f_N(\\cos\\theta)$&#39;)</span>
+<span class="sd">        plt.xlabel(&#39;$\\theta\\in[-\\pi,\\pi]$&#39;)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The ``TruncatedFourierLegendreSeries`` is computed by interpolating linearly the result of :py:class:`~pycsphere.linop.FourierLegendreTransform`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TruncatedFourierLegendreSeries.__init__"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.TruncatedFourierLegendreSeries.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fn: np.ndarray</span>
+<span class="sd">         Fourier-Legendre coefficients.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fn</span> <span class="o">=</span> <span class="n">fn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples_t</span> <span class="o">=</span> <span class="n">FLT</span><span class="o">.</span><span class="n">nmax2t</span><span class="p">(</span><span class="n">fn</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">flt</span> <span class="o">=</span> <span class="n">FLT</span><span class="p">(</span><span class="n">n_max</span><span class="o">=</span><span class="n">fn</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">samples_t</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples_f</span> <span class="o">=</span> <span class="n">flt</span><span class="o">.</span><span class="n">adjoint</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_interp_f</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples_t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples_f</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">assume_sorted</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        t: np.ndarray</span>
+<span class="sd">            Query points in [-1,1].</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Truncated Fourier-Legendre transform evaluated at the query points.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_interp_f</span><span class="p">(</span><span class="n">t</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ZonalGreenFunction"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalGreenFunction">[docs]</a><span class="k">class</span> <span class="nc">ZonalGreenFunction</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for zonal green functions.</span>
+
+<span class="sd">    Any subclass/instance of this class must implement the abstract method ``_compute_fl_coefficients``.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Consider a spherical pseudpo-differential operator acting on a spherical function :math:`h(\mathbf{r})` as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \mathcal{D} h:=\sum_{n=0}^{+\infty}\hat{D}_n \left[\sum_{m=-n}^{n}\hat{h}_n^m Y_n^m\right],</span>
+
+<span class="sd">    where :math:`\{\hat{D}_n\}_{n\in\mathbb{N}}\in\mathbb{R}^\mathbb{N}` is a sequence of *real numbers* such that the set</span>
+
+<span class="sd">	.. math::</span>
+
+<span class="sd">	    \mathcal{K}_\mathcal{D}:=\left\{n\in\mathbb{N}:\; \vert \hat{D}_n\vert=0\right\},</span>
+
+<span class="sd">	is *finite* and</span>
+
+<span class="sd">	.. math::</span>
+
+<span class="sd">	    \vert\hat{D}_n\vert=\Theta\left(n^p\right),</span>
+
+<span class="sd">	for some real number :math:`p\geq 0`, called the *spectral growth order* of :math:`\mathcal{D}`.</span>
+<span class="sd">	Then, the zonal Green kernel of :math:`\mathcal{D}` is given by Proposition 4 of [FuncSphere]_:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">         \psi_{\mathcal{D}}(\langle\mathbf{r}, \mathbf{s}\rangle) := \sum_{{n\in\mathbb{N}\backslash\mathcal{K}_\mathcal{D}}}  \frac{2n+1}{4\pi \hat{D}_n}P_{n}(\langle\mathbf{r}, \mathbf{s}\rangle),\quad \mathbf{r}\in\mathbb{S}^{2},</span>
+
+<span class="sd">    where :math:`P_{n}` are the Legendre polynomials. The summation above is truncated to a large enough :math:`N` called the effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ZonalGreenFunction.__init__"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalGreenFunction.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rtol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        order: Optional[float]</span>
+<span class="sd">            Spectral growth order of the associated pseudo-differential operator.</span>
+<span class="sd">        rtol: float</span>
+<span class="sd">            Threshold for defining the effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">        cutoff: Optional[int]</span>
+<span class="sd">            Effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="n">order</span>
+        <span class="k">if</span> <span class="n">cutoff</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rtol</span> <span class="o">=</span> <span class="n">rtol</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cutoff</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">=</span> <span class="n">cutoff</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rtol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tol</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fourier_legendre_coefficients</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_fl_coefficients</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interp_green_kernel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">green_kernel</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ZonalGreenFunction.get_cutoff"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalGreenFunction.get_cutoff">[docs]</a>    <span class="k">def</span> <span class="nf">get_cutoff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_cutoff</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the effective bandwidth of the zonal Green kernel.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        min_cutoff: int</span>
+<span class="sd">            Minimal bandwidth.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            Effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cutoff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">rtol</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">)),</span> <span class="n">min_cutoff</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cutoff</span></div>
+
+    <span class="k">def</span> <span class="nf">get_tol</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">)</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_compute_fl_coefficients</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the Fourier-Legendre coefficients :math:`1/\hat{D}_n` of the zonal Green kernel.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Fourier-Legendre coefficients :math:`1/\hat{D}_n` of the zonal Green kernel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="ZonalGreenFunction.green_kernel"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalGreenFunction.green_kernel">[docs]</a>    <span class="k">def</span> <span class="nf">green_kernel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the zonal Green kernel.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Callable</span>
+<span class="sd">            The zonal Green kernel as a callable function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">TruncatedFourierLegendreSeries</span><span class="p">(</span><span class="n">fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fourier_legendre_coefficients</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate the zonal Green kernel.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        t:  Union[float, np.ndarray]</span>
+<span class="sd">            Query points in :math:`[-1, 1]`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Union[float, np.ndarray]</span>
+
+<span class="sd">            Evaluation of the zonal Green kernel at the query points.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">interp_green_kernel</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ZonalGreenFunction.plot"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalGreenFunction.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resolution</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">,</span> <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">linewidth</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">angles</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+             <span class="n">fraction</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">fhandle</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the zonal Green kernel.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        resolution: int</span>
+<span class="sd">            Resolution of the uniform grid on which the Green kernel is sampled.</span>
+<span class="sd">        color: str</span>
+<span class="sd">            Color of the line.</span>
+<span class="sd">        linewidth: Union[int, float]</span>
+<span class="sd">            Line width.</span>
+<span class="sd">        angles: bool</span>
+<span class="sd">            If ``True`` plot :math:`\psi(\cos(\theta))`, otherwise plot :math:`\psi(t)`.</span>
+<span class="sd">        fraction: float</span>
+<span class="sd">            Plot over ``[-fraction, fraction]`` (if ``angles==False``) or ``[-np.pi*fraction, np.pi*fraction]``</span>
+<span class="sd">            (if ``angles==True``) with ``0&lt;fraction&lt;=1``.</span>
+<span class="sd">        fhandle: Optional[Any]</span>
+<span class="sd">            Figure handle in which to plot.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">fraction</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Parameter fraction must be in (0,1]&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">angles</span><span class="p">:</span>
+            <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">fraction</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">fraction</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">fraction</span><span class="p">,</span> <span class="n">fraction</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">fhandle</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="n">linewidth</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">angles</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">theta$&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">psi(</span><span class="se">\\</span><span class="s1">cos</span><span class="se">\\</span><span class="s1">theta)$&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$t$&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">psi(t)$&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Zonal Function&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ZonalGreenFunction.spectrum"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalGreenFunction.spectrum">[docs]</a>    <span class="k">def</span> <span class="nf">spectrum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cast</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">fhandle</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color_index</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the Fourier-Legendre spectrum.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">n_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n_max</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span><span class="o">+</span><span class="mi">1</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">fhandle</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_max</span><span class="p">),</span> <span class="n">cast</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fourier_legendre_coefficients</span><span class="p">[:</span><span class="n">n_max</span><span class="p">]),</span> <span class="n">use_line_collection</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">linefmt</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;C</span><span class="si">{</span><span class="n">color_index</span><span class="si">}</span><span class="s1">-&#39;</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;C</span><span class="si">{</span><span class="n">color_index</span><span class="si">}</span><span class="s1">o&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$n$&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">hat{</span><span class="se">\\</span><span class="s1">psi}_n$&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Fourier-Legendre Spectrum&#39;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Radial2Zonal"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.Radial2Zonal">[docs]</a><span class="k">class</span> <span class="nc">Radial2Zonal</span><span class="p">(</span><span class="n">ZonalGreenFunction</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transforms a radial Green function into a zonal Green kernel.</span>
+
+<span class="sd">    Let :math:`\phi:\mathbb{R}_+\to \mathbb{C}` be a radial function. The zonal Green kernel associated to :math:`\phi` is defined as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \psi(t):=\phi(\sqrt{2-2t}), \qquad t\in [-1,1].</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from pycsphere.green import Radial2Zonal</span>
+<span class="sd">        from pycsou.math import Matern</span>
+
+<span class="sd">        radial_green=Matern(k=0, epsilon=1)</span>
+<span class="sd">        zonal_green=Radial2Zonal(radial_green=radial_green, order=3 / 2)</span>
+<span class="sd">        plt.plot(np.linspace(0,10,1024), radial_green(np.linspace(0,10,1024)))</span>
+<span class="sd">        plt.xlabel(&#39;$x$&#39;)</span>
+<span class="sd">        plt.ylabel(&#39;$\\phi(x)$&#39;)</span>
+<span class="sd">        plt.title(&#39;Radial Function&#39;)</span>
+<span class="sd">        zonal_green.plot()</span>
+<span class="sd">        zonal_green.spectrum(n_max=20)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Radial2Zonal.__init__"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.Radial2Zonal.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radial_green</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rtol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">,</span>
+                 <span class="n">cutoff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        radial_green: Callable</span>
+<span class="sd">            Radial green function (must have a method ``__call__`` for evaluation).</span>
+<span class="sd">        order: Optional[float]</span>
+<span class="sd">            Spectral growth order of the associated pseudo-differential operator.</span>
+<span class="sd">        rtol: float</span>
+<span class="sd">            Threshold for defining the effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">        cutoff: Optional[int]</span>
+<span class="sd">            Effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">radial_green</span> <span class="o">=</span> <span class="n">radial_green</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interp_green_kernel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">green_kernel</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Radial2Zonal</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="n">cutoff</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Radial2Zonal.green_kernel"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.Radial2Zonal.green_kernel">[docs]</a>    <span class="k">def</span> <span class="nf">green_kernel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">radial_green</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">t</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="nf">_compute_fl_coefficients</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples_t</span> <span class="o">=</span> <span class="n">FLT</span><span class="o">.</span><span class="n">nmax2t</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span><span class="p">)</span>
+        <span class="n">flt</span> <span class="o">=</span> <span class="n">FLT</span><span class="p">(</span><span class="n">n_max</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">samples_t</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">flt</span><span class="p">(</span><span class="bp">self</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples_t</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="ZonalGreenExponentiated"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalGreenExponentiated">[docs]</a><span class="k">class</span> <span class="nc">ZonalGreenExponentiated</span><span class="p">(</span><span class="n">ZonalGreenFunction</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exponentiated zonal Green kernel.</span>
+
+<span class="sd">    Consider a zonal Green kernel :math:`\psi:[-1,1]\to \mathbb{C}` with Fourier-Legendre expansion:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \psi(t)=\sum_{n=0}^{+\infty}\frac{2n+1}{4\pi\hat{D}_n} P_n(t), \quad t\in[-1,1].</span>
+
+<span class="sd">    Then, the exponentiated zonal Green kernel :math:`\psi^{(\alpha)}:[-1,1]\to \mathbb{C}, \; \alpha\in\mathbb{R}_+`</span>
+<span class="sd">    has Fourier-Legendre expansion:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \psi^{(\alpha)}(t)=\sum_{n=0}^{+\infty}\frac{2n+1}{4\pi\hat{D}^\alpha_n} P_n(t), \quad t\in[-1,1].</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from pycsphere.green import ZonalWendland, ZonalGreenExponentiated</span>
+
+<span class="sd">        zonal_green=ZonalWendland(k=0)</span>
+<span class="sd">        iterated_zonal_green=ZonalGreenExponentiated(zonal_green, exponent=2)</span>
+<span class="sd">        zonal_green.plot(angles=True, fhandle=1)</span>
+<span class="sd">        iterated_zonal_green.plot(angles=True, fhandle=1)</span>
+<span class="sd">        plt.legend([&#39;Original Green kernel&#39;, &#39;Iterated Green kernel&#39;])</span>
+<span class="sd">        zonal_green.spectrum(n_max=20, fhandle=2, color_index=0)</span>
+<span class="sd">        iterated_zonal_green.spectrum(n_max=20, fhandle=2, color_index=1)</span>
+<span class="sd">        plt.legend([&#39;Original Green kernel&#39;, &#39;Iterated Green kernel&#39;])</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ZonalGreenExponentiated.__init__"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalGreenExponentiated.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_green_kernel</span><span class="p">:</span> <span class="n">ZonalGreenFunction</span><span class="p">,</span> <span class="n">exponent</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rtol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">,</span>
+                 <span class="n">cutoff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        base_green_kernel: ZonalGreenFunction</span>
+<span class="sd">            Zonal Green kernel to be exponentiated.</span>
+<span class="sd">        exponent: int</span>
+<span class="sd">            Exponent :math:`\alpha&gt;0`.</span>
+<span class="sd">        rtol: float</span>
+<span class="sd">            Threshold for defining the effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">        cutoff: Optional[int]</span>
+<span class="sd">            Effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_green_kernel</span> <span class="o">=</span> <span class="n">base_green_kernel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exponent</span> <span class="o">=</span> <span class="n">exponent</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ZonalGreenExponentiated</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">base_green_kernel</span><span class="o">.</span><span class="n">order</span> <span class="o">+</span> <span class="n">exponent</span><span class="p">,</span>
+                                                 <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="n">cutoff</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_compute_fl_coefficients</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_green_kernel</span><span class="o">.</span><span class="n">_compute_fl_coefficients</span><span class="p">()</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">exponent</span></div>
+
+
+<div class="viewcode-block" id="ZonalGreenSobolev"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalGreenSobolev">[docs]</a><span class="k">class</span> <span class="nc">ZonalGreenSobolev</span><span class="p">(</span><span class="n">ZonalGreenFunction</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Zonal Green kernel of the Sobolev operator :math:`(\alpha^2\mbox{Id} -\Delta_{\mathbb{S}^2})^{\beta/2}`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from pycsphere.green import ZonalGreenSobolev</span>
+
+<span class="sd">        for exp in [2,2.5,3,3.5,4]:</span>
+<span class="sd">            zonal_green=ZonalGreenSobolev(alpha=1., exponent=exp)</span>
+<span class="sd">            zonal_green.plot(angles=True, fhandle=1)</span>
+<span class="sd">        plt.legend([f&#39;$\\beta={np.round(val, 1)}$&#39; for val in [2,2.5,3,3.5,4]])</span>
+<span class="sd">        plt.title(&#39;$\\alpha=1$&#39;)</span>
+
+<span class="sd">        for exp in [2,2.5,3,3.5,4]:</span>
+<span class="sd">            zonal_green=ZonalGreenSobolev(alpha=5., exponent=exp)</span>
+<span class="sd">            zonal_green.plot(angles=True, fhandle=2)</span>
+<span class="sd">        plt.legend([f&#39;$\\beta={np.round(val, 1)}$&#39; for val in [2,2.5,3,3.5,4]])</span>
+<span class="sd">        plt.title(&#39;$\\alpha=5$&#39;)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    We have in this case :math:`\hat{D}_n=(\alpha^2+n(n+1))^{\beta/2},`  :math:`\hat{D}_n&gt;0`, :math:`|\hat{D}_n|=\Theta(n^{\beta})`,</span>
+<span class="sd">    and :math:`\mathcal{K}_{\mathcal{D}}=\emptyset`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ZonalGreenSobolev.__init__"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalGreenSobolev.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">exponent</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+                 <span class="n">rtol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        alpha: Union[complex, float, int]</span>
+<span class="sd">            Parameter :math:`\alpha\in\mathbb{R}`. Large values of :math:`\alpha` yield more localised Green kernels.</span>
+<span class="sd">        exponent: Union[int, float]</span>
+<span class="sd">            Exponent :math:`\beta\geq 1.`</span>
+<span class="sd">        rtol: float</span>
+<span class="sd">            Threshold for defining the effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">        cutoff: Optional[int]</span>
+<span class="sd">            Effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exponent</span> <span class="o">=</span> <span class="n">exponent</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ZonalGreenSobolev</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">exponent</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="n">cutoff</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_compute_fl_coefficients</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="n">op_coeffs</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exponent</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">fl_coeffs</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">op_coeffs</span>
+        <span class="n">fl_coeffs</span><span class="p">[</span><span class="n">op_coeffs</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">op_coeffs</span><span class="p">[</span><span class="n">op_coeffs</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">fl_coeffs</span></div>
+
+
+<div class="viewcode-block" id="ZonalGreenFractionalLaplaceBeltrami"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalGreenFractionalLaplaceBeltrami">[docs]</a><span class="k">class</span> <span class="nc">ZonalGreenFractionalLaplaceBeltrami</span><span class="p">(</span><span class="n">ZonalGreenSobolev</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Zonal Green kernel of the Fractional Laplace-Beltrami operator :math:`(-\Delta_{\mathbb{S}^2})^{\beta/2}`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from pycsphere.green import ZonalGreenFractionalLaplaceBeltrami</span>
+
+<span class="sd">        for exp in [2,2.5,3,3.5,4]:</span>
+<span class="sd">            zonal_green=ZonalGreenFractionalLaplaceBeltrami(exponent=exp)</span>
+<span class="sd">            zonal_green.plot(angles=True, fhandle=1)</span>
+<span class="sd">        plt.legend([f&#39;$\\beta={np.round(val, 1)}$&#39; for val in [2,2.5,3,3.5,4]])</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    We have in this case :math:`\hat{D}_n=(n(n+1))^{\beta/2},`  :math:`\hat{D}_n\geq 0`, :math:`|\hat{D}_n|=\Theta(n^{\beta})`,</span>
+<span class="sd">    and :math:`\mathcal{K}_{\mathcal{D}}=\{0\}`.</span>
+<span class="sd">    See Example 4.2 of [FuncSphere]_ for a closed-form formula of the zonal Green kernel for :math:`\beta=4`.</span>
+<span class="sd">    The case :math:`\beta=1` yields the square-root of the Laplace-Beltrami operator, which is intimately linked to the spherical</span>
+<span class="sd">    *divergence* and *gradient* differential operators.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsphere.green.ZonalGreenIteratedLaplaceBeltrami`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ZonalGreenFractionalLaplaceBeltrami.__init__"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalGreenFractionalLaplaceBeltrami.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exponent</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rtol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        exponent: Union[int, float]</span>
+<span class="sd">            Exponent :math:`\beta\geq 1.`</span>
+<span class="sd">        rtol: float</span>
+<span class="sd">            Threshold for defining the effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">        cutoff: Optional[int]</span>
+<span class="sd">            Effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ZonalGreenFractionalLaplaceBeltrami</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">exponent</span><span class="o">=</span><span class="n">exponent</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="n">cutoff</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="ZonalGreenIteratedLaplaceBeltrami"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalGreenIteratedLaplaceBeltrami">[docs]</a><span class="k">class</span> <span class="nc">ZonalGreenIteratedLaplaceBeltrami</span><span class="p">(</span><span class="n">ZonalGreenFunction</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Zonal Green kernel of the iterated Laplace-Beltrami operator :math:`\Delta_{\mathbb{S}^2}^{k}`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from pycsphere.green import ZonalGreenIteratedLaplaceBeltrami</span>
+
+<span class="sd">        for exp in [1,2,3,4,5]:</span>
+<span class="sd">            zonal_green=ZonalGreenIteratedLaplaceBeltrami(exponent=exp)</span>
+<span class="sd">            zonal_green.plot(angles=True, fhandle=1)</span>
+<span class="sd">        plt.legend([f&#39;$k={np.round(val, 1)}$&#39; for val in [1,2,3,4,5]])</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    We have in this case :math:`\hat{D}_n=(-n(n+1))^{k},`  :math:`\hat{D}_n\in \mathbb{R}`, :math:`|\hat{D}_n|=\Theta(n^{2k})`,</span>
+<span class="sd">    and :math:`\mathcal{K}_{\mathcal{D}}=\{0\}`.</span>
+<span class="sd">    See Example 4.2 of [FuncSphere]_ for a closed-form formula of the zonal Green kernel for :math:`k=2`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsphere.green.ZonalGreenFractionalLaplaceBeltrami`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ZonalGreenIteratedLaplaceBeltrami.__init__"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalGreenIteratedLaplaceBeltrami.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exponent</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rtol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        exponent: int</span>
+<span class="sd">            Exponent :math:`k\geq 1.`</span>
+<span class="sd">        rtol: float</span>
+<span class="sd">            Threshold for defining the effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">        cutoff: Optional[int]</span>
+<span class="sd">            Effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exponent</span> <span class="o">=</span> <span class="n">exponent</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ZonalGreenIteratedLaplaceBeltrami</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">exponent</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="n">cutoff</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_compute_fl_coefficients</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="n">op_coeffs</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">exponent</span>
+        <span class="n">fl_coeffs</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">op_coeffs</span>
+        <span class="n">fl_coeffs</span><span class="p">[</span><span class="n">op_coeffs</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">op_coeffs</span><span class="p">[</span><span class="n">op_coeffs</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">fl_coeffs</span></div>
+
+
+<div class="viewcode-block" id="ZonalGreenBeltrami"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalGreenBeltrami">[docs]</a><span class="k">class</span> <span class="nc">ZonalGreenBeltrami</span><span class="p">(</span><span class="n">ZonalGreenFunction</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Zonal Green kernel of the Beltrami operator :math:`\partial_k=k(k+1)\mbox{Id}+\Delta_{\mathbb{S}^2}`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from pycsphere.green import ZonalGreenBeltrami</span>
+
+<span class="sd">        for k in [1,2,3,4,5]:</span>
+<span class="sd">            zonal_green=ZonalGreenBeltrami(k=k)</span>
+<span class="sd">            zonal_green.plot(angles=True, fhandle=1)</span>
+<span class="sd">        plt.legend([f&#39;$k={np.round(val, 1)}$&#39; for val in [1,2,3,4,5]])</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    We have in this case :math:`\hat{D}_n=k(k+1)-n(n+1),`  :math:`\hat{D}_n\in \mathbb{R}`, :math:`|\hat{D}_n|=\Theta(n^{2})`,</span>
+<span class="sd">    and :math:`\mathcal{K}_{\mathcal{D}}=\{k\}`.</span>
+<span class="sd">    See Chapter 4 of [FuncSphere]_ for properties of Beltrami operators.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsphere.green.ZonalGreenIteratedBeltrami`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ZonalGreenBeltrami.__init__"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalGreenBeltrami.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rtol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        k: int</span>
+<span class="sd">            Parameter :math:`k\geq 1.`</span>
+<span class="sd">        rtol: float</span>
+<span class="sd">            Threshold for defining the effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">        cutoff: Optional[int]</span>
+<span class="sd">            Effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ZonalGreenBeltrami</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="n">cutoff</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_compute_fl_coefficients</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="n">op_coeffs</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">fl_coeffs</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">op_coeffs</span>
+        <span class="n">fl_coeffs</span><span class="p">[</span><span class="n">op_coeffs</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">op_coeffs</span><span class="p">[</span><span class="n">op_coeffs</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">fl_coeffs</span></div>
+
+
+<div class="viewcode-block" id="ZonalGreenIteratedBeltrami"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalGreenIteratedBeltrami">[docs]</a><span class="k">class</span> <span class="nc">ZonalGreenIteratedBeltrami</span><span class="p">(</span><span class="n">ZonalGreenFunction</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Zonal Green kernel of the Beltrami operator :math:`\partial_{0\cdots k}=\partial_0\cdots\partial_k`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from pycsphere.green import ZonalGreenIteratedBeltrami</span>
+
+<span class="sd">        for k in [1,2,3,4,5]:</span>
+<span class="sd">            zonal_green=ZonalGreenIteratedBeltrami(k=k)</span>
+<span class="sd">            zonal_green.plot(angles=True, fhandle=1)</span>
+<span class="sd">        plt.legend([f&#39;$k={np.round(val, 1)}$&#39; for val in [1,2,3,4,5]])</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    We have in this case :math:`\hat{D}_n=\Pi_{j=0}^k j(j+1)-n(n+1),`  :math:`\hat{D}_n\in \mathbb{R}`, :math:`|\hat{D}_n|=\Theta(n^{2(k+1)})`,</span>
+<span class="sd">    and :math:`\mathcal{K}_{\mathcal{D}}=\{0,\ldots,k\}`.</span>
+<span class="sd">    See Chapter 4 of [FuncSphere]_ for properties of Beltrami operators.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`~pycsphere.green.ZonalGreenBeltrami`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ZonalGreenIteratedBeltrami.__init__"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalGreenIteratedBeltrami.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rtol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        k: int</span>
+<span class="sd">            Parameter :math:`k\geq 1.`</span>
+<span class="sd">        rtol: float</span>
+<span class="sd">            Threshold for defining the effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">        cutoff: Optional[int]</span>
+<span class="sd">            Effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ZonalGreenIteratedBeltrami</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="n">cutoff</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_compute_fl_coefficients</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="n">op_coeffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">((</span><span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">fl_coeffs</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">op_coeffs</span>
+        <span class="n">fl_coeffs</span><span class="p">[</span><span class="n">op_coeffs</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">op_coeffs</span><span class="p">[</span><span class="n">op_coeffs</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">fl_coeffs</span></div>
+
+
+<div class="viewcode-block" id="ZonalMatern"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalMatern">[docs]</a><span class="k">class</span> <span class="nc">ZonalMatern</span><span class="p">(</span><span class="n">Radial2Zonal</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Matern zonal Green kernel.</span>
+
+<span class="sd">    The Matern zonal Green kernel is obtained by restricting the radial Matern function :py:class:`pycsou.math.green.Matern`</span>
+<span class="sd">    to the sphere as described in :py:class:`pycsphere.green.Radial2Zonal`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from pycsphere.green import ZonalMatern</span>
+
+<span class="sd">        for k in [0, 1,2,3]:</span>
+<span class="sd">            zonal_green=ZonalMatern(k=k)</span>
+<span class="sd">            zonal_green.plot(angles=True, fhandle=1)</span>
+<span class="sd">        plt.legend([f&#39;$k={np.round(val, 1)}$&#39; for val in [0, 1,2,3]])</span>
+
+<span class="sd">        for k in [0, 1,2,3]:</span>
+<span class="sd">            zonal_green=ZonalMatern(k=k)</span>
+<span class="sd">            zonal_green.spectrum(n_max=10, fhandle=2, color_index=k)</span>
+<span class="sd">        plt.legend([f&#39;$k={np.round(val, 1)}$&#39; for val in [0, 1,2,3]])</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    See Chapter 8 of [FuncSphere]_ for definitions, closed-form formulas and properties.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`pycsou.math.green.Matern`, :py:class:`~pycsphere.green.Wendland`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ZonalMatern.__init__"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalMatern.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">rtol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        k: int, [0, 1 ,2 ,3]</span>
+<span class="sd">            Order of the Matern function.</span>
+<span class="sd">        epsilon: float</span>
+<span class="sd">            Spread of the Matern function.</span>
+<span class="sd">        rtol: float</span>
+<span class="sd">            Threshold for defining the effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">        cutoff: Optional[int]</span>
+<span class="sd">            Effective bandwidth of the zonal Green kernel.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        See the help of :py:class:`pycsou.math.green.Matern` for more details on the parameters ``k`` and ``epsilon``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ZonalMatern</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">radial_green</span><span class="o">=</span><span class="n">Matern</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="n">k</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="n">cutoff</span><span class="p">,</span>
+                                          <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="ZonalWendland"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalWendland">[docs]</a><span class="k">class</span> <span class="nc">ZonalWendland</span><span class="p">(</span><span class="n">Radial2Zonal</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wendland zonal Green kernel.</span>
+
+<span class="sd">    The Wendland zonal Green kernel is obtained by restricting the radial Wendland function :py:class:`pycsou.math.green.Wendland`</span>
+<span class="sd">    to the sphere as described in :py:class:`pycsphere.green.Radial2Zonal`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">        from pycsphere.green import ZonalWendland</span>
+
+<span class="sd">        for k in [0, 1,2,3]:</span>
+<span class="sd">            zonal_green=ZonalWendland(k=k)</span>
+<span class="sd">            zonal_green.plot(angles=True, fhandle=1)</span>
+<span class="sd">        plt.legend([f&#39;$k={np.round(val, 1)}$&#39; for val in [0, 1,2,3]])</span>
+
+<span class="sd">        for k in [0, 1,2,3]:</span>
+<span class="sd">            zonal_green=ZonalWendland(k=k)</span>
+<span class="sd">            zonal_green.spectrum(n_max=10, fhandle=2, color_index=k)</span>
+<span class="sd">        plt.legend([f&#39;$k={np.round(val, 1)}$&#39; for val in [0, 1,2,3]])</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    See Chapter 8 of [FuncSphere]_ for definitions, closed-form formulas and properties.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :py:class:`pycsou.math.green.Wendland`, :py:class:`~pycsphere.green.Matern`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ZonalWendland.__init__"><a class="viewcode-back" href="../../api/green.html#pycsphere.green.ZonalWendland.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">rtol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        k: int, [0, 1 ,2 ,3]</span>
+<span class="sd">            Order of the Wendland function.</span>
+<span class="sd">        epsilon: float</span>
+<span class="sd">            Spread of the Wendland function.</span>
+<span class="sd">        rtol: float</span>
+<span class="sd">            Threshold for defining the effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">        cutoff: Optional[int]</span>
+<span class="sd">            Effective bandwidth of the zonal Green kernel.</span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        See the help of :py:class:`pycsou.math.green.Wendland` for more details on the parameters ``k`` and ``epsilon``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ZonalWendland</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">radial_green</span><span class="o">=</span><span class="n">Wendland</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="n">k</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="n">cutoff</span><span class="p">,</span>
+                                            <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">)</span></div></div>
+
+<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Matthieu SIMEONI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

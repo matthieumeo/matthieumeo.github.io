@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tessellation Graphs &mdash; pycgsp 1.0.1 documentation</title>
+  <title>Tessellation Graphs &mdash; pycgsp 1.0.3 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.0.1
+                1.0.3
               </div>
             
           
@@ -166,8 +166,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-pycgsp.graph.__init__">
-<span id="tessellation-graphs"></span><h1>Tessellation Graphs<a class="headerlink" href="#module-pycgsp.graph.__init__" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-pycgsp.graph">
+<span id="tessellation-graphs"></span><h1>Tessellation Graphs<a class="headerlink" href="#module-pycgsp.graph" title="Permalink to this headline">¶</a></h1>
 <p>Routines for building graphs from tessellations/point sets in <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span>.</p>
 <blockquote>
 <div><table class="longtable docutils align-default">
@@ -176,18 +176,18 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycgsp.graph.__init__.cvxhull_graph" title="pycgsp.graph.__init__.cvxhull_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cvxhull_graph</span></code></a>(R[, cheb_normalized, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycgsp.graph.cvxhull_graph" title="pycgsp.graph.cvxhull_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cvxhull_graph</span></code></a>(R[, cheb_normalized, …])</p></td>
 <td><p>Build the convex hull graph of a point set in <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycgsp.graph.__init__.healpix_nngraph" title="pycgsp.graph.__init__.healpix_nngraph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">healpix_nngraph</span></code></a>(nside[, cheb_normalized, …])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycgsp.graph.healpix_nngraph" title="pycgsp.graph.healpix_nngraph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">healpix_nngraph</span></code></a>(nside[, cheb_normalized, …])</p></td>
 <td><p>Build the nearest neighbour graph of a HEALPix spherical point set.</p></td>
 </tr>
 </tbody>
 </table>
 </div></blockquote>
 <dl class="function">
-<dt id="pycgsp.graph.__init__.cvxhull_graph">
-<code class="sig-name descname">cvxhull_graph</code><span class="sig-paren">(</span><em class="sig-param">R: numpy.ndarray</em>, <em class="sig-param">cheb_normalized: bool = True</em>, <em class="sig-param">compute_differential_operator: bool = True</em><span class="sig-paren">)</span> &#x2192; Tuple[pygsp.graphs.graph.Graph, float]<a class="reference internal" href="../../_modules/pycgsp/graph/__init__.html#cvxhull_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycgsp.graph.__init__.cvxhull_graph" title="Permalink to this definition">¶</a></dt>
+<dt id="pycgsp.graph.cvxhull_graph">
+<code class="sig-name descname">cvxhull_graph</code><span class="sig-paren">(</span><em class="sig-param">R: numpy.ndarray</em>, <em class="sig-param">cheb_normalized: bool = True</em>, <em class="sig-param">compute_differential_operator: bool = True</em><span class="sig-paren">)</span> &#x2192; Tuple[pygsp.graphs.graph.Graph, float]<a class="reference internal" href="../../_modules/pycgsp/graph.html#cvxhull_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycgsp.graph.cvxhull_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build the convex hull graph of a point set in <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span>.</p>
 <p>The graph edges have exponential-decay weighting.</p>
 <p>Definitions of the graph Laplacians:</p>
@@ -235,8 +235,8 @@ on the graph to its nearest neighbors.</p></li>
 </dd></dl>
 
 <dl class="function">
-<dt id="pycgsp.graph.__init__.healpix_nngraph">
-<code class="sig-name descname">healpix_nngraph</code><span class="sig-paren">(</span><em class="sig-param">nside: int</em>, <em class="sig-param">cheb_normalized: bool = True</em>, <em class="sig-param">compute_differential_operator: bool = True</em><span class="sig-paren">)</span> &#x2192; Tuple[pygsp.graphs.graph.Graph, float]<a class="reference internal" href="../../_modules/pycgsp/graph/__init__.html#healpix_nngraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycgsp.graph.__init__.healpix_nngraph" title="Permalink to this definition">¶</a></dt>
+<dt id="pycgsp.graph.healpix_nngraph">
+<code class="sig-name descname">healpix_nngraph</code><span class="sig-paren">(</span><em class="sig-param">nside: int</em>, <em class="sig-param">cheb_normalized: bool = True</em>, <em class="sig-param">compute_differential_operator: bool = True</em><span class="sig-paren">)</span> &#x2192; Tuple[pygsp.graphs.graph.Graph, float]<a class="reference internal" href="../../_modules/pycgsp/graph.html#healpix_nngraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycgsp.graph.healpix_nngraph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build the nearest neighbour graph of a HEALPix spherical point set.</p>
 <p>The graph edges have exponential-decay weighting.</p>
 <p>Definitions of the graph Laplacians:</p>
