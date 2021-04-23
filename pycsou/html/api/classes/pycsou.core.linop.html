@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Linear Operators &mdash; pycsou 1.0.5 documentation</title>
+  <title>Linear Operators &mdash; pycsou 1.0.6 documentation</title>
   
 
   
@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/plot_directive.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Functionals" href="pycsou.core.functional.html" />
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                1.0.5
+                1.0.6
               </div>
             
           
@@ -107,11 +108,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../functionals/index.html">Cost Functionals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../algorithms/pycsou.opt.proxalgs.html">Proximal Algorithms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../math/index.html">Mathematical Functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#abstract-classes">Abstract classes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#linear-operators">Linear Operators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#cost-functionals">Cost Functionals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#algorithms">Algorithms</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#mathematical-functions">Mathematical Functions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../other.html">Pycsou Utilities</a></li>
@@ -189,7 +185,8 @@
             
   <div class="section" id="linear-operators">
 <h1>Linear Operators<a class="headerlink" href="#linear-operators" title="Permalink to this headline">¶</a></h1>
-<p>Abstract classes for multidimensional linear operators.</p>
+<p>Module: <code class="docutils literal notranslate"><span class="pre">pycsou.core.linop</span></code></p>
+<span class="target" id="module-pycsou.core.linop"></span><p>Abstract classes for multidimensional linear maps.</p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -254,6 +251,26 @@ Such arithmetic operators can be used to <em>add</em>, <em>substract</em>, <em>s
 </dd></dl>
 
 <dl class="method">
+<dt id="pycsou.core.linop.LinearOperator.transpose">
+<code class="sig-name descname">transpose</code><span class="sig-paren">(</span><em class="sig-param">y: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; Union[numbers.Number, numpy.ndarray]<a class="reference internal" href="../../_modules/pycsou/core/linop.html#LinearOperator.transpose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.LinearOperator.transpose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the tranpose of the operator at a point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>y</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Point at which the transpose should be evaluated.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Evaluation of the transpose at <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[Number, np.ndarray]</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>For real-valued operators, the adjoint and the transpose coincide. For complex-valued operators, we can define the
+transpose as <span class="math notranslate nohighlight">\(\mathbf{A}^T \mathbf{y}=\overline{\mathbf{A}^\ast \overline{\mathbf{y}}}\)</span>.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="pycsou.core.linop.LinearOperator.jacobianT">
 <code class="sig-name descname">jacobianT</code><span class="sig-paren">(</span><em class="sig-param">arg: Union[numbers.Number</em>, <em class="sig-param">numpy.ndarray</em>, <em class="sig-param">None] = None</em><span class="sig-paren">)</span> &#x2192; pycsou.core.linop.LinearOperator<a class="reference internal" href="../../_modules/pycsou/core/linop.html#LinearOperator.jacobianT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.LinearOperator.jacobianT" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transpose of the Jacobian matrix of the differentiable map evaluated at <code class="docutils literal notranslate"><span class="pre">arg</span></code>.</p>
@@ -272,7 +289,7 @@ Such arithmetic operators can be used to <em>add</em>, <em>substract</em>, <em>s
 
 <dl class="method">
 <dt id="pycsou.core.linop.LinearOperator.get_adjointOp">
-<code class="sig-name descname">get_adjointOp</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pycsou.core.linop.LinearOperator<a class="reference internal" href="../../_modules/pycsou/core/linop.html#LinearOperator.get_adjointOp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.LinearOperator.get_adjointOp" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_adjointOp</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Union[pycsou.core.linop.LinearOperator, pycsou.core.linop.AdjointLinearOperator]<a class="reference internal" href="../../_modules/pycsou/core/linop.html#LinearOperator.get_adjointOp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.LinearOperator.get_adjointOp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the adjoint operator as a <code class="docutils literal notranslate"><span class="pre">LinearOperator</span></code> instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -291,6 +308,29 @@ Such arithmetic operators can be used to <em>add</em>, <em>substract</em>, <em>s
 </dd></dl>
 
 <dl class="method">
+<dt id="pycsou.core.linop.LinearOperator.get_transposeOp">
+<code class="sig-name descname">get_transposeOp</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pycsou.core.linop.TransposeLinearOperator<a class="reference internal" href="../../_modules/pycsou/core/linop.html#LinearOperator.get_transposeOp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.LinearOperator.get_transposeOp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the transpose operator as a <code class="docutils literal notranslate"><span class="pre">LinearOperator</span></code> instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The transpose operator.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pycsou.core.linop.TransposeLinearOperator" title="pycsou.core.linop.TransposeLinearOperator">TransposeLinearOperator</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>For real-valued operators, the adjoint and the transpose coincide. For complex-valued operators, we can define the
+transpose as <span class="math notranslate nohighlight">\(\mathbf{A}^T \mathbf{y}=\overline{\mathbf{A}^\ast \overline{\mathbf{y}}}\)</span>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.linop.LinearOperator.T">
+<em class="property">property </em><code class="sig-name descname">T</code><a class="headerlink" href="#pycsou.core.linop.LinearOperator.T" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for <code class="docutils literal notranslate"><span class="pre">self.get_adjointOp</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="pycsou.core.linop.LinearOperator.RangeGram">
 <em class="property">property </em><code class="sig-name descname">RangeGram</code><a class="headerlink" href="#pycsou.core.linop.LinearOperator.RangeGram" title="Permalink to this definition">¶</a></dt>
 <dd><p>Range-Gram operator, obtained by the composition <code class="docutils literal notranslate"><span class="pre">self</span> <span class="pre">*</span> <span class="pre">self.H</span></code> (adjoint followed by operator).</p>
@@ -299,7 +339,7 @@ Such arithmetic operators can be used to <em>add</em>, <em>substract</em>, <em>s
 <dd class="field-odd"><p>The Range-Gram operator.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SymmetricLinearOperator</span></code></p>
+<dd class="field-even"><p><a class="reference internal" href="#pycsou.core.linop.SymmetricLinearOperator" title="pycsou.core.linop.SymmetricLinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymmetricLinearOperator</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -313,7 +353,7 @@ Such arithmetic operators can be used to <em>add</em>, <em>substract</em>, <em>s
 <dd class="field-odd"><p>The Domain-Gram operator.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SymmetricLinearOperator</span></code></p>
+<dd class="field-even"><p><a class="reference internal" href="#pycsou.core.linop.SymmetricLinearOperator" title="pycsou.core.linop.SymmetricLinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymmetricLinearOperator</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -339,7 +379,7 @@ It is not possible to compute all eigenvectors of a matrix.</p></li>
 </ul>
 </div></blockquote>
 </p></li>
-<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A dict of additional keyword arguments values accepted by Scipy’s functions <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a> and <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>.</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A dict of additional keyword arguments values accepted by Scipy’s functions <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a> and <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -353,7 +393,7 @@ It is not possible to compute all eigenvectors of a matrix.</p></li>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>This function calls one of the two Scipy’s functions: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a> and <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>.
+<p>This function calls one of the two Scipy’s functions: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a> and <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>.
 See the documentation of these two functions for more information on their behaviour and the underlying ARPACK functions they rely on.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -378,7 +418,7 @@ The order of the singular values is not guaranteed.</p>
 </ul>
 </div></blockquote>
 </p></li>
-<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A dict of additional keyword arguments values accepted by Scipy’s function <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a>.</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A dict of additional keyword arguments values accepted by Scipy’s function <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -397,7 +437,7 @@ The order of the singular values is not guaranteed.</p>
 </pre></div>
 </div>
 <p class="rubric">Notes</p>
-<p>This function calls the Scipy’s function: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a>.
+<p>This function calls the Scipy’s function: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a>.
 See the documentation of this function for more information on its behaviour and the underlying ARPACK/LOBPCG functions it relies on.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -411,8 +451,8 @@ See the documentation of this function for more information on its behaviour and
 <dd><p>Compute the Lipschitz constant of the operator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A dict of additional keyword arguments values accepted by Scipy’s functions <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a>,
-<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a>.</p>
+<dd class="field-odd"><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A dict of additional keyword arguments values accepted by Scipy’s functions <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a>,
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a>.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Nothing: The Lipschitz constant is stored in the attribute <code class="docutils literal notranslate"><span class="pre">self.lipschitz_cst</span></code>.</p>
@@ -435,8 +475,8 @@ the methods  <code class="docutils literal notranslate"><span class="pre">self.s
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>For high-dimensional linear operators this method can be very time-consuming. Reducing the computation accuracy with
-the optional argument <code class="docutils literal notranslate"><span class="pre">tol:</span> <span class="pre">float</span></code> may help reduce the computational burden. See Scipy’s functions <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a>,
-<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a> for more on this parameter.</p>
+the optional argument <code class="docutils literal notranslate"><span class="pre">tol:</span> <span class="pre">float</span></code> may help reduce the computational burden. See Scipy’s functions <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a>,
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a> for more on this parameter.</p>
 </div>
 </dd></dl>
 
@@ -471,13 +511,13 @@ the optional argument <code class="docutils literal notranslate"><span class="pr
 <dl class="method">
 <dt id="pycsou.core.linop.LinearOperator.tosciop">
 <code class="sig-name descname">tosciop</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; scipy.sparse.linalg.interface.LinearOperator<a class="reference internal" href="../../_modules/pycsou/core/linop.html#LinearOperator.tosciop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.LinearOperator.tosciop" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert the operator to a Scipy <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.LinearOperator.html#scipy.sparse.linalg.LinearOperator" title="(in SciPy v1.6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">scipy.sparse.linalg.LinearOperator</span></code></a>.</p>
+<dd><p>Convert the operator to a Scipy <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.LinearOperator.html#scipy.sparse.linalg.LinearOperator" title="(in SciPy v1.6.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">scipy.sparse.linalg.LinearOperator</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>The Scipy linear operator representation.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.LinearOperator.html#scipy.sparse.linalg.LinearOperator" title="(in SciPy v1.6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">scipy.sparse.linalg.LinearOperator</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.LinearOperator.html#scipy.sparse.linalg.LinearOperator" title="(in SciPy v1.6.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">scipy.sparse.linalg.LinearOperator</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -563,14 +603,523 @@ information can be found in the help of this function.</p>
 
 <dl class="method">
 <dt id="pycsou.core.linop.LinearOperator.RowProjector">
-<code class="sig-name descname">RowProjector</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/linop.html#LinearOperator.RowProjector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.LinearOperator.RowProjector" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">RowProjector</code><a class="headerlink" href="#pycsou.core.linop.LinearOperator.RowProjector" title="Permalink to this definition">¶</a></dt>
 <dd><p>Orthogonal projection operator onto the rows of <code class="docutils literal notranslate"><span class="pre">self</span></code>. It is given by <code class="docutils literal notranslate"><span class="pre">self</span> <span class="pre">*</span> <span class="pre">self.dagger</span></code>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pycsou.core.linop.LinearOperator.ColProjector">
-<code class="sig-name descname">ColProjector</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/linop.html#LinearOperator.ColProjector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.LinearOperator.ColProjector" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">ColProjector</code><a class="headerlink" href="#pycsou.core.linop.LinearOperator.ColProjector" title="Permalink to this definition">¶</a></dt>
 <dd><p>Orthogonal projection operator onto the columns of <code class="docutils literal notranslate"><span class="pre">self</span></code>. It is given by <code class="docutils literal notranslate"><span class="pre">self.dagger</span> <span class="pre">*</span> <span class="pre">self</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.linop.AdjointLinearOperator">
+<em class="property">class </em><code class="sig-name descname">AdjointLinearOperator</code><span class="sig-paren">(</span><em class="sig-param">LinOp: pycsou.core.linop.LinearOperator</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/linop.html#AdjointLinearOperator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.AdjointLinearOperator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.linop.LinearOperator</span></code></a></p>
+<dl class="method">
+<dt id="pycsou.core.linop.AdjointLinearOperator.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">LinOp: pycsou.core.linop.LinearOperator</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/linop.html#AdjointLinearOperator.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.AdjointLinearOperator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Shape of the linear operator.</p></li>
+<li><p><strong>dtype</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.9)"><em>type</em></a><em>]</em>) – Data type of the linear operator.</p></li>
+<li><p><strong>is_explicit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Numpy/Scipy/Dask array.</p></li>
+<li><p><strong>is_dense</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Numpy array.</p></li>
+<li><p><strong>is_sparse</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Scipy sparse matrix.</p></li>
+<li><p><strong>is_dask</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Dask array.</p></li>
+<li><p><strong>is_symmetric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the linear operator is symmetric or not.</p></li>
+<li><p><strong>lipschitz_cst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Lipschitz constant (maximal singular value) of the linear operator if known. Default to <span class="math notranslate nohighlight">\(+\infty\)</span>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.linop.AdjointLinearOperator.adjoint">
+<code class="sig-name descname">adjoint</code><span class="sig-paren">(</span><em class="sig-param">x: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; Union[numbers.Number, numpy.ndarray]<a class="reference internal" href="../../_modules/pycsou/core/linop.html#AdjointLinearOperator.adjoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.AdjointLinearOperator.adjoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the adjoint of the operator at a point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>y</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Point at which the adjoint should be evaluated.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Evaluation of the adjoint at <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[Number, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.linop.AdjointLinearOperator.compute_lipschitz_cst">
+<code class="sig-name descname">compute_lipschitz_cst</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/linop.html#AdjointLinearOperator.compute_lipschitz_cst"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.AdjointLinearOperator.compute_lipschitz_cst" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the Lipschitz constant of the operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A dict of additional keyword arguments values accepted by Scipy’s functions <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a>,
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Nothing: The Lipschitz constant is stored in the attribute <code class="docutils literal notranslate"><span class="pre">self.lipschitz_cst</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">filter</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">hann</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span> <span class="nb">filter</span><span class="p">[</span><span class="nb">filter</span><span class="o">.</span><span class="n">size</span><span class="o">//</span><span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ConvOp</span> <span class="o">=</span> <span class="n">Convolve1D</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">sig</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ConvOp</span><span class="o">.</span><span class="n">compute_lipschitz_cst</span><span class="p">(</span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">);</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">ConvOp</span><span class="o">.</span><span class="n">lipschitz_cst</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">0.5</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>The Lipschtiz constant of a linear operator is its largest singular value. This function therefore calls
+the methods  <code class="docutils literal notranslate"><span class="pre">self.singularvals</span></code> with <code class="docutils literal notranslate"><span class="pre">k=1</span></code> and <code class="docutils literal notranslate"><span class="pre">which='LM'</span></code> to perform this computation.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>For high-dimensional linear operators this method can be very time-consuming. Reducing the computation accuracy with
+the optional argument <code class="docutils literal notranslate"><span class="pre">tol:</span> <span class="pre">float</span></code> may help reduce the computational burden. See Scipy’s functions <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a>,
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a> for more on this parameter.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.linop.TransposeLinearOperator">
+<em class="property">class </em><code class="sig-name descname">TransposeLinearOperator</code><span class="sig-paren">(</span><em class="sig-param">LinOp: pycsou.core.linop.LinearOperator</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/linop.html#TransposeLinearOperator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.TransposeLinearOperator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.linop.LinearOperator</span></code></a></p>
+<dl class="method">
+<dt id="pycsou.core.linop.TransposeLinearOperator.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">LinOp: pycsou.core.linop.LinearOperator</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/linop.html#TransposeLinearOperator.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.TransposeLinearOperator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Shape of the linear operator.</p></li>
+<li><p><strong>dtype</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.9)"><em>type</em></a><em>]</em>) – Data type of the linear operator.</p></li>
+<li><p><strong>is_explicit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Numpy/Scipy/Dask array.</p></li>
+<li><p><strong>is_dense</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Numpy array.</p></li>
+<li><p><strong>is_sparse</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Scipy sparse matrix.</p></li>
+<li><p><strong>is_dask</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Dask array.</p></li>
+<li><p><strong>is_symmetric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the linear operator is symmetric or not.</p></li>
+<li><p><strong>lipschitz_cst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Lipschitz constant (maximal singular value) of the linear operator if known. Default to <span class="math notranslate nohighlight">\(+\infty\)</span>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.linop.TransposeLinearOperator.adjoint">
+<code class="sig-name descname">adjoint</code><span class="sig-paren">(</span><em class="sig-param">x: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; Union[numbers.Number, numpy.ndarray]<a class="reference internal" href="../../_modules/pycsou/core/linop.html#TransposeLinearOperator.adjoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.TransposeLinearOperator.adjoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the adjoint of the operator at a point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>y</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Point at which the adjoint should be evaluated.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Evaluation of the adjoint at <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[Number, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.linop.LinOpSum">
+<em class="property">class </em><code class="sig-name descname">LinOpSum</code><span class="sig-paren">(</span><em class="sig-param">LinOp1: pycsou.core.linop.LinearOperator</em>, <em class="sig-param">LinOp2: pycsou.core.linop.LinearOperator</em>, <em class="sig-param">dtype: Optional[type] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/linop.html#LinOpSum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.LinOpSum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.linop.LinearOperator</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.map.DiffMapSum</span></code></p>
+<dl class="method">
+<dt id="pycsou.core.linop.LinOpSum.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">LinOp1: pycsou.core.linop.LinearOperator</em>, <em class="sig-param">LinOp2: pycsou.core.linop.LinearOperator</em>, <em class="sig-param">dtype: Optional[type] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/linop.html#LinOpSum.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.LinOpSum.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Shape of the linear operator.</p></li>
+<li><p><strong>dtype</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.9)"><em>type</em></a><em>]</em>) – Data type of the linear operator.</p></li>
+<li><p><strong>is_explicit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Numpy/Scipy/Dask array.</p></li>
+<li><p><strong>is_dense</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Numpy array.</p></li>
+<li><p><strong>is_sparse</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Scipy sparse matrix.</p></li>
+<li><p><strong>is_dask</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Dask array.</p></li>
+<li><p><strong>is_symmetric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the linear operator is symmetric or not.</p></li>
+<li><p><strong>lipschitz_cst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Lipschitz constant (maximal singular value) of the linear operator if known. Default to <span class="math notranslate nohighlight">\(+\infty\)</span>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.linop.LinOpSum.adjoint">
+<code class="sig-name descname">adjoint</code><span class="sig-paren">(</span><em class="sig-param">y: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; Union[numbers.Number, numpy.ndarray]<a class="reference internal" href="../../_modules/pycsou/core/linop.html#LinOpSum.adjoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.LinOpSum.adjoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the adjoint of the operator at a point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>y</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Point at which the adjoint should be evaluated.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Evaluation of the adjoint at <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[Number, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.linop.LinOpComp">
+<em class="property">class </em><code class="sig-name descname">LinOpComp</code><span class="sig-paren">(</span><em class="sig-param">LinOp1: pycsou.core.linop.LinearOperator</em>, <em class="sig-param">LinOp2: pycsou.core.linop.LinearOperator</em>, <em class="sig-param">dtype: Optional[type] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/linop.html#LinOpComp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.LinOpComp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.linop.LinearOperator</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.map.DiffMapComp</span></code></p>
+<dl class="method">
+<dt id="pycsou.core.linop.LinOpComp.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">LinOp1: pycsou.core.linop.LinearOperator</em>, <em class="sig-param">LinOp2: pycsou.core.linop.LinearOperator</em>, <em class="sig-param">dtype: Optional[type] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/linop.html#LinOpComp.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.LinOpComp.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Shape of the linear operator.</p></li>
+<li><p><strong>dtype</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.9)"><em>type</em></a><em>]</em>) – Data type of the linear operator.</p></li>
+<li><p><strong>is_explicit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Numpy/Scipy/Dask array.</p></li>
+<li><p><strong>is_dense</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Numpy array.</p></li>
+<li><p><strong>is_sparse</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Scipy sparse matrix.</p></li>
+<li><p><strong>is_dask</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Dask array.</p></li>
+<li><p><strong>is_symmetric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the linear operator is symmetric or not.</p></li>
+<li><p><strong>lipschitz_cst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Lipschitz constant (maximal singular value) of the linear operator if known. Default to <span class="math notranslate nohighlight">\(+\infty\)</span>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.linop.LinOpComp.adjoint">
+<code class="sig-name descname">adjoint</code><span class="sig-paren">(</span><em class="sig-param">y: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; Union[numbers.Number, numpy.ndarray]<a class="reference internal" href="../../_modules/pycsou/core/linop.html#LinOpComp.adjoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.LinOpComp.adjoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the adjoint of the operator at a point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>y</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Point at which the adjoint should be evaluated.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Evaluation of the adjoint at <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[Number, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.linop.SymmetricLinearOperator">
+<em class="property">class </em><code class="sig-name descname">SymmetricLinearOperator</code><span class="sig-paren">(</span><em class="sig-param">LinOp: pycsou.core.linop.LinearOperator</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/linop.html#SymmetricLinearOperator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.SymmetricLinearOperator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.linop.LinearOperator</span></code></a></p>
+<dl class="method">
+<dt id="pycsou.core.linop.SymmetricLinearOperator.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">LinOp: pycsou.core.linop.LinearOperator</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/linop.html#SymmetricLinearOperator.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.SymmetricLinearOperator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Shape of the linear operator.</p></li>
+<li><p><strong>dtype</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.9)"><em>type</em></a><em>]</em>) – Data type of the linear operator.</p></li>
+<li><p><strong>is_explicit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Numpy/Scipy/Dask array.</p></li>
+<li><p><strong>is_dense</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Numpy array.</p></li>
+<li><p><strong>is_sparse</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Scipy sparse matrix.</p></li>
+<li><p><strong>is_dask</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Dask array.</p></li>
+<li><p><strong>is_symmetric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the linear operator is symmetric or not.</p></li>
+<li><p><strong>lipschitz_cst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Lipschitz constant (maximal singular value) of the linear operator if known. Default to <span class="math notranslate nohighlight">\(+\infty\)</span>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.linop.SymmetricLinearOperator.adjoint">
+<code class="sig-name descname">adjoint</code><span class="sig-paren">(</span><em class="sig-param">y: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; Union[numbers.Number, numpy.ndarray]<a class="reference internal" href="../../_modules/pycsou/core/linop.html#SymmetricLinearOperator.adjoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.SymmetricLinearOperator.adjoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the adjoint of the operator at a point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>y</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Point at which the adjoint should be evaluated.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Evaluation of the adjoint at <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[Number, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.linop.UnitaryOperator">
+<em class="property">class </em><code class="sig-name descname">UnitaryOperator</code><span class="sig-paren">(</span><em class="sig-param">size: int</em>, <em class="sig-param">dtype: Optional[type] = None</em>, <em class="sig-param">is_explicit: bool = False</em>, <em class="sig-param">is_dense: bool = False</em>, <em class="sig-param">is_sparse: bool = False</em>, <em class="sig-param">is_dask: bool = False</em>, <em class="sig-param">is_symmetric: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/linop.html#UnitaryOperator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.UnitaryOperator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.linop.LinearOperator</span></code></a></p>
+<dl class="method">
+<dt id="pycsou.core.linop.UnitaryOperator.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">size: int</em>, <em class="sig-param">dtype: Optional[type] = None</em>, <em class="sig-param">is_explicit: bool = False</em>, <em class="sig-param">is_dense: bool = False</em>, <em class="sig-param">is_sparse: bool = False</em>, <em class="sig-param">is_dask: bool = False</em>, <em class="sig-param">is_symmetric: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/linop.html#UnitaryOperator.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.UnitaryOperator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Shape of the linear operator.</p></li>
+<li><p><strong>dtype</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.9)"><em>type</em></a><em>]</em>) – Data type of the linear operator.</p></li>
+<li><p><strong>is_explicit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Numpy/Scipy/Dask array.</p></li>
+<li><p><strong>is_dense</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Numpy array.</p></li>
+<li><p><strong>is_sparse</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Scipy sparse matrix.</p></li>
+<li><p><strong>is_dask</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Dask array.</p></li>
+<li><p><strong>is_symmetric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the linear operator is symmetric or not.</p></li>
+<li><p><strong>lipschitz_cst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Lipschitz constant (maximal singular value) of the linear operator if known. Default to <span class="math notranslate nohighlight">\(+\infty\)</span>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.linop.UnitaryOperator.RangeGram">
+<em class="property">property </em><code class="sig-name descname">RangeGram</code><a class="headerlink" href="#pycsou.core.linop.UnitaryOperator.RangeGram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Range-Gram operator, obtained by the composition <code class="docutils literal notranslate"><span class="pre">self</span> <span class="pre">*</span> <span class="pre">self.H</span></code> (adjoint followed by operator).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The Range-Gram operator.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pycsou.core.linop.SymmetricLinearOperator" title="pycsou.core.linop.SymmetricLinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymmetricLinearOperator</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.linop.UnitaryOperator.DomainGram">
+<em class="property">property </em><code class="sig-name descname">DomainGram</code><a class="headerlink" href="#pycsou.core.linop.UnitaryOperator.DomainGram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Domain-Gram operator, obtained by the composition <code class="docutils literal notranslate"><span class="pre">self.H</span> <span class="pre">*</span> <span class="pre">self</span></code> (operator followed by adjoint).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The Domain-Gram operator.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pycsou.core.linop.SymmetricLinearOperator" title="pycsou.core.linop.SymmetricLinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymmetricLinearOperator</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.linop.UnitaryOperator.eigenvals">
+<code class="sig-name descname">eigenvals</code><span class="sig-paren">(</span><em class="sig-param">k: int</em>, <em class="sig-param">which='LM'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../../_modules/pycsou/core/linop.html#UnitaryOperator.eigenvals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.UnitaryOperator.eigenvals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find <code class="docutils literal notranslate"><span class="pre">k</span></code> eigenvalues of a square operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The number of eigenvalues and eigenvectors desired. <code class="docutils literal notranslate"><span class="pre">k</span></code> must be strictly smaller than the dimension of the operator.
+It is not possible to compute all eigenvectors of a matrix.</p></li>
+<li><p><strong>which</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>[</em><em>‘LM’ | ‘SM’ | ‘LR’ | ‘SR’ | ‘LI’ | ‘SI’</em><em>]</em>) – <p>Which <code class="docutils literal notranslate"><span class="pre">k</span></code> eigenvalues to find:</p>
+<blockquote>
+<div><ul>
+<li><p>‘LM’ : largest magnitude</p></li>
+<li><p>‘SM’ : smallest magnitude</p></li>
+<li><p>‘LR’ : largest real part</p></li>
+<li><p>‘SR’ : smallest real part</p></li>
+<li><p>‘LI’ : largest imaginary part</p></li>
+<li><p>‘SI’ : smallest imaginary part</p></li>
+</ul>
+</div></blockquote>
+</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A dict of additional keyword arguments values accepted by Scipy’s functions <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a> and <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Array containing the <code class="docutils literal notranslate"><span class="pre">k</span></code> requested eigenvalues.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.9)"><strong>NotImplementedError</strong></a> – If the linear operator is not square.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function calls one of the two Scipy’s functions: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a> and <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>.
+See the documentation of these two functions for more information on their behaviour and the underlying ARPACK functions they rely on.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-meth docutils literal notranslate"><span class="pre">svds()</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.linop.UnitaryOperator.singularvals">
+<code class="sig-name descname">singularvals</code><span class="sig-paren">(</span><em class="sig-param">k: int</em>, <em class="sig-param">which='LM'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../../_modules/pycsou/core/linop.html#UnitaryOperator.singularvals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.UnitaryOperator.singularvals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the largest or smallest <code class="docutils literal notranslate"><span class="pre">k</span></code> singular values of an operator.
+The order of the singular values is not guaranteed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of singular values to compute. Must be <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">&lt;=</span> <span class="pre">k</span> <span class="pre">&lt;</span> <span class="pre">min(self.shape)</span></code>.</p></li>
+<li><p><strong>which</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>[</em><em>‘LM’ | ‘SM’</em><em>]</em>) – <p>Which <code class="docutils literal notranslate"><span class="pre">k</span></code> singular values to find:</p>
+<blockquote>
+<div><ul>
+<li><p>‘LM’ : largest magnitude</p></li>
+<li><p>‘SM’ : smallest magnitude</p></li>
+</ul>
+</div></blockquote>
+</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A dict of additional keyword arguments values accepted by Scipy’s function <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Array containing the <code class="docutils literal notranslate"><span class="pre">k</span></code> requested singular values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">filter</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">hann</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span> <span class="nb">filter</span><span class="p">[</span><span class="nb">filter</span><span class="o">.</span><span class="n">size</span><span class="o">//</span><span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ConvOp</span> <span class="o">=</span> <span class="n">Convolve1D</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">sig</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">((</span><span class="n">ConvOp</span><span class="o">.</span><span class="n">singularvals</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;LM&#39;</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">array([0.5, 0.5, 0.5])</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>This function calls the Scipy’s function: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a>.
+See the documentation of this function for more information on its behaviour and the underlying ARPACK/LOBPCG functions it relies on.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#pycsou.core.linop.LinearOperator.eigenvals" title="pycsou.core.linop.LinearOperator.eigenvals"><code class="xref py py-meth docutils literal notranslate"><span class="pre">eigenvals()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.linop.UnitaryOperator.compute_lipschitz_cst">
+<code class="sig-name descname">compute_lipschitz_cst</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/linop.html#UnitaryOperator.compute_lipschitz_cst"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.UnitaryOperator.compute_lipschitz_cst" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the Lipschitz constant of the operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A dict of additional keyword arguments values accepted by Scipy’s functions <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a>,
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Nothing: The Lipschitz constant is stored in the attribute <code class="docutils literal notranslate"><span class="pre">self.lipschitz_cst</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">filter</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">hann</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span> <span class="nb">filter</span><span class="p">[</span><span class="nb">filter</span><span class="o">.</span><span class="n">size</span><span class="o">//</span><span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ConvOp</span> <span class="o">=</span> <span class="n">Convolve1D</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">sig</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ConvOp</span><span class="o">.</span><span class="n">compute_lipschitz_cst</span><span class="p">(</span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">);</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">ConvOp</span><span class="o">.</span><span class="n">lipschitz_cst</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">0.5</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>The Lipschtiz constant of a linear operator is its largest singular value. This function therefore calls
+the methods  <code class="docutils literal notranslate"><span class="pre">self.singularvals</span></code> with <code class="docutils literal notranslate"><span class="pre">k=1</span></code> and <code class="docutils literal notranslate"><span class="pre">which='LM'</span></code> to perform this computation.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>For high-dimensional linear operators this method can be very time-consuming. Reducing the computation accuracy with
+the optional argument <code class="docutils literal notranslate"><span class="pre">tol:</span> <span class="pre">float</span></code> may help reduce the computational burden. See Scipy’s functions <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a>,
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a> for more on this parameter.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.linop.UnitaryOperator.pinv">
+<code class="sig-name descname">pinv</code><span class="sig-paren">(</span><em class="sig-param">y: Union[numbers.Number, numpy.ndarray], eps: numbers.Number = 0, **kwargs</em><span class="sig-paren">)</span> &#x2192; Union[numbers.Number, numpy.ndarray]<a class="reference internal" href="../../_modules/pycsou/core/linop.html#UnitaryOperator.pinv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.UnitaryOperator.pinv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate the pseudo-inverse of the operator at <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Point at which the pseudo-inverse is evaluated.</p></li>
+<li><p><strong>eps</strong> (<em>Number</em>) – Tikhonov damping.</p></li>
+<li><p><strong>kwargs</strong> – Arbitrary keyword arguments accepted by the function: <a class="reference external" href="https://pylops.readthedocs.io/en/latest/api/generated/pylops.optimization.leastsquares.NormalEquationsInversion.html#pylops.optimization.leastsquares.NormalEquationsInversion" title="(in PyLops vdev)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pylops.optimization.leastsquares.NormalEquationsInversion()</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Evaluation of the pseudo-inverse of the operator at <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This is a wrapper around the function <a class="reference external" href="https://pylops.readthedocs.io/en/latest/api/generated/pylops.optimization.leastsquares.NormalEquationsInversion.html#pylops.optimization.leastsquares.NormalEquationsInversion" title="(in PyLops vdev)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pylops.optimization.leastsquares.NormalEquationsInversion()</span></code></a>. Additional
+information can be found in the help of this function.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.linop.UnitaryOperator.PinvOp">
+<em class="property">property </em><code class="sig-name descname">PinvOp</code><a class="headerlink" href="#pycsou.core.linop.UnitaryOperator.PinvOp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the pseudo-inverse of the operator as a <code class="docutils literal notranslate"><span class="pre">LinearOperator</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.linop.UnitaryOperator.cond">
+<code class="sig-name descname">cond</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/linop.html#UnitaryOperator.cond"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.UnitaryOperator.cond" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the condition number of the operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A dict of additional keyword arguments values accepted by Pylops’ method <a class="reference external" href="https://pylops.readthedocs.io/en/latest/api/generated/pylops.LinearOperator.html#pylops.LinearOperator.cond" title="(in PyLops vdev)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pylops.LinearOperator.cond()</span></code></a>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Condition number.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.linop.LinOpPinv">
+<em class="property">class </em><code class="sig-name descname">LinOpPinv</code><span class="sig-paren">(</span><em class="sig-param">LinOp: pycsou.core.linop.LinearOperator</em>, <em class="sig-param">eps: numbers.Number = 0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/linop.html#LinOpPinv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.LinOpPinv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.linop.LinearOperator</span></code></a></p>
+<dl class="method">
+<dt id="pycsou.core.linop.LinOpPinv.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">LinOp: pycsou.core.linop.LinearOperator</em>, <em class="sig-param">eps: numbers.Number = 0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/linop.html#LinOpPinv.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.LinOpPinv.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Shape of the linear operator.</p></li>
+<li><p><strong>dtype</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.9)"><em>type</em></a><em>]</em>) – Data type of the linear operator.</p></li>
+<li><p><strong>is_explicit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Numpy/Scipy/Dask array.</p></li>
+<li><p><strong>is_dense</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Numpy array.</p></li>
+<li><p><strong>is_sparse</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Scipy sparse matrix.</p></li>
+<li><p><strong>is_dask</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Dask array.</p></li>
+<li><p><strong>is_symmetric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the linear operator is symmetric or not.</p></li>
+<li><p><strong>lipschitz_cst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Lipschitz constant (maximal singular value) of the linear operator if known. Default to <span class="math notranslate nohighlight">\(+\infty\)</span>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.linop.LinOpPinv.adjoint">
+<code class="sig-name descname">adjoint</code><span class="sig-paren">(</span><em class="sig-param">y: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; Union[numbers.Number, numpy.ndarray]<a class="reference internal" href="../../_modules/pycsou/core/linop.html#LinOpPinv.adjoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.linop.LinOpPinv.adjoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the adjoint of the operator at a point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>y</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Point at which the adjoint should be evaluated.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Evaluation of the adjoint at <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[Number, np.ndarray]</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

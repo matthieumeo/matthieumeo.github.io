@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Penalty Functionals &mdash; pycsou 1.0.5 documentation</title>
+  <title>Penalty Functionals &mdash; pycsou 1.0.6 documentation</title>
   
 
   
@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/plot_directive.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Loss Functionals" href="pycsou.func.loss.html" />
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                1.0.5
+                1.0.6
               </div>
             
           
@@ -106,11 +107,6 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../algorithms/pycsou.opt.proxalgs.html">Proximal Algorithms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../math/index.html">Mathematical Functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#abstract-classes">Abstract classes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#linear-operators">Linear Operators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#cost-functionals">Cost Functionals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#algorithms">Algorithms</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#mathematical-functions">Mathematical Functions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../other.html">Pycsou Utilities</a></li>
@@ -186,9 +182,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-pycsou.func.penalty">
-<span id="penalty-functionals"></span><span id="penalties"></span><h1>Penalty Functionals<a class="headerlink" href="#module-pycsou.func.penalty" title="Permalink to this headline">¶</a></h1>
-<p>Repository of common penalty functionals.</p>
+  <div class="section" id="penalty-functionals">
+<span id="penalties"></span><h1>Penalty Functionals<a class="headerlink" href="#penalty-functionals" title="Permalink to this headline">¶</a></h1>
+<p>Module: <code class="docutils literal notranslate"><span class="pre">pycsou.func.penalty</span></code></p>
+<span class="target" id="module-pycsou.func.penalty"></span><p>Repository of common penalty functionals.</p>
 <p class="rubric">Norms</p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -210,6 +207,12 @@
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.func.penalty.LInftyNorm" title="pycsou.func.penalty.LInftyNorm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LInftyNorm</span></code></a>(dim)</p></td>
 <td><p><span class="math notranslate nohighlight">\(\ell_\infty\)</span>-norm, <span class="math notranslate nohighlight">\(\Vert\mathbf{x}\Vert_\infty:=\max_{i=1,\ldots,N} |x_i|\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.func.penalty.L21Norm" title="pycsou.func.penalty.L21Norm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">L21Norm</span></code></a>(dim, groups)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\ell_{2,1}\)</span>-norm, <span class="math notranslate nohighlight">\(\Vert\mathbf{x}\Vert_{2,1}:=\sum_{g=1}^G \sqrt{ \sum_{i\in\mathcal{G}_g} |x_i|^2}\,.\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.func.penalty.QuadraticForm" title="pycsou.func.penalty.QuadraticForm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">QuadraticForm</span></code></a>(dim[, linop])</p></td>
+<td><p>Quadratic form <span class="math notranslate nohighlight">\(\mathbf{x}^\ast \mathbf{L} \mathbf{x}\)</span>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -703,6 +706,96 @@ The proximal operator of the <span class="math notranslate nohighlight">\(\ell_\
 </div>
 </dd></dl>
 
+<dl class="class">
+<dt id="pycsou.func.penalty.L21Norm">
+<em class="property">class </em><code class="sig-name descname">L21Norm</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">groups: numpy.ndarray</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/func/penalty.html#L21Norm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.func.penalty.L21Norm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../classes/pycsou.core.functional.html#pycsou.core.functional.ProximableFunctional" title="pycsou.core.functional.ProximableFunctional"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.functional.ProximableFunctional</span></code></a></p>
+<p><span class="math notranslate nohighlight">\(\ell_{2,1}\)</span>-norm, <span class="math notranslate nohighlight">\(\Vert\mathbf{x}\Vert_{2,1}:=\sum_{g=1}^G \sqrt{ \sum_{i\in\mathcal{G}_g} |x_i|^2}\,.\)</span></p>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">groups</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">group_norm</span> <span class="o">=</span> <span class="n">L21Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span><span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">group_norm</span><span class="p">)</span>
+<span class="go">&lt;class &#39;pycsou.func.penalty.L21Norm&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">group_norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">21.44594499772297</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l2_norm</span> <span class="o">=</span> <span class="n">L21Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span><span class="n">groups</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">l2_norm</span><span class="p">)</span>
+<span class="go">&lt;class &#39;pycsou.func.penalty.L2Norm&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l1_norm</span> <span class="o">=</span> <span class="n">L21Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span><span class="n">groups</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">))</span> <span class="c1"># Also if groups = None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">l1_norm</span><span class="p">)</span>
+<span class="go">&lt;class &#39;pycsou.func.penalty.L1Norm&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">single_group_l2</span> <span class="o">=</span> <span class="n">L2Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tau</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">group_norm</span><span class="o">.</span><span class="n">prox</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">single_group_l2</span><span class="o">.</span><span class="n">prox</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">],</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">),</span><span class="n">single_group_l2</span><span class="o">.</span><span class="n">prox</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">10</span><span class="p">],</span><span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">))))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>The <span class="math notranslate nohighlight">\(\ell_{2,1}\)</span>-norm penalty is convex and proximable. This penalty tends to produce group sparse solutions,
+where all elements <span class="math notranslate nohighlight">\(x_i\)</span> for <span class="math notranslate nohighlight">\(i\in\mathcal{G}_g\)</span> for some <span class="math notranslate nohighlight">\(g\in\lbrace 1,2,\dots,G\)</span> tend to
+be zero or non-zero jointly. A critical assumtion is that the groups are not overlapping, i.e.,
+<span class="math notranslate nohighlight">\(\mathcal{G}_j \cap \mathcal{G}_i = \emptyset\)</span> for <span class="math notranslate nohighlight">\(j,i \in \lbrace 1,2,\dots,G\rbrace\)</span> such that <span class="math notranslate nohighlight">\(j\neq i.\)</span>
+The proximal operator of the <span class="math notranslate nohighlight">\(\ell_{2,1}\)</span>-norm is obtained easily from that of the <span class="math notranslate nohighlight">\(\ell_2\)</span>-norm and the
+separable sum property.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">L2Norm()</span></code>, <a class="reference internal" href="#pycsou.func.penalty.SquaredL2Norm" title="pycsou.func.penalty.SquaredL2Norm"><code class="xref py py-class docutils literal notranslate"><span class="pre">SquaredL2Norm</span></code></a>, <a class="reference internal" href="#pycsou.func.penalty.L1Norm" title="pycsou.func.penalty.L1Norm"><code class="xref py py-func docutils literal notranslate"><span class="pre">L1Norm()</span></code></a>.</p>
+</div>
+<dl class="method">
+<dt id="pycsou.func.penalty.L21Norm.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">groups: numpy.ndarray</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/func/penalty.html#L21Norm.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.func.penalty.L21Norm.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Dimension of the domain.</p></li>
+<li><p><strong>groups</strong> (<em>np.ndarray</em><em>, </em><em>optional</em><em>, </em><em>defaults to None</em>) – Numerical variable of the same size as <span class="math notranslate nohighlight">\(x\)</span>, where different
+groups are distinguished by different values. If each element of <cite>x</cite>
+belongs to a different group, an L1Norm is returned. If all elements
+of <cite>x</cite> belong to the same group, an L2Norm is returned.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.func.penalty.L21Norm.__call__">
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param">x: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; numbers.Number<a class="reference internal" href="../../_modules/pycsou/func/penalty.html#L21Norm.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.func.penalty.L21Norm.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call self as a function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>arg</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Argument of the map.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Value of <code class="docutils literal notranslate"><span class="pre">arg</span></code> through the map.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[Number, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.func.penalty.L21Norm.prox">
+<code class="sig-name descname">prox</code><span class="sig-paren">(</span><em class="sig-param">x: Union[numbers.Number, numpy.ndarray], tau: numbers.Number</em><span class="sig-paren">)</span> &#x2192; Union[numbers.Number, numpy.ndarray]<a class="reference internal" href="../../_modules/pycsou/func/penalty.html#L21Norm.prox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.func.penalty.L21Norm.prox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate the proximity operator of the <code class="docutils literal notranslate"><span class="pre">tau</span></code>-scaled functional at the point <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Point at which to perform the evaluation.</p></li>
+<li><p><strong>tau</strong> (<em>Number</em>) – Scale.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Evaluation of the proximity operator of the <code class="docutils literal notranslate"><span class="pre">tau</span></code>-scaled functional at the point <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[Number, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="function">
 <dt id="pycsou.func.penalty.NonNegativeOrthant">
 <code class="sig-name descname">NonNegativeOrthant</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em><span class="sig-paren">)</span> &#x2192; pycsou.func.base.IndicatorFunctional<a class="reference internal" href="../../_modules/pycsou/func/penalty.html#NonNegativeOrthant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.func.penalty.NonNegativeOrthant" title="Permalink to this definition">¶</a></dt>
@@ -1010,6 +1103,82 @@ Its proximal operator is given in <a class="reference internal" href="../../note
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>Union[Number, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.func.penalty.QuadraticForm">
+<em class="property">class </em><code class="sig-name descname">QuadraticForm</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">linop: Optional[pycsou.core.linop.LinearOperator] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/func/penalty.html#QuadraticForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.func.penalty.QuadraticForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../classes/pycsou.core.functional.html#pycsou.core.functional.DifferentiableFunctional" title="pycsou.core.functional.DifferentiableFunctional"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.functional.DifferentiableFunctional</span></code></a></p>
+<p>Quadratic form <span class="math notranslate nohighlight">\(\mathbf{x}^\ast \mathbf{L} \mathbf{x}\)</span>.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">L</span> <span class="o">=</span>  <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">L</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span> <span class="o">@</span> <span class="n">L</span> <span class="c1">#make definite positive</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Lop</span> <span class="o">=</span> <span class="n">DenseLinearOperator</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">F</span> <span class="o">=</span> <span class="n">QuadraticForm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">linop</span><span class="o">=</span><span class="n">Lop</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">F</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Lop</span> <span class="o">@</span> <span class="n">x</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">Lop</span> <span class="o">@</span> <span class="n">x</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>The quadratic form is defined as the functional <span class="math notranslate nohighlight">\(F:\mathbb{R}^n\to \mathbb{R}, \; \mathbf{x}\mapsto \mathbf{x}^\ast \mathbf{L}\mathbf{x}\)</span>
+for some <em>positive semi-definite</em> linear operator <span class="math notranslate nohighlight">\(\mathbf{L}:\mathbb{R}^n\to \mathbb{R}^n\)</span>.
+Its gradient is given by <span class="math notranslate nohighlight">\(\nabla F(\mathbf{x})=2 \mathbf{L}\mathbf{x}.\)</span> The latter is <span class="math notranslate nohighlight">\(\beta\)</span>-Lipschitz continuous with
+<span class="math notranslate nohighlight">\(\beta=2\|\mathbf{L}\|_2.\)</span></p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#pycsou.func.penalty.SquaredL2Norm" title="pycsou.func.penalty.SquaredL2Norm"><code class="xref py py-func docutils literal notranslate"><span class="pre">SquaredL2Norm()</span></code></a></p>
+</div>
+<dl class="method">
+<dt id="pycsou.func.penalty.QuadraticForm.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">linop: Optional[pycsou.core.linop.LinearOperator] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/func/penalty.html#QuadraticForm.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.func.penalty.QuadraticForm.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Dimension of the domain.</p></li>
+<li><p><strong>linop</strong> (<a class="reference internal" href="../classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><em>LinearOperator</em></a>) – Positive semi-definite operator defining the quadratic form. If <code class="docutils literal notranslate"><span class="pre">None</span></code> the identity operator is assumed.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.func.penalty.QuadraticForm.__call__">
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param">x: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; numbers.Number<a class="reference internal" href="../../_modules/pycsou/func/penalty.html#QuadraticForm.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.func.penalty.QuadraticForm.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call self as a function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>arg</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Argument of the map.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Value of <code class="docutils literal notranslate"><span class="pre">arg</span></code> through the map.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[Number, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.func.penalty.QuadraticForm.jacobianT">
+<code class="sig-name descname">jacobianT</code><span class="sig-paren">(</span><em class="sig-param">x: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../../_modules/pycsou/func/penalty.html#QuadraticForm.jacobianT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.func.penalty.QuadraticForm.jacobianT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transpose of the Jacobian matrix of the differentiable map evaluated at <code class="docutils literal notranslate"><span class="pre">arg</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>arg</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Point at which the transposed Jacobian matrix is evaluated.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Linear operator associated to the transposed Jacobian matrix.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinearOperator</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Functionals &mdash; pycsou 1.0.5 documentation</title>
+  <title>Functionals &mdash; pycsou 1.0.6 documentation</title>
   
 
   
@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/plot_directive.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Algorithms" href="pycsou.core.solver.html" />
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                1.0.5
+                1.0.6
               </div>
             
           
@@ -107,11 +108,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../functionals/index.html">Cost Functionals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../algorithms/pycsou.opt.proxalgs.html">Proximal Algorithms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../math/index.html">Mathematical Functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#abstract-classes">Abstract classes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#linear-operators">Linear Operators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#cost-functionals">Cost Functionals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#algorithms">Algorithms</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#mathematical-functions">Mathematical Functions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../other.html">Pycsou Utilities</a></li>
@@ -189,7 +185,8 @@
             
   <div class="section" id="functionals">
 <h1>Functionals<a class="headerlink" href="#functionals" title="Permalink to this headline">¶</a></h1>
-<p>Abstract classes for functionals.</p>
+<p>Module: <code class="docutils literal notranslate"><span class="pre">pycsou.core.functional</span></code></p>
+<span class="target" id="module-pycsou.core.functional"></span><p>Abstract classes for functionals.</p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -265,6 +262,28 @@
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinearOperator</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.functional.LinearFunctional">
+<em class="property">class </em><code class="sig-name descname">LinearFunctional</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">data: Union[None</em>, <em class="sig-param">numbers.Number</em>, <em class="sig-param">numpy.ndarray] = None</em>, <em class="sig-param">dtype: type = &lt;class 'numpy.float64'&gt;</em>, <em class="sig-param">is_explicit: bool = False</em>, <em class="sig-param">is_dense: bool = False</em>, <em class="sig-param">is_sparse: bool = False</em>, <em class="sig-param">is_dask: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/functional.html#LinearFunctional"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.LinearFunctional" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.functional.Functional" title="pycsou.core.functional.Functional"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.functional.Functional</span></code></a>, <a class="reference internal" href="pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.linop.LinearOperator</span></code></a></p>
+<p>Base class for linear functionals.</p>
+<dl class="method">
+<dt id="pycsou.core.functional.LinearFunctional.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em>, <em class="sig-param">data: Union[None</em>, <em class="sig-param">numbers.Number</em>, <em class="sig-param">numpy.ndarray] = None</em>, <em class="sig-param">dtype: type = &lt;class 'numpy.float64'&gt;</em>, <em class="sig-param">is_explicit: bool = False</em>, <em class="sig-param">is_dense: bool = False</em>, <em class="sig-param">is_sparse: bool = False</em>, <em class="sig-param">is_dask: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/functional.html#LinearFunctional.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.LinearFunctional.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>,</em>) – Dimension of the functional’s domain.</p></li>
+<li><p><strong>data</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a><em>, </em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Optional data vector.</p></li>
+<li><p><strong>is_differentiable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the functional is differentiable or not.</p></li>
+<li><p><strong>is_linear</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the functional is linear or not.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -377,7 +396,171 @@ For the following basic operations moreover, the proximal operator is automatica
 <dd class="field-even"><p>Shifted map.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ProxFuncPreComp</span></code></p>
+<dd class="field-odd"><p><a class="reference internal" href="#pycsou.core.functional.ProxFuncPreComp" title="pycsou.core.functional.ProxFuncPreComp"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProxFuncPreComp</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.functional.ProxFuncPostComp">
+<em class="property">class </em><code class="sig-name descname">ProxFuncPostComp</code><span class="sig-paren">(</span><em class="sig-param">prox_func: pycsou.core.functional.ProximableFunctional</em>, <em class="sig-param">scale: numbers.Number</em>, <em class="sig-param">shift: numbers.Number</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/functional.html#ProxFuncPostComp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.ProxFuncPostComp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.functional.ProximableFunctional" title="pycsou.core.functional.ProximableFunctional"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.functional.ProximableFunctional</span></code></a></p>
+<dl class="method">
+<dt id="pycsou.core.functional.ProxFuncPostComp.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">prox_func: pycsou.core.functional.ProximableFunctional</em>, <em class="sig-param">scale: numbers.Number</em>, <em class="sig-param">shift: numbers.Number</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/functional.html#ProxFuncPostComp.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.ProxFuncPostComp.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>,</em>) – Dimension of the functional’s domain.</p></li>
+<li><p><strong>data</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a><em>, </em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Optional data vector.</p></li>
+<li><p><strong>is_linear</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the functional is linear or not.</p></li>
+<li><p><strong>is_differentiable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the functional is differentiable or not.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.functional.ProxFuncPostComp.prox">
+<code class="sig-name descname">prox</code><span class="sig-paren">(</span><em class="sig-param">x: Union[numbers.Number, numpy.ndarray], tau: numbers.Number</em><span class="sig-paren">)</span> &#x2192; Union[numbers.Number, numpy.ndarray]<a class="reference internal" href="../../_modules/pycsou/core/functional.html#ProxFuncPostComp.prox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.ProxFuncPostComp.prox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate the proximity operator of the <code class="docutils literal notranslate"><span class="pre">tau</span></code>-scaled functional at the point <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Point at which to perform the evaluation.</p></li>
+<li><p><strong>tau</strong> (<em>Number</em>) – Scale.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Evaluation of the proximity operator of the <code class="docutils literal notranslate"><span class="pre">tau</span></code>-scaled functional at the point <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[Number, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.functional.ProxFuncAffineSum">
+<em class="property">class </em><code class="sig-name descname">ProxFuncAffineSum</code><span class="sig-paren">(</span><em class="sig-param">prox_func: pycsou.core.functional.ProximableFunctional</em>, <em class="sig-param">linear_part: pycsou.core.functional.LinearFunctional</em>, <em class="sig-param">intercept: numbers.Number</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/functional.html#ProxFuncAffineSum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.ProxFuncAffineSum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.functional.ProximableFunctional" title="pycsou.core.functional.ProximableFunctional"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.functional.ProximableFunctional</span></code></a></p>
+<dl class="method">
+<dt id="pycsou.core.functional.ProxFuncAffineSum.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">prox_func: pycsou.core.functional.ProximableFunctional</em>, <em class="sig-param">linear_part: pycsou.core.functional.LinearFunctional</em>, <em class="sig-param">intercept: numbers.Number</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/functional.html#ProxFuncAffineSum.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.ProxFuncAffineSum.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>,</em>) – Dimension of the functional’s domain.</p></li>
+<li><p><strong>data</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a><em>, </em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Optional data vector.</p></li>
+<li><p><strong>is_linear</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the functional is linear or not.</p></li>
+<li><p><strong>is_differentiable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the functional is differentiable or not.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.functional.ProxFuncAffineSum.prox">
+<code class="sig-name descname">prox</code><span class="sig-paren">(</span><em class="sig-param">x: Union[numbers.Number, numpy.ndarray], tau: numbers.Number</em><span class="sig-paren">)</span> &#x2192; Union[numbers.Number, numpy.ndarray]<a class="reference internal" href="../../_modules/pycsou/core/functional.html#ProxFuncAffineSum.prox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.ProxFuncAffineSum.prox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate the proximity operator of the <code class="docutils literal notranslate"><span class="pre">tau</span></code>-scaled functional at the point <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Point at which to perform the evaluation.</p></li>
+<li><p><strong>tau</strong> (<em>Number</em>) – Scale.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Evaluation of the proximity operator of the <code class="docutils literal notranslate"><span class="pre">tau</span></code>-scaled functional at the point <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[Number, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.functional.ProxFuncPreComp">
+<em class="property">class </em><code class="sig-name descname">ProxFuncPreComp</code><span class="sig-paren">(</span><em class="sig-param">prox_func: pycsou.core.functional.ProximableFunctional, scale: Union[numbers.Number, numpy.ndarray], shift: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/functional.html#ProxFuncPreComp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.ProxFuncPreComp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.functional.ProximableFunctional" title="pycsou.core.functional.ProximableFunctional"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.functional.ProximableFunctional</span></code></a></p>
+<dl class="method">
+<dt id="pycsou.core.functional.ProxFuncPreComp.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">prox_func: pycsou.core.functional.ProximableFunctional, scale: Union[numbers.Number, numpy.ndarray], shift: Union[numbers.Number, numpy.ndarray]</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/functional.html#ProxFuncPreComp.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.ProxFuncPreComp.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>,</em>) – Dimension of the functional’s domain.</p></li>
+<li><p><strong>data</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a><em>, </em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Optional data vector.</p></li>
+<li><p><strong>is_linear</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the functional is linear or not.</p></li>
+<li><p><strong>is_differentiable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the functional is differentiable or not.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.functional.ProxFuncPreComp.prox">
+<code class="sig-name descname">prox</code><span class="sig-paren">(</span><em class="sig-param">x: Union[numbers.Number, numpy.ndarray], tau: numbers.Number</em><span class="sig-paren">)</span> &#x2192; Union[numbers.Number, numpy.ndarray]<a class="reference internal" href="../../_modules/pycsou/core/functional.html#ProxFuncPreComp.prox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.ProxFuncPreComp.prox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate the proximity operator of the <code class="docutils literal notranslate"><span class="pre">tau</span></code>-scaled functional at the point <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Point at which to perform the evaluation.</p></li>
+<li><p><strong>tau</strong> (<em>Number</em>) – Scale.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Evaluation of the proximity operator of the <code class="docutils literal notranslate"><span class="pre">tau</span></code>-scaled functional at the point <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[Number, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pycsou.core.functional.ProxFuncPreCompUnitOp">
+<em class="property">class </em><code class="sig-name descname">ProxFuncPreCompUnitOp</code><span class="sig-paren">(</span><em class="sig-param">prox_func: pycsou.core.functional.ProximableFunctional</em>, <em class="sig-param">unitary_op: pycsou.core.linop.UnitaryOperator</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/functional.html#ProxFuncPreCompUnitOp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.ProxFuncPreCompUnitOp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pycsou.core.functional.ProximableFunctional" title="pycsou.core.functional.ProximableFunctional"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.functional.ProximableFunctional</span></code></a></p>
+<dl class="method">
+<dt id="pycsou.core.functional.ProxFuncPreCompUnitOp.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">prox_func: pycsou.core.functional.ProximableFunctional</em>, <em class="sig-param">unitary_op: pycsou.core.linop.UnitaryOperator</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/functional.html#ProxFuncPreCompUnitOp.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.ProxFuncPreCompUnitOp.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>,</em>) – Dimension of the functional’s domain.</p></li>
+<li><p><strong>data</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a><em>, </em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Optional data vector.</p></li>
+<li><p><strong>is_linear</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the functional is linear or not.</p></li>
+<li><p><strong>is_differentiable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the functional is differentiable or not.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.functional.ProxFuncPreCompUnitOp.prox">
+<code class="sig-name descname">prox</code><span class="sig-paren">(</span><em class="sig-param">x: Union[numbers.Number, numpy.ndarray], tau: numbers.Number</em><span class="sig-paren">)</span> &#x2192; Union[numbers.Number, numpy.ndarray]<a class="reference internal" href="../../_modules/pycsou/core/functional.html#ProxFuncPreCompUnitOp.prox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.functional.ProxFuncPreCompUnitOp.prox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate the proximity operator of the <code class="docutils literal notranslate"><span class="pre">tau</span></code>-scaled functional at the point <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>Union</em><em>[</em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Point at which to perform the evaluation.</p></li>
+<li><p><strong>tau</strong> (<em>Number</em>) – Scale.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Evaluation of the proximity operator of the <code class="docutils literal notranslate"><span class="pre">tau</span></code>-scaled functional at the point <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[Number, np.ndarray]</p>
 </dd>
 </dl>
 </dd></dl>

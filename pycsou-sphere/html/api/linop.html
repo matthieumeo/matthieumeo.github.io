@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Spherical Linear Operators &mdash; pycsphere 1.0.1 documentation</title>
+  <title>Spherical Linear Operators &mdash; pycsphere 1.0.2 documentation</title>
   
 
   
@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Spherical Meshes" href="meshes.html" />
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                1.0.1
+                1.0.2
               </div>
             
           
@@ -167,9 +168,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-pycsphere.linop">
-<span id="spherical-linear-operators"></span><h1>Spherical Linear Operators<a class="headerlink" href="#module-pycsphere.linop" title="Permalink to this headline">¶</a></h1>
-<p>Common spherical linear operators.</p>
+  <div class="section" id="spherical-linear-operators">
+<h1>Spherical Linear Operators<a class="headerlink" href="#spherical-linear-operators" title="Permalink to this headline">¶</a></h1>
+<p>Module: <code class="docutils literal notranslate"><span class="pre">pycsphere.linop</span></code></p>
+<span class="target" id="module-pycsphere.linop"></span><p>Common spherical linear operators.</p>
 <p class="rubric">Convolution/Pooling</p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -224,7 +226,7 @@
 <dl class="class">
 <dt id="pycsphere.linop.ZonalSphericalConvolution">
 <em class="property">class </em><code class="sig-name descname">ZonalSphericalConvolution</code><span class="sig-paren">(</span><em class="sig-param">size: int</em>, <em class="sig-param">spectral_window: Optional[numpy.ndarray] = None</em>, <em class="sig-param">zonal_filter: Optional[numpy.ndarray] = None</em>, <em class="sig-param">n_filter: Optional[int] = None</em>, <em class="sig-param">sigma: Optional[float] = None</em>, <em class="sig-param">use_weights: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsphere/linop.html#ZonalSphericalConvolution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsphere.linop.ZonalSphericalConvolution" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://matthieumeo.github.io/pycsou/html/api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="(in pycsou v1.0.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.linop.LinearOperator</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://matthieumeo.github.io/pycsou/html/api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="(in pycsou v1.0.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.linop.LinearOperator</span></code></a></p>
 <p>Zonal spherical convolution.</p>
 <p>Compute the convolution between a bandlimited <em>zonal kernel</em> <span class="math notranslate nohighlight">\(\psi(\langle\mathbf{r},\mathbf{s}\rangle)\)</span> and a bandlimited <em>spherical map</em> <span class="math notranslate nohighlight">\(f(\mathbf{r})\)</span>:</p>
 <div class="math notranslate nohighlight">
@@ -259,19 +261,19 @@
 </div>
 <p>(<a class="reference external" href="../api/linop-1.py">Source code</a>)</p>
 <div class="figure align-default" id="id5">
-<img alt="../_images/linop-1_00.png" src="../_images/linop-1_00.png" />
+<img alt="../_images/linop-1_00.png" class="plot-directive" src="../_images/linop-1_00.png" />
 <p class="caption"><span class="caption-text">(<a class="reference external" href="../api/linop-1_00.png">png</a>, <a class="reference external" href="../api/linop-1_00.hires.png">hires.png</a>, <a class="reference external" href="../api/linop-1_00.pdf">pdf</a>)</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
 </div>
 <div class="figure align-default" id="id6">
-<img alt="../_images/linop-1_01.png" src="../_images/linop-1_01.png" />
+<img alt="../_images/linop-1_01.png" class="plot-directive" src="../_images/linop-1_01.png" />
 <p class="caption"><span class="caption-text">(<a class="reference external" href="../api/linop-1_01.png">png</a>, <a class="reference external" href="../api/linop-1_01.hires.png">hires.png</a>, <a class="reference external" href="../api/linop-1_01.pdf">pdf</a>)</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
 </div>
 <div class="figure align-default" id="id7">
-<img alt="../_images/linop-1_02.png" src="../_images/linop-1_02.png" />
+<img alt="../_images/linop-1_02.png" class="plot-directive" src="../_images/linop-1_02.png" />
 <p class="caption"><span class="caption-text">(<a class="reference external" href="../api/linop-1_02.png">png</a>, <a class="reference external" href="../api/linop-1_02.hires.png">hires.png</a>, <a class="reference external" href="../api/linop-1_02.pdf">pdf</a>)</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
 </div>
 <div class="figure align-default" id="id8">
-<img alt="../_images/linop-1_03.png" src="../_images/linop-1_03.png" />
+<img alt="../_images/linop-1_03.png" class="plot-directive" src="../_images/linop-1_03.png" />
 <p class="caption"><span class="caption-text">(<a class="reference external" href="../api/linop-1_03.png">png</a>, <a class="reference external" href="../api/linop-1_03.hires.png">hires.png</a>, <a class="reference external" href="../api/linop-1_03.pdf">pdf</a>)</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
 </div>
 <p class="rubric">Notes</p>
@@ -344,7 +346,7 @@ and <code class="docutils literal notranslate"><span class="pre">sigma</span></c
 <dl class="class">
 <dt id="pycsphere.linop.SphericalPooling">
 <em class="property">class </em><code class="sig-name descname">SphericalPooling</code><span class="sig-paren">(</span><em class="sig-param">nside_in: int</em>, <em class="sig-param">nside_out: int</em>, <em class="sig-param">order_in: str = 'RING'</em>, <em class="sig-param">order_out: str = 'RING'</em>, <em class="sig-param">pooling_func: str = 'mean'</em>, <em class="sig-param">dtype: type = &lt;class 'numpy.float64'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsphere/linop.html#SphericalPooling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsphere.linop.SphericalPooling" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://matthieumeo.github.io/pycsou/html/api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="(in pycsou v1.0.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.linop.LinearOperator</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://matthieumeo.github.io/pycsou/html/api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="(in pycsou v1.0.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.linop.LinearOperator</span></code></a></p>
 <p>Spherical pooling operator.</p>
 <p>Pool an HEALPix map by summing/averaging children pixels nested in a common superpixel.</p>
 <p class="rubric">Examples</p>
@@ -366,15 +368,15 @@ and <code class="docutils literal notranslate"><span class="pre">sigma</span></c
 </div>
 <p>(<a class="reference external" href="../api/linop-2.py">Source code</a>)</p>
 <div class="figure align-default" id="id9">
-<img alt="../_images/linop-2_00.png" src="../_images/linop-2_00.png" />
+<img alt="../_images/linop-2_00.png" class="plot-directive" src="../_images/linop-2_00.png" />
 <p class="caption"><span class="caption-text">(<a class="reference external" href="../api/linop-2_00.png">png</a>, <a class="reference external" href="../api/linop-2_00.hires.png">hires.png</a>, <a class="reference external" href="../api/linop-2_00.pdf">pdf</a>)</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
 </div>
 <div class="figure align-default" id="id10">
-<img alt="../_images/linop-2_01.png" src="../_images/linop-2_01.png" />
+<img alt="../_images/linop-2_01.png" class="plot-directive" src="../_images/linop-2_01.png" />
 <p class="caption"><span class="caption-text">(<a class="reference external" href="../api/linop-2_01.png">png</a>, <a class="reference external" href="../api/linop-2_01.hires.png">hires.png</a>, <a class="reference external" href="../api/linop-2_01.pdf">pdf</a>)</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
 </div>
 <div class="figure align-default" id="id11">
-<img alt="../_images/linop-2_02.png" src="../_images/linop-2_02.png" />
+<img alt="../_images/linop-2_02.png" class="plot-directive" src="../_images/linop-2_02.png" />
 <p class="caption"><span class="caption-text">(<a class="reference external" href="../api/linop-2_02.png">png</a>, <a class="reference external" href="../api/linop-2_02.hires.png">hires.png</a>, <a class="reference external" href="../api/linop-2_02.pdf">pdf</a>)</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
 </div>
 <p class="rubric">Notes</p>
@@ -423,7 +425,7 @@ pixels of the superpixels.</p>
 <dl class="class">
 <dt id="pycsphere.linop.DiscreteSphericalLaplacian">
 <em class="property">class </em><code class="sig-name descname">DiscreteSphericalLaplacian</code><span class="sig-paren">(</span><em class="sig-param">point_set: pycsphere.mesh.SphericalPointSet</em>, <em class="sig-param">dtype: type = &lt;class 'numpy.float64'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsphere/linop.html#DiscreteSphericalLaplacian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsphere.linop.DiscreteSphericalLaplacian" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://matthieumeo.github.io/pycsou-gsp/html/api/operators/pycgsp.linop.diff.html#pycgsp.linop.diff.GraphLaplacian" title="(in pycgsp v1.0.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycgsp.linop.diff.GraphLaplacian</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://matthieumeo.github.io/pycsou-gsp/html/api/operators/pycgsp.linop.diff.html#pycgsp.linop.diff.GraphLaplacian" title="(in pycgsp v1.0.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycgsp.linop.diff.GraphLaplacian</span></code></a></p>
 <p>Discrete spherical Laplacian.</p>
 <p>Finite-difference approximation of the continuous spherical Laplacian for a map defined over a
 <a class="reference internal" href="meshes.html#pycsphere.mesh.SphericalPointSet" title="pycsphere.mesh.SphericalPointSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">SphericalPointSet</span></code></a>.</p>
@@ -445,16 +447,16 @@ pixels of the superpixels.</p>
 </div>
 <p>(<a class="reference external" href="../api/linop-3.py">Source code</a>)</p>
 <div class="figure align-default" id="id12">
-<img alt="../_images/linop-3_00.png" src="../_images/linop-3_00.png" />
+<img alt="../_images/linop-3_00.png" class="plot-directive" src="../_images/linop-3_00.png" />
 <p class="caption"><span class="caption-text">(<a class="reference external" href="../api/linop-3_00.png">png</a>, <a class="reference external" href="../api/linop-3_00.hires.png">hires.png</a>, <a class="reference external" href="../api/linop-3_00.pdf">pdf</a>)</span><a class="headerlink" href="#id12" title="Permalink to this image">¶</a></p>
 </div>
 <div class="figure align-default" id="id13">
-<img alt="../_images/linop-3_01.png" src="../_images/linop-3_01.png" />
+<img alt="../_images/linop-3_01.png" class="plot-directive" src="../_images/linop-3_01.png" />
 <p class="caption"><span class="caption-text">(<a class="reference external" href="../api/linop-3_01.png">png</a>, <a class="reference external" href="../api/linop-3_01.hires.png">hires.png</a>, <a class="reference external" href="../api/linop-3_01.pdf">pdf</a>)</span><a class="headerlink" href="#id13" title="Permalink to this image">¶</a></p>
 </div>
 <p class="rubric">Notes</p>
 <p>The discrete Laplacian is computed as the Laplacian of the spherical point set’s graph <a class="reference external" href="https://matthieumeo.github.io/pycsou-gsp/html/api/graphs/index.html#module-pycgsp.graph.__init__">Pycsou-gsp tessellation graphs</a> using
-<a class="reference external" href="https://matthieumeo.github.io/pycsou-gsp/html/api/operators/pycgsp.linop.diff.html#pycgsp.linop.diff.GraphLaplacian" title="(in pycgsp v1.0.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycgsp.linop.diff.GraphLaplacian</span></code></a>.</p>
+<a class="reference external" href="https://matthieumeo.github.io/pycsou-gsp/html/api/operators/pycgsp.linop.diff.html#pycgsp.linop.diff.GraphLaplacian" title="(in pycgsp v1.0.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycgsp.linop.diff.GraphLaplacian</span></code></a>.</p>
 <dl class="method">
 <dt id="pycsphere.linop.DiscreteSphericalLaplacian.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">point_set: pycsphere.mesh.SphericalPointSet</em>, <em class="sig-param">dtype: type = &lt;class 'numpy.float64'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsphere/linop.html#DiscreteSphericalLaplacian.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsphere.linop.DiscreteSphericalLaplacian.__init__" title="Permalink to this definition">¶</a></dt>
@@ -473,13 +475,13 @@ pixels of the superpixels.</p>
 <dl class="class">
 <dt id="pycsphere.linop.DiscreteSphericalGradient">
 <em class="property">class </em><code class="sig-name descname">DiscreteSphericalGradient</code><span class="sig-paren">(</span><em class="sig-param">point_set: pycsphere.mesh.SphericalPointSet</em>, <em class="sig-param">dtype: type = &lt;class 'numpy.float64'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsphere/linop.html#DiscreteSphericalGradient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsphere.linop.DiscreteSphericalGradient" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://matthieumeo.github.io/pycsou-gsp/html/api/operators/pycgsp.linop.diff.html#pycgsp.linop.diff.GraphGradient" title="(in pycgsp v1.0.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycgsp.linop.diff.GraphGradient</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://matthieumeo.github.io/pycsou-gsp/html/api/operators/pycgsp.linop.diff.html#pycgsp.linop.diff.GraphGradient" title="(in pycgsp v1.0.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycgsp.linop.diff.GraphGradient</span></code></a></p>
 <p>Discrete spherical gradient.</p>
 <p>Finite-difference approximation of the continuous spherical gradient for a map defined over a
 <a class="reference internal" href="meshes.html#pycsphere.mesh.SphericalPointSet" title="pycsphere.mesh.SphericalPointSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">SphericalPointSet</span></code></a>.</p>
 <p class="rubric">Notes</p>
 <p>The discrete gradient is computed as the gradient of the spherical point set’s graph (see <a class="reference external" href="https://matthieumeo.github.io/pycsou-gsp/html/api/graphs/index.html#module-pycgsp.graph.__init__">Pycsou-gsp tessellation graphs</a>)
-using <a class="reference external" href="https://matthieumeo.github.io/pycsou-gsp/html/api/operators/pycgsp.linop.diff.html#pycgsp.linop.diff.GraphGradient" title="(in pycgsp v1.0.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycgsp.linop.diff.GraphGradient</span></code></a>.</p>
+using <a class="reference external" href="https://matthieumeo.github.io/pycsou-gsp/html/api/operators/pycgsp.linop.diff.html#pycgsp.linop.diff.GraphGradient" title="(in pycgsp v1.0.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycgsp.linop.diff.GraphGradient</span></code></a>.</p>
 <dl class="method">
 <dt id="pycsphere.linop.DiscreteSphericalGradient.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">point_set: pycsphere.mesh.SphericalPointSet</em>, <em class="sig-param">dtype: type = &lt;class 'numpy.float64'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsphere/linop.html#DiscreteSphericalGradient.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsphere.linop.DiscreteSphericalGradient.__init__" title="Permalink to this definition">¶</a></dt>
@@ -498,7 +500,7 @@ using <a class="reference external" href="https://matthieumeo.github.io/pycsou-g
 <dl class="class">
 <dt id="pycsphere.linop.SphericalHarmonicTransform">
 <em class="property">class </em><code class="sig-name descname">SphericalHarmonicTransform</code><span class="sig-paren">(</span><em class="sig-param">n_max: int</em>, <em class="sig-param">use_weights: bool = False</em>, <em class="sig-param">verbose: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsphere/linop.html#SphericalHarmonicTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsphere.linop.SphericalHarmonicTransform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://matthieumeo.github.io/pycsou/html/api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="(in pycsou v1.0.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.linop.LinearOperator</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://matthieumeo.github.io/pycsou/html/api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="(in pycsou v1.0.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.linop.LinearOperator</span></code></a></p>
 <p>Spherical Harmonic Transform (SHT).</p>
 <p>Compute the spherical harmonic transform of a <strong>real</strong> bandlimited spherical function <span class="math notranslate nohighlight">\(f:\mathbb{S}^2\to\mathbb{R}\)</span>.</p>
 <p class="rubric">Examples</p>
@@ -522,15 +524,15 @@ using <a class="reference external" href="https://matthieumeo.github.io/pycsou-g
 </div>
 <p>(<a class="reference external" href="../api/linop-4.py">Source code</a>)</p>
 <div class="figure align-default" id="id14">
-<img alt="../_images/linop-4_00.png" src="../_images/linop-4_00.png" />
+<img alt="../_images/linop-4_00.png" class="plot-directive" src="../_images/linop-4_00.png" />
 <p class="caption"><span class="caption-text">(<a class="reference external" href="../api/linop-4_00.png">png</a>, <a class="reference external" href="../api/linop-4_00.hires.png">hires.png</a>, <a class="reference external" href="../api/linop-4_00.pdf">pdf</a>)</span><a class="headerlink" href="#id14" title="Permalink to this image">¶</a></p>
 </div>
 <div class="figure align-default" id="id15">
-<img alt="../_images/linop-4_01.png" src="../_images/linop-4_01.png" />
+<img alt="../_images/linop-4_01.png" class="plot-directive" src="../_images/linop-4_01.png" />
 <p class="caption"><span class="caption-text">(<a class="reference external" href="../api/linop-4_01.png">png</a>, <a class="reference external" href="../api/linop-4_01.hires.png">hires.png</a>, <a class="reference external" href="../api/linop-4_01.pdf">pdf</a>)</span><a class="headerlink" href="#id15" title="Permalink to this image">¶</a></p>
 </div>
 <div class="figure align-default" id="id16">
-<img alt="../_images/linop-4_02.png" src="../_images/linop-4_02.png" />
+<img alt="../_images/linop-4_02.png" class="plot-directive" src="../_images/linop-4_02.png" />
 <p class="caption"><span class="caption-text">(<a class="reference external" href="../api/linop-4_02.png">png</a>, <a class="reference external" href="../api/linop-4_02.hires.png">hires.png</a>, <a class="reference external" href="../api/linop-4_02.pdf">pdf</a>)</span><a class="headerlink" href="#id16" title="Permalink to this image">¶</a></p>
 </div>
 <p class="rubric">Notes</p>
@@ -680,7 +682,7 @@ See <a class="reference external" href="https://healpix.sourceforge.io/html/fac_
 <dl class="class">
 <dt id="pycsphere.linop.FourierLegendreTransform">
 <em class="property">class </em><code class="sig-name descname">FourierLegendreTransform</code><span class="sig-paren">(</span><em class="sig-param">n_max: int</em>, <em class="sig-param">t: numpy.ndarray</em>, <em class="sig-param">dtype: type = &lt;class 'numpy.float64'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycsphere/linop.html#FourierLegendreTransform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsphere.linop.FourierLegendreTransform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://matthieumeo.github.io/pycsou/html/api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="(in pycsou v1.0.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.linop.LinearOperator</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://matthieumeo.github.io/pycsou/html/api/classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="(in pycsou v1.0.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.linop.LinearOperator</span></code></a></p>
 <p>Fourier Legendre Transform (FLT).</p>
 <p>Compute the Fourier Legendre Transform of a function <span class="math notranslate nohighlight">\(f:[-1,1]\to\mathbb{C}\)</span>. This is useful for computing the
 spherical harmonics coefficients of spherical zonal functions of the form <span class="math notranslate nohighlight">\(g(\mathbf{r})=f(\langle\mathbf{r}, \mathbf{s}\rangle)\)</span>.
@@ -717,15 +719,15 @@ Indeed, for such functions, we have:</p>
 </div>
 <p>(<a class="reference external" href="../api/linop-5.py">Source code</a>)</p>
 <div class="figure align-default" id="id17">
-<img alt="../_images/linop-5_00.png" src="../_images/linop-5_00.png" />
+<img alt="../_images/linop-5_00.png" class="plot-directive" src="../_images/linop-5_00.png" />
 <p class="caption"><span class="caption-text">(<a class="reference external" href="../api/linop-5_00.png">png</a>, <a class="reference external" href="../api/linop-5_00.hires.png">hires.png</a>, <a class="reference external" href="../api/linop-5_00.pdf">pdf</a>)</span><a class="headerlink" href="#id17" title="Permalink to this image">¶</a></p>
 </div>
 <div class="figure align-default" id="id18">
-<img alt="../_images/linop-5_01.png" src="../_images/linop-5_01.png" />
+<img alt="../_images/linop-5_01.png" class="plot-directive" src="../_images/linop-5_01.png" />
 <p class="caption"><span class="caption-text">(<a class="reference external" href="../api/linop-5_01.png">png</a>, <a class="reference external" href="../api/linop-5_01.hires.png">hires.png</a>, <a class="reference external" href="../api/linop-5_01.pdf">pdf</a>)</span><a class="headerlink" href="#id18" title="Permalink to this image">¶</a></p>
 </div>
 <div class="figure align-default" id="id19">
-<img alt="../_images/linop-5_02.png" src="../_images/linop-5_02.png" />
+<img alt="../_images/linop-5_02.png" class="plot-directive" src="../_images/linop-5_02.png" />
 <p class="caption"><span class="caption-text">(<a class="reference external" href="../api/linop-5_02.png">png</a>, <a class="reference external" href="../api/linop-5_02.hires.png">hires.png</a>, <a class="reference external" href="../api/linop-5_02.pdf">pdf</a>)</span><a class="headerlink" href="#id19" title="Permalink to this image">¶</a></p>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">healpy</span> <span class="k">as</span> <span class="nn">hp</span>
@@ -749,11 +751,11 @@ Indeed, for such functions, we have:</p>
 </div>
 <p>(<a class="reference external" href="../api/linop-6.py">Source code</a>)</p>
 <div class="figure align-default" id="id20">
-<img alt="../_images/linop-6_00.png" src="../_images/linop-6_00.png" />
+<img alt="../_images/linop-6_00.png" class="plot-directive" src="../_images/linop-6_00.png" />
 <p class="caption"><span class="caption-text">(<a class="reference external" href="../api/linop-6_00.png">png</a>, <a class="reference external" href="../api/linop-6_00.hires.png">hires.png</a>, <a class="reference external" href="../api/linop-6_00.pdf">pdf</a>)</span><a class="headerlink" href="#id20" title="Permalink to this image">¶</a></p>
 </div>
 <div class="figure align-default" id="id21">
-<img alt="../_images/linop-6_01.png" src="../_images/linop-6_01.png" />
+<img alt="../_images/linop-6_01.png" class="plot-directive" src="../_images/linop-6_01.png" />
 <p class="caption"><span class="caption-text">(<a class="reference external" href="../api/linop-6_01.png">png</a>, <a class="reference external" href="../api/linop-6_01.hires.png">hires.png</a>, <a class="reference external" href="../api/linop-6_01.pdf">pdf</a>)</span><a class="headerlink" href="#id21" title="Permalink to this image">¶</a></p>
 </div>
 <p class="rubric">Notes</p>

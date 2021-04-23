@@ -1,13 +1,5 @@
-Results of doctest builder run on 2021-03-12 09:36:58
+Results of doctest builder run on 2021-04-23 10:39:28
 =====================================================
-
-Document: api/operators/pycsou.linop.diff
------------------------------------------
-1 items passed all tests:
-  33 tests in default
-33 tests in 1 items.
-33 passed and 0 failed.
-Test passed.
 
 Document: api/operators/pycsou.linop.conv
 -----------------------------------------
@@ -17,12 +9,44 @@ Document: api/operators/pycsou.linop.conv
 14 passed and 0 failed.
 Test passed.
 
-Document: api/utils/pycsou.util.stats
+Document: api/classes/pycsou.core.map
 -------------------------------------
 1 items passed all tests:
-   7 tests in default
-7 tests in 1 items.
-7 passed and 0 failed.
+  49 tests in default
+49 tests in 1 items.
+49 passed and 0 failed.
+Test passed.
+
+Document: api/classes/pycsou.core.linop
+---------------------------------------
+1 items passed all tests:
+  20 tests in default
+20 tests in 1 items.
+20 passed and 0 failed.
+Test passed.
+
+Document: api/operators/pycsou.linop.diff
+-----------------------------------------
+1 items passed all tests:
+  33 tests in default
+33 tests in 1 items.
+33 passed and 0 failed.
+Test passed.
+
+Document: api/operators/pycsou.linop.sampling
+---------------------------------------------
+1 items passed all tests:
+  70 tests in default
+70 tests in 1 items.
+70 passed and 0 failed.
+Test passed.
+
+Document: api/functionals/pycsou.func.base
+------------------------------------------
+1 items passed all tests:
+   8 tests in default
+8 tests in 1 items.
+8 passed and 0 failed.
 Test passed.
 
 Document: api/functionals/pycsou.func.loss
@@ -33,28 +57,28 @@ Document: api/functionals/pycsou.func.loss
 69 passed and 0 failed.
 Test passed.
 
-Document: api/classes/pycsou.core.linop
----------------------------------------
+Document: api/functionals/pycsou.func.penalty
+---------------------------------------------
 1 items passed all tests:
-   8 tests in default
-8 tests in 1 items.
-8 passed and 0 failed.
+  92 tests in default
+92 tests in 1 items.
+92 passed and 0 failed.
 Test passed.
 
-Document: api/functionals/pycsou.func.base
-------------------------------------------
+Document: api/classes/pycsou.core.functional
+--------------------------------------------
 1 items passed all tests:
    6 tests in default
 6 tests in 1 items.
 6 passed and 0 failed.
 Test passed.
 
-Document: api/utils/pycsou.util.misc
-------------------------------------
+Document: api/utils/pycsou.util.stats
+-------------------------------------
 1 items passed all tests:
-   3 tests in default
-3 tests in 1 items.
-3 passed and 0 failed.
+   7 tests in default
+7 tests in 1 items.
+7 passed and 0 failed.
 Test passed.
 
 Document: api/math/pycsou.math.prox
@@ -68,46 +92,22 @@ Test passed.
 Document: api/operators/pycsou.linop.base
 -----------------------------------------
 1 items passed all tests:
-  22 tests in default
-22 tests in 1 items.
-22 passed and 0 failed.
+  65 tests in default
+65 tests in 1 items.
+65 passed and 0 failed.
 Test passed.
 
-Document: api/classes/pycsou.core.functional
---------------------------------------------
+Document: api/utils/pycsou.util.misc
+------------------------------------
 1 items passed all tests:
-   6 tests in default
-6 tests in 1 items.
-6 passed and 0 failed.
-Test passed.
-
-Document: api/operators/pycsou.linop.sampling
----------------------------------------------
-1 items passed all tests:
-  70 tests in default
-70 tests in 1 items.
-70 passed and 0 failed.
-Test passed.
-
-Document: api/functionals/pycsou.func.penalty
----------------------------------------------
-1 items passed all tests:
-  73 tests in default
-73 tests in 1 items.
-73 passed and 0 failed.
-Test passed.
-
-Document: api/classes/pycsou.core.map
--------------------------------------
-1 items passed all tests:
-  34 tests in default
-34 tests in 1 items.
-34 passed and 0 failed.
+   3 tests in default
+3 tests in 1 items.
+3 passed and 0 failed.
 Test passed.
 
 Doctest summary
 ===============
-  367 tests
+  458 tests
     0 failures in tests
     0 failures in setup code
     0 failures in cleanup code

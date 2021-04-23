@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Multidimensional Maps &mdash; pycsou 1.0.5 documentation</title>
+  <title>Multidimensional Maps &mdash; pycsou 1.0.6 documentation</title>
   
 
   
@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/plot_directive.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Linear Operators" href="pycsou.core.linop.html" />
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                1.0.5
+                1.0.6
               </div>
             
           
@@ -107,11 +108,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../functionals/index.html">Cost Functionals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../algorithms/pycsou.opt.proxalgs.html">Proximal Algorithms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../math/index.html">Mathematical Functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#abstract-classes">Abstract classes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#linear-operators">Linear Operators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#cost-functionals">Cost Functionals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#algorithms">Algorithms</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#mathematical-functions">Mathematical Functions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../other.html">Pycsou Utilities</a></li>
@@ -189,6 +185,7 @@
             
   <div class="section" id="multidimensional-maps">
 <h1>Multidimensional Maps<a class="headerlink" href="#multidimensional-maps" title="Permalink to this headline">¶</a></h1>
+<p>Module: <code class="docutils literal notranslate"><span class="pre">pycsou.core.map</span></code></p>
 <p>Abstract classes for multidimensional (potentially nonlinear) maps.</p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -202,10 +199,10 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DifferentiableMap</span></code></a>(shape[, is_linear, …])</p></td>
 <td><p>Base class for multidimensional differentiable maps.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.core.map.MapStack" title="pycsou.core.map.MapStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MapStack</span></code></a>(*maps, axis)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.core.map.MapStack" title="pycsou.core.map.MapStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MapStack</span></code></a>(*maps, axis[, n_jobs, joblib_backend])</p></td>
 <td><p>Stack maps together.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.core.map.DiffMapStack" title="pycsou.core.map.DiffMapStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DiffMapStack</span></code></a>(*diffmaps, axis)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#pycsou.core.map.DiffMapStack" title="pycsou.core.map.DiffMapStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DiffMapStack</span></code></a>(*diffmaps, axis[, n_jobs, …])</p></td>
 <td><p>Stack differentiable maps together.</p></td>
 </tr>
 </tbody>
@@ -285,6 +282,45 @@ and two linear operators <span class="math notranslate nohighlight">\(L_1:\mathb
 <dd class="field-odd"><p>Union[Number, np.ndarray]</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pycsou.core.map.Map.apply_along_axis">
+<code class="sig-name descname">apply_along_axis</code><span class="sig-paren">(</span><em class="sig-param">arr: numpy.ndarray</em>, <em class="sig-param">axis: int = 0</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../../_modules/pycsou/core/map.html#Map.apply_along_axis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.Map.apply_along_axis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the map to 1-D slices along the given axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arr</strong> (<em>np.ndarray</em>) – Input array.</p></li>
+<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Axis along which <code class="docutils literal notranslate"><span class="pre">arr</span></code> is sliced.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The output array. The shape of the latter is identical to the shape of <code class="docutils literal notranslate"><span class="pre">arr</span></code>, except along the specified axis dimension.
+This axis is removed, and replaced with new dimensions equal to <code class="docutils literal notranslate"><span class="pre">self.shape[0]</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">self.shape[0]==1</span></code> the output array will have one fewer dimensions than <code class="docutils literal notranslate"><span class="pre">arr</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">arr.shape[axis]</span> <span class="pre">!=</span> <span class="pre">self.shape[1]</span></code>.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pycsou.linop</span> <span class="kn">import</span> <span class="n">DownSampling</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pycsou.func</span> <span class="kn">import</span> <span class="n">SquaredL2Norm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span><span class="o">=</span><span class="n">DownSampling</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">downsampling_factor</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(10, 2, 5)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ff</span> <span class="o">=</span> <span class="n">SquaredL2Norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">ff</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(20, 5)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -495,7 +531,7 @@ Such arithmetic operators can be used to <em>add</em>, <em>substract</em>, <em>s
 
 <dl class="class">
 <dt id="pycsou.core.map.MapStack">
-<em class="property">class </em><code class="sig-name descname">MapStack</code><span class="sig-paren">(</span><em class="sig-param">*maps</em>, <em class="sig-param">axis: int</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#MapStack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.MapStack" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">MapStack</code><span class="sig-paren">(</span><em class="sig-param">*maps</em>, <em class="sig-param">axis: int</em>, <em class="sig-param">n_jobs: int = 1</em>, <em class="sig-param">joblib_backend: str = 'loky'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#MapStack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.MapStack" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pycsou.core.map.Map" title="pycsou.core.map.Map"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.map.Map</span></code></a></p>
 <p>Stack maps together.</p>
 <p>This class constructs a map by stacking multiple maps together, either <strong>vertically</strong> (<code class="docutils literal notranslate"><span class="pre">axis=0</span></code>) or <strong>horizontally</strong> (<code class="docutils literal notranslate"><span class="pre">axis=1</span></code>):</p>
@@ -523,10 +559,16 @@ of maps. Their horizontal stacking is defined as the operator</p>
 <span class="go">(11, 10)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">K1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">K3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">())))</span>
 <span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parV</span> <span class="o">=</span> <span class="n">MapStack</span><span class="p">(</span><span class="n">K1</span><span class="p">,</span> <span class="n">K3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">V</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">parV</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="go">True</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">H</span> <span class="o">=</span> <span class="n">MapStack</span><span class="p">(</span><span class="n">K1</span><span class="p">,</span><span class="n">K2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">H</span><span class="o">.</span><span class="n">shape</span>
 <span class="go">(1, 30)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">H</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">))),</span> <span class="n">K1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">K2</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parH</span> <span class="o">=</span> <span class="n">MapStack</span><span class="p">(</span><span class="n">K1</span><span class="p">,</span><span class="n">K2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">H</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">))),</span> <span class="n">parH</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">))))</span>
 <span class="go">True</span>
 </pre></div>
 </div>
@@ -536,12 +578,16 @@ of maps. Their horizontal stacking is defined as the operator</p>
 </div>
 <dl class="method">
 <dt id="pycsou.core.map.MapStack.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*maps</em>, <em class="sig-param">axis: int</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#MapStack.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.MapStack.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*maps</em>, <em class="sig-param">axis: int</em>, <em class="sig-param">n_jobs: int = 1</em>, <em class="sig-param">joblib_backend: str = 'loky'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#MapStack.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.MapStack.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>maps</strong> (<a class="reference internal" href="#pycsou.core.map.Map" title="pycsou.core.map.Map"><em>Map</em></a>) – List of maps to stack.</p></li>
 <li><p><strong>axis</strong> – Stacking direction: 0 for vertical and 1 for horizontal stacking.</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the map stack.
+If <code class="docutils literal notranslate"><span class="pre">n_jobs==1</span></code>, the map stack is evaluated sequentially, otherwise it is
+evaluated in parallel. Setting <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> uses all available cores.</p></li>
+<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p></li>
 </ul>
 </dd>
 </dl>
@@ -551,7 +597,7 @@ of maps. Their horizontal stacking is defined as the operator</p>
 
 <dl class="class">
 <dt id="pycsou.core.map.MapVStack">
-<em class="property">class </em><code class="sig-name descname">MapVStack</code><span class="sig-paren">(</span><em class="sig-param">*maps</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#MapVStack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.MapVStack" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">MapVStack</code><span class="sig-paren">(</span><em class="sig-param">*maps</em>, <em class="sig-param">n_jobs: int = 1</em>, <em class="sig-param">joblib_backend: str = 'loky'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#MapVStack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.MapVStack" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pycsou.core.map.MapStack" title="pycsou.core.map.MapStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.map.MapStack</span></code></a></p>
 <p>Alias for vertical stacking, equivalent to <code class="docutils literal notranslate"><span class="pre">MapStack(*maps,</span> <span class="pre">axis=0)</span></code>.</p>
 <p class="rubric">Examples</p>
@@ -563,10 +609,17 @@ of maps. Their horizontal stacking is defined as the operator</p>
 </div>
 <dl class="method">
 <dt id="pycsou.core.map.MapVStack.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*maps</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#MapVStack.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.MapVStack.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*maps</em>, <em class="sig-param">n_jobs: int = 1</em>, <em class="sig-param">joblib_backend: str = 'loky'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#MapVStack.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.MapVStack.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>maps</strong> (<a class="reference internal" href="#pycsou.core.map.Map" title="pycsou.core.map.Map"><em>Map</em></a>) – List of maps to stack.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>maps</strong> (<a class="reference internal" href="#pycsou.core.map.Map" title="pycsou.core.map.Map"><em>Map</em></a>) – List of maps to stack.</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the map stack.
+If <code class="docutils literal notranslate"><span class="pre">n_jobs==1</span></code>, the map stack is evaluated sequentially, otherwise it is
+evaluated in parallel. Setting <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> uses all available cores.</p></li>
+<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
+</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -575,7 +628,7 @@ of maps. Their horizontal stacking is defined as the operator</p>
 
 <dl class="class">
 <dt id="pycsou.core.map.MapHStack">
-<em class="property">class </em><code class="sig-name descname">MapHStack</code><span class="sig-paren">(</span><em class="sig-param">*maps</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#MapHStack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.MapHStack" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">MapHStack</code><span class="sig-paren">(</span><em class="sig-param">*maps</em>, <em class="sig-param">n_jobs: int = 1</em>, <em class="sig-param">joblib_backend: str = 'loky'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#MapHStack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.MapHStack" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pycsou.core.map.MapStack" title="pycsou.core.map.MapStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.map.MapStack</span></code></a></p>
 <p>Alias for horizontal stacking, equivalent to <code class="docutils literal notranslate"><span class="pre">MapStack(*maps,</span> <span class="pre">axis=1)</span></code>.</p>
 <p class="rubric">Examples</p>
@@ -587,10 +640,17 @@ of maps. Their horizontal stacking is defined as the operator</p>
 </div>
 <dl class="method">
 <dt id="pycsou.core.map.MapHStack.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*maps</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#MapHStack.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.MapHStack.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*maps</em>, <em class="sig-param">n_jobs: int = 1</em>, <em class="sig-param">joblib_backend: str = 'loky'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#MapHStack.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.MapHStack.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>maps</strong> (<a class="reference internal" href="#pycsou.core.map.Map" title="pycsou.core.map.Map"><em>Map</em></a>) – List of maps to stack.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>maps</strong> (<a class="reference internal" href="#pycsou.core.map.Map" title="pycsou.core.map.Map"><em>Map</em></a>) – List of maps to stack.</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the map stack.
+If <code class="docutils literal notranslate"><span class="pre">n_jobs==1</span></code>, the map stack is evaluated sequentially, otherwise it is
+evaluated in parallel. Setting <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> uses all available cores.</p></li>
+<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
+</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -599,7 +659,7 @@ of maps. Their horizontal stacking is defined as the operator</p>
 
 <dl class="class">
 <dt id="pycsou.core.map.DiffMapStack">
-<em class="property">class </em><code class="sig-name descname">DiffMapStack</code><span class="sig-paren">(</span><em class="sig-param">*diffmaps</em>, <em class="sig-param">axis: int</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#DiffMapStack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DiffMapStack" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">DiffMapStack</code><span class="sig-paren">(</span><em class="sig-param">*diffmaps</em>, <em class="sig-param">axis: int</em>, <em class="sig-param">n_jobs: int = 1</em>, <em class="sig-param">joblib_backend: str = 'loky'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#DiffMapStack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DiffMapStack" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pycsou.core.map.MapStack" title="pycsou.core.map.MapStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.map.MapStack</span></code></a>, <a class="reference internal" href="#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.map.DifferentiableMap</span></code></a></p>
 <p>Stack differentiable maps together.</p>
 <p>This class constructs a differentiable map by stacking multiple maps together, either <strong>vertically</strong> (<code class="docutils literal notranslate"><span class="pre">axis=0</span></code>) or <strong>horizontally</strong> (<code class="docutils literal notranslate"><span class="pre">axis=1</span></code>).
@@ -626,7 +686,7 @@ Then the horizontally stacked operator</p>
 \[\begin{split}H:\begin{cases}\mathbb{R}^{N_1}\times \cdots \times\mathbb{R}^{N_k}\to \mathbb{R}^{M}\\
 (\mathbf{x}_1,\ldots, \mathbf{x}_k)\mapsto \sum_{i=1}^k L_i \mathbf{x}_i.
 \end{cases}\end{split}\]</div>
-<p>has a Lipschitz constant bounded by <span class="math notranslate nohighlight">\(\sqrt{\sum_{i=1}^k \beta_i^2}\)</span>. Moreover the Jacobian matrix of <span class="math notranslate nohighlight">\(H\)</span> is obtained by stacking the individual Jacobian matrices horizontally:</p>
+<p>has a Lipschitz constant bounded by <span class="math notranslate nohighlight">\(\max_{i=1}^k \beta_i\)</span>. Moreover the Jacobian matrix of <span class="math notranslate nohighlight">\(H\)</span> is obtained by stacking the individual Jacobian matrices horizontally:</p>
 <div class="math notranslate nohighlight">
 \[\mathbf{J}(\mathbf{x}_1,\ldots,\mathbf{x}_k)=\left[\begin{array}{c}\mathbf{J}_1(\mathbf{x}_1)&amp;\cdots&amp; \mathbf{J}_k(\mathbf{x}_k) \end{array}\right]\in\mathbb{R}^{M\times (\sum_{i=1}^k N_i)}.\]</div>
 </li>
@@ -634,6 +694,9 @@ Then the horizontally stacked operator</p>
 <p class="rubric">Examples</p>
 <div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">V</span> <span class="o">=</span> <span class="n">DiffMapStack</span><span class="p">(</span><span class="n">K1</span><span class="p">,</span> <span class="n">K3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">lipschitz_cst</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">K1</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">K3</span><span class="o">.</span><span class="n">lipschitz_cst</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parV</span> <span class="o">=</span> <span class="n">DiffMapStack</span><span class="p">(</span><span class="n">K1</span><span class="p">,</span> <span class="n">K3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">jacobianT</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">jacobianT</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span> <span class="n">parV</span><span class="o">.</span><span class="n">jacobianT</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">jacobianT</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
 <span class="go">True</span>
 </pre></div>
 </div>
@@ -643,12 +706,17 @@ Then the horizontally stacked operator</p>
 </div>
 <dl class="method">
 <dt id="pycsou.core.map.DiffMapStack.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*diffmaps</em>, <em class="sig-param">axis: int</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#DiffMapStack.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DiffMapStack.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*diffmaps</em>, <em class="sig-param">axis: int</em>, <em class="sig-param">n_jobs: int = 1</em>, <em class="sig-param">joblib_backend: str = 'loky'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#DiffMapStack.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DiffMapStack.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>diffmaps</strong> (<a class="reference internal" href="#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><em>DifferentiableMap</em></a>) – List of differentiable maps to be stacked</p></li>
 <li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Stacking direction: 0 for vertical and 1 for horizontal stacking.</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the map stack and its Jacobian matrix.
+If <code class="docutils literal notranslate"><span class="pre">n_jobs==1</span></code>, the map stack and its Jacobian matrix are evaluated sequentially, otherwise they are
+evaluated in parallel. Setting <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> uses all available cores.</p></li>
+<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
+</p></li>
 </ul>
 </dd>
 </dl>
@@ -675,15 +743,22 @@ Then the horizontally stacked operator</p>
 
 <dl class="class">
 <dt id="pycsou.core.map.DiffMapVStack">
-<em class="property">class </em><code class="sig-name descname">DiffMapVStack</code><span class="sig-paren">(</span><em class="sig-param">*diffmaps</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#DiffMapVStack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DiffMapVStack" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">DiffMapVStack</code><span class="sig-paren">(</span><em class="sig-param">*diffmaps</em>, <em class="sig-param">n_jobs: int = 1</em>, <em class="sig-param">joblib_backend: str = 'loky'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#DiffMapVStack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DiffMapVStack" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pycsou.core.map.DiffMapStack" title="pycsou.core.map.DiffMapStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.map.DiffMapStack</span></code></a></p>
 <p>Alias for vertical stacking of differentiable maps, equivalent to <code class="docutils literal notranslate"><span class="pre">DiffMapStack(*maps,</span> <span class="pre">axis=0)</span></code>.</p>
 <dl class="method">
 <dt id="pycsou.core.map.DiffMapVStack.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*diffmaps</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#DiffMapVStack.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DiffMapVStack.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*diffmaps</em>, <em class="sig-param">n_jobs: int = 1</em>, <em class="sig-param">joblib_backend: str = 'loky'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#DiffMapVStack.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DiffMapVStack.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>diffmaps</strong> (<a class="reference internal" href="#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><em>DifferentiableMap</em></a>) – List of differentiable maps to be stacked</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>diffmaps</strong> (<a class="reference internal" href="#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><em>DifferentiableMap</em></a>) – List of differentiable maps to be stacked</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the map stack and its Jacobian matrix.
+If <code class="docutils literal notranslate"><span class="pre">n_jobs==1</span></code>, the map stack and its Jacobian matrix are evaluated sequentially, otherwise they are
+evaluated in parallel. Setting <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> uses all available cores.</p></li>
+<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
+</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -692,15 +767,22 @@ Then the horizontally stacked operator</p>
 
 <dl class="class">
 <dt id="pycsou.core.map.DiffMapHStack">
-<em class="property">class </em><code class="sig-name descname">DiffMapHStack</code><span class="sig-paren">(</span><em class="sig-param">*diffmaps</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#DiffMapHStack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DiffMapHStack" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">DiffMapHStack</code><span class="sig-paren">(</span><em class="sig-param">*diffmaps</em>, <em class="sig-param">n_jobs: int = 1</em>, <em class="sig-param">joblib_backend: str = 'loky'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#DiffMapHStack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DiffMapHStack" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pycsou.core.map.DiffMapStack" title="pycsou.core.map.DiffMapStack"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.map.DiffMapStack</span></code></a></p>
 <p>Alias for horizontal stacking of differentiable maps, equivalent to <code class="docutils literal notranslate"><span class="pre">DiffMapStack(*maps,</span> <span class="pre">axis=1)</span></code>.</p>
 <dl class="method">
 <dt id="pycsou.core.map.DiffMapHStack.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*diffmaps</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#DiffMapHStack.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DiffMapHStack.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*diffmaps</em>, <em class="sig-param">n_jobs: int = 1</em>, <em class="sig-param">joblib_backend: str = 'loky'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#DiffMapHStack.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.DiffMapHStack.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>diffmaps</strong> (<a class="reference internal" href="#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><em>DifferentiableMap</em></a>) – List of differentiable maps to be stacked.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>diffmaps</strong> (<a class="reference internal" href="#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><em>DifferentiableMap</em></a>) – List of differentiable maps to be stacked.</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the map stack and its Jacobian matrix.
+If <code class="docutils literal notranslate"><span class="pre">n_jobs==1</span></code>, the map stack and its Jacobian matrix are evaluated sequentially, otherwise they are
+evaluated in parallel. Setting <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> uses all available cores.</p></li>
+<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
+</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Convolution Operators &mdash; pycgsp 1.0.3 documentation</title>
+  <title>Convolution Operators &mdash; pycgsp 1.0.4 documentation</title>
   
 
   
@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/plot_directive.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Differential Operators" href="pycgsp.linop.diff.html" />
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                1.0.3
+                1.0.4
               </div>
             
           
@@ -174,6 +175,7 @@
             
   <div class="section" id="convolution-operators">
 <h1>Convolution Operators<a class="headerlink" href="#convolution-operators" title="Permalink to this headline">¶</a></h1>
+<p>Module: <code class="docutils literal notranslate"><span class="pre">pycgsp.linop.conv</span></code></p>
 <p>Base class for graph convolution operators.</p>
 <span class="target" id="module-pycgsp.linop.conv"></span><p>Graph convolution operator.</p>
 <table class="longtable docutils align-default">
@@ -190,7 +192,7 @@
 <dl class="class">
 <dt id="pycgsp.linop.conv.GraphConvolution">
 <em class="property">class </em><code class="sig-name descname">GraphConvolution</code><span class="sig-paren">(</span><em class="sig-param">Graph: pygsp.graphs.graph.Graph, coefficients: Union[numpy.ndarray, list, tuple]</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycgsp/linop/conv.html#GraphConvolution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycgsp.linop.conv.GraphConvolution" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.linop.base.PolynomialLinearOperator</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://matthieumeo.github.io/pycsou/html/api/operators/pycsou.linop.base.html#pycsou.linop.base.PolynomialLinearOperator" title="(in pycsou v1.0.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.linop.base.PolynomialLinearOperator</span></code></a></p>
 <p>Graph convolution.</p>
 <p>Convolve a signal <span class="math notranslate nohighlight">\(\mathbf{u}\in\mathbb{C}^N\)</span> defined on a graph with a polynomial filter <span class="math notranslate nohighlight">\(\mathbf{D}:\mathbb{C}^N\rightarrow \mathbb{C}^N\)</span>
 of the form:</p>
@@ -239,15 +241,15 @@ of the form:</p>
 </div>
 <p>(<a class="reference external" href="../../api/operators/pycgsp-linop-conv-1.py">Source code</a>)</p>
 <div class="figure align-default" id="id3">
-<img alt="../../_images/pycgsp-linop-conv-1_00.png" src="../../_images/pycgsp-linop-conv-1_00.png" />
+<img alt="../../_images/pycgsp-linop-conv-1_00.png" class="plot-directive" src="../../_images/pycgsp-linop-conv-1_00.png" />
 <p class="caption"><span class="caption-text">(<a class="reference external" href="../../api/operators/pycgsp-linop-conv-1_00.png">png</a>, <a class="reference external" href="../../api/operators/pycgsp-linop-conv-1_00.hires.png">hires.png</a>, <a class="reference external" href="../../api/operators/pycgsp-linop-conv-1_00.pdf">pdf</a>)</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 </div>
 <div class="figure align-default" id="id4">
-<img alt="../../_images/pycgsp-linop-conv-1_01.png" src="../../_images/pycgsp-linop-conv-1_01.png" />
+<img alt="../../_images/pycgsp-linop-conv-1_01.png" class="plot-directive" src="../../_images/pycgsp-linop-conv-1_01.png" />
 <p class="caption"><span class="caption-text">(<a class="reference external" href="../../api/operators/pycgsp-linop-conv-1_01.png">png</a>, <a class="reference external" href="../../api/operators/pycgsp-linop-conv-1_01.hires.png">hires.png</a>, <a class="reference external" href="../../api/operators/pycgsp-linop-conv-1_01.pdf">pdf</a>)</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 </div>
 <div class="figure align-default" id="id5">
-<img alt="../../_images/pycgsp-linop-conv-1_02.png" src="../../_images/pycgsp-linop-conv-1_02.png" />
+<img alt="../../_images/pycgsp-linop-conv-1_02.png" class="plot-directive" src="../../_images/pycgsp-linop-conv-1_02.png" />
 <p class="caption"><span class="caption-text">(<a class="reference external" href="../../api/operators/pycgsp-linop-conv-1_02.png">png</a>, <a class="reference external" href="../../api/operators/pycgsp-linop-conv-1_02.hires.png">hires.png</a>, <a class="reference external" href="../../api/operators/pycgsp-linop-conv-1_02.pdf">pdf</a>)</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
 </div>
 <p class="rubric">Notes</p>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Convolution Operators &mdash; pycsou 1.0.5 documentation</title>
+  <title>Convolution Operators &mdash; pycsou 1.0.6 documentation</title>
   
 
   
@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/plot_directive.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Differential Operators" href="pycsou.linop.diff.html" />
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                1.0.5
+                1.0.6
               </div>
             
           
@@ -107,11 +108,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../functionals/index.html">Cost Functionals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../algorithms/pycsou.opt.proxalgs.html">Proximal Algorithms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../math/index.html">Mathematical Functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#abstract-classes">Abstract classes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#linear-operators">Linear Operators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#cost-functionals">Cost Functionals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#algorithms">Algorithms</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#mathematical-functions">Mathematical Functions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../other.html">Pycsou Utilities</a></li>
@@ -187,9 +183,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-pycsou.linop.conv">
-<span id="convolution-operators"></span><h1>Convolution Operators<a class="headerlink" href="#module-pycsou.linop.conv" title="Permalink to this headline">¶</a></h1>
-<p>Convolution and smoothing operators for 1D, 2D and graph signals.</p>
+  <div class="section" id="convolution-operators">
+<h1>Convolution Operators<a class="headerlink" href="#convolution-operators" title="Permalink to this headline">¶</a></h1>
+<p>Module: <code class="docutils literal notranslate"><span class="pre">pycsou.linop.conv</span></code></p>
+<span class="target" id="module-pycsou.linop.conv"></span><p>Convolution and smoothing operators for 1D, 2D and graph signals.</p>
 <p>Many of the linear operator provided in this module are derived from linear operators from <a class="reference external" href="https://pylops.readthedocs.io/en/latest/api/index.html#linear-operators">PyLops</a>.</p>
 <p class="rubric">1D Operators</p>
 <table class="longtable docutils align-default">
@@ -288,7 +285,7 @@ when <code class="docutils literal notranslate"><span class="pre">dims</span></c
 </div>
 <p>(<a class="reference external" href="../../api/operators/pycsou-linop-conv-1.py">Source code</a>, <a class="reference external" href="../../api/operators/pycsou-linop-conv-1.png">png</a>, <a class="reference external" href="../../api/operators/pycsou-linop-conv-1.hires.png">hires.png</a>, <a class="reference external" href="../../api/operators/pycsou-linop-conv-1.pdf">pdf</a>)</p>
 <div class="figure align-default">
-<img alt="../../_images/pycsou-linop-conv-1.png" src="../../_images/pycsou-linop-conv-1.png" />
+<img alt="../../_images/pycsou-linop-conv-1.png" class="plot-directive" src="../../_images/pycsou-linop-conv-1.png" />
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -309,7 +306,7 @@ when <code class="docutils literal notranslate"><span class="pre">dims</span></c
 </div>
 <p>(<a class="reference external" href="../../api/operators/pycsou-linop-conv-2.py">Source code</a>, <a class="reference external" href="../../api/operators/pycsou-linop-conv-2.png">png</a>, <a class="reference external" href="../../api/operators/pycsou-linop-conv-2.hires.png">hires.png</a>, <a class="reference external" href="../../api/operators/pycsou-linop-conv-2.pdf">pdf</a>)</p>
 <div class="figure align-default">
-<img alt="../../_images/pycsou-linop-conv-2.png" src="../../_images/pycsou-linop-conv-2.png" />
+<img alt="../../_images/pycsou-linop-conv-2.png" class="plot-directive" src="../../_images/pycsou-linop-conv-2.png" />
 </div>
 <p class="rubric">Notes</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">Convolve1D</span></code> operator applies convolution between the input signal
@@ -322,12 +319,12 @@ when <code class="docutils literal notranslate"><span class="pre">dims</span></c
 <p>as well as performed in the frequency domain:</p>
 <div class="math notranslate nohighlight">
 \[Y(f) = \mathscr{F} (h(t)) \times \mathscr{F} (x(t)),\; f\in\mathbb{R}.\]</div>
-<p><code class="docutils literal notranslate"><span class="pre">Convolve1D</span></code> operator uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.convolve.html#scipy.signal.convolve" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.convolve()</span></code></a> that
+<p><code class="docutils literal notranslate"><span class="pre">Convolve1D</span></code> operator uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.convolve.html#scipy.signal.convolve" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.convolve()</span></code></a> that
 automatically chooses the best method for computing the convolution
 for one dimensional inputs. The FFT implementation
-<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.fftconvolve.html#scipy.signal.fftconvolve" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.fftconvolve()</span></code></a> is however enforced for signals in
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.fftconvolve.html#scipy.signal.fftconvolve" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.fftconvolve()</span></code></a> is however enforced for signals in
 2 or more dimensions as this routine efficiently operates on
-multi-dimensional arrays. The method <code class="docutils literal notranslate"><span class="pre">overlapadd</span></code> uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.oaconvolve.html#scipy.signal.oaconvolve" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.oaconvolve()</span></code></a>.</p>
+multi-dimensional arrays. The method <code class="docutils literal notranslate"><span class="pre">overlapadd</span></code> uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.oaconvolve.html#scipy.signal.oaconvolve" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.oaconvolve()</span></code></a>.</p>
 <p>As the adjoint of convolution is correlation, <code class="docutils literal notranslate"><span class="pre">Convolve1D</span></code> operator applies
 correlation in the adjoint mode.</p>
 <p>In time domain:</p>
@@ -403,7 +400,7 @@ correlation in the adjoint mode.</p>
 </div>
 <p>(<a class="reference external" href="../../api/operators/pycsou-linop-conv-3.py">Source code</a>, <a class="reference external" href="../../api/operators/pycsou-linop-conv-3.png">png</a>, <a class="reference external" href="../../api/operators/pycsou-linop-conv-3.hires.png">hires.png</a>, <a class="reference external" href="../../api/operators/pycsou-linop-conv-3.pdf">pdf</a>)</p>
 <div class="figure align-default">
-<img alt="../../_images/pycsou-linop-conv-3.png" src="../../_images/pycsou-linop-conv-3.png" />
+<img alt="../../_images/pycsou-linop-conv-3.png" class="plot-directive" src="../../_images/pycsou-linop-conv-3.png" />
 </div>
 <p class="rubric">Notes</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">Convolve2D</span></code> operator applies two-dimensional convolution
@@ -418,7 +415,7 @@ h(t-\tau,x-\chi) d(\tau,\chi) d\tau d\chi\]</div>
 <p>as well as performed in the frequency domain:</p>
 <div class="math notranslate nohighlight">
 \[Y(f, k_x) = \mathscr{F} (h(t,x)) \times \mathscr{F} (d(t,x)).\]</div>
-<p><code class="docutils literal notranslate"><span class="pre">Convolve2D</span></code> operator uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.convolve.html#scipy.signal.convolve" title="(in SciPy v1.6.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.convolve()</span></code></a>
+<p><code class="docutils literal notranslate"><span class="pre">Convolve2D</span></code> operator uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.convolve.html#scipy.signal.convolve" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.convolve()</span></code></a>
 that automatically chooses the best domain for the operation
 to be carried out.</p>
 <p>As the adjoint of convolution is correlation, <code class="docutils literal notranslate"><span class="pre">Convolve2D</span></code> operator
@@ -476,7 +473,7 @@ h(t+\tau,x+\chi) d(\tau,\chi) d\tau d\chi\]</div>
 </div>
 <p>(<a class="reference external" href="../../api/operators/pycsou-linop-conv-4.py">Source code</a>, <a class="reference external" href="../../api/operators/pycsou-linop-conv-4.png">png</a>, <a class="reference external" href="../../api/operators/pycsou-linop-conv-4.hires.png">hires.png</a>, <a class="reference external" href="../../api/operators/pycsou-linop-conv-4.pdf">pdf</a>)</p>
 <div class="figure align-default">
-<img alt="../../_images/pycsou-linop-conv-4.png" src="../../_images/pycsou-linop-conv-4.png" />
+<img alt="../../_images/pycsou-linop-conv-4.png" class="plot-directive" src="../../_images/pycsou-linop-conv-4.png" />
 </div>
 <p class="rubric">Notes</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">MovingAverage1D</span></code> operator is a special type of convolution operator that
@@ -530,7 +527,7 @@ self-adjoint.</p>
 </div>
 <p>(<a class="reference external" href="../../api/operators/pycsou-linop-conv-5.py">Source code</a>, <a class="reference external" href="../../api/operators/pycsou-linop-conv-5.png">png</a>, <a class="reference external" href="../../api/operators/pycsou-linop-conv-5.hires.png">hires.png</a>, <a class="reference external" href="../../api/operators/pycsou-linop-conv-5.pdf">pdf</a>)</p>
 <div class="figure align-default">
-<img alt="../../_images/pycsou-linop-conv-5.png" src="../../_images/pycsou-linop-conv-5.png" />
+<img alt="../../_images/pycsou-linop-conv-5.png" class="plot-directive" src="../../_images/pycsou-linop-conv-5.png" />
 </div>
 <p class="rubric">Notes</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">MovingAverage2D</span></code> operator is a special type of convolution operator that

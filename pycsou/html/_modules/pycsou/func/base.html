@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pycsou.func.base &mdash; pycsou 1.0.5 documentation</title>
+  <title>pycsou.func.base &mdash; pycsou 1.0.6 documentation</title>
   
 
   
@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -59,7 +60,7 @@
             
             
               <div class="version">
-                1.0.5
+                1.0.6
               </div>
             
           
@@ -176,9 +177,10 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">joblib</span> <span class="k">as</span> <span class="nn">job</span>
 
-<span class="kn">from</span> <span class="nn">pycsou.core.functional</span> <span class="kn">import</span> <span class="n">ProximableFunctional</span><span class="p">,</span> <span class="n">DifferentiableFunctional</span>
-<span class="kn">from</span> <span class="nn">pycsou.core.map</span> <span class="kn">import</span> <span class="n">MapHStack</span>
+<span class="kn">from</span> <span class="nn">pycsou.core.functional</span> <span class="kn">import</span> <span class="n">ProximableFunctional</span><span class="p">,</span> <span class="n">DifferentiableFunctional</span><span class="p">,</span> <span class="n">LinearFunctional</span>
+<span class="kn">from</span> <span class="nn">pycsou.core.map</span> <span class="kn">import</span> <span class="n">MapHStack</span><span class="p">,</span> <span class="n">DiffMapHStack</span>
 
 
 <div class="viewcode-block" id="ProxFuncHStack"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.base.html#pycsou.func.base.ProxFuncHStack">[docs]</a><span class="k">class</span> <span class="nc">ProxFuncHStack</span><span class="p">(</span><span class="n">ProximableFunctional</span><span class="p">,</span> <span class="n">MapHStack</span><span class="p">):</span>
@@ -216,25 +218,88 @@
 <span class="sd">       &gt;&gt;&gt; x = np.arange(10); y= x/2; tau=0.1</span>
 <span class="sd">       &gt;&gt;&gt; np.allclose(func.prox(np.concatenate((x,y)), tau), np.concatenate((func1.prox(x, tau), func2.prox(y, tau))))</span>
 <span class="sd">       True</span>
+<span class="sd">       &gt;&gt;&gt; parfunc=ProxFuncHStack(func1, func2, n_jobs=-1)</span>
+<span class="sd">       &gt;&gt;&gt; np.allclose(func.prox(np.concatenate((x,y)), tau),parfunc.prox(np.concatenate((x,y)), tau))</span>
+<span class="sd">       True</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ProxFuncHStack.__init__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.base.html#pycsou.func.base.ProxFuncHStack.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">proxfuncs</span><span class="p">):</span>
+<div class="viewcode-block" id="ProxFuncHStack.__init__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.base.html#pycsou.func.base.ProxFuncHStack.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">proxfuncs</span><span class="p">,</span> <span class="n">n_jobs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">joblib_backend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;loky&#39;</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        proxfuncs: ProximableFunctional</span>
 <span class="sd">            List of proximable functionals to stack.</span>
+<span class="sd">        n_jobs: int</span>
+<span class="sd">            Number of cores to be used for parallel evaluation of the proximal operator.</span>
+<span class="sd">            If ``n_jobs==1``, the proximal operator of the functional stack is evaluated sequentially, otherwise it is</span>
+<span class="sd">            evaluated in parallel. Setting ``n_jobs=-1`` uses all available cores.</span>
+<span class="sd">        joblib_backend: str</span>
+<span class="sd">            Joblib backend (`more details here &lt;https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html&gt;`_).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">MapHStack</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">proxfuncs</span><span class="p">)</span>
+        <span class="n">MapHStack</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">proxfuncs</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">joblib_backend</span><span class="o">=</span><span class="n">joblib_backend</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">proxfuncs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maps</span>
         <span class="n">ProximableFunctional</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_differentiable</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_differentiable</span><span class="p">,</span>
                                       <span class="n">is_linear</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_linear</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ProxFuncHStack.prox"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.base.html#pycsou.func.base.ProxFuncHStack.prox">[docs]</a>    <span class="k">def</span> <span class="nf">prox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">tau</span><span class="p">:</span> <span class="n">Number</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="n">x_split</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sections</span><span class="p">)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span><span class="o">.</span><span class="n">prox</span><span class="p">(</span><span class="n">x_split</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">tau</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">proxfuncs</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span><span class="o">.</span><span class="n">prox</span><span class="p">(</span><span class="n">x_split</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">tau</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">proxfuncs</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">job</span><span class="o">.</span><span class="n">Parallel</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">joblib_backend</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">parallel</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">parallel</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">delayed</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">prox</span><span class="p">)</span>
+                                  <span class="p">(</span><span class="n">x_split</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">tau</span><span class="p">)</span>
+                                  <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">proxfuncs</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DiffFuncHStack"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.base.html#pycsou.func.base.DiffFuncHStack">[docs]</a><span class="k">class</span> <span class="nc">DiffFuncHStack</span><span class="p">(</span><span class="n">DifferentiableFunctional</span><span class="p">,</span> <span class="n">DiffMapHStack</span><span class="p">):</span>
+<div class="viewcode-block" id="DiffFuncHStack.__init__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.base.html#pycsou.func.base.DiffFuncHStack.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">difffuncs</span><span class="p">,</span> <span class="n">n_jobs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">joblib_backend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;loky&#39;</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        difffuncs: DifferentiableFunctional</span>
+<span class="sd">            List of differentiable functionals to stack.</span>
+<span class="sd">        n_jobs: int</span>
+<span class="sd">            Number of cores to be used for parallel evaluation of the functional stack and its gradient.</span>
+<span class="sd">            If ``n_jobs==1``, the proximal operator of the functional stack and its gradient are evaluated sequentially, otherwise they are</span>
+<span class="sd">            evaluated in parallel. Setting ``n_jobs=-1`` uses all available cores.</span>
+<span class="sd">        joblib_backend: str</span>
+<span class="sd">            Joblib backend (`more details here &lt;https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html&gt;`_).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">DiffMapHStack</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">difffuncs</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">joblib_backend</span><span class="o">=</span><span class="n">joblib_backend</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">difffuncs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maps</span>
+        <span class="n">DifferentiableFunctional</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_linear</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_linear</span><span class="p">,</span>
+                                          <span class="n">lipschitz_cst</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">lipschitz_cst</span><span class="p">,</span> <span class="n">diff_lipschitz_cst</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">diff_lipschitz_cst</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DiffFuncHStack.jacobianT"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.base.html#pycsou.func.base.DiffFuncHStack.jacobianT">[docs]</a>    <span class="k">def</span> <span class="nf">jacobianT</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="n">arg_split</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sections</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">jacobianT_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">difffunc</span><span class="o">.</span><span class="n">jacobianT</span><span class="p">(</span><span class="n">arg_split</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                              <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">difffunc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maps</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">job</span><span class="o">.</span><span class="n">Parallel</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">joblib_backend</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">parallel</span><span class="p">:</span>
+                <span class="n">jacobianT_list</span> <span class="o">=</span> <span class="n">parallel</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">delayed</span><span class="p">(</span><span class="n">difffunc</span><span class="o">.</span><span class="n">jacobianT</span><span class="p">)(</span><span class="n">arg_split</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                                          <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">difffunc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maps</span><span class="p">))</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">jacobianT_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
+
+
+<div class="viewcode-block" id="ExplicitLinearFunctional"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.base.html#pycsou.func.base.ExplicitLinearFunctional">[docs]</a><span class="k">class</span> <span class="nc">ExplicitLinearFunctional</span><span class="p">(</span><span class="n">LinearFunctional</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for linear functionals.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ExplicitLinearFunctional.__init__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.base.html#pycsou.func.base.ExplicitLinearFunctional.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vec</span> <span class="o">=</span> <span class="n">vec</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ExplicitLinearFunctional</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">vec</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">is_explicit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vec</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+
+<div class="viewcode-block" id="ExplicitLinearFunctional.adjoint"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.base.html#pycsou.func.base.ExplicitLinearFunctional.adjoint">[docs]</a>    <span class="k">def</span> <span class="nf">adjoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Number</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Number</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">y</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">vec</span></div></div>
 
 
 <div class="viewcode-block" id="IndicatorFunctional"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.base.html#pycsou.func.base.IndicatorFunctional">[docs]</a><span class="k">class</span> <span class="nc">IndicatorFunctional</span><span class="p">(</span><span class="n">ProximableFunctional</span><span class="p">):</span>
@@ -268,29 +333,48 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">projection_func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
 
 
-<span class="k">class</span> <span class="nc">NullDifferentiableFunctional</span><span class="p">(</span><span class="n">DifferentiableFunctional</span><span class="p">):</span>
+<div class="viewcode-block" id="NullDifferentiableFunctional"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.base.html#pycsou.func.base.NullDifferentiableFunctional">[docs]</a><span class="k">class</span> <span class="nc">NullDifferentiableFunctional</span><span class="p">(</span><span class="n">DifferentiableFunctional</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Null differentiable functional.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<div class="viewcode-block" id="NullDifferentiableFunctional.__init__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.base.html#pycsou.func.base.NullDifferentiableFunctional.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dim: int</span>
+<span class="sd">            Dimension of the functional&#39;s domain.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">NullDifferentiableFunctional</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">is_linear</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lipschitz_cst</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                                                           <span class="n">diff_lipschitz_cst</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                                                           <span class="n">diff_lipschitz_cst</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Number</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span>
 
-    <span class="k">def</span> <span class="nf">jacobianT</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+<div class="viewcode-block" id="NullDifferentiableFunctional.jacobianT"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.base.html#pycsou.func.base.NullDifferentiableFunctional.jacobianT">[docs]</a>    <span class="k">def</span> <span class="nf">jacobianT</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span></div></div>
 
 
-<span class="k">class</span> <span class="nc">NullProximableFunctional</span><span class="p">(</span><span class="n">ProximableFunctional</span><span class="p">):</span>
+<div class="viewcode-block" id="NullProximableFunctional"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.base.html#pycsou.func.base.NullProximableFunctional">[docs]</a><span class="k">class</span> <span class="nc">NullProximableFunctional</span><span class="p">(</span><span class="n">ProximableFunctional</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Null proximable functional.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="NullProximableFunctional.__init__"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.base.html#pycsou.func.base.NullProximableFunctional.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">NullProximableFunctional</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">is_linear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dim: int</span>
+<span class="sd">            Dimension of the functional&#39;s domain.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NullProximableFunctional</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">is_linear</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Number</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span>
 
-    <span class="k">def</span> <span class="nf">prox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">tau</span><span class="p">:</span> <span class="n">Number</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="n">x</span>
+<div class="viewcode-block" id="NullProximableFunctional.prox"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.base.html#pycsou.func.base.NullProximableFunctional.prox">[docs]</a>    <span class="k">def</span> <span class="nf">prox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">tau</span><span class="p">:</span> <span class="n">Number</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">x</span></div></div>
 
 
 <div class="viewcode-block" id="LpNorm"><a class="viewcode-back" href="../../../api/functionals/pycsou.func.base.html#pycsou.func.base.LpNorm">[docs]</a><span class="k">class</span> <span class="nc">LpNorm</span><span class="p">(</span><span class="n">ProximableFunctional</span><span class="p">):</span>

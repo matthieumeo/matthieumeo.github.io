@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Green Functions &mdash; pycsou 1.0.5 documentation</title>
+  <title>Green Functions &mdash; pycsou 1.0.6 documentation</title>
   
 
   
@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/plot_directive.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Pycsou Utilities" href="../other.html" />
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                1.0.5
+                1.0.6
               </div>
             
           
@@ -105,11 +106,6 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Green Functions</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#abstract-classes">Abstract classes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#linear-operators">Linear Operators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#cost-functionals">Cost Functionals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#algorithms">Algorithms</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#mathematical-functions">Mathematical Functions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../other.html">Pycsou Utilities</a></li>
@@ -185,9 +181,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-pycsou.math.green">
-<span id="green-functions"></span><h1>Green Functions<a class="headerlink" href="#module-pycsou.math.green" title="Permalink to this headline">¶</a></h1>
-<p>Green functions of common pseudo-differential operators.</p>
+  <div class="section" id="green-functions">
+<h1>Green Functions<a class="headerlink" href="#green-functions" title="Permalink to this headline">¶</a></h1>
+<p>Module: <code class="docutils literal notranslate"><span class="pre">pycsou.math.green</span></code></p>
+<span class="target" id="module-pycsou.math.green"></span><p>Green functions of common pseudo-differential operators.</p>
 <p class="rubric">Classes</p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -231,7 +228,7 @@
 </div>
 <p>(<a class="reference external" href="../../api/math/pycsou-math-green-1.py">Source code</a>, <a class="reference external" href="../../api/math/pycsou-math-green-1.png">png</a>, <a class="reference external" href="../../api/math/pycsou-math-green-1.hires.png">hires.png</a>, <a class="reference external" href="../../api/math/pycsou-math-green-1.pdf">pdf</a>)</p>
 <div class="figure align-default">
-<img alt="../../_images/pycsou-math-green-1.png" src="../../_images/pycsou-math-green-1.png" />
+<img alt="../../_images/pycsou-math-green-1.png" class="plot-directive" src="../../_images/pycsou-math-green-1.png" />
 </div>
 <p class="rubric">Notes</p>
 <p>The Matern function is defined in full generality as (<a class="reference internal" href="../../notes/references.html#gaussprocesses" id="id1"><span>[GaussProcesses]</span></a>, eq (4.14)):</p>
@@ -302,7 +299,7 @@ with standard deviation <span class="math notranslate nohighlight">\(\epsilon\)<
 </div>
 <p>(<a class="reference external" href="../../api/math/pycsou-math-green-2.py">Source code</a>, <a class="reference external" href="../../api/math/pycsou-math-green-2.png">png</a>, <a class="reference external" href="../../api/math/pycsou-math-green-2.hires.png">hires.png</a>, <a class="reference external" href="../../api/math/pycsou-math-green-2.pdf">pdf</a>)</p>
 <div class="figure align-default">
-<img alt="../../_images/pycsou-math-green-2.png" src="../../_images/pycsou-math-green-2.png" />
+<img alt="../../_images/pycsou-math-green-2.png" class="plot-directive" src="../../_images/pycsou-math-green-2.png" />
 </div>
 <p class="rubric">Notes</p>
 <p>Wendland functions are constructed by repeatedly applying an integral operator to <em>Askey’s truncated power functions</em>.
@@ -351,7 +348,7 @@ yield <strong>positive definite</strong> radial kernels in <span class="math not
 </div>
 <p>(<a class="reference external" href="../../api/math/pycsou-math-green-3.py">Source code</a>, <a class="reference external" href="../../api/math/pycsou-math-green-3.png">png</a>, <a class="reference external" href="../../api/math/pycsou-math-green-3.hires.png">hires.png</a>, <a class="reference external" href="../../api/math/pycsou-math-green-3.pdf">pdf</a>)</p>
 <div class="figure align-default">
-<img alt="../../_images/pycsou-math-green-3.png" src="../../_images/pycsou-math-green-3.png" />
+<img alt="../../_images/pycsou-math-green-3.png" class="plot-directive" src="../../_images/pycsou-math-green-3.png" />
 </div>
 <p class="rubric">Notes</p>
 <p>The Green function <span class="math notranslate nohighlight">\(\rho_k\)</span> of the iterated derivative operator <span class="math notranslate nohighlight">\(D^k\)</span> on  <span class="math notranslate nohighlight">\(\mathbb{R}\)</span> is defined as
@@ -391,7 +388,7 @@ yield <strong>positive definite</strong> radial kernels in <span class="math not
 </div>
 <p>(<a class="reference external" href="../../api/math/pycsou-math-green-4.py">Source code</a>, <a class="reference external" href="../../api/math/pycsou-math-green-4.png">png</a>, <a class="reference external" href="../../api/math/pycsou-math-green-4.hires.png">hires.png</a>, <a class="reference external" href="../../api/math/pycsou-math-green-4.pdf">pdf</a>)</p>
 <div class="figure align-default">
-<img alt="../../_images/pycsou-math-green-4.png" src="../../_images/pycsou-math-green-4.png" />
+<img alt="../../_images/pycsou-math-green-4.png" class="plot-directive" src="../../_images/pycsou-math-green-4.png" />
 </div>
 <p class="rubric">Notes</p>
 <p>The Green function <span class="math notranslate nohighlight">\(\rho_k\)</span> of the 1D pseudo-differential operator <span class="math notranslate nohighlight">\((D+\alpha\mbox{Id})^k\)</span> on  <span class="math notranslate nohighlight">\(\mathbb{R}\)</span> is defined as
@@ -436,7 +433,7 @@ yield <strong>positive definite</strong> radial kernels in <span class="math not
 </div>
 <p>(<a class="reference external" href="../../api/math/pycsou-math-green-5.py">Source code</a>, <a class="reference external" href="../../api/math/pycsou-math-green-5.png">png</a>, <a class="reference external" href="../../api/math/pycsou-math-green-5.hires.png">hires.png</a>, <a class="reference external" href="../../api/math/pycsou-math-green-5.pdf">pdf</a>)</p>
 <div class="figure align-default">
-<img alt="../../_images/pycsou-math-green-5.png" src="../../_images/pycsou-math-green-5.png" />
+<img alt="../../_images/pycsou-math-green-5.png" class="plot-directive" src="../../_images/pycsou-math-green-5.png" />
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -462,7 +459,7 @@ yield <strong>positive definite</strong> radial kernels in <span class="math not
 </div>
 <p>(<a class="reference external" href="../../api/math/pycsou-math-green-6.py">Source code</a>, <a class="reference external" href="../../api/math/pycsou-math-green-6.png">png</a>, <a class="reference external" href="../../api/math/pycsou-math-green-6.hires.png">hires.png</a>, <a class="reference external" href="../../api/math/pycsou-math-green-6.pdf">pdf</a>)</p>
 <div class="figure align-default">
-<img alt="../../_images/pycsou-math-green-6.png" src="../../_images/pycsou-math-green-6.png" />
+<img alt="../../_images/pycsou-math-green-6.png" class="plot-directive" src="../../_images/pycsou-math-green-6.png" />
 </div>
 <p class="rubric">Notes</p>
 <p>The sub-Gaussian function is defined, for every <span class="math notranslate nohighlight">\(\alpha\in (0,2)\)</span> and <span class="math notranslate nohighlight">\(\epsilon&gt;0\)</span>, as:</p>

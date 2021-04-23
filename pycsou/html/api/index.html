@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Pycsou API &mdash; pycsou 1.0.5 documentation</title>
+  <title>Pycsou API &mdash; pycsou 1.0.6 documentation</title>
   
 
   
@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Abstract Classes" href="classes/index.html" />
@@ -61,7 +62,7 @@
             
             
               <div class="version">
-                1.0.5
+                1.0.6
               </div>
             
           
@@ -101,11 +102,6 @@
 <li class="toctree-l2"><a class="reference internal" href="functionals/index.html">Cost Functionals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="algorithms/pycsou.opt.proxalgs.html">Proximal Algorithms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="math/index.html">Mathematical Functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#abstract-classes">Abstract classes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#linear-operators">Linear Operators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#cost-functionals">Cost Functionals</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#algorithms">Algorithms</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#mathematical-functions">Mathematical Functions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="other.html">Pycsou Utilities</a></li>
@@ -182,8 +178,7 @@
 <p>Overview of Pycsou’s API.</p>
 <div class="toctree-wrapper compound">
 </div>
-<div class="section" id="abstract-classes">
-<h2>Abstract classes<a class="headerlink" href="#abstract-classes" title="Permalink to this headline">¶</a></h2>
+<p class="rubric">Abstract classes</p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -193,28 +188,26 @@
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.core.map</span></code></p></td>
 <td><p>Abstract classes for multidimensional nonlinear maps.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.core.linop</span></code></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="classes/pycsou.core.linop.html#module-pycsou.core.linop" title="pycsou.core.linop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.core.linop</span></code></a></p></td>
 <td><p>Abstract classes for multidimensional linear maps.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.core.functional</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="classes/pycsou.core.functional.html#module-pycsou.core.functional" title="pycsou.core.functional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.core.functional</span></code></a></p></td>
 <td><p>Abstract classes for functionals.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="classes/pycsou.core.solver.html#module-pycsou.core.solver" title="pycsou.core.solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.core.solver</span></code></a></p></td>
-<td><p>Optimisation algorithms.</p></td>
+<td><p>This module provides the base class for iterative algorithms.</p></td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="linear-operators">
-<h2>Linear Operators<a class="headerlink" href="#linear-operators" title="Permalink to this headline">¶</a></h2>
+<p class="rubric">Linear Operators</p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.linop.base</span></code></p></td>
-<td><p>Interface classes for constructing linear operators.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="operators/pycsou.linop.base.html#module-pycsou.linop.base" title="pycsou.linop.base"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.linop.base</span></code></a></p></td>
+<td><p>Classes for constructing linear operators.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="operators/pycsou.linop.conv.html#module-pycsou.linop.conv" title="pycsou.linop.conv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.linop.conv</span></code></a></p></td>
 <td><p>Convolution and smoothing operators for 1D, 2D and graph signals.</p></td>
@@ -227,16 +220,14 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="cost-functionals">
-<h2>Cost Functionals<a class="headerlink" href="#cost-functionals" title="Permalink to this headline">¶</a></h2>
+<p class="rubric">Cost Functionals</p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.func.base</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="functionals/pycsou.func.base.html#module-pycsou.func.base" title="pycsou.func.base"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.func.base</span></code></a></p></td>
 <td><p>Interface classes for constructing functionals.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="functionals/pycsou.func.penalty.html#module-pycsou.func.penalty" title="pycsou.func.penalty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pycsou.func.penalty</span></code></a></p></td>
@@ -247,9 +238,7 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="algorithms">
-<h2>Algorithms<a class="headerlink" href="#algorithms" title="Permalink to this headline">¶</a></h2>
+<p class="rubric">Algorithms</p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -261,9 +250,7 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="mathematical-functions">
-<h2>Mathematical Functions<a class="headerlink" href="#mathematical-functions" title="Permalink to this headline">¶</a></h2>
+<p class="rubric">Mathematical Functions</p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -278,7 +265,6 @@
 </tr>
 </tbody>
 </table>
-</div>
 </div>
 
 
