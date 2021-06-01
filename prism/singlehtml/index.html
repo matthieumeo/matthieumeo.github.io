@@ -1,0 +1,705 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>prism 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html#document-index">
+    <img class="logo" src="_static/prism.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">prism</h1>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">Spline-based regression and decomposition of time series with seasonal and trend components.</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=matthieumeo&repo=prism&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-install">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#quick-install">Quick Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#developper-install">Developper Install</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-methods/index">Methods</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-methods/model">Parametric Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-methods/fitting">Fitting Procedure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-methods/uncertainty">Uncertainty Quantification</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-api">Reference Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-examples/index">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-examples/ch4_mlo">Atmospheric CH4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-examples/co2_mlo">Atmospheric CO2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-examples/elec_equip">US Electronic Equipment</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-references">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html#document-index">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="prism-seasonal-trend-regression">
+<h1>Prism: Seasonal-Trend Regression<a class="headerlink" href="#prism-seasonal-trend-regression" title="Permalink to this headline">¶</a></h1>
+<p><em>Prism</em> is a Python 3 package for spline-based regression and decomposition of time series with seasonal and trend components.</p>
+<div class="toctree-wrapper compound">
+<span id="document-install"></span><section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>Prism requires Python 3.6 or greater. It was developed and tested on x86_64 systems running MacOS and Linux.</p>
+<section id="dependencies">
+<h3>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h3>
+<p>The package extra dependencies are listed in the files <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> and <code class="docutils literal notranslate"><span class="pre">requirements-conda.txt</span></code>.
+It is recommended to install those extra dependencies using <a class="reference external" href="https://conda.io/miniconda.html">Miniconda</a> or
+<a class="reference external" href="https://www.anaconda.com/download/#linux">Anaconda</a>. This
+is not just a pure stylistic choice but comes with some <em>hidden</em> advantages, such as the linking to
+<code class="docutils literal notranslate"><span class="pre">Intel</span> <span class="pre">MKL</span></code> library (a highly optimized BLAS library created by Intel).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt; conda install --channel<span class="o">=</span>conda-forge --file<span class="o">=</span>requirements-conda.txt
+</pre></div>
+</div>
+</section>
+<section id="quick-install">
+<h3>Quick Install<a class="headerlink" href="#quick-install" title="Permalink to this headline">¶</a></h3>
+<p>Prism can be installed very simply via the command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt; pip install git+git://github.com/matthieumeo/prism.git@master#egg<span class="o">=</span>prism
+</pre></div>
+</div>
+<p>If you have previously activated your conda environment <code class="docutils literal notranslate"><span class="pre">pip</span></code> will install Prism in said environment. Otherwise it will install it in your base environment together with the various dependencies obtained from the file <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>.</p>
+</section>
+<section id="developper-install">
+<h3>Developper Install<a class="headerlink" href="#developper-install" title="Permalink to this headline">¶</a></h3>
+<p>It is also possible to install Prism from the source for developpers:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt; git clone https://github.com/matthieumeo/prism
+&gt;&gt; <span class="nb">cd</span> &lt;repository_dir&gt;/
+&gt;&gt; pip install -e .
+</pre></div>
+</div>
+<p>The package documentation can be generated with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;&gt; conda install <span class="nv">sphinx</span><span class="o">==</span><span class="s1">&#39;2.1.*&#39;</span>
+&gt;&gt; python3 setup.py build_sphinx -b singlehtml
+</pre></div>
+</div>
+</section>
+</section>
+<span id="document-methods/index"></span><section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<span id="document-methods/model"></span><section id="parametric-model">
+<h3>Parametric Model<a class="headerlink" href="#parametric-model" title="Permalink to this headline">¶</a></h3>
+<p>Consider an unknown signal <span class="math notranslate nohighlight">\(f:\mathbb{R}\to \mathbb{R}\)</span> of which we possess <em>noisy</em> samples</p>
+<div class="math notranslate nohighlight">
+\[y_i=f(t_i)+\epsilon_i, \qquad i =1,\ldots, L,\]</div>
+<p>for some non-uniform sample times <span class="math notranslate nohighlight">\(\{t_1,\ldots, t_L\}\subset \mathbb{R}\)</span> and additive i.i.d. noise perturbations  <span class="math notranslate nohighlight">\(\epsilon_i\)</span>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">SeasonalTrendRegression</span></code> class assumes the following parametric form for <span class="math notranslate nohighlight">\(f\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[f(t)=\sum_{n=1}^N \alpha_m \rho_{D^k}(t-\tau_n) \quad + \quad  \sum_{m=1}^M \beta_m \psi_{D^j}(t-\eta_m) \quad+\quad \gamma_0 \quad+\quad \gamma_1 t.
+\tag{1}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\sum_{n=1}^N \alpha_m=0\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\rho_{D^k}:[0, T[\to \mathbb{R}\)</span> is the <em>Green function</em> associated to the <span class="math notranslate nohighlight">\(k\)</span>-iterated periodic derivative operator <span class="math notranslate nohighlight">\(D^k\)</span> with period <span class="math notranslate nohighlight">\(T\)</span> <a class="reference internal" href="index.html#periodic" id="id1"><span>[Periodic]</span></a>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\psi_{D^j}:\mathbb{R}\to \mathbb{R}\)</span> is the <em>causal Green function</em> associated to the <span class="math notranslate nohighlight">\(j\)</span>-iterated derivative operator <span class="math notranslate nohighlight">\(D^j\)</span> <a class="reference internal" href="index.html#green" id="id2"><span>[Green]</span></a>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\tau_n:=(n-1)T/N,\)</span> and <span class="math notranslate nohighlight">\(\eta_m:=R_{min}\,+\,m(R_{max}-R_{min})/(M+1),\)</span> for some <span class="math notranslate nohighlight">\(R_{min}&lt;R_{max}\)</span>.</p></li>
+</ul>
+<p>The <em>seasonal component</em> <span class="math notranslate nohighlight">\(f_S(t):=\sum_{n=1}^N \alpha_m \rho_{D^k}(t-\tau_n)\)</span> is a (zero mean) <span class="math notranslate nohighlight">\(T\)</span>-periodic spline w.r.t. the
+iterated periodic derivative operator <span class="math notranslate nohighlight">\(D^k\)</span> <a class="reference internal" href="index.html#periodic" id="id3"><span>[Periodic]</span></a>. It models short-term cyclical temporal variations of the signal <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<p>The <em>trend component</em> <span class="math notranslate nohighlight">\(f_T(t):=\sum_{m=1}^M \beta_m \psi_{D^j}(t-\eta_m)+\gamma_0 + \gamma_1 t\)</span> is the sum of a spline
+(w.r.t. the iterated derivative operator <span class="math notranslate nohighlight">\(D^j\)</span>) and an affine function <span class="math notranslate nohighlight">\(\gamma_0 + \gamma_1 t\)</span> <a class="reference internal" href="index.html#splines" id="id4"><span>[Splines]</span></a>. It models long-term non-cyclical temporal variations of <span class="math notranslate nohighlight">\(f\)</span>.</p>
+</section>
+<span id="document-methods/fitting"></span><section id="fitting-procedure">
+<h3>Fitting Procedure<a class="headerlink" href="#fitting-procedure" title="Permalink to this headline">¶</a></h3>
+<p>The method <a class="reference internal" href="index.html#prism.__init__.SeasonalTrendRegression.fit" title="prism.__init__.SeasonalTrendRegression.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fit()</span></code></a> recovers the coefficients <span class="math notranslate nohighlight">\(\mathbf{a}=[\alpha_1,\ldots,\alpha_N]\in\mathbb{R}^N\)</span>, <span class="math notranslate nohighlight">\(\mathbf{b}=[\beta_1,\ldots,\beta_M]\in\mathbb{R}^M\)</span> and
+<span class="math notranslate nohighlight">\(\mathbf{c}=[\gamma_0,\gamma_1]\in\mathbb{R}^2\)</span> from the data <span class="math notranslate nohighlight">\(\mathbf{y}=[y_1,\ldots,y_L]\in\mathbb{R}^L\)</span>
+as <em>minima at posteriori (MAP)</em> of the negative log-posterior distribution:</p>
+<div class="math notranslate nohighlight">
+\[(\hat{\mathbf{a}}, \hat{\mathbf{b}}, \hat{\mathbf{c}})=
+\arg\min_{({\mathbf{a}}, {\mathbf{b}},{\mathbf{c}})\in\mathbb{R}^N\times\mathbb{R}^M\times \mathbb{R}^2 } \frac{1}{p}\left\|\mathbf{y}-\mathbf{K} \mathbf{a} -\mathbf{L} \mathbf{b} - \mathbf{V} \mathbf{c}\right\|_p^p
+\,+\, \lambda \left(\theta \|\mathbf{a}\|_1 + (1-\theta)\|\mathbf{b}\|_1\right) \,+\, \iota(\mathbf{1}^T\mathbf{a}) \tag{2}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(p\in \{1,2\}\)</span> is chosen according the the noise distribution (<span class="math notranslate nohighlight">\(p=1\)</span> in the presence of outliers),</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{K}\in\mathbb{R}^{L\times N}\)</span> is given by: <span class="math notranslate nohighlight">\(\mathbf{K}_{in}=\rho_{D^k}(t_i-\tau_j)\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{L}\in\mathbb{R}^{L\times M}\)</span> is given by: <span class="math notranslate nohighlight">\(\mathbf{L}_{im}=\psi_{D^j}(t_i-\eta_m)\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{V}\in\mathbb{R}^{L\times 2}\)</span> is given by: <span class="math notranslate nohighlight">\(\mathbf{L}_{ip}=t^p_j\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\lambda&gt;0\)</span> and <span class="math notranslate nohighlight">\(\theta\in [0,1]\)</span> are regularisation parameters,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\iota:\mathbb{R}\to\{0, +\infty\}\)</span> is the <em>indicator function</em> returning <span class="math notranslate nohighlight">\(0\)</span> if the input is zero and <span class="math notranslate nohighlight">\(+\infty\)</span> otherwise.</p></li>
+</ul>
+<p>If requested by the user, the penalty parameter <span class="math notranslate nohighlight">\(\lambda\)</span> can be learnt from the data by introducing a gamma hyper-prior and finding the MAP
+of the posterior on <span class="math notranslate nohighlight">\({\mathbf{a}}, {\mathbf{b}},{\mathbf{c}}\)</span> and <span class="math notranslate nohighlight">\(\lambda\)</span> jointly <a class="reference internal" href="index.html#tuning" id="id1"><span>[Tuning]</span></a>.</p>
+<p>The <span class="math notranslate nohighlight">\(R^2\)</span>-score of the regression is provided by the method  <a class="reference internal" href="index.html#prism.__init__.SeasonalTrendRegression.r2score" title="prism.__init__.SeasonalTrendRegression.r2score"><code class="xref py py-meth docutils literal notranslate"><span class="pre">r2score()</span></code></a>.</p>
+</section>
+<span id="document-methods/uncertainty"></span><section id="uncertainty-quantification">
+<h3>Uncertainty Quantification<a class="headerlink" href="#uncertainty-quantification" title="Permalink to this headline">¶</a></h3>
+<p>The method <a class="reference internal" href="index.html#prism.__init__.SeasonalTrendRegression.sample_credible_region" title="prism.__init__.SeasonalTrendRegression.sample_credible_region"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample_credible_region()</span></code></a> returns approximate <em>marginal pointwise credible
+intervals</em> for the model parameters, the seasonal and trend components and their sum. This is achieved by sampling uniformly (via the hit-and-run algorithm) the
+approximate highest density posterior credible region <a class="reference internal" href="index.html#credible" id="id1"><span>[Credible]</span></a>:</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[C_{\xi}=\left\{({\mathbf{a}}, {\mathbf{b}},{\mathbf{c}})\in\mathbb{R}^N\times\mathbb{R}^M\times \mathbb{R}^2: J({\mathbf{a}}, {\mathbf{b}},{\mathbf{c}})\leq
+J(\hat{\mathbf{a}}, \hat{\mathbf{b}}, \hat{\mathbf{c}}) + (N+M+2) (\nu_\xi+1)\right\} \tag{3}\]</div>
+</div></blockquote>
+<p>where <span class="math notranslate nohighlight">\(\xi\in [0,1]\)</span> is the confidence level associated to the credible region, <span class="math notranslate nohighlight">\(\nu_\xi:=\sqrt{16\log(3/\xi)/(N+M+2)}\)</span>,
+and <span class="math notranslate nohighlight">\(J:\mathbb{R}^N\times\mathbb{R}^M\times \mathbb{R}^2\to \mathbb{R}_+\)</span> is the negative log-posterior in (3).</p>
+<p>Approximate marginal pointwise credible intervals are then obtained by evaluating (1) (and the seasonal/trend components)
+for the various samples of <span class="math notranslate nohighlight">\(C_{\xi}\)</span> gathered and then taking the pointwise minima and maxima of all the sample curves.</p>
+<p>Note that (3) can also be used for <em>hypothesis testing</em> on the parameters of the model (see method <a class="reference internal" href="index.html#prism.__init__.SeasonalTrendRegression.is_credible" title="prism.__init__.SeasonalTrendRegression.is_credible"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_credible()</span></code></a>
+for more on the topic).</p>
+</section>
+</div>
+</section>
+<span id="document-api"></span><section id="reference-documentation">
+<h2>Reference Documentation<a class="headerlink" href="#reference-documentation" title="Permalink to this headline">¶</a></h2>
+<p>The seasonal-trend regression is performed by means of the <code class="docutils literal notranslate"><span class="pre">SeasonalTrendRegression</span></code> class described below:</p>
+<span class="target" id="module-prism.__init__"></span><dl class="class">
+<dt id="prism.__init__.SeasonalTrendRegression">
+<em class="property">class </em><code class="sig-name descname">SeasonalTrendRegression</code><span class="sig-paren">(</span><em class="sig-param">sample_times: numpy.ndarray</em>, <em class="sig-param">sample_values: numpy.ndarray</em>, <em class="sig-param">period: numbers.Number</em>, <em class="sig-param">forecast_times: numpy.ndarray</em>, <em class="sig-param">seasonal_forecast_times: numpy.ndarray</em>, <em class="sig-param">nb_of_knots: Tuple[int</em>, <em class="sig-param">int] = (32</em>, <em class="sig-param">32)</em>, <em class="sig-param">spline_orders: Tuple[int</em>, <em class="sig-param">int] = (3</em>, <em class="sig-param">2)</em>, <em class="sig-param">penalty_strength: Optional[float] = None</em>, <em class="sig-param">penalty_tuning: bool = True</em>, <em class="sig-param">test_times: Optional[numpy.ndarray] = None</em>, <em class="sig-param">test_values: Optional[numpy.ndarray] = None</em>, <em class="sig-param">robust: bool = False</em>, <em class="sig-param">theta: float = 0.5</em>, <em class="sig-param">dtype: type = &lt;class 'numpy.float64'&gt;</em>, <em class="sig-param">tol: float = 0.001</em><span class="sig-paren">)</span><a class="headerlink" href="#prism.__init__.SeasonalTrendRegression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Seasonal-trend regression of a noisy and non-uniform time series.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample_times</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><em>numpy.ndarray</em></a>) – Sample times <span class="math notranslate nohighlight">\(\{t_1, \ldots, t_L\}\in\mathbb{R}\)</span>.</p></li>
+<li><p><strong>sample_values</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><em>numpy.ndarray</em></a>) – Observed values of the signal <span class="math notranslate nohighlight">\(\{y_1, \ldots, y_L\}\in\mathbb{R}\)</span> at the sample times. Can be noisy.</p></li>
+<li><p><strong>period</strong> (<em>Number</em>) – Period <span class="math notranslate nohighlight">\(T&gt;0\)</span> for the seasonal component.</p></li>
+<li><p><strong>forecast_times</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><em>numpy.ndarray</em></a>) – Unobserved times for forecasting of the signal and its trend component.</p></li>
+<li><p><strong>seasonal_forecast_times</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><em>numpy.ndarray</em></a>) – Unobserved times in <span class="math notranslate nohighlight">\([0,T)\)</span> for forecasting of the seasonal component.</p></li>
+<li><p><strong>nb_of_knots</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Number of knots <span class="math notranslate nohighlight">\((N, M)\)</span> for the seasonal and trend component respectively. High values of N and M can lead
+to numerical instability.</p></li>
+<li><p><strong>spline_orders</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Exponents <span class="math notranslate nohighlight">\((k,j)\)</span> of the iterated derivative operators defining the splines involved in the seasonal
+and trend component respectively. Both parameters must be strictly bigger than one.</p></li>
+<li><p><strong>penalty_strength</strong> (<em>Optional</em><em>[</em><em>Number</em><em>]</em>) – Value of the penalty strength <span class="math notranslate nohighlight">\(\lambda\in \mathbb{R}_+\)</span>.</p></li>
+<li><p><strong>penalty_tuning</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether or not the penalty strength <span class="math notranslate nohighlight">\(\lambda\)</span> should be learnt from the data.</p></li>
+<li><p><strong>test_times</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><em>numpy.ndarray</em></a><em>]</em>) – Optional test times to assess the regression performances.</p></li>
+<li><p><strong>test_values</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><em>numpy.ndarray</em></a><em>]</em>) – Optional test values to assess the regression performances.</p></li>
+<li><p><strong>robust</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, <span class="math notranslate nohighlight">\(p=1\)</span> is chosen for the data-fidelity term in (2), otherwise <span class="math notranslate nohighlight">\(p=2\)</span>. Should be set to
+<code class="docutils literal notranslate"><span class="pre">True</span></code> in the presence of outliers.</p></li>
+<li><p><strong>theta</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Value of the balancing parameter <span class="math notranslate nohighlight">\(\theta\in [0,1]\)</span>. Setting <code class="docutils literal notranslate"><span class="pre">theta</span></code> as 0 or 1 respectively removes the penalty on the seasonal
+or trend component in (2).</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.9)"><em>type</em></a>) – Types of the various numpy arrays involved in the estimation procedure.</p></li>
+<li><p><strong>tol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Tolerance for computing Lipschitz constants. For experimented users only!</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">self.sample_times.size</span> <span class="pre">!=</span> <span class="pre">self.sample_values.size</span></code>, <code class="docutils literal notranslate"><span class="pre">len(self.spline_orders)</span> <span class="pre">!=</span> <span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">in</span> <span class="pre">self.spline_orders</span></code>,
+    <code class="docutils literal notranslate"><span class="pre">len(self.nb_of_knots)</span> <span class="pre">!=</span> <span class="pre">2</span></code>  or <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">0</span> <span class="pre">&lt;=</span> <span class="pre">theta</span> <span class="pre">&lt;=</span> <span class="pre">1</span></code>.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="prism.__init__.SeasonalTrendRegression.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">max_outer_iterations: int = 10</em>, <em class="sig-param">max_inner_iterations: int = 10000</em>, <em class="sig-param">accuracy_parameter: float = 1e-05</em>, <em class="sig-param">accuracy_hyperparameter: float = 0.001</em>, <em class="sig-param">verbose: Optional[int] = None</em><span class="sig-paren">)</span> &#x2192; Tuple[numpy.ndarray, float]<a class="headerlink" href="#prism.__init__.SeasonalTrendRegression.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the model (1) by solving (2).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_outer_iterations</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Maximum number of outer iterations for auto-tuning of the penalty strength <span class="math notranslate nohighlight">\(\lambda\)</span>.</p></li>
+<li><p><strong>max_inner_iterations</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Maximum number of inner iterations when solving (2) with a fixed value of <span class="math notranslate nohighlight">\(\lambda\)</span>.</p></li>
+<li><p><strong>accuracy_parameter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Minimum relative improvement in the iterate of the numerical solver for (2).</p></li>
+<li><p><strong>accuracy_hyperparameter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Minimum relative improvement of the penalty strength.</p></li>
+<li><p><strong>verbose</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Verbosity level of the method.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Estimates of <span class="math notranslate nohighlight">\((\hat{\mathbf{a}}, \hat{\mathbf{b}}, \hat{\mathbf{c}})\)</span> concatenated as a single array with
+size <span class="math notranslate nohighlight">\(N+M+2\)</span> and the auto-tuned penalty parameter <span class="math notranslate nohighlight">\(\lambda\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[np.ndarray, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="prism.__init__.SeasonalTrendRegression.r2score">
+<code class="sig-name descname">r2score</code><span class="sig-paren">(</span><em class="sig-param">dataset: str = 'training'</em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#prism.__init__.SeasonalTrendRegression.r2score" title="Permalink to this definition">¶</a></dt>
+<dd><p><span class="math notranslate nohighlight">\(R^2-score\)</span> of the regression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataset</strong> (<em>[</em><em>'training'</em><em>, </em><em>'test'</em><em>]</em>) – Dataset on which to evaluate the <span class="math notranslate nohighlight">\(R^2-score\)</span>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary containing the <span class="math notranslate nohighlight">\(R^2-scores\)</span> of the seasonal and trend components as well as the sum of the two.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="prism.__init__.SeasonalTrendRegression.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray]<a class="headerlink" href="#prism.__init__.SeasonalTrendRegression.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict the values of the signal and its seasonal/trend components at times specified by the attributes <code class="docutils literal notranslate"><span class="pre">self.forecast_times</span></code> and
+<code class="docutils literal notranslate"><span class="pre">self.seasonal_forecast_times</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Predicted values for the seasonal, trend and sum of the two respectively.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Tuple[np.ndarray, np.ndarray, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="prism.__init__.SeasonalTrendRegression.sample_credible_region">
+<code class="sig-name descname">sample_credible_region</code><span class="sig-paren">(</span><em class="sig-param">n_samples: float = 100000.0</em>, <em class="sig-param">credible_lvl: float = 0.01</em>, <em class="sig-param">return_samples: bool = False</em>, <em class="sig-param">seed: int = 1</em>, <em class="sig-param">subsample_by: int = 100</em><span class="sig-paren">)</span> &#x2192; Tuple[dict, dict, Optional[dict]]<a class="headerlink" href="#prism.__init__.SeasonalTrendRegression.sample_credible_region" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample approximate credible region and returns pointwise marginal credible intervals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_samples</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Number of samples.</p></li>
+<li><p><strong>credible_lvl</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Credible level <span class="math notranslate nohighlight">\(\xi\in [0,1]\)</span>.</p></li>
+<li><p><strong>return_samples</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, return the samples on top of the pointwise marginal credible intervals.</p></li>
+<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Seed for the pseudo-random number generator.</p></li>
+<li><p><strong>subsample_by</strong> – Subsampling factor (1 every <code class="docutils literal notranslate"><span class="pre">subsample_by</span></code> samples are stored if <code class="docutils literal notranslate"><span class="pre">return_samples==True</span></code>).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionaries with keys {‘coeffs’, ‘seasonal’, ‘trend’, ‘sum’}. The values associated to the keys of the first two dictionaries
+are the minimum and maximum of the credible intervals of the corresponding component. The values associated to the keys of the
+last dictionary are arrays containing credible samples of the corresponding component.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)">dict</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)">dict</a>, Optional[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)">dict</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="prism.__init__.SeasonalTrendRegression.is_credible">
+<code class="sig-name descname">is_credible</code><span class="sig-paren">(</span><em class="sig-param">coeffs: numpy.ndarray</em>, <em class="sig-param">credible_lvl: Optional[float] = None</em>, <em class="sig-param">gamma: Optional[float] = None</em><span class="sig-paren">)</span> &#x2192; Tuple[bool, bool, float]<a class="headerlink" href="#prism.__init__.SeasonalTrendRegression.is_credible" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test whether a set of coefficients are credible for a given confidence level.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coeffs</strong> (<em>np.ndarray</em>) – Coefficients to be tested (array of size (N+M+2)).</p></li>
+<li><p><strong>credible_lvl</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – Credible level <span class="math notranslate nohighlight">\(\xi\in[0,1]\)</span>.</p></li>
+<li><p><strong>gamma</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – Undocumented. For internal use only.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The set of coefficients are credible if the product of the first two output is 1. The last output is for internal use only.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="prism.__init__.SeasonalTrendRegression.plot_data">
+<code class="sig-name descname">plot_data</code><span class="sig-paren">(</span><em class="sig-param">fig: Optional[int] = None</em>, <em class="sig-param">test_set: bool = True</em><span class="sig-paren">)</span><a class="headerlink" href="#prism.__init__.SeasonalTrendRegression.plot_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the training and test datasets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fig</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Figure handle. If <code class="docutils literal notranslate"><span class="pre">None</span></code> creates a new figure.</p></li>
+<li><p><strong>test_set</strong> – Optional test dataset.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="prism.__init__.SeasonalTrendRegression.plot_green_functions">
+<code class="sig-name descname">plot_green_functions</code><span class="sig-paren">(</span><em class="sig-param">fig: Optional[int] = None</em>, <em class="sig-param">component: str = 'trend'</em><span class="sig-paren">)</span><a class="headerlink" href="#prism.__init__.SeasonalTrendRegression.plot_green_functions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the shifted Green functions involved in the parametric model (1).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fig</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Figure handle. If <code class="docutils literal notranslate"><span class="pre">None</span></code> creates a new figure.</p></li>
+<li><p><strong>component</strong> (<em>[</em><em>'seasonal'</em><em>, </em><em>'trend'</em><em>]</em>) – Component for which the shifted Green functions should be plotted.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="prism.__init__.SeasonalTrendRegression.summary_plot">
+<code class="sig-name descname">summary_plot</code><span class="sig-paren">(</span><em class="sig-param">fig: Optional[int] = None</em>, <em class="sig-param">min_values: Optional[dict] = None</em>, <em class="sig-param">max_values: Optional[dict] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#prism.__init__.SeasonalTrendRegression.summary_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the result of the regression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fig</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Figure handle. If <code class="docutils literal notranslate"><span class="pre">None</span></code> creates a new figure.</p></li>
+<li><p><strong>min_values</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em>]</em>) – Minimum of the pointwise marginal credible intervals for the various components.
+Output of <a class="reference internal" href="#prism.__init__.SeasonalTrendRegression.sample_credible_region" title="prism.__init__.SeasonalTrendRegression.sample_credible_region"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample_credible_region()</span></code></a>.</p></li>
+<li><p><strong>max_values</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em>]</em>) – Maximum of the pointwise marginal credible intervals for the various components.
+Output of <a class="reference internal" href="#prism.__init__.SeasonalTrendRegression.sample_credible_region" title="prism.__init__.SeasonalTrendRegression.sample_credible_region"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample_credible_region()</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="prism.__init__.SeasonalTrendRegression.plot_seasonal_component">
+<code class="sig-name descname">plot_seasonal_component</code><span class="sig-paren">(</span><em class="sig-param">fig: Optional[int] = None</em>, <em class="sig-param">samples_seasonal: Optional[numpy.ndarray] = None</em>, <em class="sig-param">min_values: Optional[numpy.ndarray] = None</em>, <em class="sig-param">max_values: Optional[numpy.ndarray] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#prism.__init__.SeasonalTrendRegression.plot_seasonal_component" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the seasonal component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fig</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Figure handle. If <code class="docutils literal notranslate"><span class="pre">None</span></code> creates a new figure.</p></li>
+<li><p><strong>samples_seasonal</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>] </em><em>= None</em>) – Sample curves for the seasonal component.
+Output of <a class="reference internal" href="#prism.__init__.SeasonalTrendRegression.sample_credible_region" title="prism.__init__.SeasonalTrendRegression.sample_credible_region"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample_credible_region()</span></code></a>.</p></li>
+<li><p><strong>min_values</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – Minimum of the pointwise marginal credible intervals for the seasonal component.
+Output of <a class="reference internal" href="#prism.__init__.SeasonalTrendRegression.sample_credible_region" title="prism.__init__.SeasonalTrendRegression.sample_credible_region"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample_credible_region()</span></code></a>.</p></li>
+<li><p><strong>max_values</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – Maximum of the pointwise marginal credible intervals for the seasonal component.
+Output of <a class="reference internal" href="#prism.__init__.SeasonalTrendRegression.sample_credible_region" title="prism.__init__.SeasonalTrendRegression.sample_credible_region"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample_credible_region()</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="prism.__init__.SeasonalTrendRegression.plot_trend_component">
+<code class="sig-name descname">plot_trend_component</code><span class="sig-paren">(</span><em class="sig-param">fig: Optional[int] = None</em>, <em class="sig-param">samples_trend: Optional[numpy.ndarray] = None</em>, <em class="sig-param">min_values: Optional[numpy.ndarray] = None</em>, <em class="sig-param">max_values: Optional[numpy.ndarray] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#prism.__init__.SeasonalTrendRegression.plot_trend_component" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the trend component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fig</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Figure handle. If <code class="docutils literal notranslate"><span class="pre">None</span></code> creates a new figure.</p></li>
+<li><p><strong>samples_trend</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>] </em><em>= None</em>) – Sample curves for the trend component.
+Output of <a class="reference internal" href="#prism.__init__.SeasonalTrendRegression.sample_credible_region" title="prism.__init__.SeasonalTrendRegression.sample_credible_region"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample_credible_region()</span></code></a>.</p></li>
+<li><p><strong>min_values</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – Minimum of the pointwise marginal credible intervals for the trend component.
+Output of <a class="reference internal" href="#prism.__init__.SeasonalTrendRegression.sample_credible_region" title="prism.__init__.SeasonalTrendRegression.sample_credible_region"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample_credible_region()</span></code></a>.</p></li>
+<li><p><strong>max_values</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – Maximum of the pointwise marginal credible intervals for the trend component.
+Output of <a class="reference internal" href="#prism.__init__.SeasonalTrendRegression.sample_credible_region" title="prism.__init__.SeasonalTrendRegression.sample_credible_region"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample_credible_region()</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="prism.__init__.SeasonalTrendRegression.plot_sum">
+<code class="sig-name descname">plot_sum</code><span class="sig-paren">(</span><em class="sig-param">fig: Optional[int] = None</em>, <em class="sig-param">samples_sum: Optional[numpy.ndarray] = None</em>, <em class="sig-param">min_values: Optional[numpy.ndarray] = None</em>, <em class="sig-param">max_values: Optional[numpy.ndarray] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#prism.__init__.SeasonalTrendRegression.plot_sum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the sum of the seasonal and trend component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fig</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Figure handle. If <code class="docutils literal notranslate"><span class="pre">None</span></code> creates a new figure.</p></li>
+<li><p><strong>samples_sum</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>] </em><em>= None</em>) – Sample curves for the sum of the two component.
+Output of <a class="reference internal" href="#prism.__init__.SeasonalTrendRegression.sample_credible_region" title="prism.__init__.SeasonalTrendRegression.sample_credible_region"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample_credible_region()</span></code></a>.</p></li>
+<li><p><strong>min_values</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – Minimum of the pointwise marginal credible intervals for the sum of the two components.
+Output of <a class="reference internal" href="#prism.__init__.SeasonalTrendRegression.sample_credible_region" title="prism.__init__.SeasonalTrendRegression.sample_credible_region"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample_credible_region()</span></code></a>.</p></li>
+<li><p><strong>max_values</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – Maximum of the pointwise marginal credible intervals for the sum of the two components.
+Output of <a class="reference internal" href="#prism.__init__.SeasonalTrendRegression.sample_credible_region" title="prism.__init__.SeasonalTrendRegression.sample_credible_region"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample_credible_region()</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<span id="document-examples/index"></span><section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<span id="document-examples/ch4_mlo"></span><section id="atmospheric-ch4">
+<h3>Atmospheric CH4<a class="headerlink" href="#atmospheric-ch4" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">prism</span> <span class="kn">import</span> <span class="n">SeasonalTrendRegression</span>
+<span class="kn">from</span> <span class="nn">prism</span> <span class="kn">import</span> <span class="n">ch4_mlo_dataset</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">data</span><span class="p">,</span> <span class="n">data_test</span> <span class="o">=</span> <span class="n">ch4_mlo_dataset</span><span class="p">()</span>
+
+<span class="n">period</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">sample_times</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">time_decimal</span><span class="o">.</span><span class="n">values</span>
+<span class="n">sample_values</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">values</span>
+<span class="n">test_times</span> <span class="o">=</span> <span class="n">data_test</span><span class="o">.</span><span class="n">time_decimal</span><span class="o">.</span><span class="n">values</span>
+<span class="n">test_values</span> <span class="o">=</span> <span class="n">data_test</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">values</span>
+<span class="n">forecast_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">test_times</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">test_times</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">4096</span><span class="p">)</span>
+<span class="n">seasonal_forecast_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>
+
+<span class="n">streg</span> <span class="o">=</span> <span class="n">SeasonalTrendRegression</span><span class="p">(</span><span class="n">sample_times</span><span class="o">=</span><span class="n">sample_times</span><span class="p">,</span> <span class="n">sample_values</span><span class="o">=</span><span class="n">sample_values</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="n">period</span><span class="p">,</span>
+                                <span class="n">forecast_times</span><span class="o">=</span><span class="n">forecast_times</span><span class="p">,</span> <span class="n">seasonal_forecast_times</span><span class="o">=</span><span class="n">seasonal_forecast_times</span><span class="p">,</span>
+                                <span class="n">nb_of_knots</span><span class="o">=</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span> <span class="n">spline_orders</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">penalty_strength</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">penalty_tuning</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                <span class="n">test_times</span><span class="o">=</span><span class="n">test_times</span><span class="p">,</span> <span class="n">test_values</span><span class="o">=</span><span class="n">test_values</span><span class="p">,</span> <span class="n">robust</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">streg</span><span class="o">.</span><span class="n">plot_data</span><span class="p">()</span>
+<span class="n">xx</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">streg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">r2score</span> <span class="o">=</span> <span class="n">streg</span><span class="o">.</span><span class="n">r2score</span><span class="p">()</span>
+<span class="n">min_values</span><span class="p">,</span> <span class="n">max_values</span><span class="p">,</span> <span class="n">samples</span> <span class="o">=</span> <span class="n">streg</span><span class="o">.</span><span class="n">sample_credible_region</span><span class="p">(</span><span class="n">return_samples</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">subsample_by</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">streg</span><span class="o">.</span><span class="n">summary_plot</span><span class="p">(</span><span class="n">min_values</span><span class="o">=</span><span class="n">min_values</span><span class="p">,</span> <span class="n">max_values</span><span class="o">=</span><span class="n">max_values</span><span class="p">)</span>
+<span class="n">streg</span><span class="o">.</span><span class="n">plot_seasonal_component</span><span class="p">(</span><span class="n">min_values</span><span class="o">=</span><span class="n">min_values</span><span class="p">[</span><span class="s1">&#39;seasonal&#39;</span><span class="p">],</span> <span class="n">max_values</span><span class="o">=</span><span class="n">max_values</span><span class="p">[</span><span class="s1">&#39;seasonal&#39;</span><span class="p">],</span>
+                      <span class="n">samples_seasonal</span><span class="o">=</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;seasonal&#39;</span><span class="p">])</span>
+<span class="n">streg</span><span class="o">.</span><span class="n">plot_trend_component</span><span class="p">(</span><span class="n">min_values</span><span class="o">=</span><span class="n">min_values</span><span class="p">[</span><span class="s1">&#39;trend&#39;</span><span class="p">],</span> <span class="n">max_values</span><span class="o">=</span><span class="n">max_values</span><span class="p">[</span><span class="s1">&#39;trend&#39;</span><span class="p">],</span>
+                           <span class="n">samples_trend</span><span class="o">=</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;trend&#39;</span><span class="p">])</span>
+<span class="n">streg</span><span class="o">.</span><span class="n">plot_sum</span><span class="p">(</span><span class="n">min_values</span><span class="o">=</span><span class="n">min_values</span><span class="p">[</span><span class="s1">&#39;sum&#39;</span><span class="p">],</span> <span class="n">max_values</span><span class="o">=</span><span class="n">max_values</span><span class="p">[</span><span class="s1">&#39;sum&#39;</span><span class="p">],</span> <span class="n">samples_sum</span><span class="o">=</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;sum&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="../examples/ch4_mlo-1.py">Source code</a>)</p>
+<figure class="align-default" id="id1">
+<img alt="_images/ch4_mlo-1_00.png" src="_images/ch4_mlo-1_00.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference external" href="../examples/ch4_mlo-1_00.png">png</a>, <a class="reference external" href="../examples/ch4_mlo-1_00.hires.png">hires.png</a>, <a class="reference external" href="../examples/ch4_mlo-1_00.pdf">pdf</a>)</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id2">
+<img alt="_images/ch4_mlo-1_01.png" src="_images/ch4_mlo-1_01.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference external" href="../examples/ch4_mlo-1_01.png">png</a>, <a class="reference external" href="../examples/ch4_mlo-1_01.hires.png">hires.png</a>, <a class="reference external" href="../examples/ch4_mlo-1_01.pdf">pdf</a>)</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id3">
+<img alt="_images/ch4_mlo-1_02.png" src="_images/ch4_mlo-1_02.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference external" href="../examples/ch4_mlo-1_02.png">png</a>, <a class="reference external" href="../examples/ch4_mlo-1_02.hires.png">hires.png</a>, <a class="reference external" href="../examples/ch4_mlo-1_02.pdf">pdf</a>)</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id4">
+<img alt="_images/ch4_mlo-1_03.png" src="_images/ch4_mlo-1_03.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference external" href="../examples/ch4_mlo-1_03.png">png</a>, <a class="reference external" href="../examples/ch4_mlo-1_03.hires.png">hires.png</a>, <a class="reference external" href="../examples/ch4_mlo-1_03.pdf">pdf</a>)</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id5">
+<img alt="_images/ch4_mlo-1_04.png" src="_images/ch4_mlo-1_04.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference external" href="../examples/ch4_mlo-1_04.png">png</a>, <a class="reference external" href="../examples/ch4_mlo-1_04.hires.png">hires.png</a>, <a class="reference external" href="../examples/ch4_mlo-1_04.pdf">pdf</a>)</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<span id="document-examples/co2_mlo"></span><section id="atmospheric-co2">
+<h3>Atmospheric CO2<a class="headerlink" href="#atmospheric-co2" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">prism</span> <span class="kn">import</span> <span class="n">SeasonalTrendRegression</span>
+<span class="kn">from</span> <span class="nn">prism</span> <span class="kn">import</span> <span class="n">co2_mlo_dataset</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">data</span><span class="p">,</span> <span class="n">data_test</span> <span class="o">=</span> <span class="n">co2_mlo_dataset</span><span class="p">()</span>
+
+<span class="n">period</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">sample_times</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">time_decimal</span><span class="o">.</span><span class="n">values</span>
+<span class="n">sample_values</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">values</span>
+<span class="n">test_times</span> <span class="o">=</span> <span class="n">data_test</span><span class="o">.</span><span class="n">time_decimal</span><span class="o">.</span><span class="n">values</span>
+<span class="n">test_values</span> <span class="o">=</span> <span class="n">data_test</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">values</span>
+<span class="n">forecast_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">test_times</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">test_times</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">4096</span><span class="p">)</span>
+<span class="n">seasonal_forecast_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>
+
+<span class="n">streg</span> <span class="o">=</span> <span class="n">SeasonalTrendRegression</span><span class="p">(</span><span class="n">sample_times</span><span class="o">=</span><span class="n">sample_times</span><span class="p">,</span> <span class="n">sample_values</span><span class="o">=</span><span class="n">sample_values</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="n">period</span><span class="p">,</span>
+                                <span class="n">forecast_times</span><span class="o">=</span><span class="n">forecast_times</span><span class="p">,</span> <span class="n">seasonal_forecast_times</span><span class="o">=</span><span class="n">seasonal_forecast_times</span><span class="p">,</span>
+                                <span class="n">nb_of_knots</span><span class="o">=</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="n">spline_orders</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">penalty_strength</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">penalty_tuning</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                <span class="n">test_times</span><span class="o">=</span><span class="n">test_times</span><span class="p">,</span> <span class="n">test_values</span><span class="o">=</span><span class="n">test_values</span><span class="p">,</span> <span class="n">robust</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">streg</span><span class="o">.</span><span class="n">plot_data</span><span class="p">()</span>
+<span class="n">xx</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">streg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">min_values</span><span class="p">,</span> <span class="n">max_values</span><span class="p">,</span> <span class="n">samples</span> <span class="o">=</span> <span class="n">streg</span><span class="o">.</span><span class="n">sample_credible_region</span><span class="p">(</span><span class="n">return_samples</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">streg</span><span class="o">.</span><span class="n">summary_plot</span><span class="p">(</span><span class="n">min_values</span><span class="o">=</span><span class="n">min_values</span><span class="p">,</span> <span class="n">max_values</span><span class="o">=</span><span class="n">max_values</span><span class="p">)</span>
+<span class="n">streg</span><span class="o">.</span><span class="n">plot_seasonal_component</span><span class="p">(</span><span class="n">min_values</span><span class="o">=</span><span class="n">min_values</span><span class="p">[</span><span class="s1">&#39;seasonal&#39;</span><span class="p">],</span> <span class="n">max_values</span><span class="o">=</span><span class="n">max_values</span><span class="p">[</span><span class="s1">&#39;seasonal&#39;</span><span class="p">],</span>
+                              <span class="n">samples_seasonal</span><span class="o">=</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;seasonal&#39;</span><span class="p">])</span>
+<span class="n">streg</span><span class="o">.</span><span class="n">plot_trend_component</span><span class="p">(</span><span class="n">min_values</span><span class="o">=</span><span class="n">min_values</span><span class="p">[</span><span class="s1">&#39;trend&#39;</span><span class="p">],</span> <span class="n">max_values</span><span class="o">=</span><span class="n">max_values</span><span class="p">[</span><span class="s1">&#39;trend&#39;</span><span class="p">],</span>
+                           <span class="n">samples_trend</span><span class="o">=</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;trend&#39;</span><span class="p">])</span>
+<span class="n">streg</span><span class="o">.</span><span class="n">plot_sum</span><span class="p">(</span><span class="n">min_values</span><span class="o">=</span><span class="n">min_values</span><span class="p">[</span><span class="s1">&#39;sum&#39;</span><span class="p">],</span> <span class="n">max_values</span><span class="o">=</span><span class="n">max_values</span><span class="p">[</span><span class="s1">&#39;sum&#39;</span><span class="p">],</span> <span class="n">samples_sum</span><span class="o">=</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;sum&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="../examples/co2_mlo-1.py">Source code</a>)</p>
+<figure class="align-default" id="id1">
+<img alt="_images/co2_mlo-1_00.png" src="_images/co2_mlo-1_00.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference external" href="../examples/co2_mlo-1_00.png">png</a>, <a class="reference external" href="../examples/co2_mlo-1_00.hires.png">hires.png</a>, <a class="reference external" href="../examples/co2_mlo-1_00.pdf">pdf</a>)</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id2">
+<img alt="_images/co2_mlo-1_01.png" src="_images/co2_mlo-1_01.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference external" href="../examples/co2_mlo-1_01.png">png</a>, <a class="reference external" href="../examples/co2_mlo-1_01.hires.png">hires.png</a>, <a class="reference external" href="../examples/co2_mlo-1_01.pdf">pdf</a>)</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id3">
+<img alt="_images/co2_mlo-1_02.png" src="_images/co2_mlo-1_02.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference external" href="../examples/co2_mlo-1_02.png">png</a>, <a class="reference external" href="../examples/co2_mlo-1_02.hires.png">hires.png</a>, <a class="reference external" href="../examples/co2_mlo-1_02.pdf">pdf</a>)</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id4">
+<img alt="_images/co2_mlo-1_03.png" src="_images/co2_mlo-1_03.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference external" href="../examples/co2_mlo-1_03.png">png</a>, <a class="reference external" href="../examples/co2_mlo-1_03.hires.png">hires.png</a>, <a class="reference external" href="../examples/co2_mlo-1_03.pdf">pdf</a>)</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id5">
+<img alt="_images/co2_mlo-1_04.png" src="_images/co2_mlo-1_04.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference external" href="../examples/co2_mlo-1_04.png">png</a>, <a class="reference external" href="../examples/co2_mlo-1_04.hires.png">hires.png</a>, <a class="reference external" href="../examples/co2_mlo-1_04.pdf">pdf</a>)</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<span id="document-examples/elec_equip"></span><section id="us-electronic-equipment">
+<h3>US Electronic Equipment<a class="headerlink" href="#us-electronic-equipment" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">prism</span> <span class="kn">import</span> <span class="n">SeasonalTrendRegression</span>
+<span class="kn">from</span> <span class="nn">prism</span> <span class="kn">import</span> <span class="n">elec_equip_dataset</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">elec_equip_dataset</span><span class="p">()</span>
+
+<span class="n">period</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">sample_times</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">time_decimal</span><span class="o">.</span><span class="n">values</span>
+<span class="n">sample_values</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">values</span>
+<span class="n">forecast_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">sample_times</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">sample_times</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">4096</span><span class="p">)</span>
+<span class="n">seasonal_forecast_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>
+
+<span class="n">streg</span> <span class="o">=</span> <span class="n">SeasonalTrendRegression</span><span class="p">(</span><span class="n">sample_times</span><span class="o">=</span><span class="n">sample_times</span><span class="p">,</span> <span class="n">sample_values</span><span class="o">=</span><span class="n">sample_values</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="n">period</span><span class="p">,</span>
+                                <span class="n">forecast_times</span><span class="o">=</span><span class="n">forecast_times</span><span class="p">,</span> <span class="n">seasonal_forecast_times</span><span class="o">=</span><span class="n">seasonal_forecast_times</span><span class="p">,</span>
+                                <span class="n">nb_of_knots</span><span class="o">=</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">40</span><span class="p">),</span> <span class="n">spline_orders</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">penalty_strength</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">penalty_tuning</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                <span class="n">test_times</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">test_values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">robust</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">streg</span><span class="o">.</span><span class="n">plot_data</span><span class="p">()</span>
+<span class="n">xx</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">streg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">min_values</span><span class="p">,</span> <span class="n">max_values</span><span class="p">,</span> <span class="n">samples</span> <span class="o">=</span> <span class="n">streg</span><span class="o">.</span><span class="n">sample_credible_region</span><span class="p">(</span><span class="n">return_samples</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">streg</span><span class="o">.</span><span class="n">summary_plot</span><span class="p">(</span><span class="n">min_values</span><span class="o">=</span><span class="n">min_values</span><span class="p">,</span> <span class="n">max_values</span><span class="o">=</span><span class="n">max_values</span><span class="p">)</span>
+<span class="n">streg</span><span class="o">.</span><span class="n">plot_seasonal_component</span><span class="p">(</span><span class="n">min_values</span><span class="o">=</span><span class="n">min_values</span><span class="p">[</span><span class="s1">&#39;seasonal&#39;</span><span class="p">],</span> <span class="n">max_values</span><span class="o">=</span><span class="n">max_values</span><span class="p">[</span><span class="s1">&#39;seasonal&#39;</span><span class="p">],</span>
+                              <span class="n">samples_seasonal</span><span class="o">=</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;seasonal&#39;</span><span class="p">])</span>
+<span class="n">streg</span><span class="o">.</span><span class="n">plot_trend_component</span><span class="p">(</span><span class="n">min_values</span><span class="o">=</span><span class="n">min_values</span><span class="p">[</span><span class="s1">&#39;trend&#39;</span><span class="p">],</span> <span class="n">max_values</span><span class="o">=</span><span class="n">max_values</span><span class="p">[</span><span class="s1">&#39;trend&#39;</span><span class="p">],</span>
+                           <span class="n">samples_trend</span><span class="o">=</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;trend&#39;</span><span class="p">])</span>
+<span class="n">streg</span><span class="o">.</span><span class="n">plot_sum</span><span class="p">(</span><span class="n">min_values</span><span class="o">=</span><span class="n">min_values</span><span class="p">[</span><span class="s1">&#39;sum&#39;</span><span class="p">],</span> <span class="n">max_values</span><span class="o">=</span><span class="n">max_values</span><span class="p">[</span><span class="s1">&#39;sum&#39;</span><span class="p">],</span> <span class="n">samples_sum</span><span class="o">=</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;sum&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="../examples/elec_equip-1.py">Source code</a>)</p>
+<figure class="align-default" id="id1">
+<img alt="_images/elec_equip-1_00.png" src="_images/elec_equip-1_00.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference external" href="../examples/elec_equip-1_00.png">png</a>, <a class="reference external" href="../examples/elec_equip-1_00.hires.png">hires.png</a>, <a class="reference external" href="../examples/elec_equip-1_00.pdf">pdf</a>)</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id2">
+<img alt="_images/elec_equip-1_01.png" src="_images/elec_equip-1_01.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference external" href="../examples/elec_equip-1_01.png">png</a>, <a class="reference external" href="../examples/elec_equip-1_01.hires.png">hires.png</a>, <a class="reference external" href="../examples/elec_equip-1_01.pdf">pdf</a>)</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id3">
+<img alt="_images/elec_equip-1_02.png" src="_images/elec_equip-1_02.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference external" href="../examples/elec_equip-1_02.png">png</a>, <a class="reference external" href="../examples/elec_equip-1_02.hires.png">hires.png</a>, <a class="reference external" href="../examples/elec_equip-1_02.pdf">pdf</a>)</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id4">
+<img alt="_images/elec_equip-1_03.png" src="_images/elec_equip-1_03.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference external" href="../examples/elec_equip-1_03.png">png</a>, <a class="reference external" href="../examples/elec_equip-1_03.hires.png">hires.png</a>, <a class="reference external" href="../examples/elec_equip-1_03.pdf">pdf</a>)</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id5">
+<img alt="_images/elec_equip-1_04.png" src="_images/elec_equip-1_04.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference external" href="../examples/elec_equip-1_04.png">png</a>, <a class="reference external" href="../examples/elec_equip-1_04.hires.png">hires.png</a>, <a class="reference external" href="../examples/elec_equip-1_04.pdf">pdf</a>)</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+</div>
+</section>
+<span id="document-references"></span><section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<dl class="citation">
+<dt class="label" id="periodic"><span class="brackets">Periodic</span></dt>
+<dd><p>Fageot, Julien, and Matthieu Simeoni. “TV-based reconstruction of periodic functions.” Inverse Problems 36.11 (2020): 115015.</p>
+</dd>
+<dt class="label" id="splines"><span class="brackets">Splines</span></dt>
+<dd><p>Gupta, Harshit, Julien Fageot, and Michael Unser. “Continuous-domain solutions of linear inverse problems with Tikhonov versus generalized TV regularization.” IEEE Transactions on Signal Processing 66.17 (2018): 4670-4684.</p>
+</dd>
+<dt class="label" id="green"><span class="brackets">Green</span></dt>
+<dd><p>Unser, Michael, Julien Fageot, and John Paul Ward. “Splines are universal solutions of linear inverse problems with generalized TV regularization.” SIAM Review 59.4 (2017): 769-793.</p>
+</dd>
+<dt class="label" id="tuning"><span class="brackets">Tuning</span></dt>
+<dd><p>Pereyra, Marcelo, José M. Bioucas-Dias, and Mário AT Figueiredo. “Maximum-a-posteriori estimation with unknown regularisation parameters.” 2015 23rd European Signal Processing Conference (EUSIPCO). IEEE, 2015.</p>
+</dd>
+<dt class="label" id="credible"><span class="brackets">Credible</span></dt>
+<dd><p>Pereyra, Marcelo. “Maximum-a-posteriori estimation with Bayesian confidence regions.” SIAM Journal on Imaging Sciences 10.1 (2017): 285-302.</p>
+</dd>
+</dl>
+</section>
+</div>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2021, Matthieu SIMEONI.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+    <a href="https://github.com/matthieumeo/prism" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>
