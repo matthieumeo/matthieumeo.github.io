@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<title>Tree Density</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' rel='stylesheet' />
+<style>
+body { margin:0; padding:0; font-size:0.9vw;}
+#map { position:absolute; top:0; bottom:0; width:100%; }
+</style>
+</head>
+<body>
+ 
+<style>
+#menuleft {
+position: absolute;
+padding: 0.5vw;
+top:5%; left:5%; width:15%;
+background: rgba(0, 0, 0, .7);
+font-family: 'Helvetica', sans-serif;
+color:#DFE0E0;
+border-radius: 0.25vw;
+-webkit-backdrop-filter: blur(0.12vw);
+            backdrop-filter: blur(0.12vw);
+}
+#menuright {
+position: absolute;
+background: #fff;
+padding: 0.5vw;
+top:5%; right:5%; width:15%;
+background: rgba(0, 0, 0, .7);
+font-family: 'Helvetica', sans-serif;
+color:#DFE0E0;
+border-radius: 0.25vw;
+-webkit-backdrop-filter: blur(0.12vw);
+            backdrop-filter: blur(0.12vw);
+}
+
+h1 {
+  color:#FFFFFF;
+  padding: 0px;
+  margin: 0px;
+  line-height: 150%;
+  text-align: center;
+  font-size:1.2vw
+}
+
+body {
+overflow: hidden;
+}
+ 
+body * {
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+ 
+.map {
+position: absolute;
+top: 0;
+bottom: 0;
+width: 100%;
+}
+
+#sidebar {
+position: fixed;
+bottom: 5%;
+left: 5%;
+width: 20%;
+overflow: auto;
+background: rgba(0, 0, 0, .7);
+font-family: "Helvetica";
+padding-left: 0.5vw;
+padding-right: 0.5vw;
+padding-bottom: 0.5vw;
+-webkit-backdrop-filter: blur(0.12vw);
+    backdrop-filter: blur(0.12vw);
+color:#DFE0E0;
+border-radius: 5px
+}
+
+#sidebar2 {
+position: fixed;
+bottom: 5%;
+right: 5%;
+width: 15%;
+overflow: auto;
+background: rgba(0, 0, 0, .7);
+font-family: "Helvetica";
+padding-left: 0.5vw;
+padding-right: 0.5vw;
+padding-bottom: 0.5vw;
+-webkit-backdrop-filter: blur(0.12vw);
+    backdrop-filter: blur(0.12vw);
+color:#DFE0E0;
+border-radius: 5px
+}
+
+p {
+font-family: "Helvetica";
+color:#7E7D7E;
+font-size:0.7vw
+}
+.legend label,
+.legend span {
+position: relative;
+display:block;
+float:left;
+text-align:center;
+font-family: "Helvetica";
+width: 16.0%;
+height:1vh;
+font-size:0.9vw;
+color:#DFE0E0;
+padding-bottom: 1vh;
+}
+
+.menu {
+position: fixed;
+left:45%;
+top:5%;
+width: 10%;
+overflow: auto;
+background: rgba(0, 0, 0, .7);
+font-family: "Helvetica";
+-webkit-backdrop-filter: blur(0.12vw);
+    backdrop-filter: blur(0.12vw);
+color:#DFE0E0;
+border-radius: 5px
+}
+</style>
+
+
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.css' type='text/css' />
+<div id='map_left' class='map'></div>
+<div id='map_right' class='map'></div>
+<div id='sidebar'>
+<h1>Tree Density</h1>
+<div id='legend'>
+<nav class='legend clearfix'>
+
+<span style='background:rgba(255, 255, 102,0.9);'></span>
+
+<span style='background:rgba(204, 229.5, 102,0.9);'></span>
+
+<span style='background:rgba(153, 204, 102, 0.9);'></span>
+
+<span style='background:rgba(102, 178.5, 102,0.9);'></span>
+
+<span style='background:rgba(51, 153, 102, 0.9);'></span>
+
+<span style='background:rgba( 0, 127.5, 102, 0.9);'></span>
+
+<label>0 ‰</label>
+
+<label>1.4 ‰</label>
+
+<label>2.8 ‰</label>
+
+<label>4.2 ‰</label>
+
+<label>5.6 ‰</label>
+
+<label>7 ‰</label>
+
+</div>
+<p><br />
+Density maps of trees across the globe for the year 2016. Tree density maps are used in environmental sciences to monitor deforestation and illegal logging, as well as assess the amount of vegetal photosynthesis.
+The data consists of tree counts recorded by NASA’s Aqua and Terra satellites. The resolution of the raw data is approximately 1.5° × 1.5°.
+</p>
+</div>
+
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dGhpZXVtZW8iLCJhIjoiY2sybHE0emJwMDh2cDNtb2ZsNTdtZW5laSJ9.VXQYES3RlejhgrttnkPXdw';
+var map_left = new mapboxgl.Map({
+container: 'map_left',
+style: 'mapbox://styles/matthieumeo/ck2uhgcfq68d81cqjqt6mtkwx',
+zoom: 1.5,
+minZoom: 1,
+maxZoom: 9,
+center: [0,20]
+});
+var map_right = new mapboxgl.Map({
+container: 'map_right',
+style: 'mapbox://styles/matthieumeo/ck2uhdir54qev1cryw3bx1169',
+zoom: 1.5,
+minZoom: 1,
+maxZoom: 9,
+center: [0,20]
+});
+map_right.addControl(new mapboxgl.NavigationControl());
+
+//map_left.setRenderWorldCopies(status === 'false')
+//map_right.setRenderWorldCopies(status === 'false')
+var map = new mapboxgl.Compare(map_left, map_right, {
+// Set this to enable comparing two maps by mouse movement:
+ //mousemove: true
+});
+</script>
+ 
+</body>
+</html>
