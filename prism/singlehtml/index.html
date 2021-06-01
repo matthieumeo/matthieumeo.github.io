@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>prism 1.0.0 documentation</title>
+    <title>prism 1.0.1.dev1 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -179,7 +179,7 @@ as <em>minima at posteriori (MAP)</em> of the negative log-posterior distributio
 <li><p><span class="math notranslate nohighlight">\(p\in \{1,2\}\)</span> is chosen according the the noise distribution (<span class="math notranslate nohighlight">\(p=1\)</span> in the presence of outliers),</p></li>
 <li><p><span class="math notranslate nohighlight">\(\mathbf{K}\in\mathbb{R}^{L\times N}\)</span> is given by: <span class="math notranslate nohighlight">\(\mathbf{K}_{in}=\rho_{D^k}(t_i-\tau_j)\)</span>,</p></li>
 <li><p><span class="math notranslate nohighlight">\(\mathbf{L}\in\mathbb{R}^{L\times M}\)</span> is given by: <span class="math notranslate nohighlight">\(\mathbf{L}_{im}=\psi_{D^j}(t_i-\eta_m)\)</span>,</p></li>
-<li><p><span class="math notranslate nohighlight">\(\mathbf{V}\in\mathbb{R}^{L\times 2}\)</span> is given by: <span class="math notranslate nohighlight">\(\mathbf{L}_{ip}=t^p_j\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{V}\in\mathbb{R}^{L\times 2}\)</span> is a Vandermonde matrix given by: <span class="math notranslate nohighlight">\(\mathbf{V}_{ip}=t^p_i\)</span>,</p></li>
 <li><p><span class="math notranslate nohighlight">\(\lambda&gt;0\)</span> and <span class="math notranslate nohighlight">\(\theta\in [0,1]\)</span> are regularisation parameters,</p></li>
 <li><p><span class="math notranslate nohighlight">\(\iota:\mathbb{R}\to\{0, +\infty\}\)</span> is the <em>indicator function</em> returning <span class="math notranslate nohighlight">\(0\)</span> if the input is zero and <span class="math notranslate nohighlight">\(+\infty\)</span> otherwise.</p></li>
 </ul>
