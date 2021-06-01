@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<title>Temperature Anomalies</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' rel='stylesheet' />
+<style>
+body { margin:0; padding:0; font-size:0.9vw;}
+#map { position:absolute; top:0; bottom:0; width:100%; }
+</style>
+</head>
+<body>
+ 
+<style>
+#menuleft {
+position: absolute;
+background: #fff;
+padding: 0.5vw;
+top:5%; left:5%; width:15%;
+background: rgba(234, 236, 233, .7);
+font-family: 'Helvetica', sans-serif;
+color:#585858;
+border-radius: 0.25vw;
+-webkit-backdrop-filter: blur(0.12vw);
+            backdrop-filter: blur(0.12vw);
+}
+#menuright {
+position: absolute;
+background: #fff;
+padding: 0.5vw;
+top:5%; right:5%; width:15%;
+background: rgba(234, 236, 233, .7);
+font-family: 'Helvetica', sans-serif;
+color:#585858;
+border-radius: 0.25vw;
+-webkit-backdrop-filter: blur(0.12vw);
+            backdrop-filter: blur(0.12vw);
+}
+
+h1 {
+  color:#585858;
+  padding: 0px;
+  margin: 0px;
+  line-height: 150%;
+  text-align: center;
+  font-size:1.2vw
+}
+
+body {
+overflow: hidden;
+}
+ 
+body * {
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+ 
+.map {
+position: absolute;
+top: 0;
+bottom: 0;
+width: 100%;
+}
+
+#sidebar {
+position: fixed;
+bottom: 5%;
+left: 5%;
+width: 20%;
+overflow: auto;
+background: rgba(234, 236, 233, .7);
+font-family: "Helvetica";
+padding-left: 0.5vw;
+padding-right: 0.5vw;
+padding-bottom: 0.5vw;
+-webkit-backdrop-filter: blur(0.12vw);
+    backdrop-filter: blur(0.12vw);
+color:#585858;
+border-radius: 0.25vw
+}
+
+#sidebar2 {
+position: fixed;
+bottom: 5%;
+right: 5%;
+width: 15%;
+overflow: auto;
+background: rgba(234, 236, 233, .7);
+font-family: "Helvetica";
+padding-left: 0.5vw;
+padding-right: 0.5vw;
+padding-bottom: 0.5vw;
+-webkit-backdrop-filter: blur(0.12vw);
+    backdrop-filter: blur(0.12vw);
+color:#585858;
+border-radius: 0.25vw
+}
+p {
+font-family: "Helvetica";
+color:#7E7D7E;
+font-size:0.7vw
+}
+
+.legend label,
+.legend span {
+position: relative;
+display:block;
+float:left;
+text-align:center;
+font-family: "Helvetica";
+width: 16.0%;
+height:1vh;
+font-size:0.9vw;
+color:#585858;
+padding-bottom: 1vh;
+}
+
+
+.menu {
+position: fixed;
+left:45%;
+top:5%;
+width: 10%;
+overflow: auto;
+background: rgba(234, 236, 233, .7);
+font-family: "Helvetica";
+-webkit-backdrop-filter: blur(0.12vw);
+    backdrop-filter: blur(0.12vw);
+color:#585858;
+border-radius: 0.25vw
+}
+
+</style>
+
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.1.0/mapbox-gl-compare.css' type='text/css' />
+<div id='map_left' class='map'></div>
+<div id='map_right' class='map'></div>
+<div id='sidebar'>
+<h1>Temperature Anomalies</h1>
+<div id='legend'>
+<nav class='legend clearfix'>
+
+<span style='background:rgba(53.9988  ,  56.00055 , 146.00025,0.8);'></span>
+
+<span style='background:rgba(78.36099 , 101.36046 , 169.51941,0.8);'></span>
+
+<span style='background:rgba(177.71511 , 199.614   , 223.5432, 0.8);'></span>
+
+<span style='background:rgba(255, 214.03986 , 164.32047,0.8);'></span>
+
+<span style='background:rgba(235.63989 , 107.79921 ,  77.92035, 0.8);'></span>
+
+<span style='background:rgba(133.99995 ,   7.000005,  67.00125, 0.8);'></span>
+
+<label>-5 °C</label>
+
+<label>-3 °C</label>
+
+<label>-1 °C</label>
+
+<label>+1 °C</label>
+
+<label>+3 °C</label>
+
+<label>+5 °C</label>
+
+</div>
+<p><br />
+Global maps of sea surface temperature anomalies for the month of January 2011. Such maps allow scientists to monitor global climate change as well as manage the population of marine species and ecosystems particularly sensitive to fluctuations in water temperature. The data consists of 6745 simulated anomalies sampled at various points across the globe by drifting floats of the <a href='http://www.argo.ucsd.edu/'>Argo fleet</a>, and corrupted by Gaussian white noise.</p>
+</div>
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dGhpZXVtZW8iLCJhIjoiY2sybHE0emJwMDh2cDNtb2ZsNTdtZW5laSJ9.VXQYES3RlejhgrttnkPXdw';
+var map_left = new mapboxgl.Map({
+container: 'map_left',
+style: 'mapbox://styles/matthieumeo/ck2t7oro62m5w1clt5l0bcfmr',
+zoom: 2,
+minZoom: 2,
+maxZoom: 9,
+center: [-10,5]
+});
+var map_right = new mapboxgl.Map({
+container: 'map_right',
+style: 'mapbox://styles/matthieumeo/ck2t7n6mr2m4d1cltied26bb2',
+zoom: 2,
+minZoom: 2,
+maxZoom: 9,
+center: [-10,5]
+});
+//map_left.setRenderWorldCopies(status === 'false')
+//map_right.setRenderWorldCopies(status === 'false')
+var map = new mapboxgl.Compare(map_left, map_right, {
+// Set this to enable comparing two maps by mouse movement:
+ //mousemove: true
+});
+</script>
+ 
+</body>
+</html>
