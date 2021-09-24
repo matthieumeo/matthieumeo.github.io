@@ -147,43 +147,47 @@ is not just a pure stylistic choice but comes with some <em>hidden</em> advantag
 <h3>Parametric Model<a class="headerlink" href="#parametric-model" title="Permalink to this headline">¶</a></h3>
 <p>Consider an unknown signal <span class="math notranslate nohighlight">\(f:\mathbb{R}\to \mathbb{R}\)</span> of which we possess <em>noisy</em> samples</p>
 <div class="math notranslate nohighlight">
-\[y_i=f(t_i)+\epsilon_i, \qquad i =1,\ldots, L,\]</div>
-<p>for some non-uniform sample times <span class="math notranslate nohighlight">\(\{t_1,\ldots, t_L\}\subset \mathbb{R}\)</span> and additive i.i.d. noise perturbations  <span class="math notranslate nohighlight">\(\epsilon_i\)</span>.</p>
+\[y_\ell=f(t_\ell)+\epsilon_\ell, \qquad \ell =1,\ldots, L,\]</div>
+<p>for some non-uniform sample times <span class="math notranslate nohighlight">\(\{t_1,\ldots, t_L\}\subset \mathbb{R}\)</span> and additive i.i.d. noise perturbations  <span class="math notranslate nohighlight">\(\epsilon_\ell\)</span>.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">SeasonalTrendRegression</span></code> class assumes the following parametric form for <span class="math notranslate nohighlight">\(f\)</span>:</p>
 <div class="math notranslate nohighlight">
-\[f(t)=\sum_{n=1}^N \alpha_m \rho_{D^k}(t-\tau_n) \quad + \quad  \sum_{m=1}^M \beta_m \psi_{D^j}(t-\eta_m) \quad+\quad \gamma_0 \quad+\quad \gamma_1 t.
+\[f(t)=\sum_{n=1}^N \alpha_n \rho_{P}(t-\theta_n) \quad + \quad  \sum_{m=1}^M \beta_m \psi_{Q}(t-\eta_m) \quad+\quad \sum_{q=1}^{Q}\gamma_q  t^{q-1}.
 \tag{1}\]</div>
 <p>where:</p>
 <ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(\sum_{n=1}^N \alpha_m=0\)</span>,</p></li>
-<li><p><span class="math notranslate nohighlight">\(\rho_{D^k}:[0, T[\to \mathbb{R}\)</span> is the <em>Green function</em> associated to the <span class="math notranslate nohighlight">\(k\)</span>-iterated periodic derivative operator <span class="math notranslate nohighlight">\(D^k\)</span> with period <span class="math notranslate nohighlight">\(T\)</span> <a class="reference internal" href="index.html#periodic" id="id1"><span>[Periodic]</span></a>,</p></li>
-<li><p><span class="math notranslate nohighlight">\(\psi_{D^j}:\mathbb{R}\to \mathbb{R}\)</span> is the <em>causal Green function</em> associated to the <span class="math notranslate nohighlight">\(j\)</span>-iterated derivative operator <span class="math notranslate nohighlight">\(D^j\)</span> <a class="reference internal" href="index.html#green" id="id2"><span>[Green]</span></a>,</p></li>
-<li><p><span class="math notranslate nohighlight">\(\tau_n:=(n-1)T/N,\)</span> and <span class="math notranslate nohighlight">\(\eta_m:=R_{min}\,+\,m(R_{max}-R_{min})/(M+1),\)</span> for some <span class="math notranslate nohighlight">\(R_{min}&lt;R_{max}\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\sum_{n=1}^N \alpha_n=0\)</span> (so as to enforce a zero-mean seasonal component, see note below),</p></li>
+<li><p><span class="math notranslate nohighlight">\(\rho_{P}:[0, \Theta[\to \mathbb{R}\)</span> is the <span class="math notranslate nohighlight">\(\Theta\)</span>-periodic <em>Green function</em> associated to the <span class="math notranslate nohighlight">\(P\)</span>-iterated derivative operator <span class="math notranslate nohighlight">\(D^P\)</span> <a class="reference internal" href="index.html#periodic" id="id1"><span>[Periodic]</span></a>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\psi_{Q}:\mathbb{R}\to \mathbb{R}\)</span> is the <em>causal Green function</em> associated to the <span class="math notranslate nohighlight">\(Q\)</span>-iterated derivative operator <span class="math notranslate nohighlight">\(D^Q\)</span> <a class="reference internal" href="index.html#green" id="id2"><span>[Green]</span></a>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\theta_n:=(n-1)\Theta/N,\)</span> and <span class="math notranslate nohighlight">\(\eta_m:=R_{min}\,+\,m(R_{max}-R_{min})/(M+1),\)</span> for some <span class="math notranslate nohighlight">\(R_{min}&lt;R_{max}\)</span>.</p></li>
 </ul>
-<p>The <em>seasonal component</em> <span class="math notranslate nohighlight">\(f_S(t):=\sum_{n=1}^N \alpha_m \rho_{D^k}(t-\tau_n)\)</span> is a (zero mean) <span class="math notranslate nohighlight">\(T\)</span>-periodic spline w.r.t. the
-iterated periodic derivative operator <span class="math notranslate nohighlight">\(D^k\)</span> <a class="reference internal" href="index.html#periodic" id="id3"><span>[Periodic]</span></a>. It models short-term cyclical temporal variations of the signal <span class="math notranslate nohighlight">\(f\)</span>.</p>
-<p>The <em>trend component</em> <span class="math notranslate nohighlight">\(f_T(t):=\sum_{m=1}^M \beta_m \psi_{D^j}(t-\eta_m)+\gamma_0 + \gamma_1 t\)</span> is the sum of a spline
-(w.r.t. the iterated derivative operator <span class="math notranslate nohighlight">\(D^j\)</span>) and an affine function <span class="math notranslate nohighlight">\(\gamma_0 + \gamma_1 t\)</span> <a class="reference internal" href="index.html#splines" id="id4"><span>[Splines]</span></a>. It models long-term non-cyclical temporal variations of <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<p>The <em>seasonal component</em> <span class="math notranslate nohighlight">\(f_S(t):=\sum_{n=1}^N \alpha_n \rho_{P}(t-\theta_n)\)</span> is a (zero mean) <span class="math notranslate nohighlight">\(\Theta\)</span>-periodic spline w.r.t. the
+iterated derivative operator <span class="math notranslate nohighlight">\(D^k\)</span> <a class="reference internal" href="index.html#periodic" id="id3"><span>[Periodic]</span></a>. It models short-term cyclical temporal variations of the signal <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<p>The <em>trend component</em> <span class="math notranslate nohighlight">\(f_T(t):=\sum_{m=1}^M \beta_m \psi_{Q}(t-\eta_m)+\sum_{q=1}^{Q}\gamma_q  t^{q-1}\)</span> is a spline
+w.r.t. the iterated derivative operator <span class="math notranslate nohighlight">\(D^Q\)</span>. It is the sum of a piecewise polynomial term <span class="math notranslate nohighlight">\(\sum_{m=1}^M \beta_m \psi_{Q}(t-\eta_m)\)</span>  and a degree <span class="math notranslate nohighlight">\(Q-1\)</span> polynomial <span class="math notranslate nohighlight">\(\sum_{q=1}^{Q}\gamma_q  t^{q-1}\)</span> <a class="reference internal" href="index.html#splines" id="id4"><span>[Splines]</span></a>. It models long-term non-cyclical temporal variations of <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that the mean of <span class="math notranslate nohighlight">\(f\)</span> could be assigned to the seasonal or trend component interchangeably, or even split between the two components. Constraining the seasonal component to have zero mean allows us to fix this unidentifiability issue.</p>
+</div>
 </section>
 <span id="document-methods/fitting"></span><section id="fitting-procedure">
 <h3>Fitting Procedure<a class="headerlink" href="#fitting-procedure" title="Permalink to this headline">¶</a></h3>
 <p>The method <a class="reference internal" href="index.html#prism.__init__.SeasonalTrendRegression.fit" title="prism.__init__.SeasonalTrendRegression.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fit()</span></code></a> recovers the coefficients <span class="math notranslate nohighlight">\(\mathbf{a}=[\alpha_1,\ldots,\alpha_N]\in\mathbb{R}^N\)</span>, <span class="math notranslate nohighlight">\(\mathbf{b}=[\beta_1,\ldots,\beta_M]\in\mathbb{R}^M\)</span> and
-<span class="math notranslate nohighlight">\(\mathbf{c}=[\gamma_0,\gamma_1]\in\mathbb{R}^2\)</span> from the data <span class="math notranslate nohighlight">\(\mathbf{y}=[y_1,\ldots,y_L]\in\mathbb{R}^L\)</span>
+<span class="math notranslate nohighlight">\(\mathbf{c}=[\gamma_1,\ldots,\gamma_{Q}]\in\mathbb{R}^{Q}\)</span> from the data <span class="math notranslate nohighlight">\(\mathbf{y}=[y_1,\ldots,y_L]\in\mathbb{R}^L\)</span>
 as <em>minima at posteriori (MAP)</em> of the negative log-posterior distribution:</p>
 <div class="math notranslate nohighlight">
 \[(\hat{\mathbf{a}}, \hat{\mathbf{b}}, \hat{\mathbf{c}})=
-\arg\min_{({\mathbf{a}}, {\mathbf{b}},{\mathbf{c}})\in\mathbb{R}^N\times\mathbb{R}^M\times \mathbb{R}^2 } \frac{1}{p}\left\|\mathbf{y}-\mathbf{K} \mathbf{a} -\mathbf{L} \mathbf{b} - \mathbf{V} \mathbf{c}\right\|_p^p
+\arg\min_{({\mathbf{a}}, {\mathbf{b}},{\mathbf{c}})\in\mathbb{R}^N\times\mathbb{R}^M\times \mathbb{R}^Q } \frac{1}{p}\left\|\mathbf{y}-\mathbf{K} \mathbf{a} -\mathbf{L} \mathbf{b} - \mathbf{V} \mathbf{c}\right\|_p^p
 \,+\, \lambda \left(\theta \|\mathbf{a}\|_1 + (1-\theta)\|\mathbf{b}\|_1\right) \,+\, \iota(\mathbf{1}^T\mathbf{a}) \tag{2}\]</div>
 <p>where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(p\in \{1,2\}\)</span> is chosen according the the noise distribution (<span class="math notranslate nohighlight">\(p=1\)</span> in the presence of outliers),</p></li>
-<li><p><span class="math notranslate nohighlight">\(\mathbf{K}\in\mathbb{R}^{L\times N}\)</span> is given by: <span class="math notranslate nohighlight">\(\mathbf{K}_{in}=\rho_{D^k}(t_i-\tau_j)\)</span>,</p></li>
-<li><p><span class="math notranslate nohighlight">\(\mathbf{L}\in\mathbb{R}^{L\times M}\)</span> is given by: <span class="math notranslate nohighlight">\(\mathbf{L}_{im}=\psi_{D^j}(t_i-\eta_m)\)</span>,</p></li>
-<li><p><span class="math notranslate nohighlight">\(\mathbf{V}\in\mathbb{R}^{L\times 2}\)</span> is a Vandermonde matrix given by: <span class="math notranslate nohighlight">\(\mathbf{V}_{ip}=t^p_i\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{K}\in\mathbb{R}^{L\times N}\)</span> is given by: <span class="math notranslate nohighlight">\(\mathbf{K}_{\ell n}=\rho_{P}(t_\ell-\theta_j)\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{L}\in\mathbb{R}^{L\times M}\)</span> is given by: <span class="math notranslate nohighlight">\(\mathbf{L}_{\ell m}=\psi_{Q}(t_\ell-\eta_m)\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{V}\in\mathbb{R}^{L\times Q}\)</span> is a Vandermonde matrix given by: <span class="math notranslate nohighlight">\(\mathbf{V}_{\ell q}=t^{q-1}_\ell\)</span>,</p></li>
 <li><p><span class="math notranslate nohighlight">\(\lambda&gt;0\)</span> and <span class="math notranslate nohighlight">\(\theta\in [0,1]\)</span> are regularisation parameters,</p></li>
 <li><p><span class="math notranslate nohighlight">\(\iota:\mathbb{R}\to\{0, +\infty\}\)</span> is the <em>indicator function</em> returning <span class="math notranslate nohighlight">\(0\)</span> if the input is zero and <span class="math notranslate nohighlight">\(+\infty\)</span> otherwise.</p></li>
 </ul>
-<p>If requested by the user, the penalty parameter <span class="math notranslate nohighlight">\(\lambda\)</span> can be learnt from the data by introducing a gamma hyper-prior and finding the MAP
+<p>If requested by the user, the penalty parameter <span class="math notranslate nohighlight">\(\lambda\)</span> can be learnt from the data by introducing a <em>Gamma hyper-prior</em> and finding the MAP
 of the posterior on <span class="math notranslate nohighlight">\({\mathbf{a}}, {\mathbf{b}},{\mathbf{c}}\)</span> and <span class="math notranslate nohighlight">\(\lambda\)</span> jointly <a class="reference internal" href="index.html#tuning" id="id1"><span>[Tuning]</span></a>.</p>
 <p>The <span class="math notranslate nohighlight">\(R^2\)</span>-score of the regression is provided by the method  <a class="reference internal" href="index.html#prism.__init__.SeasonalTrendRegression.r2score" title="prism.__init__.SeasonalTrendRegression.r2score"><code class="xref py py-meth docutils literal notranslate"><span class="pre">r2score()</span></code></a>.</p>
 </section>
@@ -194,11 +198,11 @@ intervals</em> for the model parameters, the seasonal and trend components and t
 approximate highest density posterior credible region <a class="reference internal" href="index.html#credible" id="id1"><span>[Credible]</span></a>:</p>
 <blockquote>
 <div><div class="math notranslate nohighlight">
-\[C_{\xi}=\left\{({\mathbf{a}}, {\mathbf{b}},{\mathbf{c}})\in\mathbb{R}^N\times\mathbb{R}^M\times \mathbb{R}^2: J({\mathbf{a}}, {\mathbf{b}},{\mathbf{c}})\leq
-J(\hat{\mathbf{a}}, \hat{\mathbf{b}}, \hat{\mathbf{c}}) + (N+M+2) (\nu_\xi+1)\right\} \tag{3}\]</div>
+\[C_{\xi}=\left\{({\mathbf{a}}, {\mathbf{b}},{\mathbf{c}})\in\mathbb{R}^N\times\mathbb{R}^M\times \mathbb{R}^Q: J({\mathbf{a}}, {\mathbf{b}},{\mathbf{c}})\leq
+J(\hat{\mathbf{a}}, \hat{\mathbf{b}}, \hat{\mathbf{c}}) + (N+M+Q) (\nu_\xi+1)\right\} \tag{3}\]</div>
 </div></blockquote>
-<p>where <span class="math notranslate nohighlight">\(\xi\in [0,1]\)</span> is the confidence level associated to the credible region, <span class="math notranslate nohighlight">\(\nu_\xi:=\sqrt{16\log(3/\xi)/(N+M+2)}\)</span>,
-and <span class="math notranslate nohighlight">\(J:\mathbb{R}^N\times\mathbb{R}^M\times \mathbb{R}^2\to \mathbb{R}_+\)</span> is the negative log-posterior in (3).</p>
+<p>where <span class="math notranslate nohighlight">\(\xi\in [0,1]\)</span> is the confidence level associated to the credible region, <span class="math notranslate nohighlight">\(\nu_\xi:=\sqrt{16\log(3/\xi)/(N+M+Q)}\)</span>,
+and <span class="math notranslate nohighlight">\(J:\mathbb{R}^N\times\mathbb{R}^M\times \mathbb{R}^Q\to \mathbb{R}_+\)</span> is the negative log-posterior in (3).</p>
 <p>Approximate marginal pointwise credible intervals are then obtained by evaluating (1) (and the seasonal/trend components)
 for the various samples of <span class="math notranslate nohighlight">\(C_{\xi}\)</span> gathered and then taking the pointwise minima and maxima of all the sample curves.</p>
 <p>Note that (3) can also be used for <em>hypothesis testing</em> on the parameters of the model (see method <a class="reference internal" href="index.html#prism.__init__.SeasonalTrendRegression.is_credible" title="prism.__init__.SeasonalTrendRegression.is_credible"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_credible()</span></code></a>
@@ -217,19 +221,19 @@ for more on the topic).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sample_times</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><em>numpy.ndarray</em></a>) – Sample times <span class="math notranslate nohighlight">\(\{t_1, \ldots, t_L\}\in\mathbb{R}\)</span>.</p></li>
-<li><p><strong>sample_values</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><em>numpy.ndarray</em></a>) – Observed values of the signal <span class="math notranslate nohighlight">\(\{y_1, \ldots, y_L\}\in\mathbb{R}\)</span> at the sample times. Can be noisy.</p></li>
-<li><p><strong>period</strong> (<em>Number</em>) – Period <span class="math notranslate nohighlight">\(T&gt;0\)</span> for the seasonal component.</p></li>
-<li><p><strong>forecast_times</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><em>numpy.ndarray</em></a>) – Unobserved times for forecasting of the signal and its trend component.</p></li>
-<li><p><strong>seasonal_forecast_times</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><em>numpy.ndarray</em></a>) – Unobserved times in <span class="math notranslate nohighlight">\([0,T)\)</span> for forecasting of the seasonal component.</p></li>
-<li><p><strong>nb_of_knots</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Number of knots <span class="math notranslate nohighlight">\((N, M)\)</span> for the seasonal and trend component respectively. High values of N and M can lead
+<li><p><strong>sample_times</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.21)"><em>numpy.ndarray</em></a>) – Sample times <span class="math notranslate nohighlight">\(\{t_1, \ldots, t_L\}\subset \mathbb{R}\)</span>.</p></li>
+<li><p><strong>sample_values</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.21)"><em>numpy.ndarray</em></a>) – Observed values of the signal <span class="math notranslate nohighlight">\(\{y_1, \ldots, y_L\}\subset \mathbb{R}\)</span> at the sample times. Can be noisy.</p></li>
+<li><p><strong>period</strong> (<em>Number</em>) – Period <span class="math notranslate nohighlight">\(\Theta&gt;0\)</span> for the seasonal component.</p></li>
+<li><p><strong>forecast_times</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.21)"><em>numpy.ndarray</em></a>) – Unobserved times for forecasting of the signal and its trend component.</p></li>
+<li><p><strong>seasonal_forecast_times</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.21)"><em>numpy.ndarray</em></a>) – Unobserved times in <span class="math notranslate nohighlight">\([0,\Theta)\)</span> for forecasting of the seasonal component.</p></li>
+<li><p><strong>nb_of_knots</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Number of knots <span class="math notranslate nohighlight">\((N, M)\)</span> for the seasonal and trend component respectively. High values of <span class="math notranslate nohighlight">\(N\)</span> and <span class="math notranslate nohighlight">\(M\)</span> can lead
 to numerical instability.</p></li>
-<li><p><strong>spline_orders</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Exponents <span class="math notranslate nohighlight">\((k,j)\)</span> of the iterated derivative operators defining the splines involved in the seasonal
-and trend component respectively. Both parameters must be strictly bigger than one.</p></li>
+<li><p><strong>spline_orders</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Exponents <span class="math notranslate nohighlight">\((P,Q)\)</span> of the iterated derivative operators defining the splines involved in the seasonal
+and trend component respectively. Both parameters must be <em>strictly</em> bigger than one.</p></li>
 <li><p><strong>penalty_strength</strong> (<em>Optional</em><em>[</em><em>Number</em><em>]</em>) – Value of the penalty strength <span class="math notranslate nohighlight">\(\lambda\in \mathbb{R}_+\)</span>.</p></li>
 <li><p><strong>penalty_tuning</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether or not the penalty strength <span class="math notranslate nohighlight">\(\lambda\)</span> should be learnt from the data.</p></li>
-<li><p><strong>test_times</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><em>numpy.ndarray</em></a><em>]</em>) – Optional test times to assess the regression performances.</p></li>
-<li><p><strong>test_values</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><em>numpy.ndarray</em></a><em>]</em>) – Optional test values to assess the regression performances.</p></li>
+<li><p><strong>test_times</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.21)"><em>numpy.ndarray</em></a><em>]</em>) – Optional test times to assess the regression performances.</p></li>
+<li><p><strong>test_values</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.21)"><em>numpy.ndarray</em></a><em>]</em>) – Optional test values to assess the regression performances.</p></li>
 <li><p><strong>robust</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, <span class="math notranslate nohighlight">\(p=1\)</span> is chosen for the data-fidelity term in (2), otherwise <span class="math notranslate nohighlight">\(p=2\)</span>. Should be set to
 <code class="docutils literal notranslate"><span class="pre">True</span></code> in the presence of outliers.</p></li>
 <li><p><strong>theta</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Value of the balancing parameter <span class="math notranslate nohighlight">\(\theta\in [0,1]\)</span>. Setting <code class="docutils literal notranslate"><span class="pre">theta</span></code> as 0 or 1 respectively removes the penalty on the seasonal
@@ -259,7 +263,7 @@ or trend component in (2).</p></li>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Estimates of <span class="math notranslate nohighlight">\((\hat{\mathbf{a}}, \hat{\mathbf{b}}, \hat{\mathbf{c}})\)</span> concatenated as a single array with
-size <span class="math notranslate nohighlight">\(N+M+2\)</span> and the auto-tuned penalty parameter <span class="math notranslate nohighlight">\(\lambda\)</span>.</p>
+size <span class="math notranslate nohighlight">\(N+M+Q\)</span> and the auto-tuned penalty parameter <span class="math notranslate nohighlight">\(\lambda\)</span>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>Tuple[np.ndarray, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a>]</p>
@@ -331,7 +335,7 @@ last dictionary are arrays containing credible samples of the corresponding comp
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>coeffs</strong> (<em>np.ndarray</em>) – Coefficients to be tested (array of size (N+M+2)).</p></li>
+<li><p><strong>coeffs</strong> (<em>np.ndarray</em>) – Coefficients to be tested (array of size (N+M+Q)).</p></li>
 <li><p><strong>credible_lvl</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – Credible level <span class="math notranslate nohighlight">\(\xi\in[0,1]\)</span>.</p></li>
 <li><p><strong>gamma</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – Undocumented. For internal use only.</p></li>
 </ul>
