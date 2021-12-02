@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Constructors &mdash; pycsou 1.0.6 documentation</title>
+  <title>Constructors &mdash; pycsou 1.0.7.dev1 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                1.0.6
+                1.0.7.dev1
               </div>
             
           
@@ -243,10 +243,10 @@ of functionals. Their horizontal stacking is defined as the operator</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>proxfuncs</strong> (<a class="reference internal" href="../classes/pycsou.core.functional.html#pycsou.core.functional.ProximableFunctional" title="pycsou.core.functional.ProximableFunctional"><em>ProximableFunctional</em></a>) – List of proximable functionals to stack.</p></li>
-<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the proximal operator.
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the proximal operator.
 If <code class="docutils literal notranslate"><span class="pre">n_jobs==1</span></code>, the proximal operator of the functional stack is evaluated sequentially, otherwise it is
 evaluated in parallel. Setting <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> uses all available cores.</p></li>
-<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p></li>
+<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p></li>
 </ul>
 </dd>
 </dl>
@@ -285,10 +285,10 @@ evaluated in parallel. Setting <code class="docutils literal notranslate"><span 
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>difffuncs</strong> (<a class="reference internal" href="../classes/pycsou.core.functional.html#pycsou.core.functional.DifferentiableFunctional" title="pycsou.core.functional.DifferentiableFunctional"><em>DifferentiableFunctional</em></a>) – List of differentiable functionals to stack.</p></li>
-<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the functional stack and its gradient.
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the functional stack and its gradient.
 If <code class="docutils literal notranslate"><span class="pre">n_jobs==1</span></code>, the proximal operator of the functional stack and its gradient are evaluated sequentially, otherwise they are
 evaluated in parallel. Setting <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> uses all available cores.</p></li>
-<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
+<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
 </p></li>
 </ul>
 </dd>
@@ -325,10 +325,10 @@ evaluated in parallel. Setting <code class="docutils literal notranslate"><span 
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>,</em>) – Dimension of the functional’s domain.</p></li>
-<li><p><strong>data</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a><em>, </em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Optional data vector.</p></li>
-<li><p><strong>is_differentiable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the functional is differentiable or not.</p></li>
-<li><p><strong>is_linear</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the functional is linear or not.</p></li>
+<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>,</em>) – Dimension of the functional’s domain.</p></li>
+<li><p><strong>data</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a><em>, </em><em>Number</em><em>, </em><em>np.ndarray</em><em>]</em>) – Optional data vector.</p></li>
+<li><p><strong>is_differentiable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether the functional is differentiable or not.</p></li>
+<li><p><strong>is_linear</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether the functional is linear or not.</p></li>
 </ul>
 </dd>
 </dl>
@@ -364,7 +364,7 @@ evaluated in parallel. Setting <code class="docutils literal notranslate"><span 
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Dimension of the functional’s domain.</p></li>
+<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Dimension of the functional’s domain.</p></li>
 <li><p><strong>condition_func</strong> (<em>Callable</em>) – Condition delimiting the domain of the indicator functional.</p></li>
 <li><p><strong>projection_func</strong> (<em>Callable</em>) – Projecton onto the domain of the indicator functional.</p></li>
 </ul>
@@ -408,7 +408,7 @@ evaluated in parallel. Setting <code class="docutils literal notranslate"><span 
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/func/base.html#NullDifferentiableFunctional.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.func.base.NullDifferentiableFunctional.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Dimension of the functional’s domain.</p>
+<dd class="field-odd"><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Dimension of the functional’s domain.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -442,7 +442,7 @@ evaluated in parallel. Setting <code class="docutils literal notranslate"><span 
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">dim: int</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/func/base.html#NullProximableFunctional.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.func.base.NullProximableFunctional.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Dimension of the functional’s domain.</p>
+<dd class="field-odd"><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Dimension of the functional’s domain.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -482,7 +482,7 @@ onto the conjugate  <span class="math notranslate nohighlight">\(\ell_p\)</span>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Dimension of the functional’s domain.</p></li>
+<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Dimension of the functional’s domain.</p></li>
 <li><p><strong>proj_lq_ball</strong> (<em>Callable</em><em>[</em><em>x: np.ndarray</em><em>, </em><em>radius: float</em><em>]</em>) – Projection onto the <span class="math notranslate nohighlight">\(\ell_q\)</span>-ball where <span class="math notranslate nohighlight">\(1/p+1/q=1.\)</span></p></li>
 </ul>
 </dd>

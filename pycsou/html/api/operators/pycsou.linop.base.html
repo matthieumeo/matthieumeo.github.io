@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Constructors &mdash; pycsou 1.0.6 documentation</title>
+  <title>Constructors &mdash; pycsou 1.0.7.dev1 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                1.0.6
+                1.0.7.dev1
               </div>
             
           
@@ -205,10 +205,10 @@
 <td><p>Construct a linear operator from a Numpy array.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#pycsou.linop.base.SparseLinearOperator" title="pycsou.linop.base.SparseLinearOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SparseLinearOperator</span></code></a>(spmatrix[, is_symmetric])</p></td>
-<td><p>Construct a linear operator from a sparse Scipy matrix (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.spmatrix.html#scipy.sparse.spmatrix" title="(in SciPy v1.6.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">scipy.sparse.spmatrix</span></code></a>).</p></td>
+<td><p>Construct a linear operator from a sparse Scipy matrix (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.spmatrix.html#scipy.sparse.spmatrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">scipy.sparse.spmatrix</span></code></a>).</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pycsou.linop.base.DaskLinearOperator" title="pycsou.linop.base.DaskLinearOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DaskLinearOperator</span></code></a>(dask_array[, is_symmetric])</p></td>
-<td><p>Construct a linear operator from a Dask array (<code class="xref py py-class docutils literal notranslate"><span class="pre">dask.array.core.Array</span></code>).</p></td>
+<td><p>Construct a linear operator from a Dask array (<a class="reference external" href="https://docs.dask.org/en/latest/generated/dask.array.Array.html#dask.array.Array" title="(in Dask)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dask.array.core.Array</span></code></a>).</p></td>
 </tr>
 </tbody>
 </table>
@@ -279,10 +279,10 @@
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>PyLop</strong> (<a class="reference external" href="https://pylops.readthedocs.io/en/latest/api/generated/pylops.LinearOperator.html#pylops.LinearOperator" title="(in PyLops vdev)"><em>pylops.LinearOperator</em></a>) – Pylops linear operator.</p></li>
-<li><p><strong>is_symmetric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the linear operator is symmetric or not.</p></li>
-<li><p><strong>is_dense</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Numpy array.</p></li>
-<li><p><strong>is_sparse</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Scipy sparse matrix.</p></li>
-<li><p><strong>lipschitz_cst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Lipschitz constant of the operator.</p></li>
+<li><p><strong>is_symmetric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether the linear operator is symmetric or not.</p></li>
+<li><p><strong>is_dense</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Numpy array.</p></li>
+<li><p><strong>is_sparse</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Scipy sparse matrix.</p></li>
+<li><p><strong>lipschitz_cst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Lipschitz constant of the operator.</p></li>
 </ul>
 </dd>
 </dl>
@@ -321,7 +321,7 @@ The array is stored in the attribute <code class="docutils literal notranslate">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>array</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>sparse.spmatrix</em><em>, </em><em>da.core.Array</em><em>]</em>) – Numpy array, Scipy sparse matrix or Dask array from which to construct the linear operator.</p></li>
-<li><p><strong>is_symmetric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the linear operator is symmetric or not.</p></li>
+<li><p><strong>is_symmetric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether the linear operator is symmetric or not.</p></li>
 </ul>
 </dd>
 </dl>
@@ -358,8 +358,8 @@ The array is stored in the attribute <code class="docutils literal notranslate">
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ndarray</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><em>numpy.ndarray</em></a>) – Numpy array from which to construct the linear operator.</p></li>
-<li><p><strong>is_symmetric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the linear operator is symmetric or not.</p></li>
+<li><p><strong>ndarray</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.21)"><em>numpy.ndarray</em></a>) – Numpy array from which to construct the linear operator.</p></li>
+<li><p><strong>is_symmetric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether the linear operator is symmetric or not.</p></li>
 </ul>
 </dd>
 </dl>
@@ -371,7 +371,7 @@ The array is stored in the attribute <code class="docutils literal notranslate">
 <dt id="pycsou.linop.base.SparseLinearOperator">
 <em class="property">class </em><code class="sig-name descname">SparseLinearOperator</code><span class="sig-paren">(</span><em class="sig-param">spmatrix: scipy.sparse.base.spmatrix</em>, <em class="sig-param">is_symmetric: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/linop/base.html#SparseLinearOperator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.linop.base.SparseLinearOperator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pycsou.linop.base.ExplicitLinearOperator" title="pycsou.linop.base.ExplicitLinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.linop.base.ExplicitLinearOperator</span></code></a></p>
-<p>Construct a linear operator from a sparse Scipy matrix (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.spmatrix.html#scipy.sparse.spmatrix" title="(in SciPy v1.6.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">scipy.sparse.spmatrix</span></code></a>).</p>
+<p>Construct a linear operator from a sparse Scipy matrix (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.spmatrix.html#scipy.sparse.spmatrix" title="(in SciPy v1.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">scipy.sparse.spmatrix</span></code></a>).</p>
 <p>The array is stored in the attribute <code class="docutils literal notranslate"><span class="pre">self.mat</span></code>.</p>
 <dl class="method">
 <dt id="pycsou.linop.base.SparseLinearOperator.__init__">
@@ -379,8 +379,8 @@ The array is stored in the attribute <code class="docutils literal notranslate">
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>spmatrix</strong> (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.spmatrix.html#scipy.sparse.spmatrix" title="(in SciPy v1.6.2)"><em>scipy.sparse.spmatrix</em></a>) – Scipy sparse matrix from which to construct the linear operator.</p></li>
-<li><p><strong>is_symmetric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the linear operator is symmetric or not.</p></li>
+<li><p><strong>spmatrix</strong> (<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.spmatrix.html#scipy.sparse.spmatrix" title="(in SciPy v1.7.1)"><em>scipy.sparse.spmatrix</em></a>) – Scipy sparse matrix from which to construct the linear operator.</p></li>
+<li><p><strong>is_symmetric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether the linear operator is symmetric or not.</p></li>
 </ul>
 </dd>
 </dl>
@@ -392,7 +392,7 @@ The array is stored in the attribute <code class="docutils literal notranslate">
 <dt id="pycsou.linop.base.DaskLinearOperator">
 <em class="property">class </em><code class="sig-name descname">DaskLinearOperator</code><span class="sig-paren">(</span><em class="sig-param">dask_array: dask.array.core.Array</em>, <em class="sig-param">is_symmetric: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/linop/base.html#DaskLinearOperator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.linop.base.DaskLinearOperator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pycsou.linop.base.ExplicitLinearOperator" title="pycsou.linop.base.ExplicitLinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.linop.base.ExplicitLinearOperator</span></code></a></p>
-<p>Construct a linear operator from a Dask array (<code class="xref py py-class docutils literal notranslate"><span class="pre">dask.array.core.Array</span></code>).</p>
+<p>Construct a linear operator from a Dask array (<a class="reference external" href="https://docs.dask.org/en/latest/generated/dask.array.Array.html#dask.array.Array" title="(in Dask)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dask.array.core.Array</span></code></a>).</p>
 <p>The array is stored in the attribute <code class="docutils literal notranslate"><span class="pre">self.mat</span></code>.</p>
 <dl class="method">
 <dt id="pycsou.linop.base.DaskLinearOperator.__init__">
@@ -400,8 +400,8 @@ The array is stored in the attribute <code class="docutils literal notranslate">
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dask_array</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dask.array.core.Array</span></code>) – Dask array from which to construct the linear operator.</p></li>
-<li><p><strong>is_symmetric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the linear operator is symmetric or not.</p></li>
+<li><p><strong>dask_array</strong> (<a class="reference external" href="https://docs.dask.org/en/latest/generated/dask.array.Array.html#dask.array.Array" title="(in Dask)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dask.array.core.Array</span></code></a>) – Dask array from which to construct the linear operator.</p></li>
+<li><p><strong>is_symmetric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether the linear operator is symmetric or not.</p></li>
 </ul>
 </dd>
 </dl>
@@ -477,10 +477,10 @@ of linear operators. Their horizontal stacking is defined as the operator</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>linops</strong> (<a class="reference internal" href="../classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><em>LinearOperator</em></a>) – List of linear operators to stack.</p></li>
 <li><p><strong>axis</strong> – Stacking direction: 0 for vertical and 1 for horizontal stacking.</p></li>
-<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the linear operator stack and its adjoint.
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the linear operator stack and its adjoint.
 If <code class="docutils literal notranslate"><span class="pre">n_jobs==1</span></code>, the operator stack and its adjoint are evaluated sequentially, otherwise they are
 evaluated in parallel. Setting <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> uses all available cores.</p></li>
-<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p></li>
+<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p></li>
 </ul>
 </dd>
 </dl>
@@ -517,10 +517,10 @@ evaluated in parallel. Setting <code class="docutils literal notranslate"><span 
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>linops</strong> (<a class="reference internal" href="../classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><em>LinearOperator</em></a>) – List of linear operators to stack.</p></li>
-<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the linear operator stack and its adjoint.
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the linear operator stack and its adjoint.
 If <code class="docutils literal notranslate"><span class="pre">n_jobs==1</span></code>, the operator stack and its adjoint are evaluated sequentially, otherwise they are
 evaluated in parallel. Setting <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> uses all available cores.</p></li>
-<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
+<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
 </p></li>
 </ul>
 </dd>
@@ -541,10 +541,10 @@ evaluated in parallel. Setting <code class="docutils literal notranslate"><span 
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>linops</strong> (<a class="reference internal" href="../classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><em>LinearOperator</em></a>) – List of linear operators to stack.</p></li>
-<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the linear operator stack and its adjoint.
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the linear operator stack and its adjoint.
 If <code class="docutils literal notranslate"><span class="pre">n_jobs==1</span></code>, the operator stack and its adjoint are evaluated sequentially, otherwise they are
 evaluated in parallel. Setting <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> uses all available cores.</p></li>
-<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
+<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
 </p></li>
 </ul>
 </dd>
@@ -562,7 +562,7 @@ evaluated in parallel. Setting <code class="docutils literal notranslate"><span 
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>linops</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><a class="reference internal" href="../classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><em>LinearOperator</em></a><em>]</em><em>]</em>) – List of lists of linear operators to be combined in block fashion.
 Alternatively, numpy.ndarray or scipy.sparse.spmatrix can be passed in place of one or more operators.</p></li>
-<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of processes used to evaluate the N operators in parallel using multiprocessing.
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of processes used to evaluate the N operators in parallel using multiprocessing.
 If <code class="docutils literal notranslate"><span class="pre">n_jobs=1</span></code> (default), work in serial mode.</p></li>
 </ul>
 </dd>
@@ -662,7 +662,7 @@ The code should be updated when the next version on PyLops is released.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>linops</strong> (<a class="reference internal" href="../classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><em>LinearOperator</em></a>) – Linear operators forming the diagonal blocks.
 Alternatively, numpy.ndarray or scipy.sparse.spmatrix can be passed in place of one or more operators.</p></li>
-<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of processes used to evaluate the N operators in parallel using multiprocessing.
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of processes used to evaluate the N operators in parallel using multiprocessing.
 If <code class="docutils literal notranslate"><span class="pre">n_jobs=1</span></code> (default), work in serial mode.</p></li>
 </ul>
 </dd>
@@ -784,8 +784,8 @@ The code should be updated when the next version on PyLops is released.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Dimension of the domain.</p></li>
-<li><p><strong>dtype</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.9)"><em>type</em></a><em>]</em>) – Data type of the operator.</p></li>
+<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Dimension of the domain.</p></li>
+<li><p><strong>dtype</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.10)"><em>type</em></a><em>]</em>) – Data type of the operator.</p></li>
 </ul>
 </dd>
 </dl>
@@ -804,14 +804,14 @@ The code should be updated when the next version on PyLops is released.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>shape</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Shape of the linear operator.</p></li>
-<li><p><strong>dtype</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.9)"><em>type</em></a><em>]</em>) – Data type of the linear operator.</p></li>
-<li><p><strong>is_explicit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Numpy/Scipy/Dask array.</p></li>
-<li><p><strong>is_dense</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Numpy array.</p></li>
-<li><p><strong>is_sparse</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Scipy sparse matrix.</p></li>
-<li><p><strong>is_dask</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Dask array.</p></li>
-<li><p><strong>is_symmetric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the linear operator is symmetric or not.</p></li>
-<li><p><strong>lipschitz_cst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Lipschitz constant (maximal singular value) of the linear operator if known. Default to <span class="math notranslate nohighlight">\(+\infty\)</span>.</p></li>
+<li><p><strong>shape</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em>) – Shape of the linear operator.</p></li>
+<li><p><strong>dtype</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.10)"><em>type</em></a><em>]</em>) – Data type of the linear operator.</p></li>
+<li><p><strong>is_explicit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Numpy/Scipy/Dask array.</p></li>
+<li><p><strong>is_dense</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Numpy array.</p></li>
+<li><p><strong>is_sparse</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Scipy sparse matrix.</p></li>
+<li><p><strong>is_dask</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If  <code class="docutils literal notranslate"><span class="pre">True</span></code>, the linear operator is specified explicitly in terms of a Dask array.</p></li>
+<li><p><strong>is_symmetric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether the linear operator is symmetric or not.</p></li>
+<li><p><strong>lipschitz_cst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Lipschitz constant (maximal singular value) of the linear operator if known. Default to <span class="math notranslate nohighlight">\(+\infty\)</span>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -841,9 +841,9 @@ The code should be updated when the next version on PyLops is released.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The number of eigenvalues and eigenvectors desired. <code class="docutils literal notranslate"><span class="pre">k</span></code> must be strictly smaller than the dimension of the operator.
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The number of eigenvalues and eigenvectors desired. <code class="docutils literal notranslate"><span class="pre">k</span></code> must be strictly smaller than the dimension of the operator.
 It is not possible to compute all eigenvectors of a matrix.</p></li>
-<li><p><strong>which</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>[</em><em>‘LM’ | ‘SM’ | ‘LR’ | ‘SR’ | ‘LI’ | ‘SI’</em><em>]</em>) – <p>Which <code class="docutils literal notranslate"><span class="pre">k</span></code> eigenvalues to find:</p>
+<li><p><strong>which</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>[</em><em>‘LM’ | ‘SM’ | ‘LR’ | ‘SR’ | ‘LI’ | ‘SI’</em><em>]</em>) – <p>Which <code class="docutils literal notranslate"><span class="pre">k</span></code> eigenvalues to find:</p>
 <blockquote>
 <div><ul>
 <li><p>‘LM’ : largest magnitude</p></li>
@@ -855,7 +855,7 @@ It is not possible to compute all eigenvectors of a matrix.</p></li>
 </ul>
 </div></blockquote>
 </p></li>
-<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A dict of additional keyword arguments values accepted by Scipy’s functions <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a> and <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>.</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a>) – A dict of additional keyword arguments values accepted by Scipy’s functions <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.7.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a> and <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.7.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -865,11 +865,11 @@ It is not possible to compute all eigenvectors of a matrix.</p></li>
 <dd class="field-odd"><p>np.ndarray</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.9)"><strong>NotImplementedError</strong></a> – If the linear operator is not square.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.10)"><strong>NotImplementedError</strong></a> – If the linear operator is not square.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>This function calls one of the two Scipy’s functions: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a> and <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>.
+<p>This function calls one of the two Scipy’s functions: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.linalg.eigs.html#scipy.sparse.linalg.eigs" title="(in SciPy v1.7.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigs()</span></code></a> and <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.7.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh()</span></code></a>.
 See the documentation of these two functions for more information on their behaviour and the underlying ARPACK functions they rely on.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -885,8 +885,8 @@ The order of the singular values is not guaranteed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of singular values to compute. Must be <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">&lt;=</span> <span class="pre">k</span> <span class="pre">&lt;</span> <span class="pre">min(self.shape)</span></code>.</p></li>
-<li><p><strong>which</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>[</em><em>‘LM’ | ‘SM’</em><em>]</em>) – <p>Which <code class="docutils literal notranslate"><span class="pre">k</span></code> singular values to find:</p>
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of singular values to compute. Must be <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">&lt;=</span> <span class="pre">k</span> <span class="pre">&lt;</span> <span class="pre">min(self.shape)</span></code>.</p></li>
+<li><p><strong>which</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>[</em><em>‘LM’ | ‘SM’</em><em>]</em>) – <p>Which <code class="docutils literal notranslate"><span class="pre">k</span></code> singular values to find:</p>
 <blockquote>
 <div><ul>
 <li><p>‘LM’ : largest magnitude</p></li>
@@ -894,7 +894,7 @@ The order of the singular values is not guaranteed.</p>
 </ul>
 </div></blockquote>
 </p></li>
-<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A dict of additional keyword arguments values accepted by Scipy’s function <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a>.</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a>) – A dict of additional keyword arguments values accepted by Scipy’s function <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.7.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -913,7 +913,7 @@ The order of the singular values is not guaranteed.</p>
 </pre></div>
 </div>
 <p class="rubric">Notes</p>
-<p>This function calls the Scipy’s function: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a>.
+<p>This function calls the Scipy’s function: <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.sparse.linalg.svds.html#scipy.sparse.linalg.svds" title="(in SciPy v1.7.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.sparse.linalg.svds()</span></code></a>.
 See the documentation of this function for more information on its behaviour and the underlying ARPACK/LOBPCG functions it relies on.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -986,7 +986,7 @@ The <em>adjoint</em> of <span class="math notranslate nohighlight">\(P(\mathbf{L
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>LinOp</strong> (<em>pycsou.core.LinearOperator</em>) – Square linear operator <span class="math notranslate nohighlight">\(\mathbf{L}\)</span>.</p></li>
-<li><p><strong>coeffs</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a><em>]</em>) – Coefficients <span class="math notranslate nohighlight">\(\{a_0,\ldots, a_N\}\)</span> of the polynomial <span class="math notranslate nohighlight">\(P\)</span>.</p></li>
+<li><p><strong>coeffs</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a><em>]</em>) – Coefficients <span class="math notranslate nohighlight">\(\{a_0,\ldots, a_N\}\)</span> of the polynomial <span class="math notranslate nohighlight">\(P\)</span>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1212,7 +1212,7 @@ both in forward and adjoint mode.</p>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">linop1.shape[1]</span> <span class="pre">!=</span> <span class="pre">self.linop2.shape[1]</span></code>.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">linop1.shape[1]</span> <span class="pre">!=</span> <span class="pre">self.linop2.shape[1]</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>

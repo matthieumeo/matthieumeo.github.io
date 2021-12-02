@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Green Functions &mdash; pycsou 1.0.6 documentation</title>
+  <title>Green Functions &mdash; pycsou 1.0.7.dev1 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                1.0.6
+                1.0.7.dev1
               </div>
             
           
@@ -212,7 +212,7 @@
 <dl class="class">
 <dt id="pycsou.math.green.Matern">
 <em class="property">class </em><code class="sig-name descname">Matern</code><span class="sig-paren">(</span><em class="sig-param">k: int</em>, <em class="sig-param">epsilon: float = 1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/math/green.html#Matern"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.math.green.Matern" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Matern function for <span class="math notranslate nohighlight">\(k\in\{0,1,2,3\}\)</span>.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -253,8 +253,8 @@ with standard deviation <span class="math notranslate nohighlight">\(\epsilon\)<
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>Literal</em><em>[</em><em>0</em><em>, </em><em>1</em><em> ,</em><em>2</em><em> ,</em><em>3</em><em>]</em>) – Order of the Matern function.</p></li>
-<li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Spread of the Matern function (support is approximately <cite>3*epsilon</cite>).</p></li>
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>, </em><em>Literal</em><em>[</em><em>0</em><em>, </em><em>1</em><em> ,</em><em>2</em><em> ,</em><em>3</em><em>]</em>) – Order of the Matern function.</p></li>
+<li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Spread of the Matern function (support is approximately <cite>3*epsilon</cite>).</p></li>
 </ul>
 </dd>
 </dl>
@@ -267,13 +267,13 @@ with standard deviation <span class="math notranslate nohighlight">\(\epsilon\)<
 <p>The approximation is poor for <span class="math notranslate nohighlight">\(k=0\)</span>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>sigmas</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of sigmas defining the support of the approximating Gaussian function.</p>
+<dd class="field-odd"><p><strong>sigmas</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of sigmas defining the support of the approximating Gaussian function.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Approximate effective support of the Matern function.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)">float</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -283,7 +283,7 @@ with standard deviation <span class="math notranslate nohighlight">\(\epsilon\)<
 <dl class="class">
 <dt id="pycsou.math.green.Wendland">
 <em class="property">class </em><code class="sig-name descname">Wendland</code><span class="sig-paren">(</span><em class="sig-param">k: int</em>, <em class="sig-param">epsilon: float = 1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/math/green.html#Wendland"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.math.green.Wendland" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Wendland functions for <span class="math notranslate nohighlight">\(k\in\{0, 1, 2, 3\}\)</span>.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -320,8 +320,8 @@ yield <strong>positive definite</strong> radial kernels in <span class="math not
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Order of the Wendland function.</p></li>
-<li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Support of the Wendland function</p></li>
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Order of the Wendland function.</p></li>
+<li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Support of the Wendland function</p></li>
 </ul>
 </dd>
 </dl>
@@ -332,7 +332,7 @@ yield <strong>positive definite</strong> radial kernels in <span class="math not
 <dl class="class">
 <dt id="pycsou.math.green.CausalGreenIteratedDerivative">
 <em class="property">class </em><code class="sig-name descname">CausalGreenIteratedDerivative</code><span class="sig-paren">(</span><em class="sig-param">k: int</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/math/green.html#CausalGreenIteratedDerivative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.math.green.CausalGreenIteratedDerivative" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Causal Green function of the iterated derivative <span class="math notranslate nohighlight">\(D^k\)</span>.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -362,7 +362,7 @@ yield <strong>positive definite</strong> radial kernels in <span class="math not
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">k: int</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/math/green.html#CausalGreenIteratedDerivative.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.math.green.CausalGreenIteratedDerivative.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Exponent <span class="math notranslate nohighlight">\(k\)</span> of the iterated derivative operator <span class="math notranslate nohighlight">\(D^k\)</span> for which the Green function is desired.</p>
+<dd class="field-odd"><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Exponent <span class="math notranslate nohighlight">\(k\)</span> of the iterated derivative operator <span class="math notranslate nohighlight">\(D^k\)</span> for which the Green function is desired.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -372,7 +372,7 @@ yield <strong>positive definite</strong> radial kernels in <span class="math not
 <dl class="class">
 <dt id="pycsou.math.green.CausalGreenExponential">
 <em class="property">class </em><code class="sig-name descname">CausalGreenExponential</code><span class="sig-paren">(</span><em class="sig-param">k: int</em>, <em class="sig-param">alpha: float = 1</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/math/green.html#CausalGreenExponential"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.math.green.CausalGreenExponential" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Causal Green function of <span class="math notranslate nohighlight">\((D+\alpha\mbox{Id})^k\)</span>.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -403,8 +403,8 @@ yield <strong>positive definite</strong> radial kernels in <span class="math not
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Exponent <span class="math notranslate nohighlight">\(k\)</span> of the exponential pseudo-differential operator <span class="math notranslate nohighlight">\((D+\alpha\mbox{Id})^k\)</span> for which the Green function is desired.</p></li>
-<li><p><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Strictly positive parameter <span class="math notranslate nohighlight">\(\alpha\)</span> of the exponential pseudo-differential operator <span class="math notranslate nohighlight">\((D+\alpha\mbox{Id})^k\)</span> for which the Green function is desired.</p></li>
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Exponent <span class="math notranslate nohighlight">\(k\)</span> of the exponential pseudo-differential operator <span class="math notranslate nohighlight">\((D+\alpha\mbox{Id})^k\)</span> for which the Green function is desired.</p></li>
+<li><p><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Strictly positive parameter <span class="math notranslate nohighlight">\(\alpha\)</span> of the exponential pseudo-differential operator <span class="math notranslate nohighlight">\((D+\alpha\mbox{Id})^k\)</span> for which the Green function is desired.</p></li>
 </ul>
 </dd>
 </dl>
@@ -415,7 +415,7 @@ yield <strong>positive definite</strong> radial kernels in <span class="math not
 <dl class="class">
 <dt id="pycsou.math.green.SubGaussian">
 <em class="property">class </em><code class="sig-name descname">SubGaussian</code><span class="sig-paren">(</span><em class="sig-param">alpha: float</em>, <em class="sig-param">epsilon: float = 1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/math/green.html#SubGaussian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.math.green.SubGaussian" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Sub-Gaussian function.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -473,8 +473,8 @@ are heavy-tailed and infinitely smooth with algebraically decaying derivatives o
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Exponent <span class="math notranslate nohighlight">\(\alpha\in (0,2)\)</span> of the sub-Gaussian function.</p></li>
-<li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Spread <span class="math notranslate nohighlight">\(\epsilon&gt;0\)</span> of the sub-Gaussian function.</p></li>
+<li><p><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Exponent <span class="math notranslate nohighlight">\(\alpha\in (0,2)\)</span> of the sub-Gaussian function.</p></li>
+<li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Spread <span class="math notranslate nohighlight">\(\epsilon&gt;0\)</span> of the sub-Gaussian function.</p></li>
 </ul>
 </dd>
 </dl>

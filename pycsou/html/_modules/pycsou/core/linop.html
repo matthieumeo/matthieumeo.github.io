@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pycsou.core.linop &mdash; pycsou 1.0.6 documentation</title>
+  <title>pycsou.core.linop &mdash; pycsou 1.0.7.dev1 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.0.6
+                1.0.7.dev1
               </div>
             
           
@@ -596,13 +596,13 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">RowProjector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Orthogonal projection operator onto the rows of ``self``. It is given by ``self * self.dagger``.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">SymmetricLinearOperator</span><span class="p">(</span><span class="bp">self</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dagger</span><span class="p">)</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Orthogonal projection operator onto the rows of ``self``. It is given by ``self.dagger * self``.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">SymmetricLinearOperator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dagger</span> <span class="o">*</span> <span class="bp">self</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">ColProjector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Orthogonal projection operator onto the columns of ``self``. It is given by ``self.dagger * self``.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">SymmetricLinearOperator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dagger</span> <span class="o">*</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Orthogonal projection operator onto the columns of ``self``. It is given by ``self * self.dagger``.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">SymmetricLinearOperator</span><span class="p">(</span><span class="bp">self</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dagger</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;Map&#39;</span><span class="p">,</span> <span class="s1">&#39;DifferentiableMap&#39;</span><span class="p">,</span> <span class="s1">&#39;LinearOperator&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span>
         <span class="s1">&#39;MapSum&#39;</span><span class="p">,</span> <span class="s1">&#39;DiffMapSum&#39;</span><span class="p">,</span> <span class="s1">&#39;LinOpSum&#39;</span><span class="p">]:</span>

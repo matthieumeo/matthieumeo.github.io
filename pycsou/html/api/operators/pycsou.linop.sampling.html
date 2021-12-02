@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Sampling Operators &mdash; pycsou 1.0.6 documentation</title>
+  <title>Sampling Operators &mdash; pycsou 1.0.7.dev1 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                1.0.6
+                1.0.7.dev1
               </div>
             
           
@@ -237,13 +237,13 @@ in an otherwise zero array in adjoint mode.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Size of input array.</p></li>
-<li><p><strong>sampling_indices</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – Integer indices of samples for data selection.</p></li>
-<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a>) – Shape of input array
+<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Size of input array.</p></li>
+<li><p><strong>sampling_indices</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.21)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – Integer indices of samples for data selection.</p></li>
+<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a>) – Shape of input array
 (<code class="docutils literal notranslate"><span class="pre">None</span></code> if only one dimension is available).</p></li>
-<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – When <code class="docutils literal notranslate"><span class="pre">shape</span></code> is not <code class="docutils literal notranslate"><span class="pre">None</span></code>, axis along which subsampling is applied.</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Type of elements in input array.</p></li>
-<li><p><strong>inplace</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Work inplace (<code class="docutils literal notranslate"><span class="pre">True</span></code>) or make a new copy (<code class="docutils literal notranslate"><span class="pre">False</span></code>). By default,
+<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – When <code class="docutils literal notranslate"><span class="pre">shape</span></code> is not <code class="docutils literal notranslate"><span class="pre">None</span></code>, axis along which subsampling is applied.</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Type of elements in input array.</p></li>
+<li><p><strong>inplace</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Work inplace (<code class="docutils literal notranslate"><span class="pre">True</span></code>) or make a new copy (<code class="docutils literal notranslate"><span class="pre">False</span></code>). By default,
 data is a reference to the model (in forward) and model is a reference
 to the data (in adjoint).</p></li>
 </ul>
@@ -255,7 +255,7 @@ to the data (in adjoint).</p></li>
 <dd class="field-odd"><p><a class="reference internal" href="pycsou.linop.base.html#pycsou.linop.base.PyLopLinearOperator" title="pycsou.linop.base.PyLopLinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyLopLinearOperator</span></code></a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If shape and size do not match.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – If shape and size do not match.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -336,14 +336,14 @@ with the only difference that the sampling locations are specified in the form o
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Size of input array.</p></li>
-<li><p><strong>sampling_bool</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – Boolean array for data selection. <code class="docutils literal notranslate"><span class="pre">True</span></code> values mark the positions of the samples.</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – </p></li>
+<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Size of input array.</p></li>
+<li><p><strong>sampling_bool</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.21)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – Boolean array for data selection. <code class="docutils literal notranslate"><span class="pre">True</span></code> values mark the positions of the samples.</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – </p></li>
 <li><p><strong>of elements in input array.</strong> (<em>Type</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If the size of <code class="docutils literal notranslate"><span class="pre">sampling_bool</span></code> differs from <code class="docutils literal notranslate"><span class="pre">size</span></code>.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – If the size of <code class="docutils literal notranslate"><span class="pre">sampling_bool</span></code> differs from <code class="docutils literal notranslate"><span class="pre">size</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -471,15 +471,15 @@ specified by <code class="docutils literal notranslate"><span class="pre">axis</
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Size of input array.</p></li>
-<li><p><strong>downsampling_factor</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a><em>]</em>) – Downsampling factor (possibly different for each dimension).</p></li>
-<li><p><strong>shape</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a><em>]</em>) – Shape of input array (default <code class="docutils literal notranslate"><span class="pre">None</span></code>: the input array is 1D).</p></li>
-<li><p><strong>axis</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Axis along which to downsample for ND input arrays (default <code class="docutils literal notranslate"><span class="pre">None</span></code>: downsampling is performed along each axis).</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.9)"><em>type</em></a>) – Type of input array.</p></li>
+<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Size of input array.</p></li>
+<li><p><strong>downsampling_factor</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em>]</em>) – Downsampling factor (possibly different for each dimension).</p></li>
+<li><p><strong>shape</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a><em>]</em>) – Shape of input array (default <code class="docutils literal notranslate"><span class="pre">None</span></code>: the input array is 1D).</p></li>
+<li><p><strong>axis</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em>) – Axis along which to downsample for ND input arrays (default <code class="docutils literal notranslate"><span class="pre">None</span></code>: downsampling is performed along each axis).</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.10)"><em>type</em></a>) – Type of input array.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If the set of parameters {<code class="docutils literal notranslate"><span class="pre">shape</span></code>, <code class="docutils literal notranslate"><span class="pre">size</span></code>, <code class="docutils literal notranslate"><span class="pre">sampling_factor</span></code>, <code class="docutils literal notranslate"><span class="pre">axis</span></code>} is invalid.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – If the set of parameters {<code class="docutils literal notranslate"><span class="pre">shape</span></code>, <code class="docutils literal notranslate"><span class="pre">size</span></code>, <code class="docutils literal notranslate"><span class="pre">sampling_factor</span></code>, <code class="docutils literal notranslate"><span class="pre">axis</span></code>} is invalid.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -582,14 +582,14 @@ of the blocks.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a>) – Shape of the input array.</p></li>
-<li><p><strong>block_size</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a><em>]</em>) – Shape of the sub-blocks on which pooling is performed.</p></li>
-<li><p><strong>pooling_func</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Specifies if the local blocks should be summed (<cite>pooling_func=’sum’</cite>) or averaged (<cite>pooling_func=’mean’</cite>).</p></li>
+<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a>) – Shape of the input array.</p></li>
+<li><p><strong>block_size</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em>]</em>) – Shape of the sub-blocks on which pooling is performed.</p></li>
+<li><p><strong>pooling_func</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Specifies if the local blocks should be summed (<cite>pooling_func=’sum’</cite>) or averaged (<cite>pooling_func=’mean’</cite>).</p></li>
 <li><p><strong>dtype</strong> – Type of input array.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If the block size is inconsistent with the input array shape or if the pooling function is not supported.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – If the block size is inconsistent with the input array shape or if the pooling function is not supported.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -603,7 +603,7 @@ of the blocks.</p>
 <dd class="field-odd"><p>Output array shape.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)">tuple</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)">tuple</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -728,11 +728,11 @@ the same nearest neighbour.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>samples</strong> (<em>np.ndarray</em>) – Off-grid sampling locations with shape (M,N).</p></li>
 <li><p><strong>grid</strong> – Grid points with shape (L,N).</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.9)"><em>type</em></a>) – Type of the input array.</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.10)"><em>type</em></a>) – Type of the input array.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If the dimension of the sample locations and the grid points do not match.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – If the dimension of the sample locations and the grid points do not match.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -805,8 +805,8 @@ this function forms the generalised Vandermonde matrix:</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>samples</strong> (<em>np.ndarray</em>) – Sampling locations with shape (L,N).</p></li>
-<li><p><strong>funcs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – List of functions.</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.9)"><em>type</em></a>) – Type of input array.</p></li>
+<li><p><strong>funcs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – List of functions.</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.10)"><em>type</em></a>) – Type of input array.</p></li>
 </ul>
 </dd>
 </dl>
@@ -957,21 +957,21 @@ Note that in this case the two point sets must be on the hypersphere <span class
 <li><p><strong>samples1</strong> (<em>np.ndarray</em>) – First point set with shape (L,N).</p></li>
 <li><p><strong>function</strong> (<em>Callable</em>) – Function <span class="math notranslate nohighlight">\(\varphi: \mathbb{R}_+\to \mathbb{C}\)</span> to apply to each entry of the distance matrix.</p></li>
 <li><p><strong>samples2</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – Optional second point set with shape (K,N). If <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">samples2</span></code> is equal to <code class="docutils literal notranslate"><span class="pre">samples1</span></code> and the operator symmetric.</p></li>
-<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – How to compute the distances. If <code class="docutils literal notranslate"><span class="pre">'radial'</span></code>, the Euclidean distance with respect to the Minkowski norm <span class="math notranslate nohighlight">\(\|\cdot\|_p\)</span> is used. <span class="math notranslate nohighlight">\(p\)</span> is specified via the parameter <code class="docutils literal notranslate"><span class="pre">ord</span></code>  and has to meet the condition <cite>1 &lt;= p &lt;= infinity</cite>. If <code class="docutils literal notranslate"><span class="pre">'zonal'</span></code> the spherical geodesic distance is used.</p></li>
+<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – How to compute the distances. If <code class="docutils literal notranslate"><span class="pre">'radial'</span></code>, the Euclidean distance with respect to the Minkowski norm <span class="math notranslate nohighlight">\(\|\cdot\|_p\)</span> is used. <span class="math notranslate nohighlight">\(p\)</span> is specified via the parameter <code class="docutils literal notranslate"><span class="pre">ord</span></code>  and has to meet the condition <cite>1 &lt;= p &lt;= infinity</cite>. If <code class="docutils literal notranslate"><span class="pre">'zonal'</span></code> the spherical geodesic distance is used.</p></li>
 <li><p><strong>max_distance</strong> (<em>Optional</em><em>[</em><em>np.float</em><em>]</em>) – Support of the function <span class="math notranslate nohighlight">\(\varphi\)</span>. Must be specified for sparse representation.</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.9)"><em>type</em></a>) – Type of input array.</p></li>
-<li><p><strong>chunks</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a><em>]</em>) – Chunk sizes for Dask representation.</p></li>
-<li><p><strong>operator_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Internal representation of the operator: <code class="docutils literal notranslate"><span class="pre">'dense'</span></code> represents the operator as a Numpy array, <code class="docutils literal notranslate"><span class="pre">'dask'</span></code> as a <a class="reference external" href="https://docs.dask.org/en/latest/array.html">Dask array</a>,
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.10)"><em>type</em></a>) – Type of input array.</p></li>
+<li><p><strong>chunks</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a><em>]</em>) – Chunk sizes for Dask representation.</p></li>
+<li><p><strong>operator_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Internal representation of the operator: <code class="docutils literal notranslate"><span class="pre">'dense'</span></code> represents the operator as a Numpy array, <code class="docutils literal notranslate"><span class="pre">'dask'</span></code> as a <a class="reference external" href="https://docs.dask.org/en/latest/array.html">Dask array</a>,
 <code class="docutils literal notranslate"><span class="pre">'sparse'</span></code> as a <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/sparse.html">sparse matrix</a>. Dask arrays or sparse matrices can be more memory efficient for very large point sets.</p></li>
-<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Verbosity for parallel computations (only for sparse representations).</p></li>
-<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of cores for parallel computations (only for sparse representations). <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> uses all available cores.</p></li>
-<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p></li>
-<li><p><strong>ord</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Order of the norm for <code class="docutils literal notranslate"><span class="pre">mode='radial'</span></code>. <code class="docutils literal notranslate"><span class="pre">ord</span></code> must satisfy <cite>1&lt;= ord &lt;=infty</cite>.</p></li>
-<li><p><strong>eps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Parameter for approximate nearest neighbours search when <code class="docutils literal notranslate"><span class="pre">mode='sparse'</span></code>.</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Verbosity for parallel computations (only for sparse representations).</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of cores for parallel computations (only for sparse representations). <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> uses all available cores.</p></li>
+<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p></li>
+<li><p><strong>ord</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Order of the norm for <code class="docutils literal notranslate"><span class="pre">mode='radial'</span></code>. <code class="docutils literal notranslate"><span class="pre">ord</span></code> must satisfy <cite>1&lt;= ord &lt;=infty</cite>.</p></li>
+<li><p><strong>eps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Parameter for approximate nearest neighbours search when <code class="docutils literal notranslate"><span class="pre">mode='sparse'</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">mode</span></code> is invalid or if <code class="docutils literal notranslate"><span class="pre">operator_type</span></code> is <code class="docutils literal notranslate"><span class="pre">'sparse'</span></code> but <code class="docutils literal notranslate"><span class="pre">max_distance=None</span></code>.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">mode</span></code> is invalid or if <code class="docutils literal notranslate"><span class="pre">operator_type</span></code> is <code class="docutils literal notranslate"><span class="pre">'sparse'</span></code> but <code class="docutils literal notranslate"><span class="pre">max_distance=None</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>

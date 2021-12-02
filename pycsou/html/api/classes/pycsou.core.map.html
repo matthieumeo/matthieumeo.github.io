@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Multidimensional Maps &mdash; pycsou 1.0.6 documentation</title>
+  <title>Multidimensional Maps &mdash; pycsou 1.0.7.dev1 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                1.0.6
+                1.0.7.dev1
               </div>
             
           
@@ -210,7 +210,7 @@
 <dl class="class">
 <dt id="pycsou.core.map.Map">
 <em class="property">class </em><code class="sig-name descname">Map</code><span class="sig-paren">(</span><em class="sig-param">shape: Tuple[int, int], is_linear: bool = False, is_differentiable: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pycsou/core/map.html#Map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pycsou.core.map.Map" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></a></p>
 <p>Base class for multidimensional maps.</p>
 <p>Any instance/subclass of this class must at least implement the abstract method <code class="docutils literal notranslate"><span class="pre">__call__</span></code>.
 This class supports the following arithmetic operators <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">&#64;</span></code>, <code class="docutils literal notranslate"><span class="pre">**</span></code> and <code class="docutils literal notranslate"><span class="pre">/</span></code>, implemented with the
@@ -259,9 +259,9 @@ and two linear operators <span class="math notranslate nohighlight">\(L_1:\mathb
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>shape</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Shape of the map.</p></li>
-<li><p><strong>is_linear</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the map is linear or not.</p></li>
-<li><p><strong>is_differentiable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the map is differentiable or not.</p></li>
+<li><p><strong>shape</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em>) – Shape of the map.</p></li>
+<li><p><strong>is_linear</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether the map is linear or not.</p></li>
+<li><p><strong>is_differentiable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether the map is differentiable or not.</p></li>
 </ul>
 </dd>
 </dl>
@@ -292,7 +292,7 @@ and two linear operators <span class="math notranslate nohighlight">\(L_1:\mathb
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>arr</strong> (<em>np.ndarray</em>) – Input array.</p></li>
-<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Axis along which <code class="docutils literal notranslate"><span class="pre">arr</span></code> is sliced.</p></li>
+<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Axis along which <code class="docutils literal notranslate"><span class="pre">arr</span></code> is sliced.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -304,7 +304,7 @@ If <code class="docutils literal notranslate"><span class="pre">self.shape[0]==1
 <dd class="field-odd"><p>np.ndarray</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">arr.shape[axis]</span> <span class="pre">!=</span> <span class="pre">self.shape[1]</span></code>.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">arr.shape[axis]</span> <span class="pre">!=</span> <span class="pre">self.shape[1]</span></code>.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -358,7 +358,7 @@ If <code class="docutils literal notranslate"><span class="pre">self.shape[0]==1
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">MapSum</span></code></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.9)"><strong>NotImplementedError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">other</span></code> is not a map.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.10)"><strong>NotImplementedError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">other</span></code> is not a map.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -384,7 +384,7 @@ If <code class="docutils literal notranslate"><span class="pre">self.shape[0]==1
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">MapComp</span></code>, np.ndarray</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.9)"><strong>NotImplementedError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">other</span></code> is not a scalar, a map or an array.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.10)"><strong>NotImplementedError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">other</span></code> is not a scalar, a map or an array.</p>
 </dd>
 </dl>
 <div class="admonition seealso">
@@ -462,10 +462,10 @@ Such arithmetic operators can be used to <em>add</em>, <em>substract</em>, <em>s
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>shape</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – Shape of the differentiable map.</p></li>
-<li><p><strong>is_linear</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether the differentiable map is linear or not.</p></li>
-<li><p><strong>lipschitz_cst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Lispchitz constant of the differentiable map if it exists/is known. Default to <span class="math notranslate nohighlight">\(+\infty\)</span>.</p></li>
-<li><p><strong>diff_lipschitz_cst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Lispchitz constant of the derivative of the differentiable map if it exists/is known. Default to <span class="math notranslate nohighlight">\(+\infty\)</span>.</p></li>
+<li><p><strong>shape</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em>) – Shape of the differentiable map.</p></li>
+<li><p><strong>is_linear</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether the differentiable map is linear or not.</p></li>
+<li><p><strong>lipschitz_cst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Lispchitz constant of the differentiable map if it exists/is known. Default to <span class="math notranslate nohighlight">\(+\infty\)</span>.</p></li>
+<li><p><strong>diff_lipschitz_cst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Lispchitz constant of the derivative of the differentiable map if it exists/is known. Default to <span class="math notranslate nohighlight">\(+\infty\)</span>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -584,10 +584,10 @@ of maps. Their horizontal stacking is defined as the operator</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>maps</strong> (<a class="reference internal" href="#pycsou.core.map.Map" title="pycsou.core.map.Map"><em>Map</em></a>) – List of maps to stack.</p></li>
 <li><p><strong>axis</strong> – Stacking direction: 0 for vertical and 1 for horizontal stacking.</p></li>
-<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the map stack.
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the map stack.
 If <code class="docutils literal notranslate"><span class="pre">n_jobs==1</span></code>, the map stack is evaluated sequentially, otherwise it is
 evaluated in parallel. Setting <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> uses all available cores.</p></li>
-<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p></li>
+<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p></li>
 </ul>
 </dd>
 </dl>
@@ -614,10 +614,10 @@ evaluated in parallel. Setting <code class="docutils literal notranslate"><span 
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>maps</strong> (<a class="reference internal" href="#pycsou.core.map.Map" title="pycsou.core.map.Map"><em>Map</em></a>) – List of maps to stack.</p></li>
-<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the map stack.
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the map stack.
 If <code class="docutils literal notranslate"><span class="pre">n_jobs==1</span></code>, the map stack is evaluated sequentially, otherwise it is
 evaluated in parallel. Setting <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> uses all available cores.</p></li>
-<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
+<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
 </p></li>
 </ul>
 </dd>
@@ -645,10 +645,10 @@ evaluated in parallel. Setting <code class="docutils literal notranslate"><span 
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>maps</strong> (<a class="reference internal" href="#pycsou.core.map.Map" title="pycsou.core.map.Map"><em>Map</em></a>) – List of maps to stack.</p></li>
-<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the map stack.
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the map stack.
 If <code class="docutils literal notranslate"><span class="pre">n_jobs==1</span></code>, the map stack is evaluated sequentially, otherwise it is
 evaluated in parallel. Setting <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> uses all available cores.</p></li>
-<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
+<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
 </p></li>
 </ul>
 </dd>
@@ -711,11 +711,11 @@ Then the horizontally stacked operator</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>diffmaps</strong> (<a class="reference internal" href="#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><em>DifferentiableMap</em></a>) – List of differentiable maps to be stacked</p></li>
-<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Stacking direction: 0 for vertical and 1 for horizontal stacking.</p></li>
-<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the map stack and its Jacobian matrix.
+<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Stacking direction: 0 for vertical and 1 for horizontal stacking.</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the map stack and its Jacobian matrix.
 If <code class="docutils literal notranslate"><span class="pre">n_jobs==1</span></code>, the map stack and its Jacobian matrix are evaluated sequentially, otherwise they are
 evaluated in parallel. Setting <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> uses all available cores.</p></li>
-<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
+<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
 </p></li>
 </ul>
 </dd>
@@ -753,10 +753,10 @@ evaluated in parallel. Setting <code class="docutils literal notranslate"><span 
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>diffmaps</strong> (<a class="reference internal" href="#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><em>DifferentiableMap</em></a>) – List of differentiable maps to be stacked</p></li>
-<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the map stack and its Jacobian matrix.
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the map stack and its Jacobian matrix.
 If <code class="docutils literal notranslate"><span class="pre">n_jobs==1</span></code>, the map stack and its Jacobian matrix are evaluated sequentially, otherwise they are
 evaluated in parallel. Setting <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> uses all available cores.</p></li>
-<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
+<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
 </p></li>
 </ul>
 </dd>
@@ -777,10 +777,10 @@ evaluated in parallel. Setting <code class="docutils literal notranslate"><span 
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>diffmaps</strong> (<a class="reference internal" href="#pycsou.core.map.DifferentiableMap" title="pycsou.core.map.DifferentiableMap"><em>DifferentiableMap</em></a>) – List of differentiable maps to be stacked.</p></li>
-<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the map stack and its Jacobian matrix.
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of cores to be used for parallel evaluation of the map stack and its Jacobian matrix.
 If <code class="docutils literal notranslate"><span class="pre">n_jobs==1</span></code>, the map stack and its Jacobian matrix are evaluated sequentially, otherwise they are
 evaluated in parallel. Setting <code class="docutils literal notranslate"><span class="pre">n_jobs=-1</span></code> uses all available cores.</p></li>
-<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
+<li><p><strong>joblib_backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – <p>Joblib backend (<a class="reference external" href="https://joblib.readthedocs.io/en/latest/generated/joblib.Parallel.html">more details here</a>).</p>
 </p></li>
 </ul>
 </dd>

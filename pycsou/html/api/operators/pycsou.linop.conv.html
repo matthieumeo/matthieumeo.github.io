@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Convolution Operators &mdash; pycsou 1.0.6 documentation</title>
+  <title>Convolution Operators &mdash; pycsou 1.0.7.dev1 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                1.0.6
+                1.0.7.dev1
               </div>
             
           
@@ -230,12 +230,12 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Size of the input array.</p></li>
+<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Size of the input array.</p></li>
 <li><p><strong>filter</strong> (<em>np.ndarray</em>) – 1d compact filter. The latter should be real-valued and centered around its mid-size index.</p></li>
-<li><p><strong>reshape_dims</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a><em>]</em>) – Shape of the array to which the convolution should be applied.</p></li>
-<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Axis along which to apply convolution.</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Type of elements of the input array.</p></li>
-<li><p><strong>method</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – Method used to calculate the convolution (<code class="docutils literal notranslate"><span class="pre">direct</span></code>, <code class="docutils literal notranslate"><span class="pre">fft</span></code>,
+<li><p><strong>reshape_dims</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a><em>]</em>) – Shape of the array to which the convolution should be applied.</p></li>
+<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Axis along which to apply convolution.</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Type of elements of the input array.</p></li>
+<li><p><strong>method</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>]</em>) – Method used to calculate the convolution (<code class="docutils literal notranslate"><span class="pre">direct</span></code>, <code class="docutils literal notranslate"><span class="pre">fft</span></code>,
 or <code class="docutils literal notranslate"><span class="pre">overlapadd</span></code>). Note that only <code class="docutils literal notranslate"><span class="pre">direct</span></code> and <code class="docutils literal notranslate"><span class="pre">fft</span></code> are allowed
 when <code class="docutils literal notranslate"><span class="pre">dims=None</span></code>, whilst <code class="docutils literal notranslate"><span class="pre">fft</span></code> and <code class="docutils literal notranslate"><span class="pre">overlapadd</span></code> are allowed
 when <code class="docutils literal notranslate"><span class="pre">dims</span></code> is provided.</p></li>
@@ -248,7 +248,7 @@ when <code class="docutils literal notranslate"><span class="pre">dims</span></c
 <dd class="field-odd"><p><a class="reference internal" href="pycsou.linop.base.html#pycsou.linop.base.PyLopLinearOperator" title="pycsou.linop.base.PyLopLinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.linop.base.PyLopLinearOperator</span></code></a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.9)"><strong>NotImplementedError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">method</span></code> provided is not allowed.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.10)"><strong>NotImplementedError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">method</span></code> provided is not allowed.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -319,12 +319,12 @@ when <code class="docutils literal notranslate"><span class="pre">dims</span></c
 <p>as well as performed in the frequency domain:</p>
 <div class="math notranslate nohighlight">
 \[Y(f) = \mathscr{F} (h(t)) \times \mathscr{F} (x(t)),\; f\in\mathbb{R}.\]</div>
-<p><code class="docutils literal notranslate"><span class="pre">Convolve1D</span></code> operator uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.convolve.html#scipy.signal.convolve" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.convolve()</span></code></a> that
+<p><code class="docutils literal notranslate"><span class="pre">Convolve1D</span></code> operator uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.signal.convolve.html#scipy.signal.convolve" title="(in SciPy v1.7.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.convolve()</span></code></a> that
 automatically chooses the best method for computing the convolution
 for one dimensional inputs. The FFT implementation
-<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.fftconvolve.html#scipy.signal.fftconvolve" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.fftconvolve()</span></code></a> is however enforced for signals in
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.signal.fftconvolve.html#scipy.signal.fftconvolve" title="(in SciPy v1.7.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.fftconvolve()</span></code></a> is however enforced for signals in
 2 or more dimensions as this routine efficiently operates on
-multi-dimensional arrays. The method <code class="docutils literal notranslate"><span class="pre">overlapadd</span></code> uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.oaconvolve.html#scipy.signal.oaconvolve" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.oaconvolve()</span></code></a>.</p>
+multi-dimensional arrays. The method <code class="docutils literal notranslate"><span class="pre">overlapadd</span></code> uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.signal.oaconvolve.html#scipy.signal.oaconvolve" title="(in SciPy v1.7.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.oaconvolve()</span></code></a>.</p>
 <p>As the adjoint of convolution is correlation, <code class="docutils literal notranslate"><span class="pre">Convolve1D</span></code> operator applies
 correlation in the adjoint mode.</p>
 <p>In time domain:</p>
@@ -348,11 +348,11 @@ correlation in the adjoint mode.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Size of the input array.</p></li>
+<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Size of the input array.</p></li>
 <li><p><strong>filter</strong> (<em>np.ndarray</em>) – 2d compact filter. The latter should be real-valued and centered around its central indices.</p></li>
-<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a>) – Shape of the array to which the convolution should be applied.</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Type of elements of the input array.</p></li>
-<li><p><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Method used to calculate the convolution (<code class="docutils literal notranslate"><span class="pre">direct</span></code> or <code class="docutils literal notranslate"><span class="pre">fft</span></code>).</p></li>
+<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a>) – Shape of the array to which the convolution should be applied.</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Type of elements of the input array.</p></li>
+<li><p><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Method used to calculate the convolution (<code class="docutils literal notranslate"><span class="pre">direct</span></code> or <code class="docutils literal notranslate"><span class="pre">fft</span></code>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -362,7 +362,7 @@ correlation in the adjoint mode.</p>
 <dd class="field-odd"><p><a class="reference internal" href="pycsou.linop.base.html#pycsou.linop.base.PyLopLinearOperator" title="pycsou.linop.base.PyLopLinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.linop.base.PyLopLinearOperator</span></code></a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">filter</span></code> is not a 2D array.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">filter</span></code> is not a 2D array.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -415,7 +415,7 @@ h(t-\tau,x-\chi) d(\tau,\chi) d\tau d\chi\]</div>
 <p>as well as performed in the frequency domain:</p>
 <div class="math notranslate nohighlight">
 \[Y(f, k_x) = \mathscr{F} (h(t,x)) \times \mathscr{F} (d(t,x)).\]</div>
-<p><code class="docutils literal notranslate"><span class="pre">Convolve2D</span></code> operator uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.convolve.html#scipy.signal.convolve" title="(in SciPy v1.6.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.convolve()</span></code></a>
+<p><code class="docutils literal notranslate"><span class="pre">Convolve2D</span></code> operator uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/reference/generated/scipy.signal.convolve.html#scipy.signal.convolve" title="(in SciPy v1.7.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.convolve()</span></code></a>
 that automatically chooses the best domain for the operation
 to be carried out.</p>
 <p>As the adjoint of convolution is correlation, <code class="docutils literal notranslate"><span class="pre">Convolve2D</span></code> operator
@@ -441,10 +441,10 @@ h(t+\tau,x+\chi) d(\tau,\chi) d\tau d\chi\]</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>window_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Size of the window for moving average (must be <em>odd</em>).</p></li>
-<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a>) – Shape of the input array.</p></li>
-<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Axis along which moving average is applied.</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Type of elements in input array.</p></li>
+<li><p><strong>window_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Size of the window for moving average (must be <em>odd</em>).</p></li>
+<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a>) – Shape of the input array.</p></li>
+<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Axis along which moving average is applied.</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Type of elements in input array.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -496,9 +496,9 @@ self-adjoint.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>window_size</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a><em>]</em>) – Shape of the window for moving average (sizes in each dimension must be <em>odd</em>).</p></li>
-<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a>) – Shape of the input array.</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Type of elements in input array.</p></li>
+<li><p><strong>window_size</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a><em>]</em>) – Shape of the window for moving average (sizes in each dimension must be <em>odd</em>).</p></li>
+<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a>) – Shape of the input array.</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Type of elements in input array.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

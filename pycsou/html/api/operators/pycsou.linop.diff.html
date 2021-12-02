@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Differential Operators &mdash; pycsou 1.0.6 documentation</title>
+  <title>Differential Operators &mdash; pycsou 1.0.7.dev1 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                1.0.6
+                1.0.7.dev1
               </div>
             
           
@@ -249,13 +249,13 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Size of the input array.</p></li>
-<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a>) – Shape of the input array.</p></li>
-<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Axis along which to differentiate.</p></li>
-<li><p><strong>step</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Step size.</p></li>
-<li><p><strong>edge</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – For <code class="docutils literal notranslate"><span class="pre">kind='centered'</span></code>, use reduced order derivative at edges (<code class="docutils literal notranslate"><span class="pre">True</span></code>) or ignore them (<code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Type of elements in input array.</p></li>
-<li><p><strong>kind</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Derivative kind (<code class="docutils literal notranslate"><span class="pre">forward</span></code>, <code class="docutils literal notranslate"><span class="pre">centered</span></code>, or <code class="docutils literal notranslate"><span class="pre">backward</span></code>).</p></li>
+<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Size of the input array.</p></li>
+<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a>) – Shape of the input array.</p></li>
+<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Axis along which to differentiate.</p></li>
+<li><p><strong>step</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Step size.</p></li>
+<li><p><strong>edge</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – For <code class="docutils literal notranslate"><span class="pre">kind='centered'</span></code>, use reduced order derivative at edges (<code class="docutils literal notranslate"><span class="pre">True</span></code>) or ignore them (<code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Type of elements in input array.</p></li>
+<li><p><strong>kind</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Derivative kind (<code class="docutils literal notranslate"><span class="pre">forward</span></code>, <code class="docutils literal notranslate"><span class="pre">centered</span></code>, or <code class="docutils literal notranslate"><span class="pre">backward</span></code>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -266,8 +266,8 @@
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">shape</span></code> and <code class="docutils literal notranslate"><span class="pre">size</span></code> are not compatible.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.9)"><strong>NotImplementedError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">kind</span></code> is not one of: <code class="docutils literal notranslate"><span class="pre">forward</span></code>, <code class="docutils literal notranslate"><span class="pre">centered</span></code>, or <code class="docutils literal notranslate"><span class="pre">backward</span></code>.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">shape</span></code> and <code class="docutils literal notranslate"><span class="pre">size</span></code> are not compatible.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.10)"><strong>NotImplementedError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">kind</span></code> is not one of: <code class="docutils literal notranslate"><span class="pre">forward</span></code>, <code class="docutils literal notranslate"><span class="pre">centered</span></code>, or <code class="docutils literal notranslate"><span class="pre">backward</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -334,12 +334,12 @@ first derivative is:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Size of the input array.</p></li>
-<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a>) – Shape of the input array.</p></li>
-<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Axis along which to differentiate.</p></li>
-<li><p><strong>step</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Step size.</p></li>
-<li><p><strong>edge</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Use reduced order derivative at edges (<code class="docutils literal notranslate"><span class="pre">True</span></code>) or ignore them (<code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Type of elements in input array.</p></li>
+<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Size of the input array.</p></li>
+<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a>) – Shape of the input array.</p></li>
+<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Axis along which to differentiate.</p></li>
+<li><p><strong>step</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Step size.</p></li>
+<li><p><strong>edge</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Use reduced order derivative at edges (<code class="docutils literal notranslate"><span class="pre">True</span></code>) or ignore them (<code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Type of elements in input array.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -349,7 +349,7 @@ first derivative is:</p>
 <dd class="field-odd"><p><a class="reference internal" href="pycsou.linop.base.html#pycsou.linop.base.PyLopLinearOperator" title="pycsou.linop.base.PyLopLinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">PyLopLinearOperator</span></code></a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">shape</span></code> and <code class="docutils literal notranslate"><span class="pre">size</span></code> are not compatible.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">shape</span></code> and <code class="docutils literal notranslate"><span class="pre">size</span></code> are not compatible.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -408,14 +408,14 @@ second derivative is given by:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Size of the input array.</p></li>
-<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a>) – Shape of the input array.</p></li>
-<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Axis along which to differentiate.</p></li>
-<li><p><strong>step</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Step size.</p></li>
-<li><p><strong>edge</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – For <code class="docutils literal notranslate"><span class="pre">kind_diff</span> <span class="pre">=</span> <span class="pre">'centered'</span></code>, use reduced order derivative at edges (<code class="docutils literal notranslate"><span class="pre">True</span></code>) or ignore them (<code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Type of elements in input array.</p></li>
-<li><p><strong>kind_diff</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Derivative kind (<code class="docutils literal notranslate"><span class="pre">forward</span></code>, <code class="docutils literal notranslate"><span class="pre">centered</span></code>, or <code class="docutils literal notranslate"><span class="pre">backward</span></code>).</p></li>
-<li><p><strong>kind_op</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p>Type of generalised derivative (<code class="docutils literal notranslate"><span class="pre">'iterated'</span></code>, <code class="docutils literal notranslate"><span class="pre">'sobolev'</span></code>, <code class="docutils literal notranslate"><span class="pre">'exponential'</span></code>, <code class="docutils literal notranslate"><span class="pre">'polynomial'</span></code>).
+<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Size of the input array.</p></li>
+<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a>) – Shape of the input array.</p></li>
+<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Axis along which to differentiate.</p></li>
+<li><p><strong>step</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Step size.</p></li>
+<li><p><strong>edge</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – For <code class="docutils literal notranslate"><span class="pre">kind_diff</span> <span class="pre">=</span> <span class="pre">'centered'</span></code>, use reduced order derivative at edges (<code class="docutils literal notranslate"><span class="pre">True</span></code>) or ignore them (<code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Type of elements in input array.</p></li>
+<li><p><strong>kind_diff</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Derivative kind (<code class="docutils literal notranslate"><span class="pre">forward</span></code>, <code class="docutils literal notranslate"><span class="pre">centered</span></code>, or <code class="docutils literal notranslate"><span class="pre">backward</span></code>).</p></li>
+<li><p><strong>kind_op</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – <p>Type of generalised derivative (<code class="docutils literal notranslate"><span class="pre">'iterated'</span></code>, <code class="docutils literal notranslate"><span class="pre">'sobolev'</span></code>, <code class="docutils literal notranslate"><span class="pre">'exponential'</span></code>, <code class="docutils literal notranslate"><span class="pre">'polynomial'</span></code>).
 Depending on the cases, the <code class="docutils literal notranslate"><span class="pre">GeneralisedDerivative</span></code> operator is defined as follows:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">'iterated'</span></code>: <span class="math notranslate nohighlight">\(\mathscr{D}=D^N\)</span>,</p></li>
@@ -441,7 +441,7 @@ Depending on the cases, the <code class="docutils literal notranslate"><span cla
 <dd class="field-odd"><p><a class="reference internal" href="../classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.linop.LinearOperator</span></code></a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.9)"><strong>NotImplementedError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">kind_op</span></code> is not one of: <code class="docutils literal notranslate"><span class="pre">'iterated'</span></code>, <code class="docutils literal notranslate"><span class="pre">'sobolev'</span></code>, <code class="docutils literal notranslate"><span class="pre">'exponential'</span></code>, <code class="docutils literal notranslate"><span class="pre">'polynomial'</span></code>.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.10)"><strong>NotImplementedError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">kind_op</span></code> is not one of: <code class="docutils literal notranslate"><span class="pre">'iterated'</span></code>, <code class="docutils literal notranslate"><span class="pre">'sobolev'</span></code>, <code class="docutils literal notranslate"><span class="pre">'exponential'</span></code>, <code class="docutils literal notranslate"><span class="pre">'polynomial'</span></code>.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -510,13 +510,13 @@ along either a single common direction or different <code class="docutils litera
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a>) – Shape of the input array.</p></li>
+<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a>) – Shape of the input array.</p></li>
 <li><p><strong>directions</strong> (<em>np.ndarray</em>) – Single direction (array of size <span class="math notranslate nohighlight">\(n_{dims}\)</span>) or different directions for each entry (array of size <span class="math notranslate nohighlight">\([n_{dims} \times (n_{d_0} \times ... \times n_{d_{n_{dims}}})]\)</span>).
 Each column should be normalised.</p></li>
-<li><p><strong>step</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>..</em><em>]</em><em>]</em>) – Step size in each direction.</p></li>
-<li><p><strong>edge</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – For <code class="docutils literal notranslate"><span class="pre">kind</span> <span class="pre">=</span> <span class="pre">'centered'</span></code>, use reduced order derivative at edges (<code class="docutils literal notranslate"><span class="pre">True</span></code>) or ignore them (<code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Type of elements in input vector.</p></li>
-<li><p><strong>kind</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Derivative kind (<code class="docutils literal notranslate"><span class="pre">forward</span></code>, <code class="docutils literal notranslate"><span class="pre">centered</span></code>, or <code class="docutils literal notranslate"><span class="pre">backward</span></code>).</p></li>
+<li><p><strong>step</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>, </em><em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>, </em><em>..</em><em>]</em><em>]</em>) – Step size in each direction.</p></li>
+<li><p><strong>edge</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – For <code class="docutils literal notranslate"><span class="pre">kind</span> <span class="pre">=</span> <span class="pre">'centered'</span></code>, use reduced order derivative at edges (<code class="docutils literal notranslate"><span class="pre">True</span></code>) or ignore them (<code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Type of elements in input vector.</p></li>
+<li><p><strong>kind</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Derivative kind (<code class="docutils literal notranslate"><span class="pre">forward</span></code>, <code class="docutils literal notranslate"><span class="pre">centered</span></code>, or <code class="docutils literal notranslate"><span class="pre">backward</span></code>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -602,12 +602,12 @@ along either a single common direction or different <code class="docutils litera
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a>) – Shape of the input array.</p></li>
+<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a>) – Shape of the input array.</p></li>
 <li><p><strong>directions</strong> (<em>np.ndarray</em>) – Single direction (array of size <span class="math notranslate nohighlight">\(n_{dims}\)</span>) or different directions for each entry (array of size <span class="math notranslate nohighlight">\([n_{dims} \times (n_{d_0} \times ... \times n_{d_{n_{dims}}})]\)</span>).
 Each column should be normalised.</p></li>
-<li><p><strong>step</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>..</em><em>]</em><em>]</em>) – Step size in each direction.</p></li>
-<li><p><strong>edge</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Use reduced order derivative at edges (<code class="docutils literal notranslate"><span class="pre">True</span></code>) or ignore them (<code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Type of elements in input vector.</p></li>
+<li><p><strong>step</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>, </em><em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>, </em><em>..</em><em>]</em><em>]</em>) – Step size in each direction.</p></li>
+<li><p><strong>edge</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Use reduced order derivative at edges (<code class="docutils literal notranslate"><span class="pre">True</span></code>) or ignore them (<code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Type of elements in input vector.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -785,7 +785,7 @@ along multiple <code class="docutils literal notranslate"><span class="pre">dire
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>second_directional_derivatives</strong> (<em>List</em><em>[</em><em>SecondDirectionalDerivative</em><em>]</em>) – List of the second directional derivatives to be summed.</p></li>
-<li><p><strong>weights</strong> (<em>Optional</em><em>[</em><em>Iterable</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em><em>]</em>) – List of optional positive weights with which each second directional derivative operator is multiplied.</p></li>
+<li><p><strong>weights</strong> (<em>Optional</em><em>[</em><em>Iterable</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>]</em><em>]</em>) – List of optional positive weights with which each second directional derivative operator is multiplied.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -859,11 +859,11 @@ implemented by <a class="reference internal" href="#pycsou.linop.diff.FirstDirec
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a>) – Shape of the input array.</p></li>
-<li><p><strong>step</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>..</em><em>]</em><em>]</em>) – Step size in each direction.</p></li>
-<li><p><strong>edge</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – For <code class="docutils literal notranslate"><span class="pre">kind</span> <span class="pre">=</span> <span class="pre">'centered'</span></code>, use reduced order derivative at edges (<code class="docutils literal notranslate"><span class="pre">True</span></code>) or ignore them (<code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Type of elements in input vector.</p></li>
-<li><p><strong>kind</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Derivative kind (<code class="docutils literal notranslate"><span class="pre">forward</span></code>, <code class="docutils literal notranslate"><span class="pre">centered</span></code>, or <code class="docutils literal notranslate"><span class="pre">backward</span></code>).</p></li>
+<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a>) – Shape of the input array.</p></li>
+<li><p><strong>step</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>, </em><em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>, </em><em>..</em><em>]</em><em>]</em>) – Step size in each direction.</p></li>
+<li><p><strong>edge</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – For <code class="docutils literal notranslate"><span class="pre">kind</span> <span class="pre">=</span> <span class="pre">'centered'</span></code>, use reduced order derivative at edges (<code class="docutils literal notranslate"><span class="pre">True</span></code>) or ignore them (<code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Type of elements in input vector.</p></li>
+<li><p><strong>kind</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Derivative kind (<code class="docutils literal notranslate"><span class="pre">forward</span></code>, <code class="docutils literal notranslate"><span class="pre">centered</span></code>, or <code class="docutils literal notranslate"><span class="pre">backward</span></code>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -956,12 +956,12 @@ axes are instead summed together.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a>) – Shape of the input array.</p></li>
-<li><p><strong>weights</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – Weight to apply to each direction (real laplacian operator if <code class="docutils literal notranslate"><span class="pre">weights=[1,1]</span></code>)</p></li>
-<li><p><strong>step</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>..</em><em>]</em><em>]</em>) – Step size in each direction.</p></li>
-<li><p><strong>edge</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Use reduced order derivative at edges (<code class="docutils literal notranslate"><span class="pre">True</span></code>) or ignore them (<code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Type of elements in input vector.</p></li>
-<li><p><strong>kind</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Derivative kind (<code class="docutils literal notranslate"><span class="pre">forward</span></code>, <code class="docutils literal notranslate"><span class="pre">centered</span></code>, or <code class="docutils literal notranslate"><span class="pre">backward</span></code>).</p></li>
+<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a>) – Shape of the input array.</p></li>
+<li><p><strong>weights</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>]</em>) – Weight to apply to each direction (real laplacian operator if <code class="docutils literal notranslate"><span class="pre">weights=[1,1]</span></code>)</p></li>
+<li><p><strong>step</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>, </em><em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>, </em><em>..</em><em>]</em><em>]</em>) – Step size in each direction.</p></li>
+<li><p><strong>edge</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Use reduced order derivative at edges (<code class="docutils literal notranslate"><span class="pre">True</span></code>) or ignore them (<code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Type of elements in input vector.</p></li>
+<li><p><strong>kind</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Derivative kind (<code class="docutils literal notranslate"><span class="pre">forward</span></code>, <code class="docutils literal notranslate"><span class="pre">centered</span></code>, or <code class="docutils literal notranslate"><span class="pre">backward</span></code>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1023,11 +1023,11 @@ axes are instead summed together.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a>) – Shape of the input array.</p></li>
-<li><p><strong>step</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>] </em><em>= 1.</em>) – Step size for each dimension.</p></li>
-<li><p><strong>edge</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Use reduced order derivative at edges (<code class="docutils literal notranslate"><span class="pre">True</span></code>) or ignore them (<code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Type of elements in input array.</p></li>
-<li><p><strong>kind</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <p>Type of generalised differential operator (<code class="docutils literal notranslate"><span class="pre">'iterated'</span></code>, <code class="docutils literal notranslate"><span class="pre">'sobolev'</span></code>, <code class="docutils literal notranslate"><span class="pre">'polynomial'</span></code>).
+<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a>) – Shape of the input array.</p></li>
+<li><p><strong>step</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>] </em><em>= 1.</em>) – Step size for each dimension.</p></li>
+<li><p><strong>edge</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Use reduced order derivative at edges (<code class="docutils literal notranslate"><span class="pre">True</span></code>) or ignore them (<code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Type of elements in input array.</p></li>
+<li><p><strong>kind</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – <p>Type of generalised differential operator (<code class="docutils literal notranslate"><span class="pre">'iterated'</span></code>, <code class="docutils literal notranslate"><span class="pre">'sobolev'</span></code>, <code class="docutils literal notranslate"><span class="pre">'polynomial'</span></code>).
 Depending on the cases, the <code class="docutils literal notranslate"><span class="pre">GeneralisedLaplacian</span></code> operator is defined as follows:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">'iterated'</span></code>: <span class="math notranslate nohighlight">\(\mathscr{D}=\Delta^N\)</span>,</p></li>
@@ -1052,7 +1052,7 @@ Depending on the cases, the <code class="docutils literal notranslate"><span cla
 <dd class="field-odd"><p><a class="reference internal" href="../classes/pycsou.core.linop.html#pycsou.core.linop.LinearOperator" title="pycsou.core.linop.LinearOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycsou.core.linop.LinearOperator</span></code></a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.9)"><strong>NotImplementedError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">kind</span></code> is not one of: <code class="docutils literal notranslate"><span class="pre">'iterated'</span></code>, <code class="docutils literal notranslate"><span class="pre">'sobolev'</span></code>, <code class="docutils literal notranslate"><span class="pre">'polynomial'</span></code>.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.10)"><strong>NotImplementedError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">kind</span></code> is not one of: <code class="docutils literal notranslate"><span class="pre">'iterated'</span></code>, <code class="docutils literal notranslate"><span class="pre">'sobolev'</span></code>, <code class="docutils literal notranslate"><span class="pre">'polynomial'</span></code>.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -1103,11 +1103,11 @@ Depending on the cases, the <code class="docutils literal notranslate"><span cla
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Size of the input array.</p></li>
-<li><p><strong>shape</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a><em>]</em>) – Shape of the input array if multi-dimensional.</p></li>
-<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Axis along which integration is performed.</p></li>
-<li><p><strong>step</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Step size.</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Type of elements in input array.</p></li>
+<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Size of the input array.</p></li>
+<li><p><strong>shape</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><em>tuple</em></a><em>]</em>) – Shape of the input array if multi-dimensional.</p></li>
+<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Axis along which integration is performed.</p></li>
+<li><p><strong>step</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Step size.</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Type of elements in input array.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
